@@ -140,7 +140,7 @@ controllers:
           TS_STATE_DIR: /var/lib/tailscale
           TS_USERSPACE: true
           NO_AUTOUPDATE: true
-          TS_EXTRA_ARGS: --advertise-exit-node  --advertise-tags=tag:k8s --login-server https://headscale.network.svc.cluster.local
+          TS_EXTRA_ARGS: --advertise-exit-node  --advertise-tags=tag:k8s --login-server http://headscale.network.svc.cluster.local:8080
           TS_TAILSCALED_EXTRA_ARGS: --debug=0.0.0.0:9001
           TS_HOSTNAME:
             valueFrom:
