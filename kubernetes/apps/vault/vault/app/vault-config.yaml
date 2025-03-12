@@ -272,7 +272,7 @@ data:
         
         vault write auth/kubernetes/role/rldefault \
         bound_service_account_names=default \
-        bound_service_account_namespaces=default \
+        bound_service_account_namespaces=default,kube-system\
         policies=plcdefault \
         audience=vault\
         ttl=24h
