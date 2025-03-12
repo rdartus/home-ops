@@ -122,18 +122,18 @@ controllers:
           # -- image pull policy
           pullPolicy: IfNotPresent
 
-        probes:
-          liveness:
-            enabled: true
-            custom: true
-            spec:
-              httpGet:
-                path: /debug/pprof/
-                port: 9001
-              initialDelaySeconds: 15
-              periodSeconds: 20
-              timeoutSeconds: 1
-              failureThreshold: 3
+        # probes:
+        #   liveness:
+        #     enabled: true
+        #     custom: true
+        #     spec:
+        #       httpGet:
+        #         path: /debug/pprof/
+        #         port: 9001
+        #       initialDelaySeconds: 15
+        #       periodSeconds: 20
+        #       timeoutSeconds: 1
+        #       failureThreshold: 3
         env:
           # TZ: Europe/France
           TS_AUTHKEY: 260e043abd5ba4f1c46be47513b46153dfdfe52058014b20
