@@ -8,6 +8,7 @@ resources:
   - ./bitnami2.yaml
   - ./cloudnative-pg.yaml
   - ./crowdsec.yaml
+  - ./csi-driver-smb.yaml
   - ./csi-driver-nfs.yaml
   - ./hashicorp.yaml
   - ./jetstack.yaml
