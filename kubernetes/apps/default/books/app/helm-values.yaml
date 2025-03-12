@@ -695,7 +695,7 @@ ingress:
       hajimari.io/group: "Media"
       hajimari.io/icon: "bookshelf"
       hajimari.io/appName: "livres"
-      traefik.ingress.kubernetes.io/router.middlewares: "default-authentik-forward-auth@kubernetescrd"
+      traefik.ingress.kubernetes.io/router.middlewares: "network-authentik-forward-auth@kubernetescrd"
       cert-manager.io/cluster-issuer: zerossl-prod
 
     hosts:
