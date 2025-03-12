@@ -791,7 +791,21 @@ route:
 # [[ref]](https://bjw-s.github.io/helm-charts/docs/common-library/common-library-storage)
 # @default -- See below
 persistence: 
-  {}
+  films:
+    enabled: true
+    type : persistentVolumeClaim
+    accessMode: ReadWriteOnce
+    size: 200 Mi
+    volumeName: pvc-films
+
+  series:
+    enabled: true
+    type : persistentVolumeClaim
+    accessMode: ReadWriteOnce
+    size: 200 Mi
+    volumeName: pvc-series
+
+
 #   config:
 #   #   # -- Enables or disables the persistence item. Defaults to true
 #     enabled: true

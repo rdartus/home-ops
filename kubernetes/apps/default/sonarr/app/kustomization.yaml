@@ -5,9 +5,9 @@ kind: Kustomization
 resources:
   - ./helmrelease.yaml
   # # TODO Add when CSI SMB is up
-  # - ./series-PVC.yaml
-  # - ./films-PVC.yaml
-  # - ./dl-pvc.yaml
+  - ./series-PVC.yaml
+  - ./films-PVC.yaml
+  - ./dl-pvc.yaml
   - ./arr-db-secret.yaml
   - ./arr-conf-secret.yaml
   - ./arr-auth.yaml
