@@ -23,6 +23,6 @@ spec:
     remediation:
       strategy: rollback
       retries: 3
-  valuesFrom:
-    - kind: ConfigMap
-      name: csi-driver-smb-helm-values
+  # valuesFrom:
+  #   - kind: ConfigMap
+  #     name: csi-driver-smb-helm-values
