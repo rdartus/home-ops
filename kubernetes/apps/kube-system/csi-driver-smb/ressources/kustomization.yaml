@@ -10,6 +10,6 @@ resources:
   - ./qbittorrent-conf-storageClass.yaml
   - ./series-storageClass.yaml
   - ./films-storageClass.yaml
-  - ./filebrowser-storageClass.yaml
+  - ./filebrowser-conf-storageClass.yaml
   - ./drive-storageClass.yaml
   - ./dl-storageClass.yaml
