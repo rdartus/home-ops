@@ -794,16 +794,12 @@ persistence:
   films:
     enabled: true
     type : persistentVolumeClaim
-    accessMode: ReadWriteOnce
-    size: 200 Mi
-    volumeName: pvc-films
+    existingClaim: pvc-films
 
   series:
     enabled: true
     type : persistentVolumeClaim
-    accessMode: ReadWriteOnce
-    size: 200 Mi
-    volumeName: pvc-series
+    existingClaim: pvc-series
 
 
 #   config:
