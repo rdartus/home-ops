@@ -6,9 +6,9 @@ resources:
   - ./helmrelease.yaml
   - ./smb-secret.yaml
   - ./smb-auth.yaml
-configMapGenerator:
-  - name: csi-driver-smb-helm-values
-    files:
-      - values.yaml=./helm-values.yaml
-configurations:
-  - kustomizeconfig.yaml
+# configMapGenerator:
+#   - name: csi-driver-smb-helm-values
+#     files:
+#       - values.yaml=./helm-values.yaml
+# configurations:
+#   - kustomizeconfig.yaml
