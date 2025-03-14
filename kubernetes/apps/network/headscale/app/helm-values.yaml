@@ -148,7 +148,7 @@ controllers:
       app:
         image:
           repository: ghcr.io/gurucomputing/headscale-ui
-          tag: "2025.01.20"
+          tag: "2025.03.14"
         securityContext:
           readOnlyRootFilesystem: true
 #     # -- Set annotations on the deployment/statefulset/daemonset/cronjob/job
