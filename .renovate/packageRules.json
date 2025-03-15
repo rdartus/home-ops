@@ -1,0 +1,12 @@
+{
+    "packageRules": [
+      {
+        "matchPackageNames": ["*"],
+        "matchUpdateTypes": ["major", "minor"]
+      },
+      {
+        "matchUpdateTypes": ["patch"],
+        "enabled": false
+      }
+    ]
+  }
