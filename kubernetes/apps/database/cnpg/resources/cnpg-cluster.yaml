@@ -9,7 +9,7 @@ metadata:
     argocd.argoproj.io/sync-wave: "6"
 
 spec:
-  instances: 2
+  instances: 1
 
   imageName: ghcr.io/cloudnative-pg/postgresql:17.0
 
