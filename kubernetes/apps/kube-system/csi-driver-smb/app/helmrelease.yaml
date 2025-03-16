@@ -20,9 +20,7 @@ spec:
       retries: 3
   upgrade:
     cleanupOnFail: true
+    force: true
     remediation:
       strategy: rollback
       retries: 3
-  # valuesFrom:
-  #   - kind: ConfigMap
-  #     name: csi-driver-smb-helm-values
