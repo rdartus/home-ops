@@ -3900,7 +3900,7 @@ prometheus:
 
     ## Interval between consecutive evaluations.
     ##
-    evaluationInterval: "60"
+    evaluationInterval: "60s"
 
     ## ListenLocal makes the Prometheus server listen on loopback, so that it does not bind against the Pod IP.
     ##
