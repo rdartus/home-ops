@@ -35,11 +35,6 @@ spec:
   dependsOn:
     - name: traefik
       namespace: *namespace
-  healthChecks:
-    - apiVersion: apps/v1
-      kind: deployment
-      name: traefik
-      namespace: *namespace
   prune: true
   sourceRef:
     kind: GitRepository

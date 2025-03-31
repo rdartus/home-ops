@@ -11,23 +11,6 @@ spec:
       app.kubernetes.io/name: *app
   interval: 7m
   path: ./kubernetes/apps/default/prowlarr/app
-  healthChecks:
-    - apiVersion: apps/v1
-      kind: deployment
-      name: vault-agent-injector
-      namespace: vault
-    - apiVersion: apps/v1
-      kind: deployment
-      name: traefik
-      namespace: network
-    - apiVersion: apps/v1
-      kind: deployment
-      name: authentik
-      namespace: default
-    - apiVersion: apps/v1
-      kind: deployment
-      name: sonarr
-      namespace: default
   dependsOn:
     - name: vault-secrets-operator
       namespace: vault

@@ -11,19 +11,6 @@ spec:
       app.kubernetes.io/name: *app
   interval: 7m
   path: ./kubernetes/apps/default/authentik/app
-  healthChecks:
-    - apiVersion: apps/v1
-      kind: deployment
-      name: vault-agent-injector
-      namespace: vault
-    - apiVersion: apps/v1
-      kind: deployment
-      name: traefik
-      namespace: network
-    - apiVersion: apps/v1
-      kind: statefulset
-      name: redis-master
-      namespace: default
   dependsOn:
     - name: vault-secrets-operator
       namespace: vault

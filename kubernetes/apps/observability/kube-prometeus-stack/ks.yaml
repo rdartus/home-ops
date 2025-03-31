@@ -12,11 +12,6 @@ spec:
   interval: 7m
   path: ./kubernetes/apps/observability/kube-prometeus-stack/app
   prune: true
-  healthChecks:
-    - apiVersion: apps/v1
-      kind: deployment
-      name: vault-agent-injector
-      namespace: vault
   dependsOn:
     - name: vault-secrets-operator
       namespace: vault
@@ -26,4 +21,4 @@ spec:
     namespace: flux-system
   targetNamespace: *namespace
   timeout: 5m
-  wait: false
+  wait: true

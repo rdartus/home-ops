@@ -12,15 +12,6 @@ spec:
   interval: 7m
   path: ./kubernetes/apps/cert-manager/cert-manager/app
   prune: true
-  healthChecks:
-    - apiVersion: apps/v1
-      kind: deployment
-      name: vault-agent-injector
-      namespace: vault
-    - apiVersion: apps/v1
-      kind: deployment
-      name: traefik
-      namespace: network
   dependsOn:
     - name: vault-secrets-operator
       namespace: vault
@@ -32,7 +23,7 @@ spec:
     namespace: flux-system
   targetNamespace: *namespace
   timeout: 5m
-  wait: false
+  wait: true
 ---
 # yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/kustomize.toolkit.fluxcd.io/kustomization_v1.json
 apiVersion: kustomize.toolkit.fluxcd.io/v1
@@ -51,19 +42,6 @@ spec:
       current: status.conditions.filter(e, e.type == 'Ready').all(e, e.status == 'True')
   interval: 7m
   path: ./kubernetes/apps/cert-manager/cert-manager/issuers
-  healthChecks:
-    - apiVersion: apps/v1
-      kind: deployment
-      name: vault-agent-injector
-      namespace: vault
-    - apiVersion: apps/v1
-      kind: deployment
-      name: traefik
-      namespace: network
-    - apiVersion: apps/v1
-      kind: deployment
-      name: cert-manager
-      namespace: cert-manager
   dependsOn:
     - name: vault-secrets-operator
       namespace: vault

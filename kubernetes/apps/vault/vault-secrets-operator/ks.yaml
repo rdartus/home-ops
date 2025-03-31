@@ -15,15 +15,10 @@ spec:
   dependsOn:
     - name: vault
       namespace: *namespace
-  healthChecks:
-    - apiVersion: apps/v1
-      kind: statefulset
-      name: vault
-      namespace: *namespace
   sourceRef:
     kind: GitRepository
     name: flux-system
     namespace: flux-system
   targetNamespace: *namespace
   timeout: 5m
-  wait: false
+  wait: true
