@@ -11,19 +11,6 @@ spec:
       app.kubernetes.io/name: *app
   interval: 7m
   path: ./kubernetes/apps/database/pg-restore/app
-  healthChecks:
-    - apiVersion: apps/v1
-      kind: deployment
-      name: vault-agent-injector
-      namespace: vault
-    - apiVersion: apps/v1
-      kind: deployment
-      name: traefik
-      namespace: network
-    - apiVersion: postgresql.cnpg.io/v1
-      kind: cluster
-      name: cnpg-cluster
-      namespace: database
   dependsOn:
     - name: vault-secrets-operator
       namespace: vault

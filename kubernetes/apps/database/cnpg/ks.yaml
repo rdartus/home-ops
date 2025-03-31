@@ -11,6 +11,11 @@ spec:
       app.kubernetes.io/name: *app
   interval: 7m
   path: ./kubernetes/apps/database/cnpg/app
+  healthChecks:
+    - apiVersion: apps/v1
+      kind: deployment
+      name: cnpg-cloudnative-pg
+      namespace: *namespace
   prune: true
   sourceRef:
     kind: GitRepository
@@ -32,11 +37,6 @@ spec:
       app.kubernetes.io/name: *app
   interval: 7m
   path: ./kubernetes/apps/database/cnpg/resources
-  healthChecks:
-    - apiVersion: apps/v1
-      kind: deployment
-      name: cnpg-cloudnative-pg
-      namespace: *namespace
   dependsOn:
     - name: cnpg
       namespace: *namespace
