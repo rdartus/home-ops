@@ -873,7 +873,7 @@ persistence:
     existingClaim: pvc-loisir
     globalMounts:
       - path: /books
-        subPath: /Books/Calibre-FR
+        subPath: Books/Calibre-FR
         readOnly: false  
         
 # config:
