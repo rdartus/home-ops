@@ -121,6 +121,7 @@ controllers:
           # echo "dump_tandoor"
           # psql postgres://$SUPERUSER:$PASSWORD@cnpg-cluster-rw.database.svc.cluster.local/authentik -f /data/dump-k3s/dump_tandoor
 
+          ls -la /data/dump-k3s
           echo "dump_prowlarr"
           pg_restore --clean --create --if-exists -d "postgres://$SUPERUSER:$PASSWORD@cnpg-cluster-rw.database.svc.cluster.local/postgres" /data/dump-k3s/dump_prowlarr
           pg_restore --clean --create --if-exists -d "postgres://$SUPERUSER:$PASSWORD@cnpg-cluster-rw.database.svc.cluster.local/postgres" /data/dump-k3s/dump_prowlarr
