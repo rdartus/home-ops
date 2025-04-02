@@ -866,8 +866,17 @@ route:
 # Additional items can be added by adding a dictionary key similar to the 'config' key.
 # [[ref]](https://bjw-s.github.io/helm-charts/docs/common-library/common-library-storage)
 # @default -- See below
-persistence:
-  # config:
+persistence: 
+  loisir:
+    enabled: true
+    type : persistentVolumeClaim
+    existingClaim: pvc-loisir
+    globalMounts:
+      - path: /books
+        subPath: /Books/Calibre-FR
+        readOnly: false  
+        
+# config:
   #   enabled: true
   #   type : pvc
   #   existingClaim: pvc-livres-conf

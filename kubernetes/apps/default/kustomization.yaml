@@ -11,12 +11,12 @@ resources:
   # - ./pg-loader/ks.yaml
   - ./redis/ks.yaml
   - ./prowlarr/ks.yaml
-  # - ./radarr/ks.yaml
+  - ./radarr/ks.yaml
   - ./sonarr/ks.yaml
-  # - ./flaresolverr/ks.yaml
+  - ./flaresolverr/ks.yaml
   - ./filebrowser/ks.yaml
-  # - ./jellyfin/ks.yaml
+  - ./jellyfin/ks.yaml
   # - ./qbittorrent/ks.yaml
   - ./tandoor/ks.yaml
-  # - ./books/ks.yaml
-  # - ./livres/ks.yaml
+  - ./books/ks.yaml
+  - ./livres/ks.yaml

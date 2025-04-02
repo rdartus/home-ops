@@ -793,7 +793,13 @@ route:
 # [[ref]](https://bjw-s.github.io/helm-charts/docs/common-library/common-library-storage)
 # @default -- See below
 persistence: 
-  {}
+  loisir:
+    enabled: true
+    type : persistentVolumeClaim
+    existingClaim: pvc-loisir
+    globalMounts:
+      - path: /data
+        readOnly: false
 #   config:
 #   #   # -- Enables or disables the persistence item. Defaults to true
 #     enabled: true
