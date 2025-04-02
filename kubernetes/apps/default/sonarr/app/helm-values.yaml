@@ -795,12 +795,24 @@ persistence:
     enabled: true
     type : persistentVolumeClaim
     existingClaim: pvc-films
-
+    globalMounts:
+      - path: /data/Films
+        readOnly: false
   series:
     enabled: true
     type : persistentVolumeClaim
     existingClaim: pvc-series
-
+    globalMounts:
+      - path: /data/Series
+        readOnly: false
+  anime:
+    enabled: true
+    type : persistentVolumeClaim
+    existingClaim: pvc-loisir
+    globalMounts:
+      - path: /data/Anime
+        subPath: Anime
+        readOnly: false
 
 #   config:
 #   #   # -- Enables or disables the persistence item. Defaults to true
