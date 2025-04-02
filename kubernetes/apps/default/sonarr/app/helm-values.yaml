@@ -791,27 +791,12 @@ route:
 # [[ref]](https://bjw-s.github.io/helm-charts/docs/common-library/common-library-storage)
 # @default -- See below
 persistence: 
-  films:
-    enabled: true
-    type : persistentVolumeClaim
-    existingClaim: pvc-films
-    globalMounts:
-      - path: /data/Films
-        readOnly: false
-  series:
-    enabled: true
-    type : persistentVolumeClaim
-    existingClaim: pvc-series
-    globalMounts:
-      - path: /data/Series
-        readOnly: false
-  anime:
+  loisir:
     enabled: true
     type : persistentVolumeClaim
     existingClaim: pvc-loisir
     globalMounts:
-      - path: /data/Anime
-        subPath: Anime
+      - path: /data
         readOnly: false
 
 #   config:
