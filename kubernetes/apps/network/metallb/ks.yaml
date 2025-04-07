@@ -10,7 +10,7 @@ spec:
     labels:
       app.kubernetes.io/name: *app
   interval: 7m
-  path: ./kubernetes/apps/metallb/metallb/app
+  path: ./kubernetes/apps/network/metallb/app
   prune: true
   sourceRef:
     kind: GitRepository
@@ -31,7 +31,7 @@ spec:
     labels:
       app.kubernetes.io/name: *app
   interval: 7m
-  path: ./kubernetes/apps/metallb/metallb/resources
+  path: ./kubernetes/apps/network/metallb/resources
   dependsOn:
     - name: metallb
       namespace: *namespace
