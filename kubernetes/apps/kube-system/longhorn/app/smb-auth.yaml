@@ -1,7 +1,7 @@
 apiVersion: secrets.hashicorp.com/v1beta1
 kind: VaultAuth
 metadata:
-  name: gitops-auth
+  name: smb-auth
   namespace: kube-system
   annotations:
     argocd.argoproj.io/sync-wave: "10"
@@ -10,7 +10,7 @@ spec:
   method: kubernetes
   mount: kubernetes
   kubernetes:
-    role: rlgitops
+    role: rldefault
     serviceAccount: default
     audiences:
       - vault
