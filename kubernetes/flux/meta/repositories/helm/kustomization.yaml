@@ -17,5 +17,5 @@ resources:
   - ./prometheus-community.yaml
   - ./traefik.yaml
   - ./wiremind.yaml
-  - ./headlamp.yaml
   - ./longhorn.yaml
+  - ./headlamp.yaml
