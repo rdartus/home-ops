@@ -5,7 +5,7 @@ metadata:
     argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
     argocd.argoproj.io/sync-wave: "-100"
   name: my-l2-advertisment
-  namespace: metallb
+  namespace: network
 spec:
   ipAddressPools:
   - metallb-pool

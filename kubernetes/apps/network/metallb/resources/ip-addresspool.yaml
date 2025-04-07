@@ -5,7 +5,7 @@ metadata:
     argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
     argocd.argoproj.io/sync-wave: "-100"
   name: metallb-pool
-  namespace: metallb
+  namespace: network
 spec:
   addresses:
   - "192.168.1.4-192.168.1.7"

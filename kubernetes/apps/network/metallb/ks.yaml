@@ -4,7 +4,7 @@ apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
   name: &app metallb
-  namespace: &namespace metallb
+  namespace: &namespace network
 spec:
   commonMetadata:
     labels:
@@ -25,7 +25,7 @@ apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
   name: &app metallb-resources
-  namespace: &namespace metallb
+  namespace: &namespace network
 spec:
   commonMetadata:
     labels:
