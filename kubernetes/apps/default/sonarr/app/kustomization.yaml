@@ -9,8 +9,8 @@ resources:
   - ./arr-db-secret.yaml
   - ./arr-conf-secret.yaml
   - ./arr-auth.yaml
-  # - ./smb-secret.yaml
-  # - ./smb-auth.yaml
+  - ./smb-secret.yaml
+  - ./smb-auth.yaml
 configMapGenerator:
   - name: sonarr-helm-values
     files:
