@@ -426,18 +426,18 @@ longhornUI:
   #  label-key2: "label-value2"
 ingress:
   # -- Setting that allows Longhorn to generate ingress records for the Longhorn UI service.
-  enabled: false
+  enabled: true
   # -- IngressClass resource that contains ingress configuration, including the name of the Ingress controller.
   # ingressClassName can replace the kubernetes.io/ingress.class annotation used in earlier Kubernetes releases.
-  ingressClassName: ~
+  ingressClassName: traefik-ingresses
   # -- Hostname of the Layer 7 load balancer.
-  host: sslip.io
+  host: longhorn.dartus.fr
   # -- Setting that allows you to enable TLS on ingress records.
-  tls: false
+  tls: true
   # -- Setting that allows you to enable secure connections to the Longhorn UI service via port 443.
   secureBackends: false
   # -- TLS secret that contains the private key and certificate to be used for TLS. This setting applies only when TLS is enabled on ingress records.
-  tlsSecret: longhorn.local-tls
+  tlsSecret: longhorn.dartus.fr-tls
   # -- Default ingress path. You can access the Longhorn UI by following the full ingress path {{host}}+{{path}}.
   path: /
   # -- Ingress path type. To maintain backward compatibility, the default value is "ImplementationSpecific".
@@ -451,8 +451,11 @@ ingress:
   ## If tls is set to true, annotation ingress.kubernetes.io/secure-backends: "true" will automatically be set
   # -- Ingress annotations in the form of key-value pairs.
   annotations:
-  #  kubernetes.io/ingress.class: nginx
-  #  kubernetes.io/tls-acme: true
+    hajimari.io/enable: "true"
+    hajimari.io/group: "Media"
+    hajimari.io/icon: "cog-play-outline"
+    cert-manager.io/cluster-issuer: zerossl-prod
+    traefik.ingress.kubernetes.io/router.middlewares: "network-authentik-forward-auth@kubernetescrd"
 
   # -- Secret that contains a TLS private key and certificate. Use secrets if you want to use your own certificates to secure ingresses.
   secrets:
