@@ -345,7 +345,7 @@ defaultBackupStore:
   # -- Endpoint used to access the default backupstore. (Options: "NFS", "CIFS", "AWS", "GCP", "AZURE")
   backupTarget: cifs://192.168.1.16/jeanstock
   # -- Name of the Kubernetes secret associated with the default backup target.
-  backupTargetCredentialSecret: smb-secret
+  backupTargetCredentialSecret: smb-longhorn-secret
   # -- Number of seconds that Longhorn waits before checking the default backupstore for new backups. The default value is "300". When the value is "0", polling is disabled.
   pollInterval: ~
 privateRegistry:

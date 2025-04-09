@@ -180,6 +180,7 @@ data:
         vault kv put kv-v2/arr/config sonarrKey="@/config/cred/sonarrKey.txt" prowlarrKey="@/config/cred/prowlarrKey.txt" radarrKey="@/config/cred/radarrKey.txt"
         vault kv put kv-v2/default/config username="admin" password="@/config/cred/default-password.txt" passwordPBKDF2="@/config/cred/default-passwordPBKDF2.txt"
         vault kv put kv-v2/default/smb username="jeank" password="@/config/cred/jeank-smb.txt"
+        vault kv put kv-v2/default/smb-longhorn CIFS_USERNAME="jeank" CIFS_PASSWORD="@/config/cred/jeank-smb.txt"
         vault kv put kv-v2/crowdsec/config enroll_key="@/config/cred/crowdsec_enroll_key.txt" bouncer_traefik="@/config/cred/crowdsec_bouncer_traefik.txt"
         vault kv put kv-v2/redis/config password="@/config/cred/redis-password.txt"
         vault kv put kv-v2/authentik/config key="@/config/cred/authentik-key.txt"
