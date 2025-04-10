@@ -120,7 +120,7 @@ service:
     nodePort: ""
 persistence:
   # -- Setting that allows you to specify the default Longhorn StorageClass.
-  defaultClass: true
+  defaultClass: false
   # -- Filesystem type of the default Longhorn StorageClass.
   defaultFsType: ext4
   # -- mkfs parameters of the default Longhorn StorageClass.
