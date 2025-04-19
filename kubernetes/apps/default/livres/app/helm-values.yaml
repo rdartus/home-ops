@@ -875,7 +875,11 @@ persistence:
       - path: /books
         subPath: Books/Calibre-FR
         readOnly: false  
-        
+  config:
+    enabled: true
+    type: persistentVolumeClaim
+    existingClaim: pvc-livres-conf
+
 # config:
   #   enabled: true
   #   type : pvc

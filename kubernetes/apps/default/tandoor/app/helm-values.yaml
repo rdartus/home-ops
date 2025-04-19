@@ -763,22 +763,12 @@ persistence:
   #   globalMounts:
   #     - path: /opt/recipes/staticfiles
 
-  media:
+  config:
     enabled: true
     type: persistentVolumeClaim
-    accessMode: ReadWriteOnce
-    size: 500Mi
-    storageClass: longhorn
+    existingClaim: pvc-tandoor-conf
     globalMounts:
-      - path: /opt/recipes/mediafiles
-  static:
-    enabled: true
-    type: persistentVolumeClaim
-    accessMode: ReadWriteOnce
-    size: 500Mi
-    storageClass: longhorn
-    globalMounts:
-      - path: /opt/recipes/staticfiles
+      - path: /opt/recipes
 
 
   #   # -- Storage Class for the config volume.

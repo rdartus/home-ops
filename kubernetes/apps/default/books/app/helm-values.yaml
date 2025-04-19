@@ -879,9 +879,7 @@ persistence:
   config:
     enabled: true
     type: persistentVolumeClaim
-    accessMode: ReadWriteOnce
-    storageClass: longhorn
-    size: 1Gi
+    existingClaim: pvc-books-conf
   # books:
   #   enabled: true
   #   type : pvc
