@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: pvc-tandoor-conf
+  name: pvc-tandoor-static
   namespace: default
 spec:
   resources:
