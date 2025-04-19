@@ -38,10 +38,8 @@ spec:
   interval: 30m
   path: ./kubernetes/apps/longhorn-system/longhorn/resources
   dependsOn:
-    - name: vault-secrets-operator
-      namespace: vault
-    - name: traefik
-      namespace: network
+    - name: longhorn
+      namespace: *namespace
   prune: true
   sourceRef:
     kind: GitRepository
