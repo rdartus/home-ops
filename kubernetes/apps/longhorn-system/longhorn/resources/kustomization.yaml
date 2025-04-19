@@ -5,3 +5,4 @@ kind: Kustomization
 resources:
   - ./sytemRestore.yaml
   # - ./sytemBackup.yaml
+  - ./recurringJobs.yaml
