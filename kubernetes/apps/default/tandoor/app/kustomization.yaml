@@ -7,7 +7,8 @@ resources:
   - ./tand-db-secret.yaml
   - ./tandoor-auth.yaml
   - ./tandoor-secret.yaml
-  - ./pvc-tandoor-conf.yaml
+  - ./pvc-tandoor-static.yaml
+  - ./pvc-tandoor-media.yaml
 configMapGenerator:
   - name: tandoor-helm-values
     files:

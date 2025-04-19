@@ -763,12 +763,18 @@ persistence:
   #   globalMounts:
   #     - path: /opt/recipes/staticfiles
 
-  config:
+  media:
     enabled: true
     type: persistentVolumeClaim
-    existingClaim: pvc-tandoor-conf
+    existingClaim: pvc-tandoor-media
     globalMounts:
-      - path: /opt/recipes
+      - path: /opt/recipes/mediafiles
+  static:
+    enabled: true
+    type: persistentVolumeClaim
+    existingClaim: pvc-tandoor-static
+    globalMounts:
+      - path: /opt/recipes/staticfiles
 
 
   #   # -- Storage Class for the config volume.
