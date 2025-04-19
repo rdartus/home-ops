@@ -20,6 +20,8 @@ spec:
       namespace: default
     - name: sonarr
       namespace: default
+    - name: longhorn-resources
+      namespace: longhorn-system
   prune: true
   sourceRef:
     kind: GitRepository

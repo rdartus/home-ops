@@ -41,6 +41,10 @@ spec:
     - name: longhorn
       namespace: *namespace
   prune: true
+  # healthCheckExprs:
+  #   - apiVersion: longhorn.io/v1beta2
+  #     kind: SystemRestore
+  #     current: status.conditions[?(@.type=="Restored")].status == "True"
   sourceRef:
     kind: GitRepository
     name: flux-system
