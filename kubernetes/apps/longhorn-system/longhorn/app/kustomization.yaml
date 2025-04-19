@@ -6,6 +6,8 @@ resources:
   - ./helmrelease.yaml
   - ./smb-auth.yaml
   - ./smb-secret.yaml
+  # - ./sytemRestore.yml
+  - ./sytemBackup.yml
 configMapGenerator:
   - name: longhorn-helm-values
     files:
