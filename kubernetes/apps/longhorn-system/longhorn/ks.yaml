@@ -17,6 +17,10 @@ spec:
     - name: traefik
       namespace: network
   prune: true
+  healthCheckExprs:
+    - apiVersion: longhorn.io/v1beta2
+      kind: engineimages
+      current: status.state == "deployed"
   sourceRef:
     kind: GitRepository
     name: flux-system
