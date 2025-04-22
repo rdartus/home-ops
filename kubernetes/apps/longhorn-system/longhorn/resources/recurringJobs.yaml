@@ -6,8 +6,9 @@ metadata:
   namespace: longhorn-system
 spec:
   concurrency: 1
-  cron: 0 2 * * *
-  groups: []
+  cron: "*/10 * * * *"
+  groups:
+    - default
   labels: {}
   name: Back-job
   parameters:
