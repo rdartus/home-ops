@@ -273,7 +273,7 @@ defaultSettings:
   # -- Maximum number of engines that are allowed to concurrently upgrade on each node after Longhorn Manager is upgraded. When the value is "0", Longhorn does not automatically upgrade volume engines to the new default engine image version.
   concurrentAutomaticEngineUpgradePerNodeLimit: ~
   # -- Number of minutes that Longhorn waits before cleaning up the backing image file when no replicas in the disk are using it.
-  backingImageCleanupWaitInterval: ~
+  backingImageCleanupWaitInterval: 10
   # -- Number of seconds that Longhorn waits before downloading a backing image file again when the status of all image disk files changes to "failed" or "unknown".
   backingImageRecoveryWaitInterval: ~
   # -- Percentage of the total allocatable CPU resources on each node to be reserved for each instance manager pod when the V1 Data Engine is enabled. The default value is "12".

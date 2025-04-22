@@ -45,7 +45,7 @@ spec:
     - apiVersion: longhorn.io/v1beta2
       kind: SystemRestore
       current: status.state == "Completed"
-      inProgress: status.state == "Restoring"
+      # inProgress: status.state == "Restoring"
   sourceRef:
     kind: GitRepository
     name: flux-system
