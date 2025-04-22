@@ -19,8 +19,11 @@ spec:
   prune: true
   healthCheckExprs:
     - apiVersion: longhorn.io/v1beta2
-      kind: engineimages
+      kind: EngineImage
       current: status.state == "deployed"
+    - apiVersion: longhorn.io/v1beta2
+      kind: InstanceManager
+      current: status.currentState == "running"
   sourceRef:
     kind: GitRepository
     name: flux-system
