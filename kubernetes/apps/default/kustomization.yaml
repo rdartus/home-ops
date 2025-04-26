@@ -17,6 +17,6 @@ resources:
   - ./filebrowser/ks.yaml
   - ./jellyfin/ks.yaml
   # - ./qbittorrent/ks.yaml
-  # - ./tandoor/ks.yaml
-  # - ./books/ks.yaml
-  # - ./livres/ks.yaml
+  - ./tandoor/ks.yaml
+  - ./books/ks.yaml
+  - ./livres/ks.yaml
