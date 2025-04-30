@@ -6,3 +6,7 @@ resources:
   - ./sytemBackup.yaml
   - ./sytemRestore.yaml
   - ./recurringJobs.yaml
+  - ./pvc-books-conf.yaml
+  - ./pvc-livres-conf.yaml
+  - ./pvc-tandoor-media.yaml
+  - ./pvc-tandoor-static.yaml
