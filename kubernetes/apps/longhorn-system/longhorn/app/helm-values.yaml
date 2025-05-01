@@ -303,13 +303,13 @@ defaultSettings:
   # -- Number of seconds that Longhorn allows for the completion of replica rebuilding and snapshot cloning operations.
   longGRPCTimeOut: ~
   # -- Log levels that indicate the type and severity of logs in Longhorn Manager. The default value is "Info". (Options: "Panic", "Fatal", "Error", "Warn", "Info", "Debug", "Trace")
-  logLevel: ~
+  logLevel: Debug
   # -- Setting that allows you to specify a backup compression method.
   backupCompressionMethod: ~
   # -- Maximum number of worker threads that can concurrently run for each backup.
-  backupConcurrentLimit: ~
+  backupConcurrentLimit: 1
   # -- Maximum number of worker threads that can concurrently run for each restore operation.
-  restoreConcurrentLimit: ~
+  restoreConcurrentLimit: 1
   # -- Setting that allows you to enable the V1 Data Engine.
   v1DataEngine: ~
   # -- Setting that allows you to enable the V2 Data Engine, which is based on the Storage Performance Development Kit (SPDK). The V2 Data Engine is an experimental feature and should not be used in production environments.
