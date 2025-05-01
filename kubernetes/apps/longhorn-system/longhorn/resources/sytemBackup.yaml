@@ -4,4 +4,4 @@ metadata:
   name: back
   namespace: longhorn-system
 spec:
-  volumeBackupPolicy: if-not-present
+  volumeBackupPolicy: always
