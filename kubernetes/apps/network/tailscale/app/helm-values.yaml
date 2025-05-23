@@ -118,7 +118,7 @@ controllers:
           # -- image repository
           repository: ghcr.io/tailscale/tailscale
           # -- image tag
-          tag: v1.80.3
+          tag: v1.84.0
           # -- image pull policy
           pullPolicy: IfNotPresent
 
