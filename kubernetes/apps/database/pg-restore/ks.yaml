@@ -18,6 +18,8 @@ spec:
       namespace: network
     - name: cnpg
       namespace: database
+    - name: cnpg-resources
+      namespace: database
   prune: true
   sourceRef:
     kind: GitRepository
