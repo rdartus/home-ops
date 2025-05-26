@@ -47,16 +47,16 @@ config:
     #   # -- Name of the OIDC secret.
     #   name: oidc
 
-    # # Option 2:
-    # # @param config.oidc - OIDC env configuration
-    # # If you want to set the OIDC configuration directly, set the following values.
-    # # Example:
-    # # config:
-    # #   oidc:
-    # #     clientID: "clientID"
-    # #     clientSecret: "clientSecret"
-    # #     issuerURL: "issuerURL"
-    # #     scopes: "scopes"
+    # Option 2:
+    # @param config.oidc - OIDC env configuration
+    # If you want to set the OIDC configuration directly, set the following values.
+    # Example:
+    # config:
+    #   oidc:
+    #     clientID: "clientID"
+    #     clientSecret: "clientSecret"
+    #     issuerURL: "issuerURL"
+    #     scopes: "scopes"
 
     # # -- OIDC client ID
     # clientID: ""
