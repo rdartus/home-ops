@@ -194,7 +194,7 @@ injector:
       - key: app.kubernetes.io/name
         operator: NotIn
         values:
-        - vault-agent-injector
+        - {{ template "vault.name" . }}-agent-injector
 
     # Extra annotations to attach to the webhook
     annotations: {}
@@ -255,6 +255,9 @@ injector:
   # Security context for the pod template and the injector container
   # The default pod securityContext is:
   #   runAsNonRoot: true
+  #   runAsGroup: {{ .Values.injector.gid | default 1000 }}
+  #   runAsUser: {{ .Values.injector.uid | default 100 }}
+  #   fsGroup: {{ .Values.injector.gid | default 1000 }}
   # and for container is
   #    allowPrivilegeEscalation: false
   #    capabilities:
@@ -287,7 +290,7 @@ injector:
       requiredDuringSchedulingIgnoredDuringExecution:
         - labelSelector:
             matchLabels:
-              app.kubernetes.io/name: vault-agent-injector
+              app.kubernetes.io/name: {{ template "vault.name" . }}-agent-injector
               app.kubernetes.io/instance: "{{ .Release.Name }}"
               component: webhook
           topologyKey: kubernetes.io/hostname
@@ -368,10 +371,6 @@ server:
     # The key within the Kubernetes secret that holds the enterprise license.
     secretKey: "license"
 
-  # Resource requests, limits, etc. for the server cluster placement. This
-  # should map directly to the value of the resources field for a PodSpec.
-  # By default no direct resource request is made.
-
   image:
     repository: "hashicorp/vault"
     tag: "1.19.0"
@@ -389,7 +388,10 @@ server:
   # Configure the logging format for the Vault server.
   # Supported log formats include: standard, json
   logFormat: ""
-
+  
+  # Resource requests, limits, etc. for the server cluster placement. This
+  # should map directly to the value of the resources field for a PodSpec.
+  # By default no direct resource request is made.
   resources: {}
   # resources:
   #   requests:
@@ -555,8 +557,17 @@ server:
   # See: https://kubernetes.io/docs/concepts/containers/container-lifecycle-hooks/
   terminationGracePeriodSeconds: 10
 
-  # Used to set the sleep time during the preStop step
+  # Used to set the sleep time during the preStop step, if custom preStop
+  # commands are not set.
   preStopSleepSeconds: 5
+
+  # Used to define custom preStop exec commands to run before the pod is
+  # terminated. If not set, this will default to:
+  # preStop:
+  #   - "/bin/sh"
+  #   - "-c"
+  #   - "sleep {{ .Values.server.preStopSleepSeconds }} && kill -SIGTERM $(pidof vault)"
+  preStop: []
 
   # Used to define commands to run after the pod is ready.
   # This can be used to automate processes such as initialization
@@ -624,6 +635,16 @@ server:
   # Commenting out or setting as empty the affinity variable, will allow
   # deployment to single node services such as Minikube
   # This should be either a multi-line string or YAML matching the PodSpec's affinity field.
+  affinity: |
+    podAntiAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        - labelSelector:
+            matchLabels:
+              app.kubernetes.io/name: {{ template "vault.name" . }}
+              app.kubernetes.io/instance: "{{ .Release.Name }}"
+              component: server
+          topologyKey: kubernetes.io/hostname
+
   # Topology settings for server pods
   # ref: https://kubernetes.io/docs/concepts/workloads/pods/pod-topology-spread-constraints/
   # This should be either a multi-line string or YAML matching the topologySpreadConstraints array
@@ -727,7 +748,7 @@ server:
     #     PreferDualStack: Allocates IPv4 and IPv6 cluster IPs for the Service.
     #     RequireDualStack: Allocates Service .spec.ClusterIPs from both IPv4 and IPv6 address ranges.
     ipFamilyPolicy: ""
-    
+
     # Sets the families that should be supported and the order in which they should be applied to ClusterIP as well.
     # Can be IPv4 and/or IPv6.
     ipFamilies: []
@@ -1018,7 +1039,9 @@ server:
     # If not set, these will default to, and for *not* OpenShift:
     # pod:
     #   runAsNonRoot: true
-
+    #   runAsGroup: {{ .Values.server.gid | default 1000 }}
+    #   runAsUser: {{ .Values.server.uid | default 100 }}
+    #   fsGroup: {{ .Values.server.gid | default 1000 }}
     # container:
     #   allowPrivilegeEscalation: false
     #
