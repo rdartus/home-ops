@@ -854,7 +854,7 @@ persistence:
 
   config:
     type: secret
-    name: headscale-config
+    identifier: config
     advancedMounts:
       main:
         main:
