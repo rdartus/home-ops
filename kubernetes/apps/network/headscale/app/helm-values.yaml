@@ -115,7 +115,7 @@ controllers:
           # -- image repository
           repository: headscale/headscale
           # -- image tag
-          tag: v0.25
+          tag: v0.26
           # -- image pull policy
           pullPolicy: IfNotPresent
         
