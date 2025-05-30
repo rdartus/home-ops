@@ -955,7 +955,6 @@ rbac:
       type: ClusterRoleBinding
       # -- Can be an identifier of rbac.roles or a custom name and kind
       roleRef:
-        name: test-role
         kind: Role
         identifier: hajimari
       # -- If using an identifier it will be automatically filled, otherwise every key will need to be explicitly declared
