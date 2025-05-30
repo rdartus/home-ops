@@ -837,7 +837,7 @@ rbac:
       # -- Enables or disables the Role. Can be templated.
       enabled: true
       # -- Set to Role,ClusterRole
-      type: Role
+      type: ClusterRole
       rules:
         - apiGroups: [""]
           resources: ["events"]
@@ -855,7 +855,7 @@ rbac:
       # -- Enables or disables the Role. Can be templated.
       enabled: true
       # -- Set to RoleBinding,ClusterRoleBinding
-      type: RoleBinding
+      type: ClusterRoleBinding
       # -- Can be an identifier of rbac.roles or a custom name and kind
       roleRef:
         identifier: tailscale
