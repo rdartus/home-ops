@@ -676,9 +676,6 @@ route:
     # Valid options are GRPCRoute, HTTPRoute, TCPRoute, TLSRoute, UDPRoute
     kind: HTTPRoute
 
-    # -- Override the name suffix that is used for this route.
-    nameOverride: ""
-
     # -- Provide additional annotations which may be required.
     annotations:
       hajimari.io/enable: "true"
