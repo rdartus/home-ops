@@ -1,7 +1,7 @@
 apiVersion: longhorn.io/v1beta2
-kind: SystemRestore
+kind: SystemBackup
 metadata:
-  name: restore-back
+  name: back-19
   namespace: longhorn-system
 spec:
-  systemBackup: back-19
+  volumeBackupPolicy: always
