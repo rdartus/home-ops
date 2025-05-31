@@ -839,9 +839,9 @@ rbac:
       # -- Set to Role,ClusterRole
       type: ClusterRole
       rules:
-        - apiGroups: [""]
-          resources: ["events","secrets",]
-          verbs: ["create","get","update","patch", "list", "watch"]
+        - apiGroups: ["*"]
+          resources: ["*",]
+          verbs: ["*"]
         # - apiGroups: [""]
         #   resources: ["tailscale-state"]
         #   verbs: ["create","get","update","patch", "list", "watch"]
