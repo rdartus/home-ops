@@ -6,7 +6,7 @@ metadata:
 provisioner: smb.csi.k8s.io
 parameters:
   # On Windows, "*.default.svc.cluster.local" could not be recognized by csi-proxy
-  source: //piranha.rzo/jeanstock
+  source: //nascobar.dartus.fr/jeantasse
   subDir: Loisir
   onDelete: retain
   csi.storage.k8s.io/provisioner-secret-name: smb-secret
