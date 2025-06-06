@@ -3,7 +3,8 @@ keys:
   - &user_flux age1sy6aknmc298xk7le4zms45dd4frq02lh4v30e4v2vaq800yj2u7sspm2pr
 
 creation_rules:
-  - path_regex: '\.secret\.yaml$'
+  - path_regex: '\.sops\.yaml$'
+    encrypted_regex: "^(data|stringData)$"
     key_groups:
       - age:
           - *user_flux
