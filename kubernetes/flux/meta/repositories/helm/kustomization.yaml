@@ -5,6 +5,7 @@ kind: Kustomization
 resources:
   - ./authentik.yaml
   - ./bjw-s.yaml
+  - ./minio.yaml
   - ./bitnami2.yaml
   - ./cloudnative-pg.yaml
   - ./crowdsec.yaml
