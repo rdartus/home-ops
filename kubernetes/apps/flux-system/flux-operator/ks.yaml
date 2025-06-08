@@ -35,6 +35,10 @@ spec:
   timeout: 5m
   path: ./kubernetes/apps/flux-system/flux-operator/instance
   prune: false # Never delete this
+  decryption:
+    provider: sops
+    secretRef:
+      name: sops-age
   sourceRef:
     kind: GitRepository
     name: flux-system
