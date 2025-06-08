@@ -6,7 +6,7 @@ resources:
   - ./ocirepository.yaml
   - ./helmrelease.yaml
   - ./prometheusrule.yaml
-  - ./git-ssh-auth.yaml
+  - ./git-ssh-auth.sops.yaml
 configMapGenerator:
   - name: flux-instance-helm-values
     files:
