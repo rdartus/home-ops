@@ -15,7 +15,7 @@ instance:
     url: ssh://github.com/rdartus/home-ops.git
     ref: refs/heads/main
     path: kubernetes/flux/cluster
-    interval: 1h
+    interval: 5m
     pullSecret: "git-ssh-auth"
   commonMetadata:
     labels:
