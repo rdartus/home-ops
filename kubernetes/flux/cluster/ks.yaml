@@ -29,10 +29,6 @@ metadata:
   name: cluster-apps
   namespace: flux-system
 spec:
-  decryption:
-    provider: sops
-    secretRef:
-      name: sops-age
   dependsOn:
     - name: cluster-meta
       namespace: flux-system
@@ -45,4 +41,8 @@ spec:
     name: flux-system
     namespace: flux-system
   timeout: 5m
+  decryption:
+    provider: sops
+    secretRef:
+      name: sops-age
   wait: false
