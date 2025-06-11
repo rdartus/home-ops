@@ -172,27 +172,27 @@ data:
         vault auth enable oidc
         vault kv put kv-v2/ddns-updater/config CONFIG='@/config/cred/ddns-config.json'
         # vault kv put kv-v2/postgresql/config init-authentik="@/config/cred/init-authentik.sql" init-radarr-log="@/config/cred/init-radarr-log.sql" init-radarr-main="@/config/cred/init-radarr-main.sql" init-sonarr-log="@/config/cred/init-sonarr-log.sql" init-sonarr-main="@/config/cred/init-sonarr-main.sql" init-prowlarr-log="@/config/cred/init-prowlarr-log.sql" init-prowlarr-main="@/config/cred/init-prowlarr-main.sql" init-user-auth="@/config/cred/init-user-auth.sql" init-DB="@/config/cred/init-DB.sql"
-        vault kv put kv-v2/postgresql/superuser username="postgres" password="@/config/cred/DB-superuser-password.txt"
-        vault kv put kv-v2/postgresql/arr username="@/config/cred/DB-arr-user.txt" password="@/config/cred/DB-arr-password.txt"
-        vault kv put kv-v2/postgresql/auth username="@/config/cred/DB-auth-user.txt" password="@/config/cred/DB-auth-password.txt"
-        vault kv put kv-v2/postgresql/tand username="@/config/cred/DB-tand-user.txt" password="@/config/cred/DB-tand-password.txt"
-        vault kv put kv-v2/ssh key="@/config/cred/key.txt"
-        vault kv put kv-v2/arr/config sonarrKey="@/config/cred/sonarrKey.txt" prowlarrKey="@/config/cred/prowlarrKey.txt" radarrKey="@/config/cred/radarrKey.txt"
-        vault kv put kv-v2/default/config username="admin" password="@/config/cred/default-password.txt" passwordPBKDF2="@/config/cred/default-passwordPBKDF2.txt"
-        vault kv put kv-v2/default/smb username="jeank" password="@/config/cred/jeank-smb.txt"
-        vault kv put kv-v2/default/smb-longhorn CIFS_USERNAME="jeank" CIFS_PASSWORD="@/config/cred/jeank-smb.txt"
-        vault kv put kv-v2/crowdsec/config enroll_key="@/config/cred/crowdsec_enroll_key.txt" bouncer_traefik="@/config/cred/crowdsec_bouncer_traefik.txt"
-        vault kv put kv-v2/redis/config password="@/config/cred/redis-password.txt"
-        vault kv put kv-v2/authentik/config key="@/config/cred/authentik-key.txt"
-        vault kv put kv-v2/kubeprom/config username="@/config/cred/grafanaUser.txt" password="@/config/cred/grafanaPassword.txt"
-        vault kv put kv-v2/smtp/config gmail_username="jeanvoitouh@gmail.com" gmail_password="@/config/cred/gmail-password.txt"
-        vault kv put kv-v2/wx/config username="@/config/cred/wx-user.txt" password="@/config/cred/wx-password.txt"
+        vault kv put kv-v2/postgresql/superuser username="postgres" password="@/config/cred/DB-superuser-password"
+        vault kv put kv-v2/postgresql/arr username="@/config/cred/DB-arr-user" password="@/config/cred/DB-arr-password"
+        vault kv put kv-v2/postgresql/auth username="@/config/cred/DB-auth-user" password="@/config/cred/DB-auth-password"
+        vault kv put kv-v2/postgresql/tand username="@/config/cred/DB-tand-user" password="@/config/cred/DB-tand-password"
+        vault kv put kv-v2/ssh key="@/config/cred/key"
+        vault kv put kv-v2/arr/config sonarrKey="@/config/cred/sonarrKey" prowlarrKey="@/config/cred/prowlarrKey" radarrKey="@/config/cred/radarrKey"
+        vault kv put kv-v2/default/config username="admin" password="@/config/cred/default-password" passwordPBKDF2="@/config/cred/default-passwordPBKDF2"
+        vault kv put kv-v2/default/smb username="jeank" password="@/config/cred/jeank-smb"
+        vault kv put kv-v2/default/smb-longhorn CIFS_USERNAME="jeank" CIFS_PASSWORD="@/config/cred/jeank-smb"
+        vault kv put kv-v2/crowdsec/config enroll_key="@/config/cred/crowdsec_enroll_key" bouncer_traefik="@/config/cred/crowdsec_bouncer_traefik"
+        vault kv put kv-v2/redis/config password="@/config/cred/redis-password"
+        vault kv put kv-v2/authentik/config key="@/config/cred/authentik-key"
+        vault kv put kv-v2/kubeprom/config username="@/config/cred/grafanaUser" password="@/config/cred/grafanaPassword"
+        vault kv put kv-v2/smtp/config gmail_username="jeanvoitouh@gmail.com" gmail_password="@/config/cred/gmail-password"
+        vault kv put kv-v2/wx/config username="@/config/cred/wx-user" password="@/config/cred/wx-password"
         vault kv put kv-v2/wx/list list.json="@/config/cred/wx-list.json"
-        vault kv put kv-v2/tandoor key="@/config/cred/tandoorKey.txt" oidcProvider="@/config/cred/tandoorSocialProvider.txt"
-        vault kv put kv-v2/zerossl keyID="@/config/cred/zeroSSLID.txt" HMAC="@/config/cred/zeroSSLHMAC.txt"
-        vault kv put kv-v2/pgadmin oidcSecret="@/config/cred/pgadminOIDCClient.txt" oidcClient="@/config/cred/pgadminOIDCSecret.txt"
-        vault kv put kv-v2/gitOps OIDC_CLIENT_ID="@/config/cred/gitOpsOIDCClient.txt" OIDC_CLIENT_SECRET="@/config/cred/gitOpsOIDCSecret.txt" OIDC_SCOPES="openid profile email" OIDC_ISSUER_URL="https://authentik.dartus.fr/application/o/gitops/"
-        vault kv put kv-v2/wireguard oidcSecret="@/config/cred/gitOpsOIDCClient.txt" oidcClient="@/config/cred/gitOpsOIDCSecret.txt"
+        vault kv put kv-v2/tandoor key="@/config/cred/tandoorKey" oidcProvider="@/config/cred/tandoorSocialProvider"
+        vault kv put kv-v2/zerossl keyID="@/config/cred/zeroSSLID" HMAC="@/config/cred/zeroSSLHMAC"
+        vault kv put kv-v2/pgadmin oidcSecret="@/config/cred/pgadminOIDCClient" oidcClient="@/config/cred/pgadminOIDCSecret"
+        vault kv put kv-v2/gitOps OIDC_CLIENT_ID="@/config/cred/gitOpsOIDCClient" OIDC_CLIENT_SECRET="@/config/cred/gitOpsOIDCSecret" OIDC_SCOPES="openid profile email" OIDC_ISSUER_URL="https://authentik.dartus.fr/application/o/gitops/"
+        vault kv put kv-v2/wireguard oidcSecret="@/config/cred/gitOpsOIDCClient" oidcClient="@/config/cred/gitOpsOIDCSecret"
         vault auth enable kubernetes
         vault write auth/kubernetes/config kubernetes_host="https://$KUBERNETES_PORT_443_TCP_ADDR:443"
 
@@ -322,12 +322,12 @@ data:
 
         vault write auth/oidc/config \
         oidc_discovery_url="https://authentik.dartus.fr/application/o/vault/" \
-        oidc_client_id="@/config/cred/vaultOIDCClient.txt" \
-        oidc_client_secret="@/config/cred/vaultOIDCSecret.txt" \
+        oidc_client_id="@/config/cred/vaultOIDCClient" \
+        oidc_client_secret="@/config/cred/vaultOIDCSecret" \
         default_role="reader"
 
         vault write auth/oidc/role/reader \
-        bound_audiences="@/config/cred/vaultOIDCClient.txt" \
+        bound_audiences="@/config/cred/vaultOIDCClient" \
         allowed_redirect_uris="https://vault.dartus.fr/ui/vault/auth/oidc/oidc/callback" \
         allowed_redirect_uris="https://vault.dartus.fr/oidc/callback" \
         allowed_redirect_uris="http://vault.dartus.fr/ui/vault/auth/oidc/oidc/callback" \

@@ -1,3 +1,4 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/hashicorp/vault-helm/refs/heads/main/values.schema.json
 # Copyright (c) HashiCorp, Inc.
 # SPDX-License-Identifier: MPL-2.0
 
@@ -604,10 +605,14 @@ server:
   # via toYaml rather than pre-processed like the extraVolumes value.
   # The purpose is to make it easy to share volumes between containers.
   volumes: 
-    - name: cred
-      hostPath:
-        path: /home/jeank/cred
-        type: Directory
+    - type: cred
+      secret:
+        secretName: vault-cred
+
+    # - name: cred
+    #   hostPath:
+    #     path: /home/jeank/cred
+    #     type: Directory
 
     # - name: b64dump
     #   hostPath:
