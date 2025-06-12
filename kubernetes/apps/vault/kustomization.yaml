@@ -2,7 +2,10 @@
 # yaml-language-server: $schema=https://json.schemastore.org/kustomization
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
+namespace: vault
 resources:
   - ./namespace.yaml
   - ./vault/ks.yaml
   - ./vault-secrets-operator/ks.yaml
+components:
+  - ../../components/flux/sops
