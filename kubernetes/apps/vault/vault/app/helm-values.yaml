@@ -605,7 +605,7 @@ server:
   # via toYaml rather than pre-processed like the extraVolumes value.
   # The purpose is to make it easy to share volumes between containers.
   volumes: 
-    - type: cred
+    - name: cred
       secret:
         secretName: vault-cred
 
