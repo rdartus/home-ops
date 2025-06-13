@@ -608,20 +608,15 @@ server:
     - name: cred
       secret:
         secretName: vault-cred
+    - name: scripts
+      configMap: 
+        name: vault-scripts
+
 
     # - name: cred
     #   hostPath:
     #     path: /home/jeank/cred
     #     type: Directory
-
-    # - name: b64dump
-    #   hostPath:
-    #     path: /home/jeank/b64dump
-    #     type: Directory
-
-    - name: scripts
-      configMap: 
-        name: vault-scripts
 
   # volumeMounts is a list of volumeMounts for the main server container. These are rendered
   # via toYaml rather than pre-processed like the extraVolumes value.
