@@ -10,7 +10,7 @@ spec:
     labels:
       app.kubernetes.io/name: *app
   interval: 10m
-  path: ./deploy
+  path: ./deploy/local-path-storage.yaml
   prune: true
   sourceRef:
     kind: GitRepository
