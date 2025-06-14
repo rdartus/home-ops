@@ -10,7 +10,7 @@ spec:
     labels:
       app.kubernetes.io/name: *app
   interval: 10m
-  path: ./kubernetes/apps/longhorn-system/longhorn/app
+  path: ./kubernetes/apps/longhorn-system/local-path-provisioner/app
   prune: true
   sourceRef:
     kind: GitRepository
