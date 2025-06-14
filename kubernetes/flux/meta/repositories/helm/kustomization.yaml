@@ -20,4 +20,4 @@ resources:
   - ./wiremind.yaml
   - ./longhorn.yaml
   - ./headlamp.yaml
-  - ./local-path-provisioner.yaml
+  # - ./local-path-provisioner.yaml
