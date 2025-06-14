@@ -10,3 +10,11 @@ spec:
   url: https://github.com/rancher/local-path-provisioner
   ref:
     branch: master
+  ignore: |
+    # exclude file from deploy dir
+    /deploy/chart/**
+    /deploy/example-config.yaml   
+    /deploy/example-config.yaml   
+    /deploy/kustomization.yaml   
+    /deploy/provisioner.yaml   
+    /deploy/update_image.sh   
