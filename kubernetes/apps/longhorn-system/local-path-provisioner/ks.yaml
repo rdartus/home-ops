@@ -10,11 +10,11 @@ spec:
     labels:
       app.kubernetes.io/name: *app
   interval: 10m
-  path: ./deploy/
+  path: ./kubernetes/apps/longhorn-system/longhorn/app
   prune: true
   sourceRef:
     kind: GitRepository
-    name: local-path-provisioner
+    name: flux-system
     namespace: flux-system
   targetNamespace: *namespace
   timeout: 30m
