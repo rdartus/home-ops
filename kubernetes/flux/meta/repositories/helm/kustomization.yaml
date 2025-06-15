@@ -20,4 +20,5 @@ resources:
   - ./wiremind.yaml
   - ./longhorn.yaml
   - ./headlamp.yaml
+  - ./openEBS.yaml
   # - ./local-path-provisioner.yaml
