@@ -145,24 +145,24 @@ data:
       export STATUS=$(vault status | grep 'Initialized' | awk '{print $2}')
       echo "status vault $STATUS"
       if [ $STATUS = "false" ]; then
-        vault operator init -key-shares=3 -key-threshold=2 | tee /config/cred/vault.init
+        vault operator init -key-shares=3 -key-threshold=2 | tee /var/tmp/vault.init
 
         # Store master keys in consul for operator to retrieve and remove
         COUNTER=1
-        cat /config/cred/vault.init  | grep '^Unseal' | awk '{print $4}' | for key in $(cat -); do
-          echo  $key | tee /config/cred/vault-init-$COUNTER
+        cat /var/tmp/vault.init  | grep '^Unseal' | awk '{print $4}' | for key in $(cat -); do
+          echo  $key | tee /var/tmp/vault-init-$COUNTER
           COUNTER=$((COUNTER + 1))
         done
 
-        export ROOT_TOKEN=$(cat /config/cred/vault.init | grep '^Initial' | awk '{print $4}')
-        echo  $ROOT_TOKEN | tee /config/cred/vault-root-token
+        export ROOT_TOKEN=$(cat /var/tmp/vault.init | grep '^Initial' | awk '{print $4}')
+        echo  $ROOT_TOKEN | tee /var/tmp/vault-root-token
 
         # echo "Remove master keys from disk"
-        # shred /config/cred/vault.init
+        # shred /var/tmp/vault.init
 
         echo "Unsealing Vault"
-        vault operator unseal $(cat /config/cred/vault-init-1)
-        vault operator unseal $(cat /config/cred/vault-init-2)
+        vault operator unseal $(cat /var/tmp/vault-init-1)
+        vault operator unseal $(cat /var/tmp/vault-init-2)
 
         echo "Vault init complete."
 
