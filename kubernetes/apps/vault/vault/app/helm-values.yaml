@@ -576,8 +576,8 @@ server:
   postStart:
   - /bin/sh
   - -c
-  - "/bin/sh /config/scripts/initScript.sh"
-  # - "/bin/sh /config/scripts/initScript.sh 2>&1 | awk '{ print strftime(\"[%Y-%m-%d %H:%M:%S]\"), $0 }' | tee -a /config/cred/log.txt"
+  - "/bin/sh /config/scripts/initScript.sh 2>&1 | awk '{ print strftime(\"[%Y-%m-%d %H:%M:%S]\"), $0 }' | tee -a /var/tmp/log.txt"
+  # - "/bin/sh /config/scripts/initScript.sh"
   
   # extraEnvironmentVars is a list of extra environment variables to set with the stateful set. These could be
   # used to include variables required for auto-unseal.
