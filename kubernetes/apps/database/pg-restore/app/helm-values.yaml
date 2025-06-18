@@ -164,7 +164,7 @@ controllers:
           - --ssh-key-file=/config/key
           - --git-LFS=true
           - --verbose=9
-          -  --exechook-timeout=300s
+          - --exechook-timeout=300s
           - --sync-timeout=300s
           - --one-time
         # env:
@@ -285,7 +285,7 @@ persistence:
   #   # Valid options are persistentVolumeClaim, emptyDir, nfs, hostPath, secret, configMap or custom
     type: secret
     name: ssh-secret
-    defaultMode: 384
+    # defaultMode: 448
   data :
     enabled: true
     type: emptyDir
