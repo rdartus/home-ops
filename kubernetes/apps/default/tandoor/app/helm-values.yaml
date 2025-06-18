@@ -723,19 +723,6 @@ route:
 # [[ref]](https://bjw-s.github.io/helm-charts/docs/common-library/common-library-storage)
 # @default -- See below
 persistence:
-  # media:
-  #   enabled: true
-  #   type: hostPath
-  #   hostPath: /home/jeank/config/tandoor/mediafiles
-  #   globalMounts:
-  #     - path: /opt/recipes/mediafiles
-  # static:
-  #   enabled: true
-  #   type: hostPath
-  #   hostPath: /home/jeank/config/tandoor/staticfiles
-  #   globalMounts:
-  #     - path: /opt/recipes/staticfiles
-
   media:
     enabled: true
     type: persistentVolumeClaim

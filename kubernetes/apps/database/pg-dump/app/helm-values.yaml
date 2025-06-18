@@ -277,11 +277,11 @@ controllers:
         - /bin/sh
         - -c
         - |
-          pg_dump  postgres://$SUPERUSER:$PASSWORD@cnpg-cluster-rw.database.svc.cluster.local/prowlarr-main -Fc -f /home/jeank/dump/dump_prowlarr
-          pg_dump  postgres://$SUPERUSER:$PASSWORD@cnpg-cluster-rw.database.svc.cluster.local/sonarr-main -Fc -f /home/jeank/dump/dump_sonarr
-          pg_dump  postgres://$SUPERUSER:$PASSWORD@cnpg-cluster-rw.database.svc.cluster.local/radarr-main -Fc -f /home/jeank/dump/dump_radarr
-          pg_dump  postgres://$SUPERUSER:$PASSWORD@cnpg-cluster-rw.database.svc.cluster.local/authentik -Fc -f /home/jeank/dump/dump_authentik
-          pg_dump  postgres://$SUPERUSER:$PASSWORD@cnpg-cluster-rw.database.svc.cluster.local/tandoor -Fc -f /home/jeank/dump/dump_tandoor
+          pg_dump  postgres://$SUPERUSER:$PASSWORD@cnpg-cluster-rw.database.svc.cluster.local/prowlarr-main -Fc -f /db/dump_prowlarr
+          pg_dump  postgres://$SUPERUSER:$PASSWORD@cnpg-cluster-rw.database.svc.cluster.local/sonarr-main -Fc -f /db/dump_sonarr
+          pg_dump  postgres://$SUPERUSER:$PASSWORD@cnpg-cluster-rw.database.svc.cluster.local/radarr-main -Fc -f /db/dump_radarr
+          pg_dump  postgres://$SUPERUSER:$PASSWORD@cnpg-cluster-rw.database.svc.cluster.local/authentik -Fc -f /db/dump_authentik
+          pg_dump  postgres://$SUPERUSER:$PASSWORD@cnpg-cluster-rw.database.svc.cluster.local/tandoor -Fc -f /db/dump_tandoor
 #         # -- Override the args for the container
 #         args: []
 #         # -- Override the working directory for the container
@@ -744,14 +744,13 @@ route:
 # [[ref]](https://bjw-s.github.io/helm-charts/docs/common-library/common-library-storage)
 # @default -- See below
 persistence:
-  dump:
   #   # -- Enables or disables the persistence item. Defaults to true
-    enabled: true
-
   #   # -- Sets the persistence type
   #   # Valid options are persistentVolumeClaim, emptyDir, nfs, hostPath, secret, configMap or custom
-    type: hostPath
-    hostPath: "/home/jeank/dump"
+  db:
+    enabled: true
+    type: persistentVolumeClaim
+    existingClaim: pvc-db-tmp
     
   #   # -- Storage Class for the config volume.
   #   # If set to `-`, dynamic provisioning is disabled.

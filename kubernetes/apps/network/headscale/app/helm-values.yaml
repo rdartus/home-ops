@@ -861,9 +861,11 @@ persistence:
           - path: /etc/headscale/config.yaml
             subPath: config.yaml
 
-  var-lib-headscale:
-    type: hostPath
-    hostPath: /home/jeank/db
+  db:
+    type: persistentVolumeClaim
+    storageClass: longhorn
+    size: 500MI
+    accessMode: ReadWriteOnce
     advancedMounts:
       main:
         main:

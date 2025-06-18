@@ -690,9 +690,11 @@ route:
 # @default -- See below
 persistence:
 
-  config:
-    type: hostPath
-    hostPath: /home/jeank/db
+  db:
+    type: persistentVolumeClaim
+    storageClass: longhorn
+    size: 500Mi
+    accessMode: ReadWriteOnce
     advancedMounts:
       main:
         main:

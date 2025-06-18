@@ -8,7 +8,6 @@ resources:
   - ./endlessh/ks.yaml
   - ./authentik/ks.yaml
   - ./hajimari/ks.yaml
-  # - ./pg-loader/ks.yaml
   - ./redis/ks.yaml
   - ./prowlarr/ks.yaml
   - ./radarr/ks.yaml
