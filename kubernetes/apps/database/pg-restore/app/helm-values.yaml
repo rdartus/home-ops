@@ -175,6 +175,7 @@ controllers:
         dependsOn: []
         image:
           repository: busybox
+          tag: latest
           # -- image pull policy
           pullPolicy: IfNotPresent
         command:
