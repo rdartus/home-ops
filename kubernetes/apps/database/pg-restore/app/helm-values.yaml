@@ -174,7 +174,7 @@ controllers:
       tools:
         dependsOn: []
         image:
-          repository: busybox
+          repository: alpine/git
           tag: latest
           # -- image pull policy
           pullPolicy: IfNotPresent
