@@ -171,6 +171,20 @@ controllers:
         securityContext:
           runAsUser: 65533
 
+      tools:
+        dependsOn: []
+        image:
+          repository: busybox
+          # -- image pull policy
+          pullPolicy: IfNotPresent
+        command:
+          - "sh"
+          - "-c"
+          - "while true; do sleep 6000; done"
+        # env:
+        securityContext:
+          runAsUser: 65533
+
 # @default -- See below
 secrets:
   {}
