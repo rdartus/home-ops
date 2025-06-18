@@ -168,8 +168,8 @@ controllers:
           - --sync-timeout=300s
           - --one-time
         # env:
-        securityContext:
-          runAsUser: 65533
+        # securityContext:
+        #   runAsUser: 65533
 
       tools:
         dependsOn: []
@@ -183,8 +183,8 @@ controllers:
           - "-c"
           - "while true; do sleep 6000; done"
         # env:
-        securityContext:
-          runAsUser: 65533
+        # securityContext:
+        #   runAsUser: 65533
 
 # @default -- See below
 secrets:
