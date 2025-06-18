@@ -780,14 +780,23 @@ route:
 # @default -- See below
 persistence: 
 
-  data :
+  config-pc :
     enabled: true
-    type: hostPath
-    hostPath: /home/jeank/wireguard
+    type: secret
+    identifier: peer-pc
     advancedMounts:
       main:
         main:
-          - path: /config
+          - path: /config/peer_pc
+
+  config-phone :
+    enabled: true
+    type: secret
+    identifier: peer-phone
+    advancedMounts:
+      main:
+        main:
+          - path: /config/peer_phone
   # config:
   #   # -- Enables or disables the persistence item. Defaults to true
   #   enabled: false
