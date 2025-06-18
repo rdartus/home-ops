@@ -864,7 +864,7 @@ persistence:
   db:
     type: persistentVolumeClaim
     storageClass: longhorn
-    size: 500MI
+    size: 500Mi
     accessMode: ReadWriteOnce
     advancedMounts:
       main:
