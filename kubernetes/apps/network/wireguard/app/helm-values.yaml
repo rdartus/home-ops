@@ -783,7 +783,7 @@ persistence:
   config-pc :
     enabled: true
     type: secret
-    identifier: peer-pc
+    name: peer-pc
     advancedMounts:
       main:
         main:
@@ -792,7 +792,7 @@ persistence:
   config-phone :
     enabled: true
     type: secret
-    identifier: peer-phone
+    name: peer-phone
     advancedMounts:
       main:
         main:
