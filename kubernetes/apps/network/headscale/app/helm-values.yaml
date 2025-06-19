@@ -854,7 +854,7 @@ persistence:
 
   config:
     type: secret
-    identifier: config
+    name: config
     advancedMounts:
       main:
         main:
