@@ -171,17 +171,17 @@ controllers:
         # securityContext:
         #   runAsUser: 65533
 
-      tools:
-        dependsOn: []
-        image:
-          repository: alpine/git
-          tag: latest
-          # -- image pull policy
-          pullPolicy: IfNotPresent
-        command:
-          - "sh"
-          - "-c"
-          - "while true; do sleep 6000; done"
+      # tools:
+      #   dependsOn: []
+      #   image:
+      #     repository: alpine/git
+      #     tag: latest
+      #     # -- image pull policy
+      #     pullPolicy: IfNotPresent
+      #   command:
+      #     - "sh"
+      #     - "-c"
+      #     - "while true; do sleep 6000; done"
         # env:
         # securityContext:
         #   runAsUser: 65533
