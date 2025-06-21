@@ -4,6 +4,6 @@ kind: Namespace
 metadata:
   name: observability
   annotations:
-    pod-security.kubernetes.io/enforce: privileged
-  labels:
     kustomize.toolkit.fluxcd.io/prune: disabled
+  labels:
+    pod-security.kubernetes.io/enforce: privileged
