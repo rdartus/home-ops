@@ -190,9 +190,9 @@ data:
         vault kv put kv-v2/wx/list list.json="@/config/cred/wx-list"
         vault kv put kv-v2/tandoor key="@/config/cred/tandoorKey" oidcProvider="@/config/cred/tandoorSocialProvider"
         vault kv put kv-v2/zerossl keyID="@/config/cred/zeroSSLID" HMAC="@/config/cred/zeroSSLHMAC"
-        vault kv put kv-v2/pgadmin oidcSecret="@/config/cred/pgadminOIDCClient" oidcClient="@/config/cred/pgadminOIDCSecret"
+        vault kv put kv-v2/pgadmin oidcSecret="@/config/cred/pgadminOIDCSecret" oidcClient="@/config/cred/pgadminOIDCClient"
         vault kv put kv-v2/gitOps OIDC_CLIENT_ID="@/config/cred/gitOpsOIDCClient" OIDC_CLIENT_SECRET="@/config/cred/gitOpsOIDCSecret" OIDC_SCOPES="openid profile email" OIDC_ISSUER_URL="https://authentik.dartus.fr/application/o/gitops/"
-        vault kv put kv-v2/wireguard oidcSecret="@/config/cred/gitOpsOIDCClient" oidcClient="@/config/cred/gitOpsOIDCSecret"
+        vault kv put kv-v2/wireguard oidcSecret="@/config/cred/gitOpsOIDCSecret" oidcClient="@/config/cred/gitOpsOIDCClient"
         vault auth enable kubernetes
         vault write auth/kubernetes/config kubernetes_host="https://$KUBERNETES_PORT_443_TCP_ADDR:443"
 
