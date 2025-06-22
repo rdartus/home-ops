@@ -270,7 +270,7 @@ speaker:
   excludeInterfaces:
     enabled: true
   # ignore the exclude-from-external-loadbalancer label
-  ignoreExcludeLB: false
+  ignoreExcludeLB: true
 
   image:
     repository: quay.io/metallb/speaker
