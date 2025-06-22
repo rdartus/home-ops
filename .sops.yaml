@@ -8,3 +8,8 @@ creation_rules:
     key_groups:
       - age:
           - *user_flux
+  - path_regex: '^talos/.*\.ya?ml$'     # ne s’applique qu’aux fichiers .yaml/.yml
+    encrypted_regex: "^(certs|ca|secret|secret.*|serviceAccount|aggregatorCA)$"
+    key_groups:
+      - age:
+          - *user_flux
