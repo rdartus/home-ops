@@ -1217,7 +1217,7 @@ alertmanager:
 ## Using default values from https://github.com/grafana/helm-charts/blob/main/charts/grafana/values.yaml
 ##
 grafana:
-  enabled: false
+  enabled: true
   namespaceOverride: ""
 
   ## ForceDeployDatasources Create datasource configmap even if grafana deployment has been disabled
@@ -1302,18 +1302,20 @@ grafana:
   ingress:
     ## If true, Grafana Ingress will be created
     ##
-    enabled: false
+    enabled: true
 
     ## IngressClassName for Grafana Ingress.
     ## Should be provided if Ingress is enable.
     ##
-    # ingressClassName: nginx
+    ingressClassName: traefik-ingresses
 
     ## Annotations for Grafana Ingress
     ##
-    annotations: {}
-      # kubernetes.io/ingress.class: nginx
-      # kubernetes.io/tls-acme: "true"
+    annotations: 
+      hajimari.io/enable: "true"
+      hajimari.io/group: "Management"
+      hajimari.io/icon: "safe-square"
+      cert-manager.io/cluster-issuer: zerossl-prod
 
     ## Labels to be added to the Ingress
     ##
@@ -1324,7 +1326,8 @@ grafana:
     ##
     # hosts:
     #   - grafana.domain.com
-    hosts: []
+    hosts: 
+      - grafana.dartus.fr
 
     ## Path for grafana ingress
     path: /
@@ -1332,10 +1335,10 @@ grafana:
     ## TLS configuration for grafana Ingress
     ## Secret must be manually created in the namespace
     ##
-    tls: []
-    # - secretName: grafana-general-tls
-    #   hosts:
-    #   - grafana.example.com
+    tls: 
+    - secretName: grafana.dartus.fr-tls
+      hosts:
+      - grafana.dartus.fr
 
   # # To make Grafana persistent (Using Statefulset)
   # #
@@ -4308,30 +4311,30 @@ prometheus:
 
     ## The remote_write spec configuration for Prometheus.
     ## ref: https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/api-reference/api.md#remotewritespec
-    remoteWrite:
-      - url: "https://prometheus-prod-24-prod-eu-west-2.grafana.net/api/prom/push"  # Remplacez <region> par la région appropriée (ex: us, eu, etc.)
-        basicAuth:
-          username:
-            name: kube-prom-stack-conf-secret
-            key: username
-          password:
-            name: kube-prom-stack-conf-secret
-            key: password
-        writeRelabelConfigs:
-          # Exemple 2 : Garder spécifiquement quelques métriques essentielles
-          # Ces règles permettent de sélectionner des métriques importantes.
-          - sourceLabels: [__name__]
-            regex: "node_cpu_.*|node_memory_.*|node_network_.*|namespace_workload_.*|kube_node_.*|kube_pod_container_resource_.*|kube_pod_.*|kube_replicaset_.*|kube_daemonset_.*|kube_job_.*|kube_deployment_.*|container_cpu_.*|container_memory_.*|container_network_.*|namespace_.*"
-            action: keep
-          # Exemple 1 : Exclure certaines métriques jugées non essentielles
-          - sourceLabels: [__name__]
-            regex: "apiserver_.*|etcd_request_.*"
-            # regex: "apiserver_.*|etcd_request_.*|workqueue_.*|etcd_requests_.*|scheduler_plugin_execution_duration_.*|prober_probe_duration_.*|kubernetes_feature_enabled"
-            action: drop
-          # (Attention, l'ordre des règles est important : dès qu'une métrique match une règle, l'action est exécutée.)
-          # # Optionnel : Pour s'assurer qu'aucune autre métrique non sélectionnée n'est envoyée
-          # - action: drop
-        # Optionnel: vous pouvez ajouter d'autres options comme "writeRelabelConfigs" si nécessaire.
+    remoteWrite: []
+      # - url: "https://prometheus-prod-24-prod-eu-west-2.grafana.net/api/prom/push"  # Remplacez <region> par la région appropriée (ex: us, eu, etc.)
+      #   basicAuth:
+      #     username:
+      #       name: kube-prom-stack-conf-secret
+      #       key: username
+      #     password:
+      #       name: kube-prom-stack-conf-secret
+      #       key: password
+      #   writeRelabelConfigs:
+      #     # Exemple 2 : Garder spécifiquement quelques métriques essentielles
+      #     # Ces règles permettent de sélectionner des métriques importantes.
+      #     - sourceLabels: [__name__]
+      #       regex: "node_cpu_.*|node_memory_.*|node_network_.*|namespace_workload_.*|kube_node_.*|kube_pod_container_resource_.*|kube_pod_.*|kube_replicaset_.*|kube_daemonset_.*|kube_job_.*|kube_deployment_.*|container_cpu_.*|container_memory_.*|container_network_.*|namespace_.*"
+      #       action: keep
+      #     # Exemple 1 : Exclure certaines métriques jugées non essentielles
+      #     - sourceLabels: [__name__]
+      #       regex: "apiserver_.*|etcd_request_.*"
+      #       # regex: "apiserver_.*|etcd_request_.*|workqueue_.*|etcd_requests_.*|scheduler_plugin_execution_duration_.*|prober_probe_duration_.*|kubernetes_feature_enabled"
+      #       action: drop
+      #     # (Attention, l'ordre des règles est important : dès qu'une métrique match une règle, l'action est exécutée.)
+      #     # # Optionnel : Pour s'assurer qu'aucune autre métrique non sélectionnée n'est envoyée
+      #     # - action: drop
+      #   # Optionnel: vous pouvez ajouter d'autres options comme "writeRelabelConfigs" si nécessaire.
     
     # - url: http://remote1/push
     ## additionalRemoteWrite is appended to remoteWrite
