@@ -523,9 +523,9 @@ secrets:
           format: text
           level: debug
 
-        dns:
-          override_local_dns: false
-          magic_dns: false 
+        # dns:
+        #   override_local_dns: false
+        #   magic_dns: false 
   # secret:
   #   # -- Enables or disables the Secret
   #   enabled: false
