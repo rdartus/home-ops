@@ -524,6 +524,7 @@ secrets:
           level: debug
 
         dns:
+          override_local_dns: false
           magic_dns: false 
   # secret:
   #   # -- Enables or disables the Secret
@@ -863,9 +864,7 @@ persistence:
 
   db:
     type: persistentVolumeClaim
-    storageClass: longhorn
-    size: 500Mi
-    accessMode: ReadWriteOnce
+    existingClaim: pvc-headscale
     advancedMounts:
       main:
         main:
