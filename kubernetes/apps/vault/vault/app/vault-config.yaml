@@ -216,6 +216,7 @@ data:
         vault policy write plctandoor /config/scripts/tandoor-policy.json        
         vault policy write plczerossl /config/scripts/zerossl-policy.json        
         vault policy write plcgitops /config/scripts/gitops-policy.json        
+        vault policy write plcscale /config/scripts/scale-policy.json        
 
         vault policy write reader /config/scripts/reader-policy.json       
         vault policy write manager /config/scripts/manager-policy.json        
@@ -322,6 +323,13 @@ data:
         bound_service_account_names=default \
         bound_service_account_namespaces=kube-system \
         policies=plcgitops \
+        audience=vault\
+        ttl=24h
+
+        vault write auth/kubernetes/role/rlscale \
+        bound_service_account_names=default \
+        bound_service_account_namespaces=kube-system \
+        policies=plcscale \
         audience=vault\
         ttl=24h
 
