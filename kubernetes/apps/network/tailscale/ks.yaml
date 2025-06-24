@@ -38,7 +38,7 @@ spec:
     labels:
       app.kubernetes.io/name: *app
   interval: 30m
-  path: ./cluster/apps/network/tailscale/resources
+  path: ./kubernetes/apps/network/tailscale/resources
   prune: true
   dependsOn:
     - name: tailscale
