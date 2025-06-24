@@ -137,6 +137,7 @@ controllers:
               secretKeyRef:
                 name: operator-oauth
                 key: client_secret
+          HEADSCALE_OIDC_ISSUER: https://authentik.dartus.fr/application/o/tailscale/
         securityContext:
           privileged: true
           capabilities:
