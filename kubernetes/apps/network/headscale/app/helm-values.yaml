@@ -132,11 +132,11 @@ controllers:
           # SERVERURL: https://secure2.dartus.fr
           TZ: "Europe/Paris"
           PEERS: "test"
-          # HEADSCALE_OIDC_CLIENT_SECRET: 
-          #   valueFrom:
-          #     secretKeyRef:
-          #       name: headscale-conf
-          #       key: OIDCKey
+          HEADSCALE_OIDC_CLIENT_SECRET: 
+            valueFrom:
+              secretKeyRef:
+                name: operator-oauth
+                key: client_secret
         securityContext:
           privileged: true
           capabilities:
