@@ -19,6 +19,7 @@ spec:
   values:
     operatorConfig:
       hostname: "tailscale-operator"
+      logging: "debug"
       defaultTags:
         - "tag:ts-k8s"
     apiServerProxyConfig:
