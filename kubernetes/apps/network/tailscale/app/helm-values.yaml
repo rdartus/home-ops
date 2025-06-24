@@ -161,6 +161,38 @@ controllers:
               fieldRef:
                 fieldPath: metadata.uid
 
+      tools:
+        dependsOn: []
+        image:
+          repository: alpine/git
+          tag: latest
+          # -- image pull policy
+          pullPolicy: IfNotPresent
+        command:
+          - "sh"
+          - "-c"
+          - "while true; do sleep 6000; done"
+        env:
+          # TZ: Europe/France
+          TS_AUTHKEY: 260e043abd5ba4f1c46be47513b46153dfdfe52058014b20
+          TS_STATE_DIR: /var/lib/tailscale
+          TS_USERSPACE: true
+          NO_AUTOUPDATE: true
+          TS_EXTRA_ARGS: --advertise-exit-node --advertise-routes --advertise-tags=tag:k8s --login-server http://headscale.network.svc.cluster.local:8080
+          TS_TAILSCALED_EXTRA_ARGS: --debug=0.0.0.0:9001
+          TS_HOSTNAME:
+            valueFrom:
+              fieldRef:
+                fieldPath: metadata.name
+          POD_NAME:
+            valueFrom:
+              fieldRef:
+                fieldPath: metadata.name
+          POD_UID:
+            valueFrom:
+              fieldRef:
+                fieldPath: metadata.uid
+
 
         # probes:
         #   startup:
