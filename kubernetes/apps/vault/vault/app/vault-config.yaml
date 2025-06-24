@@ -107,7 +107,7 @@ data:
       capabilities = ["read"]
     }
   scale-policy.json: |
-    path "kv-v2/data/scale" {
+    path "kv-v2/data/scale/*" {
       capabilities = ["read"]
     }
 
@@ -328,7 +328,7 @@ data:
 
         vault write auth/kubernetes/role/rlscale \
         bound_service_account_names=default \
-        bound_service_account_namespaces=kube-system \
+        bound_service_account_namespaces=network \
         policies=plcscale \
         audience=vault\
         ttl=24h
