@@ -22,5 +22,9 @@ spec:
       logging: "debug"
       defaultTags:
         - "tag:ts-k8s"
+      extraEnv:
+      - name: login-server
+        value: "https://secure2.dartus.fr"
+
     apiServerProxyConfig:
       mode: "noauth"
