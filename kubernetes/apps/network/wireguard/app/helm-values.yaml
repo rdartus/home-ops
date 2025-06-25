@@ -268,7 +268,7 @@ controllers:
           SERVERURL: secure2.dartus.fr
           TZ: "Europe/Paris"
           PERSISTENTKEEPALIVE_PEERS: all
-          PEERS: phone,pc,memed,inv1,hallais
+          # PEERS: phone,pc,memed,inv1,hallais
           LOG_CONFS: true
           SERVERPORT: 51820
         securityContext:
