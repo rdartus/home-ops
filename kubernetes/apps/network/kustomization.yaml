@@ -12,3 +12,5 @@ resources:
   - ./headscale/ks.yaml
   - ./metallb/ks.yaml
   - ./tailscale/ks.yaml
+components:
+  - ../../components/flux/sops
