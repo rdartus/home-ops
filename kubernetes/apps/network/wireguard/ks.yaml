@@ -21,7 +21,7 @@ spec:
       name: sops-age
   sourceRef:
     kind: GitRepository
-    name: flux-systemf
+    name: flux-system
     namespace: flux-system
   targetNamespace: *namespace
   timeout: 5m
