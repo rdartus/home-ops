@@ -23,7 +23,7 @@ spec:
       defaultTags:
         - "tag:ts-k8s"
       extraEnv:
-      - name: login-server
+      - name: TAILSCALE_BASE_URL
         value: "https://secure2.dartus.fr"
 
     apiServerProxyConfig:
