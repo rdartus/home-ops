@@ -15,9 +15,13 @@ spec:
     - name: vault-secrets-operator
       namespace: vault
   prune: true
+  decryption:
+    provider: sops
+    secretRef:
+      name: sops-age
   sourceRef:
     kind: GitRepository
-    name: flux-system
+    name: flux-systemf
     namespace: flux-system
   targetNamespace: *namespace
   timeout: 5m
