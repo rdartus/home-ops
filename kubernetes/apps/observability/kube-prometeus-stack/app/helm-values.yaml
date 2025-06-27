@@ -3716,6 +3716,9 @@ prometheus:
     ingressClassName: traefik-ingressess
 
     annotations:
+      hajimari.io/enable: "true"
+      hajimari.io/group: "Management"
+      hajimari.io/icon: "safe-square"
       cert-manager.io/cluster-issuer: zerossl-prod
 
     labels: {}
