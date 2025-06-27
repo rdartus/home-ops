@@ -19,3 +19,4 @@ resources:
   - ./tandoor/ks.yaml
   - ./books/ks.yaml
   - ./livres/ks.yaml
+  - ./kubotheque/ks.yaml
