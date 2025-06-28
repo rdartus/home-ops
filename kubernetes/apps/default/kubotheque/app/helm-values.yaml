@@ -517,7 +517,7 @@ secrets:
 # Additional configMaps can be added by adding a dictionary key similar to the 'config' object.
 # @default -- See below
 configMaps:
-  database:
+  database2:
     enabled: true
     data:
       init.sql: |
@@ -952,7 +952,7 @@ persistence:
   database:
     enabled: true
     type: configMap
-    identifier: kubotheque
+    identifier: database2
 
   # books:
   #   enabled: true
