@@ -952,7 +952,7 @@ persistence:
   database:
     enabled: true
     type: configMap
-    identifier: database
+    identifier: kubotheque
 
   # books:
   #   enabled: true
