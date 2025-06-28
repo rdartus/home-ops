@@ -151,7 +151,7 @@ controllers:
           MYSQL_USER: library_user
           MYSQL_PASSWORD: SecurePassword123
 
-        command: 
+        args : 
           - --default-authentication-plugin=mysql_native_password
           - --innodb-buffer-pool-size=128M
 
