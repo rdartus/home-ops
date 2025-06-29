@@ -31,7 +31,8 @@ defaultPodOptions:
           - key: "kubernetes.io/hostname"
             operator: In
             values:
-            - pirate
+            - nucoumouk
+    # {}
 
   # -- Set annotations on the Pod. Pod-specific values will be merged with this.
   annotations: {}
