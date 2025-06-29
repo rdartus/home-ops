@@ -1,0 +1,30 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/kustomize.toolkit.fluxcd.io/kustomization_v1.json
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: &app pg-dump-sync
+  namespace: &namespace database
+spec:
+  commonMetadata:
+    labels:
+      app.kubernetes.io/name: *app
+  interval: 7m
+  path: ./kubernetes/apps/database/pg-dump-sync/app
+  dependsOn:
+    - name: vault-secrets-operator
+      namespace: vault
+    - name: traefik
+      namespace: network
+    - name: cnpg
+      namespace: database
+    - name: pg-restore
+      namespace: database
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+    namespace: flux-system
+  targetNamespace: *namespace
+  timeout: 5m
+  wait: true
