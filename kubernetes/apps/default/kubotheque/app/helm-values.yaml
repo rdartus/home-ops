@@ -157,31 +157,31 @@ controllers:
           - --default-authentication-plugin=mysql_native_password
           - --innodb-buffer-pool-size=128M
 
-      # ws:
-      #   # -- Override the container name
-      #   # nameOverride:
+      ws:
+        # -- Override the container name
+        # nameOverride:
 
-      #   # -- Specify if this container depends on any other containers
-      #   # This is used to determine the order in which the containers are rendered.
-      #   dependsOn: [sql]
+        # -- Specify if this container depends on any other containers
+        # This is used to determine the order in which the containers are rendered.
+        dependsOn: [sql]
 
-      #   image:
-      #     # -- image repository
-      #     repository: nespouique/library-ws
-      #     # -- image tag
-      #     tag: latest
-      #     # -- image pull policy
-      #     pullPolicy: IfNotPresent
+        image:
+          # -- image repository
+          repository: nespouique/library-ws
+          # -- image tag
+          tag: latest
+          # -- image pull policy
+          pullPolicy: IfNotPresent
 
-      #   env:
-      #     DB_HOST: mysql
-      #     DB_PORT: 3306
-      #     DB_USER: library_user
-      #     DB_PASSWORD: SecurePassword123
-      #     DB_NAME: library_db
-      #     NODE_ENV: production
-      #     PORT: 3000
-      #     LIST_PER_PAGE: 10
+        env:
+          DB_HOST: mysql
+          DB_PORT: 3306
+          DB_USER: library_user
+          DB_PASSWORD: SecurePassword123
+          DB_NAME: library_db
+          NODE_ENV: production
+          PORT: 3000
+          LIST_PER_PAGE: 10
 
     # -- Set annotations on the deployment/statefulset/daemonset/cronjob/job
 #     annotations: {}
