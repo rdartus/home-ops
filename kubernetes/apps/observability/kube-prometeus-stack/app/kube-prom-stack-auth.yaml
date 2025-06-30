@@ -1,7 +1,7 @@
 apiVersion: secrets.hashicorp.com/v1beta1
 kind: VaultAuth
 metadata:
-  name: kube-prom-stack-auth
+  name: observability-auth
   namespace: observability
   annotations:
     argocd.argoproj.io/sync-wave: "3"

@@ -38,8 +38,8 @@ crds:
   ## It deploy a corresponding clusterrole, clusterrolebinding and serviceaccount to apply the CRDs.
   ## This feature is in preview, off by default and may change in the future.
   upgradeJob:
-    enabled: false
-    forceConflicts: false
+    enabled: true
+    forceConflicts: true
     image:
       busybox:
         registry: docker.io
@@ -170,7 +170,7 @@ defaultRules:
   create: true
   rules:
     alertmanager: true
-    etcd: false
+    etcd: true
     configReloaders: true
     general: true
     k8sContainerCpuUsageSecondsTotal: true
@@ -317,7 +317,28 @@ defaultRules:
 
 ## Provide custom recording or alerting rules to be deployed into the cluster.
 ##
-additionalPrometheusRulesMap: {}
+additionalPrometheusRulesMap:
+  dockerhub-rules:
+    groups:
+      - name: dockerhub
+        rules:
+          - alert: DockerhubRateLimitRisk
+            annotations:
+              summary: Kubernetes cluster Dockerhub rate limit risk
+            expr: count(time() - container_last_seen{image=~"(docker.io).*",container!=""} < 30) > 100
+            labels:
+              severity: critical
+  oom-rules:
+    groups:
+      - name: oom
+        rules:
+          - alert: OomKilled
+            annotations:
+              summary: Container {{ $labels.container }} in pod {{ $labels.namespace }}/{{ $labels.pod }} has been OOMKilled {{ $value }} times in the last 10 minutes.
+            expr: (kube_pod_container_status_restarts_total - kube_pod_container_status_restarts_total offset 10m >= 1) and ignoring (reason) min_over_time(kube_pod_container_status_last_terminated_reason{reason="OOMKilled"}[10m]) == 1
+            labels:
+              severity: critical
+
 #  rule-name:
 #    groups:
 #    - name: my_group
@@ -594,13 +615,19 @@ alertmanager:
   #       {{ end }}
 
   ingress:
-    enabled: false
+    enabled: true
 
     # For Kubernetes >= 1.18 you should specify the ingress-controller via the field ingressClassName
     # See https://kubernetes.io/blog/2020/04/02/improvements-to-the-ingress-api-in-kubernetes-1.18/#specifying-the-class-of-an-ingress
     # ingressClassName: nginx
 
-    annotations: {}
+    annotations:
+      hajimari.io/enable: "true"
+      hajimari.io/group: "Media"
+      hajimari.io/icon: "bookshelf"
+      hajimari.io/appName: "alertmanager"
+      cert-manager.io/cluster-issuer: zerossl-prod
+
 
     labels: {}
 
@@ -612,13 +639,13 @@ alertmanager:
 
     ## Hosts must be provided if Ingress is enabled.
     ##
-    hosts: []
-      # - alertmanager.domain.com
+    hosts: 
+      - alertmanager.dartus.fr
 
     ## Paths to use for ingress rules - one path should match the alertmanagerSpec.routePrefix
     ##
-    paths: []
-    # - /
+    paths: 
+    - /
 
     ## For Kubernetes >= 1.18 you should specify the pathType (determines how Ingress paths should be matched)
     ## See https://kubernetes.io/blog/2020/04/02/improvements-to-the-ingress-api-in-kubernetes-1.18/#better-path-matching-with-path-types
@@ -627,10 +654,10 @@ alertmanager:
     ## TLS configuration for Alertmanager Ingress
     ## Secret must be manually created in the namespace
     ##
-    tls: []
-    # - secretName: alertmanager-general-tls
-    #   hosts:
-    #   - alertmanager.example.com
+    tls: 
+    - secretName: alertmanager.dartus.fr-tls
+      hosts:
+      - alertmanager.dartus.fr
 
   # -- BETA: Configure the gateway routes for the chart here.
   # More routes can be added by adding a dictionary key like the 'main' route.
@@ -725,7 +752,7 @@ alertmanager:
   ## Configuration for Alertmanager service
   ##
   service:
-    enabled: false
+    enabled: true
     annotations: {}
     labels: {}
     clusterIP: ""
@@ -1033,7 +1060,7 @@ alertmanager:
 
     ## The external URL the Alertmanager instances will be available under. This is necessary to generate correct URLs. This is necessary if Alertmanager is not served from root of a DNS name. string  false
     ##
-    externalUrl:
+    externalUrl: https://alertmanager.dartus.fr
 
     ## The route prefix Alertmanager registers HTTP handlers for. This is useful, if using ExternalURL and a proxy is rewriting HTTP routes of a request, and the actual ExternalURL is still true,
     ## but the server serves requests under a different route prefix. For example for use with kubectl proxy.
@@ -1217,22 +1244,9 @@ alertmanager:
 ## Using default values from https://github.com/grafana/helm-charts/blob/main/charts/grafana/values.yaml
 ##
 grafana:
-  enabled: true
+  enabled: false
   namespaceOverride: ""
-  grafana.ini:
-      auth.generic_oauth:
-        enabled: true
-        name: authentik
-        allow_sign_up: false
-        scopes: profile,email,groups
-        auth_url: https://authentik.dartus.fr/application/o/authorize/
-        token_url: https://authentik.dartus.fr/application/o/token/
-        api_url: https://authentik.dartus.fr/application/o/userinfo/
-        client_id: grafana
-        client_secret: grafana-client-secret
-        role_attribute_path: contains(groups[*], 'grafana-admin') && 'Admin' || contains(groups[*], 'grafana-dev') && 'Editor' || 'Viewer'
 
-  envFromSecret: ""
   ## ForceDeployDatasources Create datasource configmap even if grafana deployment has been disabled
   ##
   forceDeployDatasources: false
@@ -1315,7 +1329,7 @@ grafana:
   ingress:
     ## If true, Grafana Ingress will be created
     ##
-    enabled: true
+    enabled: false
 
     ## IngressClassName for Grafana Ingress.
     ## Should be provided if Ingress is enable.
@@ -1339,8 +1353,7 @@ grafana:
     ##
     # hosts:
     #   - grafana.domain.com
-    hosts: 
-      - grafana.dartus.fr
+    hosts: []
 
     ## Path for grafana ingress
     path: /
@@ -1348,10 +1361,10 @@ grafana:
     ## TLS configuration for grafana Ingress
     ## Secret must be manually created in the namespace
     ##
-    tls: 
-    - secretName: grafana.dartus.fr-tls
-      hosts:
-      - grafana.dartus.fr
+    tls: []
+    # - secretName: grafana-general-tls
+    #   hosts:
+    #   - grafana.example.com
 
   # # To make Grafana persistent (Using Statefulset)
   # #
@@ -1523,7 +1536,7 @@ kubeApiServer:
     serverName: kubernetes
     insecureSkipVerify: true
   serviceMonitor:
-    enabled: false
+    enabled: true
     ## Scrape interval. If not set, the Prometheus default scrape interval is used.
     ##
     interval: ""
@@ -1601,7 +1614,7 @@ kubelet:
   namespace: kube-system
 
   serviceMonitor:
-    enabled: false
+    enabled: true
     ## Enable scraping /metrics from kubelet's service
     kubelet: true
 
@@ -1842,7 +1855,7 @@ kubeControllerManager:
 
   ## If your kube controller manager is not deployed as a pod, specify IPs it can be found on
   ##
-  endpoints: ["192.168.122.32"]
+  endpoints: []
   # - 10.141.4.22
   # - 10.141.4.23
   # - 10.141.4.24
@@ -2125,7 +2138,7 @@ kubeDns:
 ## Component scraping etcd
 ##
 kubeEtcd:
-  enabled: false
+  enabled: true
 
   ## If your etcd is not deployed as a pod, specify IPs it can be found on
   ##
@@ -2144,8 +2157,8 @@ kubeEtcd:
       enabled: false
       ipFamilies: ["IPv6", "IPv4"]
       ipFamilyPolicy: "PreferDualStack"
-    # selector:
-    #   component: etcd
+    selector:
+      component: kube-apiserver 
 
   ## Configure secure access to the etcd cluster by loading a secret into prometheus and
   ## specifying security configuration below. For example, with a secret named etcd-client-cert
@@ -2238,7 +2251,7 @@ kubeScheduler:
 
   ## If your kube scheduler is not deployed as a pod, specify IPs it can be found on
   ##
-  endpoints: ["192.168.122.32"]
+  endpoints: []
   # - 10.141.4.22
   # - 10.141.4.23
   # - 10.141.4.24
@@ -2340,11 +2353,11 @@ kubeScheduler:
 ## Component scraping kube proxy
 ##
 kubeProxy:
-  enabled: true
+  enabled: false
 
   ## If your kube proxy is not deployed as a pod, specify IPs it can be found on
   ##
-  endpoints: ["192.168.122.32"]
+  endpoints: []
   # - 10.141.4.22
   # - 10.141.4.23
   # - 10.141.4.24
@@ -2437,7 +2450,12 @@ kubeStateMetrics:
 ## Configuration for kube-state-metrics subchart
 ##
 kube-state-metrics:
-  namespaceOverride: ""
+  fullnameOverride: kube-state-metrics
+  metricLabelsAllowlist:
+    - pods=[*]
+    - deployments=[*]
+    - persistentvolumeclaims=[*]
+
   rbac:
     create: true
   releaseLabel: true
@@ -2502,13 +2520,12 @@ kube-state-metrics:
       ## RelabelConfigs to apply to samples before scraping
       ## ref: https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/api-reference/api.md#relabelconfig
       ##
-      relabelings: []
-      # - sourceLabels: [__meta_kubernetes_pod_node_name]
-      #   separator: ;
-      #   regex: ^(.*)$
-      #   targetLabel: nodename
-      #   replacement: $1
-      #   action: replace
+      relabelings:
+        - action: replace
+          regex: (.*)
+          replacement: $1
+          sourceLabels: ["__meta_kubernetes_pod_node_name"]
+          targetLabel: kubernetes_node
 
   selfMonitor:
     enabled: false
@@ -2532,7 +2549,7 @@ nodeExporter:
 ## Configuration for prometheus-node-exporter subchart
 ##
 prometheus-node-exporter:
-  namespaceOverride: ""
+  fullnameOverride: node-exporter
   podLabels:
     ## Add the 'node-exporter' label to be used by serviceMonitor to match standard common usage in rules and grafana dashboards
     ##
@@ -2601,7 +2618,12 @@ prometheus-node-exporter:
       ## RelabelConfigs to apply to samples before scraping
       ## ref: https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/api-reference/api.md#relabelconfig
       ##
-      relabelings: []
+      relabelings:
+        - action: replace
+          regex: (.*)
+          replacement: $1
+          sourceLabels: ["__meta_kubernetes_pod_node_name"]
+          targetLabel: kubernetes_node
       # - sourceLabels: [__meta_kubernetes_pod_node_name]
       #   separator: ;
       #   regex: ^(.*)$
@@ -3554,7 +3576,7 @@ prometheus:
   ## Configuration for Prometheus service
   ##
   service:
-    enabled: false
+    enabled: true
     annotations: {}
     labels: {}
     clusterIP: ""
@@ -4064,7 +4086,7 @@ prometheus:
 
     ## External labels to add to any time series or alerts when communicating with external systems
     ##
-    externalLabels: {cluster: "JeanKluster"}
+    externalLabels: {cluster: "klusterfox"}
 
     ## enable --web.enable-remote-write-receiver flag on prometheus-server
     ##
@@ -4072,7 +4094,7 @@ prometheus:
 
     ## Name of the external label used to denote replica name
     ##
-    replicaExternalLabelName: "__replica__"
+    replicaExternalLabelName: ""
 
     ## If true, the Operator won't add the external label used to denote replica name
     ##
@@ -4384,7 +4406,7 @@ prometheus:
     #      resources:
     #        requests:
     #          storage: 50Gi
-    #    selector: {}
+    #      selector: {}
 
     ## Using tmpfs volume
     ##
