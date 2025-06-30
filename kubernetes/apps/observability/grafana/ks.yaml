@@ -15,7 +15,7 @@ spec:
   dependsOn:
     - name: vault-secrets-operator
       namespace: vault
-    - name: kube-prom-stack
+    - name: kube-prometeus-stack
       namespace: observability
   decryption:
     provider: sops
