@@ -4,4 +4,4 @@ metadata:
   name: restore-back
   namespace: longhorn-system
 spec:
-  systemBackup: back-scale
+  systemBackup: back-scale2
