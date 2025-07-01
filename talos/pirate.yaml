@@ -73,7 +73,6 @@ machine:
         hostname: pirate
         interfaces:
             - interface: eth0
-              dhcp: true
               vip:
                 ip: 192.168.1.5
     # # `interfaces` is used to define the network interface configuration.
@@ -564,7 +563,7 @@ sops:
             Vk1UdWFuSTBkb1FLUXJmT29UamhDSjgKWh4W+X+cMhWFWmIetsFUcC9yDWKGUZZe
             hMj2Yk7cIuxmxI/z3MgV4BLadV6FXF8jYuAEE9Mr/TDpprIfgUVUeg==
             -----END AGE ENCRYPTED FILE-----
-    lastmodified: "2025-06-29T23:25:17Z"
-    mac: ENC[AES256_GCM,data:toHoNuCXU7iuPsUX6BKfOtgJz1DOnOHKEmgTLyMP9kFIzSI05Jjw/cgYwh+T3XTQKFm/+iSOKehwZUs41iaC58dv4ICf2mGgJd/OtvhDk6U/w9/tL5Ll8Ex6FgcKnzsI0cGuQ0YRnCUdkmo/7FWmZVltqx/EeBl78bnv+ApSSV4=,iv:v8BctlsevKwxu+5m+RnU20/JMfOdagRKzkPZee/9Jh0=,tag:BwO/UoI+YIVJ8tx+qnezmw==,type:str]
+    lastmodified: "2025-07-01T05:47:08Z"
+    mac: ENC[AES256_GCM,data:4fMub2cSFzlaJWf86sBeG1yp4dEimSQoE/kgDJkwGs78qClL6FOmQVJJud7S/u5fSBT07ng3jX7hmxROQIsY57UxA30sWdvkvYId2F8BvbnCjKeid0QF6bvtOcSyY+wdFrvfXpfPfkQ4a3wSiCEI834H85Nxb29LBw9XAeIm9kM=,iv:1WG4v8sMLj9qh14n3wBQcVUHXA6UM65hBybQ7FShhbM=,tag:riRRMSbXdv1bGvoBMLu/yA==,type:str]
     encrypted_regex: ^(certs|ca|secret|secret.*|serviceAccount|aggregatorCA|token|id|key)$
     version: 3.10.2

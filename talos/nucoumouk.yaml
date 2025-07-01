@@ -73,7 +73,6 @@ machine:
         hostname: nucoumouk
         interfaces:
             - interface: eth0
-              dhcp: true
               vip:
                 ip: 192.168.1.5
     # # `interfaces` is used to define the network interface configuration.
@@ -565,7 +564,7 @@ sops:
             UTNWK1J4VVRQdW1pWWl5VzR6VDUxSjgKgozZ8bG/SDcTB4mxo1yy79dtqcc2waWF
             QlSyDxleYGEgiO0elTNzgpGxK3GRpRWGIp0lbFcsabf/Pan54ubEfw==
             -----END AGE ENCRYPTED FILE-----
-    lastmodified: "2025-06-29T23:25:09Z"
-    mac: ENC[AES256_GCM,data:AcFeytRs/ozLfe4NqKJbf7JYOM/s8sBKpYwvbrN1y5uK+c371IG4Vap0DlJiDmeH2W7STdZGQV7N+Dx0NFTsA/OqUkC8vVuvrSRsKKQCeRb9sHSDbhWZfkJ7eqODpslilDvbG6Say2glGD7VxktJ6tSqEu3AAsRgljijIeh1ISw=,iv:ZqTPUt6ytLZKp8rUiv6wvcHUQOzZC/uUuVDmpd1+q3Y=,tag:t7arXKxXk2HST5Siazvrsg==,type:str]
+    lastmodified: "2025-07-01T05:47:20Z"
+    mac: ENC[AES256_GCM,data:iZcQln6c2w94joYbZcp1dYPn07V3FZcX3RH0ZQ2+NChuumv50bVQrqkOMUZwDl1gtB2ehOuP37fBOOpSkxR/8nQ56XZhC+wF6M73GAc+9uX2VQNsW4UdDXwM6+pdOlCzVwBfayvrLCNhupKF/H9PuYuwTtAAujXzRNxAb3YdFc0=,iv:ty7YJVjMz5ZmOGgnwmwgVBpstrIFBjEuMTPaIfhxHTY=,tag:DFXY+vkwu4DxDEvAyna6KA==,type:str]
     encrypted_regex: ^(certs|ca|secret|secret.*|serviceAccount|aggregatorCA|token|id|key)$
     version: 3.10.2
