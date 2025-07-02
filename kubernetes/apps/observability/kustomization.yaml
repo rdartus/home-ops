@@ -7,5 +7,6 @@ resources:
   - ./namespace.yaml
   - ./kube-prometeus-stack/ks.yaml
   - ./grafana/ks.yaml
+  - ./kromgo/ks.yaml
 components:
   - ../../components/flux/sops
