@@ -128,7 +128,7 @@ controllers:
 
         env:
           # VITE_API_URL: http://localhost:3001
-          VITE_API_URL: https://library-ws.hallais.bzh
+          VITE_API_URL: https://kubotheque-ws.dartus.fr
 
 
       sql:
