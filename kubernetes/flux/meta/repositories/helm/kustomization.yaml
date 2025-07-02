@@ -22,4 +22,5 @@ resources:
   - ./headlamp.yaml
   - ./tailscale.yaml
   - ./openEBS.yaml
+  - ./grafana.yaml
   # - ./local-path-provisioner.yaml
