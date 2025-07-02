@@ -22,8 +22,6 @@ grafana.ini:
     enabled: true
     name: Athentik
     allow_sign_up: true
-    client_id: client_id
-    client_secret: client_secret
     scopes: openid email profile offline_access roles
     email_attribute_path: email
     login_attribute_path: username
