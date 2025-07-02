@@ -743,10 +743,27 @@ ingress:
               # identifier: main
               # -- Overrides the service port number reference for this path
               # port: 9696
+      -  # -- Host address. Helm template can be passed.
+        host: kubotheque-ws.dartus.fr
+        ## Configure the paths for the host
+        paths:
+          -  # -- Path.  Helm template can be passed.
+            path: /
+            pathType: Prefix
+            service:
+              # -- Overrides the service name reference for this path
+              # The service name to reference.
+              identifier: ws
+              port: http              
+              # # -- Reference a service identifier from this values.yaml
+              # identifier: main
+              # -- Overrides the service port number reference for this path
+              # port: 9696
 
     tls:
       - hosts:
         - kubotheque.dartus.fr
+        - kubotheque-ws.dartus.fr
         secretName: kubotheque.dartus.fr-tls
 
 
