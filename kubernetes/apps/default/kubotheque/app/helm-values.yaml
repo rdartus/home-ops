@@ -640,7 +640,18 @@ service:
         # # -- Specify the appProtocol value for the Service.
         # # [[ref]](https://kubernetes.io/docs/concepts/services-networking/service/#application-protocol)
         # appProtocol:
-
+  ws:
+    # -- Enables or disables the service
+    enabled: true
+    # -- Configure which controller this service should target
+    controller: ws
+    # -- Set the service type
+    type: ClusterIP
+    ports:
+      http:
+        enabled: true
+        port: 3000
+        protocol: HTTP
 
 #   main:
   #   # -- Enables or disables the service
