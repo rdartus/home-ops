@@ -5,14 +5,13 @@ metadata:
   name: kromgo
 spec:
   interval: 30m
-  timeout: 15m
   chart:
     spec:
-      chart: kromgo
-      version: 9.2.9
+      chart: app-template
+      version: 4.0.1
       sourceRef:
         kind: HelmRepository
-        name: kromgo
+        name: bjw-s
         namespace: flux-system
   install:
     remediation:
