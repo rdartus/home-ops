@@ -644,7 +644,7 @@ service:
     # -- Enables or disables the service
     enabled: true
     # -- Configure which controller this service should target
-    controller: ws
+    controller: main
     # -- Set the service type
     type: ClusterIP
     ports:
