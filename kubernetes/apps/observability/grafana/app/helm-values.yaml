@@ -27,9 +27,11 @@ grafana.ini:
     email_attribute_path: email
     login_attribute_path: username
     name_attribute_path: full_name
+    auto_login: true 
     auth_url: https://authentik.dartus.fr/application/o/authorize/
     token_url: https://authentik.dartus.fr/application/o/token/
     api_url: https://authentik.dartus.fr/application/o/userinfo/
+    signout_redirect_url: https://authentik.dartus.fr/application/o/grafana/end-session/
     role_attribute_path: contains(groups, 'authentik Admins') && 'Admin' || contains(groups, 'Pirates') && 'Editor' || 'Viewer'
   news:
     news_feed_enabled: false
