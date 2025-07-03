@@ -36,6 +36,18 @@ controllers:
             cpu: 10m
           limits:
             memory: 64Mi
+      tools:
+        dependsOn: []
+        image:
+          repository: alpine/git
+          tag: latest
+          # -- image pull policy
+          pullPolicy: IfNotPresent
+        command:
+          - "sh"
+          - "-c"
+          - "while true; do sleep 6000; done"
+
 defaultPodOptions:
   securityContext:
     runAsNonRoot: true
