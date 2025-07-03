@@ -10,7 +10,7 @@ spec:
     - client auth
   commonName: streaming_replica
   issuerRef:
-    name: selfsigned-issuer
+    name: selfsigned
     kind: ClusterIssuer
     group: cert-manager.io
   secretTemplate:
