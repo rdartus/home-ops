@@ -8,3 +8,8 @@ resources:
   - ./issuer-zerossl.yaml
   - ./zerossl-secret-key.yaml
   - ./zerossl-auth.yaml
+  - ./issuer-selfsigned.yaml
+  - ./cnpg-server-secret.yaml
+  - ./cnpg-server-cert.yaml
+  - ./cnpg-client-secret.yaml
+  - ./cnpg-client-cert.yaml

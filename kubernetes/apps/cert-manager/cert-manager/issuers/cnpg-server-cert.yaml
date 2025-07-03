@@ -1,0 +1,25 @@
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: cnpg-server-cert
+  namespace: cert-manager
+spec:
+  secretName: cnpg-server-cert
+  usages:
+    - server auth
+  dnsNames:
+    - cluster-example-lb.internal.mydomain.net
+    - cluster-example-rw
+    - cluster-example-rw.default
+    - cluster-example-rw.default.svc
+    - cluster-example-r
+    - cluster-example-r.default
+    - cluster-example-r.default.svc
+    - cluster-example-ro
+    - cluster-example-ro.default
+    - cluster-example-ro.default.svc
+  issuerRef:
+    name: selfsigned-issuer
+    kind: Issuer
+    group: cert-manager.io
