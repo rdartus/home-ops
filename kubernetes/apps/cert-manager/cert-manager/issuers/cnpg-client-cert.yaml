@@ -13,3 +13,9 @@ spec:
     name: selfsigned-issuer
     kind: ClusterIssuer
     group: cert-manager.io
+  secretTemplate:
+    annotations:
+      replicator.v1.mittwald.de/replication-allowed: "true"  # permit replication
+      replicator.v1.mittwald.de/replication-allowed-namespaces: "database,default"  # comma separated list of namespaces or regular expressions
+    labels:
+      cnpg.io/reload: ""

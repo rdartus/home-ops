@@ -10,7 +10,11 @@ metadata:
 
 spec:
   instances: 2
-
+  certificates:
+    serverTLSSecret: cnpg-server-cert
+    serverCASecret: cnpg-server-cert
+    clientCASecret: cnpg-client-cert
+    replicationTLSSecret: cnpg-client-cert
   imageName: ghcr.io/cloudnative-pg/postgresql:17.0
 
   # Example of rolling update strategy:

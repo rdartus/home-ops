@@ -23,4 +23,5 @@ resources:
   - ./tailscale.yaml
   - ./openEBS.yaml
   - ./grafana.yaml
+  - ./mittwald.yaml
   # - ./local-path-provisioner.yaml

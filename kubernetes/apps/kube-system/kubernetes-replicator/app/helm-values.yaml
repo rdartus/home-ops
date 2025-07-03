@@ -1,0 +1,86 @@
+image:
+  repository: quay.io/mittwald/kubernetes-replicator
+  #tag: stable # if no tag is given, the chart's appVersion is used
+  pullPolicy: Always
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+grantClusterAdmin: false
+automountServiceAccountToken: true
+# args:
+# - -resync-period=30m
+# - -allow-all=false
+replicationEnabled:
+  secrets: true
+  configMaps: true
+  roles: true
+  roleBindings: true
+  serviceAccounts: true
+
+## Deployment strategy / DaemonSet updateStrategy
+##
+updateStrategy: {}
+#   type: RollingUpdate
+#   rollingUpdate:
+#     maxUnavailable: 1
+
+serviceAccount:
+  create: true
+  annotations: {}
+  name:
+  privileges: []
+  automountServiceAccountToken: true
+  # - apiGroups: [""]
+  #   resources: ["configmaps"]
+podSecurityContext: {}
+  # fsGroup: 2000
+
+securityContext: {}
+  # capabilities:
+  #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  # runAsUser: 1000
+
+priorityClassName: ""
+
+resources: {}
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
+
+# Deployment annotations
+annotations: {}
+
+# Deployment labels
+labels: {}
+
+# Pod annotations
+podAnnotations: {}
+
+# Pod labels
+podLabels: {}
+
+livenessProbe:
+  initialDelaySeconds: 60
+  periodSeconds: 10
+  timeoutSeconds: 1
+  failureThreshold: 3
+  successThreshold: 1
+
+readinessProbe:
+  initialDelaySeconds: 60
+  periodSeconds: 10
+  timeoutSeconds: 1
+  failureThreshold: 3
+  successThreshold: 1
