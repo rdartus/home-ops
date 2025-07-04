@@ -24,4 +24,5 @@ resources:
   - ./openEBS.yaml
   - ./grafana.yaml
   - ./mittwald.yaml
+  - ./zitadel.yaml
   # - ./local-path-provisioner.yaml
