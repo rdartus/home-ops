@@ -20,3 +20,4 @@ resources:
   - ./books/ks.yaml
   - ./livres/ks.yaml
   - ./kubotheque/ks.yaml
+  - ./zitadel/ks.yaml

@@ -18,3 +18,4 @@ resources:
   - ./db-radarr-main.yaml
   - ./db-sonarr-log.yaml
   - ./db-sonarr-main.yaml
+  - ./db-zitadel.yaml

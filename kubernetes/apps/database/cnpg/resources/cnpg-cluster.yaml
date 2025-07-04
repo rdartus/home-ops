@@ -53,6 +53,14 @@ spec:
       login: true
       passwordSecret:
         name: tand-secret
+    - name: vauban
+      connectionLimit: -1
+      inherit: true
+      ensure: present
+      comment: zitadel user 
+      login: true
+      passwordSecret:
+        name: tand-secret
 
   bootstrap:
     initdb:
