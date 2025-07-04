@@ -48,7 +48,7 @@ zitadel:
   masterkey: ""
   # Reference the name of the secret that contains the masterkey. The key should be named "masterkey".
   # Note: Either zitadel.masterkey or zitadel.masterkeySecretName must be set
-  masterkeySecretName: ""
+  masterkeySecretName: "zitadel-masterkey"
 
   # Annotations set on masterkey secret
   masterkeyAnnotations:
@@ -220,15 +220,21 @@ service:
   scheme: HTTP
 
 ingress:
-  enabled: false
-  className: ""
-  annotations: {}
+  enabled: true
+  className: "traefik-ingresses"
+  annotations:
+    hajimari.io/enable: "true"
+    hajimari.io/group: "Media"
+    hajimari.io/icon: "bookshelf"
+    hajimari.io/appName: "livres"
+    cert-manager.io/cluster-issuer: zerossl-prod
+
   hosts:
-    - host: localhost
+    - host: zitadel.darttus.fr
       paths:
         - path: /
           pathType: Prefix
-  tls: []
+  tls: [zitadel.darttus.fr-tls]
 
 resources: {}
 

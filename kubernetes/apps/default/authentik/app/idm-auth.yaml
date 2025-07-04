@@ -1,7 +1,7 @@
 apiVersion: secrets.hashicorp.com/v1beta1
 kind: VaultAuth
 metadata:
-  name: authentik-auth
+  name: idm-auth
   namespace: default
   annotations:
     argocd.argoproj.io/sync-wave: "10"
@@ -10,7 +10,7 @@ spec:
   method: kubernetes
   mount: kubernetes
   kubernetes:
-    role: rlauthentik
+    role: rlidm
     serviceAccount: authentik
     audiences:
       - vault

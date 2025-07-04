@@ -54,7 +54,7 @@ data:
     path "kv-v2/data/pgadmin" {
       capabilities = ["read"]
     }
-  authentik-policy.json: |
+  idm-policy.json: |
 
     path "kv-v2/data/smtp/*" {
       capabilities = ["read"]
@@ -72,6 +72,9 @@ data:
       capabilities = ["read"]
     }
     path "kv-v2/data/default/*" {
+      capabilities = ["read"]
+    }
+    path "kv-v2/data/zitadel/*" {
       capabilities = ["read"]
     }
   kubeprom-policy.json: |
@@ -180,6 +183,7 @@ data:
         vault kv put kv-v2/postgresql/arr username="@/config/cred/DB-arr-user" password="@/config/cred/DB-arr-password"
         vault kv put kv-v2/postgresql/auth username="@/config/cred/DB-auth-user" password="@/config/cred/DB-auth-password"
         vault kv put kv-v2/postgresql/tand username="@/config/cred/DB-tand-user" password="@/config/cred/DB-tand-password"
+        vault kv put kv-v2/postgresql/vauban username="@/config/cred/vauban" password="@/config/cred/DB-vauban-password"
         vault kv put kv-v2/ssh key="@/config/cred/key"
         vault kv put kv-v2/arr/config sonarrKey="@/config/cred/sonarrKey" prowlarrKey="@/config/cred/prowlarrKey" radarrKey="@/config/cred/radarrKey"
         vault kv put kv-v2/default/config username="admin" password="@/config/cred/default-password" passwordPBKDF2="@/config/cred/default-passwordPBKDF2"
@@ -195,6 +199,7 @@ data:
         vault kv put kv-v2/tandoor key="@/config/cred/tandoorKey" oidcProvider="@/config/cred/tandoorSocialProvider"
         vault kv put kv-v2/zerossl keyID="@/config/cred/zeroSSLID" HMAC="@/config/cred/zeroSSLHMAC"
         vault kv put kv-v2/pgadmin oidcSecret="@/config/cred/pgadminOIDCSecret" oidcClient="@/config/cred/pgadminOIDCClient"
+        vault kv put kv-v2/zitadel masterkey="@/config/cred/zitadel-masterkey"
         vault kv put kv-v2/gitOps OIDC_CLIENT_ID="@/config/cred/gitOpsOIDCClient" OIDC_CLIENT_SECRET="@/config/cred/gitOpsOIDCSecret" OIDC_SCOPES="openid profile email" OIDC_ISSUER_URL="https://authentik.dartus.fr/application/o/gitops/"
         vault kv put kv-v2/scale/operator-oauth client_id="@/config/cred/tailscaleOIDCClient" client_secret="@/config/cred/tailscaleOIDCSecret"
         vault kv put kv-v2/wireguard oidcSecret="@/config/cred/gitOpsOIDCSecret" oidcClient="@/config/cred/gitOpsOIDCClient"
@@ -210,7 +215,7 @@ data:
         vault policy write plcddns-updater /config/scripts/ddns-updater-policy.json        
         vault policy write plcarr /config/scripts/arr-policy.json        
         vault policy write plcdefault /config/scripts/default-policy.json     
-        vault policy write plcauthentik /config/scripts/authentik-policy.json     
+        vault policy write plcidm /config/scripts/idm-policy.json     
         vault policy write plckubeprom /config/scripts/kubeprom-policy.json     
         vault policy write plcwx /config/scripts/wx-policy.json        
         vault policy write plctandoor /config/scripts/tandoor-policy.json        
@@ -284,10 +289,10 @@ data:
         audience=vault\
         ttl=24h
 
-        vault write auth/kubernetes/role/rlauthentik \
+        vault write auth/kubernetes/role/rlidm \
         bound_service_account_names=authentik \
         bound_service_account_namespaces=default \
-        policies=plcauthentik \
+        policies=plcidm \
         audience=vault\
         ttl=24h
 
