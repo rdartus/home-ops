@@ -25,7 +25,6 @@ spec:
     group: cert-manager.io
   secretTemplate:
     annotations:
-      replicator.v1.mittwald.de/replication-allowed: "true"  # permit replication
-      replicator.v1.mittwald.de/replication-allowed-namespaces: "database,default"  # comma separated list of namespaces or regular expressions
+      replicator.v1.mittwald.de/replicate-to: "database,default"  # comma separated list of namespaces or regular expressions
     labels:
       cnpg.io/reload: ""
