@@ -21,7 +21,7 @@ spec:
     - cluster-example-ro.default.svc
   issuerRef:
     name: selfsigned
-    kind: Issuer
+    kind: ClusterIssuer
     group: cert-manager.io
   secretTemplate:
     annotations:
