@@ -120,9 +120,9 @@ controllers:
 
         image:
           # -- image repository
-          repository: nespouique/library-front
+          repository: library-front
           # -- image tag
-          tag: sha256:0efd21f886de1ffae5fed2f71137ec9f27fe4d7acb22b9b5b50e921c2029e412
+          tag: latest
           # -- image pull policy
           pullPolicy: IfNotPresent
 
