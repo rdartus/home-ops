@@ -35,6 +35,8 @@ spec:
   dependsOn:
     - name: cnpg
       namespace: *namespace
+    - name: kubernetes-replicator
+      namespace: kube-system
   prune: true
   sourceRef:
     kind: GitRepository
