@@ -120,7 +120,7 @@ controllers:
 
         image:
           # -- image repository
-          repository: library-front
+          repository: nespouique/library-ws
           # -- image tag
           tag: latest
           # -- image pull policy
