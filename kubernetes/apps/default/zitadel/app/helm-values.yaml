@@ -226,15 +226,15 @@ ingress:
     hajimari.io/enable: "true"
     hajimari.io/group: "Media"
     hajimari.io/icon: "bookshelf"
-    hajimari.io/appName: "livres"
+    hajimari.io/appName: "zitadel"
     cert-manager.io/cluster-issuer: zerossl-prod
 
   hosts:
-    - host: zitadel.darttus.fr
+    - host: zitadel.dartus.fr
       paths:
         - path: /
           pathType: Prefix
-  tls: [zitadel.darttus.fr-tls]
+  tls: [zitadel.dartus.fr-tls]
 
 resources: {}
 
