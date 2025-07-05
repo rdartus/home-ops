@@ -234,7 +234,10 @@ ingress:
       paths:
         - path: /
           pathType: Prefix
-  tls: [zitadel.dartus.fr-tls]
+  tls:
+  - hosts:
+      - zitadel.dartus.fr
+    secretName: zitadel.dartus.fr-tls
 
 resources: {}
 
