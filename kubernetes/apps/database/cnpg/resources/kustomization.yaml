@@ -7,7 +7,6 @@ resources:
   - ./cnpg-arr-secret.yaml
   - ./cnpg-auth-secret.yaml
   - ./cnpg-auth.yaml
-  - ./cnpg-secret.yaml
   - ./cnpg-superuser-secret.yaml
   - ./cnpg-tand-secret.yaml
   - ./cnpg-vauban-secret.yaml
