@@ -290,7 +290,7 @@ data:
         ttl=24h
 
         vault write auth/kubernetes/role/rlidm \
-        bound_service_account_names=authentik \
+        bound_service_account_names=authentik,default \
         bound_service_account_namespaces=default \
         policies=plcidm \
         audience=vault\
