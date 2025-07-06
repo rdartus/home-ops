@@ -5,7 +5,7 @@ zitadel:
   # https://github.com/zitadel/zitadel/blob/main/cmd/defaults.yaml
   configmapConfig:
     ExternalSecure: false
-    ExternalDomain: 127.0.0.1.sslip.io
+    ExternalDomain: zitadel.dartus.fr
     TLS:
       Enabled: false
     Database:
@@ -20,12 +20,12 @@ zitadel:
         User:
           Username: vauban
           SSL:
-            Mode: disabled
+            Mode: disable
         Admin:
           ExistingDatabase: zitadel
           Username: vauban
           SSL:
-            Mode: disabled
+            Mode: disable
 
   # The ZITADEL config under secretConfig is written to a Kubernetes Secret
   # See all defaults here:
@@ -65,14 +65,14 @@ zitadel:
     helm.sh/hook-delete-policy: before-hook-creation
     helm.sh/hook-weight: "0"
 
-  # # The Secret containing the CA certificate at key ca.crt needed for establishing secure database connections
-  # dbSslCaCrtSecret: "cnpg-server-cert"
+  # The Secret containing the CA certificate at key ca.crt needed for establishing secure database connections
+  dbSslCaCrtSecret: "cnpg-server-cert"
 
-  # # The db admins secret containing the client certificate and key at tls.crt and tls.key needed for establishing secure database connections
-  # dbSslAdminCrtSecret: "cnpg-server-cert"
+  # The db admins secret containing the client certificate and key at tls.crt and tls.key needed for establishing secure database connections
+  dbSslAdminCrtSecret: "cnpg-server-cert"
 
-  # # The db users secret containing the client certificate and key at tls.crt and tls.key needed for establishing secure database connections
-  # dbSslUserCrtSecret: "cnpg-client-cert"
+  # The db users secret containing the client certificate and key at tls.crt and tls.key needed for establishing secure database connections
+  dbSslUserCrtSecret: "cnpg-client-cert"
 
   # The Secret containing the certificate at key tls.crt and tls.key for listening on HTTPS
   serverSslCrtSecret: ""
