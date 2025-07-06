@@ -24,8 +24,8 @@ zitadel:
         Admin:
           ExistingDatabase: zitadel
           # Username: postgres
-          # SSL:
-          #   Mode: disable
+          SSL:
+            Mode: disable
 
   # The ZITADEL config under secretConfig is written to a Kubernetes Secret
   # See all defaults here:
