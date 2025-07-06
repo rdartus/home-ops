@@ -23,6 +23,7 @@ zitadel:
             Mode: disable
         Admin:
           ExistingDatabase: zitadel
+          Username: vauban
           # Username: postgres
           SSL:
             Mode: disable
@@ -195,11 +196,11 @@ env:
       secretKeyRef:
         name: vauban-secret
         key: password
-  # - name: ZITADEL_DATABASE_POSTGRES_ADMIN_PASSWORD
-  #   valueFrom:
-  #     secretKeyRef:
-  #       name: superuser-secret
-  #       key: password
+  - name: ZITADEL_DATABASE_POSTGRES_ADMIN_PASSWORD
+    valueFrom:
+      secretKeyRef:
+        name: vauban-secret
+        key: password
 
 # Additional environment variables from the given secret name
 # Zitadel can be configured using environment variables from a secret.
