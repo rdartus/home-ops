@@ -12,6 +12,13 @@ spec:
   interval: 7m
   path: ./kubernetes/apps/default/zitadel/app
   prune: true
+  dependsOn:
+    - name: vault-secrets-operator
+      namespace: vault
+    - name: traefik
+      namespace: network
+    - name: pg-restore
+      namespace: database
   sourceRef:
     kind: GitRepository
     name: flux-system
