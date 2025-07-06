@@ -210,6 +210,8 @@ env:
       secretKeyRef:
         name: default-secret
         key: secpassword
+  - name: ZITADEL_FIRSTINSTANCE_ORG_HUMAN_PASSWORDCHANGEREQUIRED
+    value: false
 
 # Additional environment variables from the given secret name
 # Zitadel can be configured using environment variables from a secret.
