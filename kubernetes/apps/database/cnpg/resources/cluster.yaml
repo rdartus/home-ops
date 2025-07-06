@@ -89,6 +89,7 @@ spec:
       #   - name: pgsql-secret
       #     key: init-DB
       postInitSQL:
+        - CREATE ROLE vauban WITH LOGIN
         - CREATE DATABASE "zitadel"
         - ALTER DATABASE "zitadel" OWNER TO vauban
         - GRANT CONNECT, CREATE ON DATABASE zitadel TO vauban;
