@@ -89,6 +89,8 @@ spec:
       #   - name: pgsql-secret
       #     key: init-DB
       postInitSQL:
+        - CREATE DATABASE "zitadel"
+        - ALTER DATABASE "zitadel" OWNER TO vauban
         - GRANT CONNECT, CREATE ON DATABASE zitadel TO vauban;
       #   - CREATE DATABASE "sonarr-log"
       #   - ALTER DATABASE "sonarr-log" OWNER TO "{{ .Values.db.arr_user }}"
