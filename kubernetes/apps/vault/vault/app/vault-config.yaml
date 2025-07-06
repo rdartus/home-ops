@@ -192,7 +192,7 @@ data:
         vault kv put kv-v2/postgresql/vauban username="@/config/cred/DB-vauban-user" password="@/config/cred/DB-vauban-password"
         vault kv put kv-v2/ssh key="@/config/cred/key"
         vault kv put kv-v2/arr/config sonarrKey="@/config/cred/sonarrKey" prowlarrKey="@/config/cred/prowlarrKey" radarrKey="@/config/cred/radarrKey"
-        vault kv put kv-v2/default/config username="admin" password="@/config/cred/default-password" passwordPBKDF2="@/config/cred/default-passwordPBKDF2"
+        vault kv put kv-v2/default/config username="admin" password="@/config/cred/default-password" passwordPBKDF2="@/config/cred/default-passwordPBKDF2" secpassword="@/config/cred/default-sec-password"
         vault kv put kv-v2/default/smb username="jeank" password="@/config/cred/jeank-smb"
         vault kv put kv-v2/default/smb-longhorn CIFS_USERNAME="jeank" CIFS_PASSWORD="@/config/cred/jeank-smb"
         vault kv put kv-v2/crowdsec/config enroll_key="@/config/cred/crowdsec_enroll_key" bouncer_traefik="@/config/cred/crowdsec_bouncer_traefik"

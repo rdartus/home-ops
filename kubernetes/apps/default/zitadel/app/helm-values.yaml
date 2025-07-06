@@ -209,7 +209,7 @@ env:
     valueFrom:
       secretKeyRef:
         name: default-secret
-        key: password
+        key: secpassword
 
 # Additional environment variables from the given secret name
 # Zitadel can be configured using environment variables from a secret.
