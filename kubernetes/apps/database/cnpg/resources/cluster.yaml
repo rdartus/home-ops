@@ -88,7 +88,8 @@ spec:
       #     key: init-prowlarr-main
       #   - name: pgsql-secret
       #     key: init-DB
-      # postInitSQL:
+      postInitSQL:
+        - GRANT CONNECT, CREATE ON DATABASE zitadel TO vauban;
       #   - CREATE DATABASE "sonarr-log"
       #   - ALTER DATABASE "sonarr-log" OWNER TO "{{ .Values.db.arr_user }}"
       #   - CREATE DATABASE "sonarr-main"

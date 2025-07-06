@@ -23,9 +23,9 @@ zitadel:
             Mode: disable
         Admin:
           ExistingDatabase: zitadel
-          Username: vauban
-          SSL:
-            Mode: disable
+          # Username: vauban
+          # SSL:
+          #   Mode: disable
 
   # The ZITADEL config under secretConfig is written to a Kubernetes Secret
   # See all defaults here:
