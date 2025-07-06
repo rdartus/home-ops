@@ -62,6 +62,9 @@ data:
     path "kv-v2/data/authentik/*" {
       capabilities = ["read"]
     }
+    path "kv-v2/data/postgresql/superuser" {
+      capabilities = ["read"]
+    }
     path "kv-v2/data/postgresql/auth" {
       capabilities = ["read"]
     }
