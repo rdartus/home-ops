@@ -200,6 +200,16 @@ env:
       secretKeyRef:
         name: superuser-secret
         key: password
+  - name: ZITADEL_FIRSTINSTANCE_ORG_HUMAN_USERNAME
+    valueFrom:
+      secretKeyRef:
+        name: default-secret
+        key: username
+  - name: ZITADEL_FIRSTINSTANCE_ORG_HUMAN_PASSWORD
+    valueFrom:
+      secretKeyRef:
+        name: default-secret
+        key: password
 
 # Additional environment variables from the given secret name
 # Zitadel can be configured using environment variables from a secret.

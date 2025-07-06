@@ -283,6 +283,7 @@ controllers:
           pg_dump  postgres://$SUPERUSER:$PASSWORD@cnpg-cluster-rw.database.svc.cluster.local/radarr-main -Fc -f /db/dump_radarr
           pg_dump  postgres://$SUPERUSER:$PASSWORD@cnpg-cluster-rw.database.svc.cluster.local/authentik -Fc -f /db/dump_authentik
           pg_dump  postgres://$SUPERUSER:$PASSWORD@cnpg-cluster-rw.database.svc.cluster.local/tandoor -Fc -f /db/dump_tandoor
+          pg_dump  postgres://$SUPERUSER:$PASSWORD@cnpg-cluster-rw.database.svc.cluster.local/zitadel -Fc -f /db/dump_zitadel
 #         # -- Override the args for the container
 #         args: []
 #         # -- Override the working directory for the container
