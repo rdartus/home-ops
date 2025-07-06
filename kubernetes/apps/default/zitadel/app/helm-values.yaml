@@ -139,7 +139,7 @@ zitadel:
     #       exec:
     #         command: ["/cloud-sql-proxy", "wait"]
 
-replicaCount: 3
+replicaCount: 1
 
 image:
   repository: ghcr.io/zitadel/zitadel
