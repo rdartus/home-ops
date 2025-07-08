@@ -1,17 +1,16 @@
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
-  name: zitadel.dartus.fr-tls
+  name: zitadel.self-tls
   namespace: default
 spec:
   dnsNames:
-  - zitadel.dartus.fr
   - zitadel.zitadel.svc.cluster.local
   issuerRef:
     group: cert-manager.io
     kind: ClusterIssuer
-    name: zerossl-prod
-  secretName: zitadel.dartus.fr-tls
+    name: selfsigned
+  secretName: zitadel.self-tls
   usages:
   - digital signature
   - key encipherment

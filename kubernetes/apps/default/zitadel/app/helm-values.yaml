@@ -214,12 +214,12 @@ env:
   - name: ZITADEL_TLS_KEY
     valueFrom:
       secretKeyRef:
-        name: zitadel.dartus.fr-tls
+        name: zitadel.self-tls
         key: tls.key
   - name: ZITADEL_TLS_CZRT
     valueFrom:
       secretKeyRef:
-        name: zitadel.dartus.fr-tls
+        name: zitadel.self-tls
         key: tls.crt
   - name: ZITADEL_FIRSTINSTANCE_ORG_HUMAN_PASSWORDCHANGEREQUIRED
     value: "false"
@@ -251,6 +251,7 @@ ingress:
     hajimari.io/group: "Media"
     hajimari.io/icon: "bookshelf"
     hajimari.io/appName: "zitadel"
+    cert-manager.io/cluster-issuer: zerossl-prod
 
   hosts:
     - host: zitadel.dartus.fr
