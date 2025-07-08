@@ -8,6 +8,7 @@ resources:
   - ./vauban-auth.yaml
   - ./vauban-secret.yaml
   - ./superuser-secret.yaml
+  - ./ssl-cert.yaml
 configMapGenerator:
   - name: zitadel-helm-values
     files:

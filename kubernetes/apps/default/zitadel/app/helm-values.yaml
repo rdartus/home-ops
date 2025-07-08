@@ -240,7 +240,6 @@ ingress:
     hajimari.io/group: "Media"
     hajimari.io/icon: "bookshelf"
     hajimari.io/appName: "zitadel"
-    cert-manager.io/cluster-issuer: zerossl-prod
 
   hosts:
     - host: zitadel.dartus.fr
