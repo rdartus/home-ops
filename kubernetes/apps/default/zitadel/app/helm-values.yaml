@@ -227,7 +227,8 @@ service:
   port: 8080
   protocol: http2
   appProtocol: kubernetes.io/h2c
-  annotations: {}
+  annotations: 
+    traefik.ingress.kubernetes.io/service.serversscheme: h2c
   labels: {}
   scheme: HTTP
 
@@ -240,7 +241,6 @@ ingress:
     hajimari.io/icon: "bookshelf"
     hajimari.io/appName: "zitadel"
     cert-manager.io/cluster-issuer: zerossl-prod
-    traefik.ingress.kubernetes.io/service.serversscheme: h2c
 
   hosts:
     - host: zitadel.dartus.fr
