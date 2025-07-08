@@ -264,7 +264,7 @@ topologySpreadConstraints: []
 
 initJob:
   # Once ZITADEL is installed, the initJob can be disabled.
-  enabled: true
+  enabled: false
   annotations:
     helm.sh/hook: pre-install,pre-upgrade
     helm.sh/hook-delete-policy: before-hook-creation
