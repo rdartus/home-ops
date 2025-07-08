@@ -236,10 +236,9 @@ service:
   # If service type is "LoadBalancer", this can optionally be set to either "Cluster" or "Local"
   externalTrafficPolicy: ""
   port: 8080
-  protocol: http2
+  protocol: https
   appProtocol: kubernetes.io/h2c
   annotations: 
-    traefik.ingress.kubernetes.io/service.serversscheme: h2c
   labels: {}
   scheme: HTTP
 
