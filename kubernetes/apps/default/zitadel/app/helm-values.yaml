@@ -252,6 +252,7 @@ ingress:
     hajimari.io/icon: "bookshelf"
     hajimari.io/appName: "zitadel"
     cert-manager.io/cluster-issuer: zerossl-prod
+    traefik.ingress.kubernetes.io/service.serversscheme: https
 
   hosts:
     - host: zitadel.dartus.fr
