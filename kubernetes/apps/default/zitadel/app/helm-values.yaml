@@ -216,7 +216,7 @@ env:
       secretKeyRef:
         name: zitadel.self-tls
         key: tls.key
-  - name: ZITADEL_TLS_CZRT
+  - name: ZITADEL_TLS_CERT
     valueFrom:
       secretKeyRef:
         name: zitadel.self-tls
