@@ -7,7 +7,7 @@ zitadel:
     ExternalSecure: false
     ExternalDomain: zitadel.dartus.fr
     TLS:
-      Enabled: true
+      Enabled: false
 
     Database:
       Postgres:
@@ -239,7 +239,7 @@ service:
   protocol: http2
   appProtocol: kubernetes.io/h2c
   annotations: 
-    traefik.ingress.kubernetes.io/service.serversscheme: https
+    traefik.ingress.kubernetes.io/service.serversscheme: h2c
   labels: {}
   scheme: HTTP
 
