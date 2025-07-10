@@ -614,7 +614,7 @@ topologySpreadConstraints: []
 
 initJob:
   # Once ZITADEL is installed, the initJob can be disabled.
-  enabled: false
+  enabled: true
   annotations:
     helm.sh/hook: pre-install,pre-upgrade
     helm.sh/hook-delete-policy: before-hook-creation
@@ -632,7 +632,7 @@ initJob:
   # grant: set ALL grant to user
   # user: initialize only the database user
   # zitadel: initialize ZITADEL internals (skip "create user" and "create database")
-  command: ""
+  command: "zitadel"
 
 setupJob:
   annotations:
