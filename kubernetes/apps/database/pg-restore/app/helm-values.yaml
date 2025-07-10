@@ -109,7 +109,7 @@ controllers:
         - -c
         - |
           printenv
-          sleep 3m
+          sleep 1m
           # echo "dump_prowlarr"
           # psql postgres://$SUPERUSER:$PASSWORD@cnpg-cluster-rw.database.svc.cluster.local/prowlarr-main -f /data/dump-k3s/dump_prowlarr
           # echo "dump_sonarr"
