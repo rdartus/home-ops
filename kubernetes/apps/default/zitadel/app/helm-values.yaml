@@ -125,7 +125,7 @@ zitadel:
             Cert: "" # ZITADEL_DATABASE_POSTGRES_ADMIN_SSL_CERT
             Key: "" # ZITADEL_DATABASE_POSTGRES_ADMIN_SSL_KEY
 
-    DefaultInstance:
+    # DefaultInstance:
       # InstanceName: ZITADEL # ZITADEL_DEFAULTINSTANCE_INSTANCENAME
       # DefaultLanguage: fr # ZITADEL_DEFAULTINSTANCE_DEFAULTLANGUAGE
       # Org:
