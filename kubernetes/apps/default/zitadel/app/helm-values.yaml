@@ -526,6 +526,9 @@ env:
       secretKeyRef:
         name: default-secret
         key: secpassword
+  - name: ZITADEL_FIRSTINSTANCE_ORG_HUMAN_PASSWORDCHANGEREQUIRED
+    value: "false"
+
   # - name: ZITADEL_TLS_KEY
   #   valueFrom:
   #     secretKeyRef:
@@ -559,8 +562,6 @@ env:
   #       name: smtp-secret
   #       key: gmail_password
 
-  # - name: ZITADEL_FIRSTINSTANCE_ORG_HUMAN_PASSWORDCHANGEREQUIRED
-  #   value: "false"
 
 # Additional environment variables from the given secret name
 # Zitadel can be configured using environment variables from a secret.
@@ -613,7 +614,7 @@ topologySpreadConstraints: []
 
 initJob:
   # Once ZITADEL is installed, the initJob can be disabled.
-  enabled: true
+  enabled: false
   annotations:
     helm.sh/hook: pre-install,pre-upgrade
     helm.sh/hook-delete-policy: before-hook-creation
