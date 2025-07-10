@@ -536,28 +536,28 @@ env:
   #     secretKeyRef:
   #       name: zitadel.self-tls
   #       key: tls.crt
-  - name: ZITADEL_DEFAULTINSTANCE_SMTPCONFIGURATION_SMTP_HOST
-    value : "smtp.gmail.com:587"
-  - name: ZITADEL_DEFAULTINSTANCE_SMTPCONFIGURATION_SMTP_USER
-    valueFrom:
-      secretKeyRef:
-        name: smtp-secret
-        key: gmail_username
-  - name: ZITADEL_DEFAULTINSTANCE_SMTPCONFIGURATION_FROM
-    valueFrom:
-      secretKeyRef:
-        name: smtp-secret
-        key: gmail_username
-  - name: ZITADEL_DEFAULTINSTANCE_SMTPCONFIGURATION_REPLYTOADDRESS
-    valueFrom:
-      secretKeyRef:
-        name: smtp-secret
-        key: gmail_username
-  - name: ZITADEL_DEFAULTINSTANCE_SMTPCONFIGURATION_SMTP_PASSWORD
-    valueFrom:
-      secretKeyRef:
-        name: smtp-secret
-        key: gmail_password
+  # - name: ZITADEL_DEFAULTINSTANCE_SMTPCONFIGURATION_SMTP_HOST
+  #   value : "smtp.gmail.com:587"
+  # - name: ZITADEL_DEFAULTINSTANCE_SMTPCONFIGURATION_SMTP_USER
+  #   valueFrom:
+  #     secretKeyRef:
+  #       name: smtp-secret
+  #       key: gmail_username
+  # - name: ZITADEL_DEFAULTINSTANCE_SMTPCONFIGURATION_FROM
+  #   valueFrom:
+  #     secretKeyRef:
+  #       name: smtp-secret
+  #       key: gmail_username
+  # - name: ZITADEL_DEFAULTINSTANCE_SMTPCONFIGURATION_REPLYTOADDRESS
+  #   valueFrom:
+  #     secretKeyRef:
+  #       name: smtp-secret
+  #       key: gmail_username
+  # - name: ZITADEL_DEFAULTINSTANCE_SMTPCONFIGURATION_SMTP_PASSWORD
+  #   valueFrom:
+  #     secretKeyRef:
+  #       name: smtp-secret
+  #       key: gmail_password
 
   # - name: ZITADEL_FIRSTINSTANCE_ORG_HUMAN_PASSWORDCHANGEREQUIRED
   #   value: "false"
