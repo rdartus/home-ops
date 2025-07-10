@@ -88,7 +88,7 @@ spec:
       #     key: init-prowlarr-main
       #   - name: pgsql-secret
       #     key: init-DB
-      postInitSQL:
+      # postInitSQL:
         # - CREATE ROLE vauban WITH LOGIN
         # - CREATE DATABASE "zitadel"
         # - ALTER DATABASE "zitadel" OWNER TO vauban
