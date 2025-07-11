@@ -199,7 +199,7 @@ data:
         vault kv put kv-v2/redis/config password="@/config/cred/redis-password"
         vault kv put kv-v2/authentik/config key="@/config/cred/authentik-key"
         vault kv put kv-v2/kubeprom/config username="@/config/cred/grafanaUser" password="@/config/cred/grafanaPassword"
-        vault kv put kv-v2/smtp/config gmail_username="jeanvoitouh@gmail.com" gmail_password="@/config/cred/gmail-password"
+        vault kv put kv-v2/smtp/config gmail_username="@/config/cred/gmail-user" gmail_password="@/config/cred/gmail-password" username="@/config/cred/gmail-username"
         vault kv put kv-v2/wx/config username="@/config/cred/wx-user" password="@/config/cred/wx-password"
         vault kv put kv-v2/wx/list list.json="@/config/cred/wx-list"
         vault kv put kv-v2/tandoor key="@/config/cred/tandoorKey" oidcProvider="@/config/cred/tandoorSocialProvider"
