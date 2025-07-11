@@ -12,10 +12,10 @@ metadata:
 spec:
   tls:
     - hosts:
-        - traefik.dartus.fr
-      secretName: traefik.dartus.fr-tls
+        - traefik2.dartus.fr
+      secretName: traefik2.dartus.fr-tls
   rules:
-    - host: traefik.dartus.fr
+    - host: traefik2.dartus.fr
       http:
         paths:
           - path: /dashboard/
