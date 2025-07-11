@@ -506,11 +506,11 @@ securityContext:
 
 # Additional environment variables
 env:
-  # - name: ZITADEL_DATABASE_POSTGRES_USER_PASSWORD
-  #   valueFrom:
-  #     secretKeyRef:
-  #       name: vauban-secret
-  #       key: password
+  - name: ZITADEL_DATABASE_POSTGRES_USER_PASSWORD
+    valueFrom:
+      secretKeyRef:
+        name: vauban-secret
+        key: password
   # - name: ZITADEL_DATABASE_POSTGRES_ADMIN_PASSWORD
   #   valueFrom:
   #     secretKeyRef:
