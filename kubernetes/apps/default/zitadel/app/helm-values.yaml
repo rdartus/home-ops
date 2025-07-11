@@ -5,7 +5,7 @@ zitadel:
   # https://github.com/zitadel/zitadel/blob/main/cmd/defaults.yaml
   configmapConfig:
     Log:
-      Level: info # ZITADEL_LOG_LEVEL
+      Level: debug # ZITADEL_LOG_LEVEL
       Formatter:
         Format: text # ZITADEL_LOG_FORMATTER_FORMAT
 
@@ -47,11 +47,11 @@ zitadel:
       ProjectID: ''  # ZITADEL_PROFILER_PROJECTID
 
     # Port ZITADEL will listen on
-    Port: 8080 # ZITADEL_PORT
+    Port: 443 # ZITADEL_PORT
     # ExternalPort is the port on which end users access ZITADEL.
     # It can differ from Port e.g. if a reverse proxy forwards the traffic to ZITADEL
     # Read more about external access: https://zitadel.com/docs/self-hosting/manage/custom-domain
-    ExternalPort: 8080 # ZITADEL_EXTERNALPORT
+    ExternalPort: &port 443  # ZITADEL_EXTERNALPORT
     # ExternalDomain is the domain on which end users access ZITADEL.
     # Read more about external access: https://zitadel.com/docs/self-hosting/manage/custom-domain
     ExternalDomain: zitadel.dartus.fr # ZITADEL_EXTERNALDOMAIN
@@ -567,7 +567,7 @@ service:
   clusterIP: ""
   # If service type is "LoadBalancer", this can optionally be set to either "Cluster" or "Local"
   externalTrafficPolicy: ""
-  port: 8080
+  port: *port
   protocol: http2
   appProtocol: kubernetes.io/h2c
   annotations: 
