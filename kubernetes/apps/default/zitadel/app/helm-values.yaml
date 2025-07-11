@@ -305,16 +305,6 @@ zitadel:
         MaxPasswordAttempts: 0 # ZITADEL_DEFAULTINSTANCE_LOCKOUTPOLICY_MAXPASSWORDATTEMPTS
         MaxOTPAttempts: 0 # ZITADEL_DEFAULTINSTANCE_LOCKOUTPOLICY_MAXOTPATTEMPTS
         ShouldShowLockoutFailure: true # ZITADEL_DEFAULTINSTANCE_LOCKOUTPOLICY_SHOULDSHOWLOCKOUTFAILURE
-      # WebKeys configures the OIDC token signing keys that are generated when a new instance is created.
-      # WebKeys:
-      #   Type: "rsa" # ZITADEL_DEFAULTINSTANCE_WEBKEYS_TYPE
-      #   Config:
-      #   RSABits: "2048" # ZITADEL_DEFAULTINSTANCE_WEBKEYS_CONFIG_BITS
-      #   RSAHasher: "sha256" # ZITADEL_DEFAULTINSTANCE_WEBKEYS_CONFIG_HASHER
-      # WebKeys:
-      #  Type: "ecdsa"
-      #  Config:
-      #    EllipticCurve: "P256" # ZITADEL_DEFAULTINSTANCE_WEBKEYS_CONFIG_CURVE
 
       # Sets the default values for lifetime and expiration for OIDC in each newly created instance
       # This default can be overwritten for each instance during runtime
@@ -338,7 +328,7 @@ zitadel:
         TLS: true # ZITADEL_DEFAULTINSTANCE_SMTPCONFIGURATION_TLS
         # If the host of the sender is different from ExternalDomain set DefaultInstance.DomainPolicy.SMTPSenderAddressMatchesInstanceDomain to false
         From: # ZITADEL_DEFAULTINSTANCE_SMTPCONFIGURATION_FROM
-        FromName: # ZITADEL_DEFAULTINSTANCE_SMTPCONFIGURATION_FROMNAME
+        FromName: Zitadel # ZITADEL_DEFAULTINSTANCE_SMTPCONFIGURATION_FROMNAME
         ReplyToAddress: # ZITADEL_DEFAULTINSTANCE_SMTPCONFIGURATION_REPLYTOADDRESS
       # Configure the MessageTexts by environment variable using JSON notation:
       # ZITADEL_DEFAULTINSTANCE_MESSAGETEXTS='[{"messageTextType": "InitCode", "title": "My custom title"},{"messageTextType": "PasswordReset", "greeting": "Hi there!"}]'
