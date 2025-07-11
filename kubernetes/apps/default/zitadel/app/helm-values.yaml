@@ -306,11 +306,11 @@ zitadel:
         MaxOTPAttempts: 0 # ZITADEL_DEFAULTINSTANCE_LOCKOUTPOLICY_MAXOTPATTEMPTS
         ShouldShowLockoutFailure: true # ZITADEL_DEFAULTINSTANCE_LOCKOUTPOLICY_SHOULDSHOWLOCKOUTFAILURE
       # WebKeys configures the OIDC token signing keys that are generated when a new instance is created.
-      WebKeys:
-        Type: "rsa" # ZITADEL_DEFAULTINSTANCE_WEBKEYS_TYPE
-        Config:
-        RSABits: "2048" # ZITADEL_DEFAULTINSTANCE_WEBKEYS_CONFIG_BITS
-        RSAHasher: "sha256" # ZITADEL_DEFAULTINSTANCE_WEBKEYS_CONFIG_HASHER
+      # WebKeys:
+      #   Type: "rsa" # ZITADEL_DEFAULTINSTANCE_WEBKEYS_TYPE
+      #   Config:
+      #   RSABits: "2048" # ZITADEL_DEFAULTINSTANCE_WEBKEYS_CONFIG_BITS
+      #   RSAHasher: "sha256" # ZITADEL_DEFAULTINSTANCE_WEBKEYS_CONFIG_HASHER
       # WebKeys:
       #  Type: "ecdsa"
       #  Config:
