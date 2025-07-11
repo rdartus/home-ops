@@ -47,11 +47,11 @@ zitadel:
       ProjectID: ''  # ZITADEL_PROFILER_PROJECTID
 
     # Port ZITADEL will listen on
-    Port: 443 # ZITADEL_PORT
+    Port: &port 8080 # ZITADEL_PORT
     # ExternalPort is the port on which end users access ZITADEL.
     # It can differ from Port e.g. if a reverse proxy forwards the traffic to ZITADEL
     # Read more about external access: https://zitadel.com/docs/self-hosting/manage/custom-domain
-    ExternalPort: &port 443  # ZITADEL_EXTERNALPORT
+    ExternalPort:  443  # ZITADEL_EXTERNALPORT
     # ExternalDomain is the domain on which end users access ZITADEL.
     # Read more about external access: https://zitadel.com/docs/self-hosting/manage/custom-domain
     ExternalDomain: zitadel.dartus.fr # ZITADEL_EXTERNALDOMAIN
