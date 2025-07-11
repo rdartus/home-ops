@@ -5,7 +5,7 @@ zitadel:
   # https://github.com/zitadel/zitadel/blob/main/cmd/defaults.yaml
   configmapConfig:
     Log:
-      Level: debug # ZITADEL_LOG_LEVEL
+      Level: info # ZITADEL_LOG_LEVEL
       Formatter:
         Format: text # ZITADEL_LOG_FORMATTER_FORMAT
 
