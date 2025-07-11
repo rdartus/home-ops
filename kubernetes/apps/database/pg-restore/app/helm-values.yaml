@@ -109,7 +109,7 @@ controllers:
         - -c
         - |
           printenv
-          sleep 4m # depends on not really working for cluster & database resources
+          sleep 3m # depends on not really working for cluster & database resources
           ls -la /data/dump-k3s/
           echo "dump_prowlarr"
           pg_restore --clean --create --if-exists -d "postgres://$SUPERUSER:$PASSWORD@cnpg-cluster-rw.database.svc.cluster.local/postgres" /data/dump-k3s/dump_prowlarr
