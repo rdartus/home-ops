@@ -9,3 +9,4 @@ resources:
   - ./pg-dump/ks.yaml
   - ./pg-dump-sync/ks.yaml
   - ./pg-restore/ks.yaml
+  - ./pgadmin/ks.yaml

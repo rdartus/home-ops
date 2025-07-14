@@ -1,0 +1,16 @@
+apiVersion: secrets.hashicorp.com/v1beta1
+kind: VaultAuth
+metadata:
+  name: pgadmin-auth
+  namespace: database
+  annotations:
+    argocd.argoproj.io/sync-wave: "5"
+    argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
+spec:
+  method: kubernetes
+  mount: kubernetes
+  kubernetes:
+    role: rlpgadmin
+    serviceAccount: default
+    audiences:
+      - vault
