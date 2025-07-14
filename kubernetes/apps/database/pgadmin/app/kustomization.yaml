@@ -6,6 +6,7 @@ resources:
   - ./helmrelease.yaml
   - ./pgadmin-auth.yaml
   - ./pgadmin-secret.yaml
+  - ./default-secret.yaml
 configMapGenerator:
   - name: pgadmin-helm-values
     files:
