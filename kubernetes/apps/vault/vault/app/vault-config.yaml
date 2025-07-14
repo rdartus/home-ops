@@ -54,6 +54,9 @@ data:
     path "kv-v2/data/pgadmin" {
       capabilities = ["read"]
     }
+    path "kv-v2/default/*" {
+      capabilities = ["read"]
+    }
   idm-policy.json: |
 
     path "kv-v2/data/smtp/*" {
