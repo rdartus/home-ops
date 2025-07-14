@@ -224,7 +224,7 @@ secretKeys:
 ## Needed chart reinstall for apply changes
 env:
   # can be email or nickname
-  email: admin
+  email: jean.voitouh@gmail.com
   # password: SuperSecret
   # pgpassfile: /var/lib/pgadmin/storage/pgadmin/file.pgpass
 
