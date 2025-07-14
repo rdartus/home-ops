@@ -1,3 +1,11 @@
+global:
+  # Overrides the Docker registry globally for all images.
+  imageRegistry: ""
+  # Add additional image pull secrets globally.
+  # Support both full format (- name: secret) and short format (- secret).
+  # These will be merged with any chart-specific pull secrets.
+  imagePullSecrets: []
+
 replicaCount: 1
 
 ## pgAdmin4 container image
@@ -6,11 +14,20 @@ image:
   registry: docker.io
   repository: dpage/pgadmin4
   # Overrides the image tag whose default is the chart appVersion.
-  tag: "8.2"
+  tag: ""
   pullPolicy: IfNotPresent
+
+## Optionally specify an array of imagePullSecrets.
+## Secrets must be manually created in the namespace.
+## ref: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
+imagePullSecrets: []
+  #  - RegistryKeySecret
 
 ## Deployment annotations
 annotations: {}
+
+## revisionHistoryLimit The number of old history to retain to allow rollback
+revisionHistoryLimit: 10
 
 ## commonLabels Add labels to all the deployed resources
 commonLabels: {}
@@ -76,36 +93,57 @@ strategy: {}
   #   maxSurge: 0
   #   maxUnavailable: 1
 
-## Server definitions will be loaded at launch time. This allows connection
-## information to be pre-loaded into the instance of pgAdmin4 in the container.
-## Note that server definitions are only loaded on first launch,
-## i.e. when the configuration database is created, and not on subsequent launches using the same configuration database.
-## Ref: https://www.pgadmin.org/docs/pgadmin4/latest/import_export_servers.html
+## Pre-load pgAdmin4 with servers at first start-up.
+## Servers are imported only the first time the config DB is created.
+## Docs: https://www.pgadmin.org/docs/pgadmin4/latest/import_export_servers.html
 ##
 serverDefinitions:
-  ## If true, server definitions will be created
-  ##
+  # Enable/disable server import
   enabled: true
 
-  ## The resource type to use for deploying server definitions.
-  ## Can either be ConfigMap or Secret
+  # Storage for the server JSON:
+  #   ConfigMap - plain text (good for non-secret data)
+  #   Secret    - base-64 (better for credentials)
   resourceType: ConfigMap
 
-  # If resource type is set to ConfigMap, specify existingConfigmap containing definitions
+  # Use this only when `resourceType` = ConfigMap - point to an existing ConfigMap
+  # that already holds your `servers.json`
   existingConfigmap: ""
 
-  # If resource type is set to Secret, specify existingSecret containing definitions
+  # Use this only when `resourceType` = Secret - point to an existing Secret
+  # that already holds your `servers.json`.
   existingSecret: ""
 
+  # Set to true to put raw JSON under `stringData` (handy for dry-runs/debug).
+  # Leave false to keep the default base-64 in `data`.
+  useStringData: false
+
+  # Inline server definitions (ignore if you point to an existing resource)
+  # You can use Helm templates here, e.g. Host: "{{ .Values.example.host }}"
   servers:
     firstServer:
       Name: "CNPG"
       Group: "Servers"
-      Port: 5432
       Username: "postgres"
       Host: "cnpg-cluster-rw.database.svc.cluster.local"
+      Port: 5432
       SSLMode: "prefer"
       MaintenanceDB: "default"
+
+## Pre-load pgAdmin4 with user preferences
+## This mounts a preferences.json file to override default UI settings such as themes,
+## display options, or query tool behavior.
+## Docs: https://www.pgadmin.org/docs/pgadmin4/latest/preferences.html
+##
+preferences:
+  # Enable/disable preferences
+  enabled: false
+
+  # If using an existing ConfigMap, it must contain a key named `preferences.json`
+  existingConfigMap: ""
+
+  data: {}
+  #  misc:user_interface:theme: dark
 
 networkPolicy:
   enabled: true
@@ -114,20 +152,26 @@ networkPolicy:
 ## Ref: https://kubernetes.io/docs/concepts/services-networking/ingress/
 ingress:
   enabled: true
+  # For Kubernetes >= 1.18 you should specify the ingress-controller via the field ingressClassName
+  # See https://kubernetes.io/blog/2020/04/02/improvements-to-the-ingress-api-in-kubernetes-1.18/#specifying-the-class-of-an-ingress
+  # ingressClassName: nginx
   annotations: 
     hajimari.io/enable: "true"
     hajimari.io/group: "Management"
     hajimari.io/icon: "database-edit"
   ingressClassName: traefik-ingresses
+    # kubernetes.io/ingress.class: nginx
+    # kubernetes.io/tls-acme: "true"
+  labels: {}
   hosts:
     - host: pgadmin.dartus.fr
       paths:
         - path: /
           pathType: Prefix
-  tls: []
-  #  - secretName: chart-example-tls
-  #    hosts:
-  #      - chart-example.local
+  tls: 
+   - secretName: pgadmin.dartus.fr-tls
+     hosts:
+       - pgadmin.dartus.fr
 
 # Additional config maps to be mounted inside a container
 # Can be used to map config maps for sidecar as well
@@ -212,16 +256,16 @@ envVarsFromSecrets: []
   # - secret-names
 
 ## Additional environment variables
-envVarsExtra: []
-  # - PGADMIN_CONFIG_AUTHENTICATION_SOURCES: "['oauth2', 'internal']"
-  # - PGADMIN_CONFIG_OAUTH2_AUTO_CREATE_USER: true
+envVarsExtra: 
+  - PGADMIN_CONFIG_AUTHENTICATION_SOURCES: "['oauth2', 'internal']"
+  - PGADMIN_CONFIG_OAUTH2_AUTO_CREATE_USER: true
   # - PGPASS_FILE: 
-  # - PGADMIN_CONFIG_OAUTH2_CONFIG: 
-  #   valueFrom:
-  #     secretKeyRef:
-  #       name: pgadmin-secret
-  #       key: oidcConf
-  # - POSTGRES_USERNAME: postgres
+  - PGADMIN_CONFIG_OAUTH2_CONFIG: 
+    valueFrom:
+      secretKeyRef:
+        name: pgadmin-secret
+        key: oidcConf
+  - POSTGRES_USERNAME: postgres
 
 
 persistentVolume:
@@ -251,7 +295,7 @@ persistentVolume:
   ##   set, choosing the default provisioner.  (gp2 on AWS, standard on
   ##   GKE, AWS & OpenStack)
   ##
-  # storageClass: longhorn
+  # storageClass: "-"
   # existingClaim: ""
 
   ## Subdirectory of pgAdmin4 Persistent Volume to mount
@@ -279,17 +323,19 @@ containerSecurityContext:
 ##
 livenessProbe:
   initialDelaySeconds: 30
-  periodSeconds: 60
-  timeoutSeconds: 15
-  successThreshold: 1
+  periodSeconds: 20
+  timeoutSeconds: 5
   failureThreshold: 3
 
 readinessProbe:
-  initialDelaySeconds: 30
-  periodSeconds: 60
-  timeoutSeconds: 15
-  successThreshold: 1
+  initialDelaySeconds: 10
+  periodSeconds: 10
+  timeoutSeconds: 3
   failureThreshold: 3
+
+startupProbe:
+  failureThreshold: 30
+  periodSeconds: 2
 
 ## Required to be enabled pre pgAdmin4 4.16 release, to set the ACL on /var/lib/pgadmin.
 ## Ref: https://kubernetes.io/docs/concepts/workloads/pods/init-containers/
@@ -377,9 +423,9 @@ dnsConfig: {}
 ##
 podAnnotations: {}
 templatedPodAnnotations: |-
-#   checksum/configmap-oauth2: { include "<parent-chart-name>/templates/configmap-oauth2.yaml" $ | sha256sum }
-#   checksum/secret-oauth2: "{ include "<parent-chart-name>/templates/secret-oauth2.yaml" $ | sha256sum }"
-#   checksum/secret-pgpass: "{ include "<parent-chart-name>/templates/secret-pgpass.yaml" $ | sha256sum }"
+#   checksum/configmap-oauth2: {{ include "<parent-chart-name>/templates/configmap-oauth2.yaml" $ | sha256sum }}
+#   checksum/secret-oauth2: "{{ include "<parent-chart-name>/templates/secret-oauth2.yaml" $ | sha256sum }}"
+#   checksum/secret-pgpass: "{{ include "<parent-chart-name>/templates/secret-pgpass.yaml" $ | sha256sum }}"
 
 ## Pod labels
 ##
@@ -398,6 +444,7 @@ init:
 
 ## Define values for chart tests
 test:
+  enabled: true
   ## Container image for test-connection.yaml
   image:
     registry: docker.io
@@ -416,3 +463,7 @@ test:
     runAsUser: 5051
     runAsGroup: 5051
     fsGroup: 5051
+
+  ## Container Security context for test-connection Pod
+  containerSecurityContext:
+    readOnlyRootFilesystem: true

@@ -25,4 +25,5 @@ resources:
   - ./grafana.yaml
   - ./mittwald.yaml
   - ./zitadel.yaml
+  - ./runix.yaml
   # - ./local-path-provisioner.yaml
