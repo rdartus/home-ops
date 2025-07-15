@@ -303,21 +303,21 @@ data:
         
         vault write auth/kubernetes/role/rlimmich \
         bound_service_account_names=default \
-        bound_service_account_namespaces=database \
+        bound_service_account_namespaces=default \
         policies=plcimmich \
         audience=vault\
         ttl=24h
 
         vault write auth/kubernetes/role/rlfilebrowser \
         bound_service_account_names=default \
-        bound_service_account_namespaces=database \
+        bound_service_account_namespaces=default \
         policies=plcfilebrowser \
         audience=vault\
         ttl=24h
 
         vault write auth/kubernetes/role/rlonlyoffice \
         bound_service_account_names=default \
-        bound_service_account_namespaces=database \
+        bound_service_account_namespaces=default \
         policies=plconlyoffice \
         audience=vault\
         ttl=24h
