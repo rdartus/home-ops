@@ -204,6 +204,9 @@ data:
         vault secrets enable kv-v2
         vault auth enable oidc
         vault kv put kv-v2/ddns-updater/config CONFIG='@/config/cred/ddns-config'
+        vault auth enable kubernetes
+        vault write auth/kubernetes/config kubernetes_host="https://$KUBERNETES_PORT_443_TCP_ADDR:443"
+
         # vault kv put kv-v2/postgresql/config init-authentik="@/config/cred/init-authentik.sql" init-radarr-log="@/config/cred/init-radarr-log.sql" init-radarr-main="@/config/cred/init-radarr-main.sql" init-sonarr-log="@/config/cred/init-sonarr-log.sql" init-sonarr-main="@/config/cred/init-sonarr-main.sql" init-prowlarr-log="@/config/cred/init-prowlarr-log.sql" init-prowlarr-main="@/config/cred/init-prowlarr-main.sql" init-user-auth="@/config/cred/init-user-auth.sql" init-DB="@/config/cred/init-DB.sql"
         vault kv put kv-v2/postgresql/superuser username="postgres" password="@/config/cred/DB-superuser-password"
         vault kv put kv-v2/postgresql/arr username="@/config/cred/DB-arr-user" password="@/config/cred/DB-arr-password"
@@ -232,8 +235,6 @@ data:
         vault kv put kv-v2/gitOps OIDC_CLIENT_ID="@/config/cred/gitOpsOIDCClient" OIDC_CLIENT_SECRET="@/config/cred/gitOpsOIDCSecret" OIDC_SCOPES="openid profile email" OIDC_ISSUER_URL="https://authentik.dartus.fr/application/o/gitops/"
         vault kv put kv-v2/scale/operator-oauth client_id="@/config/cred/tailscaleOIDCClient" client_secret="@/config/cred/tailscaleOIDCSecret"
         vault kv put kv-v2/wireguard oidcSecret="@/config/cred/gitOpsOIDCSecret" oidcClient="@/config/cred/gitOpsOIDCClient"
-        vault auth enable kubernetes
-        vault write auth/kubernetes/config kubernetes_host="https://$KUBERNETES_PORT_443_TCP_ADDR:443"
 
         vault policy write plccnpg /config/scripts/cnpg-policy.json
         vault policy write plcpgsql /config/scripts/pgsql-policy.json

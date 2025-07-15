@@ -281,13 +281,13 @@ controllers:
           FILEBROWSER_OIDC_CLIENT_ID:
             valueFrom:
               secretKeyRef:
-                name: test
-                key: test
+                name: filebrowser-secret
+                key: oidcClient
           FILEBROWSER_OIDC_CLIENT_SECRET: 
             valueFrom:
               secretKeyRef:
-                name: test
-                key: test
+                name: filebrowser-secret
+                key: oidcSecret
           # FILEBROWSER_JWT_TOKEN_SECRET: 
           # FILEBROWSER_TOTP_SECRET: 
           # FILEBROWSER_RECAPTCHA_SECRET: 
