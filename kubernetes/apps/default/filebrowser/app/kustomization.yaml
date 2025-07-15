@@ -4,6 +4,9 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
   - ./helmrelease.yaml
+  - ./pvc-all.yaml
+  - ./filebrowser-auth.yaml
+  - ./filebrowser-secret.yaml
 configMapGenerator:
   - name: filebrowser-helm-values
     files:

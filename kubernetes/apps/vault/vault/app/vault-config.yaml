@@ -57,6 +57,23 @@ data:
     path "kv-v2/data/default/*" {
       capabilities = ["read"]
     }
+  onlyoffice-policy.json: |
+    path "kv-v2/data/postgresql/office" {
+      capabilities = ["read"]
+    }
+    path "kv-v2/data/onlyoffice" {
+      capabilities = ["read"]
+    }
+  immich-policy.json: |
+
+    path "kv-v2/data/immich" {
+      capabilities = ["read"]
+    }
+  filebrowser-policy.json: |
+
+    path "kv-v2/data/filebrowser" {
+      capabilities = ["read"]
+    }
   idm-policy.json: |
 
     path "kv-v2/data/smtp/*" {
@@ -193,6 +210,7 @@ data:
         vault kv put kv-v2/postgresql/auth username="@/config/cred/DB-auth-user" password="@/config/cred/DB-auth-password"
         vault kv put kv-v2/postgresql/tand username="@/config/cred/DB-tand-user" password="@/config/cred/DB-tand-password"
         vault kv put kv-v2/postgresql/vauban username="@/config/cred/DB-vauban-user" password="@/config/cred/DB-vauban-password"
+        vault kv put kv-v2/postgresql/office username="@/config/cred/DB-office-user" password="@/config/cred/DB-office-password"
         vault kv put kv-v2/ssh key="@/config/cred/key"
         vault kv put kv-v2/arr/config sonarrKey="@/config/cred/sonarrKey" prowlarrKey="@/config/cred/prowlarrKey" radarrKey="@/config/cred/radarrKey"
         vault kv put kv-v2/default/config username="admin" password="@/config/cred/default-password" passwordPBKDF2="@/config/cred/default-passwordPBKDF2" secpassword="@/config/cred/default-sec-password"
@@ -208,6 +226,8 @@ data:
         vault kv put kv-v2/tandoor key="@/config/cred/tandoorKey" oidcProvider="@/config/cred/tandoorSocialProvider"
         vault kv put kv-v2/zerossl keyID="@/config/cred/zeroSSLID" HMAC="@/config/cred/zeroSSLHMAC"
         vault kv put kv-v2/pgadmin oidcSecret="@/config/cred/pgadminOIDCSecret" oidcClient="@/config/cred/pgadminOIDCClient" oidcConf="@/config/cred/pgadminOIDCConf"
+        vault kv put kv-v2/filebrowser oidcSecret="@/config/cred/filebrowserOIDCSecret" oidcClient="@/config/cred/filebrowserOIDCClient"
+        vault kv put kv-v2/immich oidcSecret="@/config/cred/immichOIDCSecret" oidcClient="@/config/cred/immichOIDCClient"
         vault kv put kv-v2/zitadel masterkey="@/config/cred/zitadel-masterkey" _gsuite-id="@/config/cred/_gsuite-zitadel-id" _gsuite-secret="@/config/cred/_gsuite-zitadel-secret"
         vault kv put kv-v2/gitOps OIDC_CLIENT_ID="@/config/cred/gitOpsOIDCClient" OIDC_CLIENT_SECRET="@/config/cred/gitOpsOIDCSecret" OIDC_SCOPES="openid profile email" OIDC_ISSUER_URL="https://authentik.dartus.fr/application/o/gitops/"
         vault kv put kv-v2/scale/operator-oauth client_id="@/config/cred/tailscaleOIDCClient" client_secret="@/config/cred/tailscaleOIDCSecret"
@@ -219,6 +239,9 @@ data:
         vault policy write plcpgsql /config/scripts/pgsql-policy.json
         vault policy write plcssh /config/scripts/ssh-policy.json        
         vault policy write plcpgadmin /config/scripts/pgadmin-policy.json        
+        vault policy write plcimmich /config/scripts/immich-policy.json        
+        vault policy write plcfilebrowser /config/scripts/filebrowser-policy.json
+        vault policy write plconlyoffice /config/scripts/onlyoffice-policy.json
         vault policy write plccrowdsec /config/scripts/crowdsec-policy.json        
         vault policy write plcredis /config/scripts/redis-policy.json        
         vault policy write plcddns-updater /config/scripts/ddns-updater-policy.json        
@@ -274,6 +297,27 @@ data:
         bound_service_account_names=default \
         bound_service_account_namespaces=database \
         policies=plcpgadmin \
+        audience=vault\
+        ttl=24h
+        
+        vault write auth/kubernetes/role/rlimmich \
+        bound_service_account_names=default \
+        bound_service_account_namespaces=database \
+        policies=plcimmich \
+        audience=vault\
+        ttl=24h
+
+        vault write auth/kubernetes/role/rlfilebrowser \
+        bound_service_account_names=default \
+        bound_service_account_namespaces=database \
+        policies=plcfilebrowser \
+        audience=vault\
+        ttl=24h
+
+        vault write auth/kubernetes/role/rlonlyoffice \
+        bound_service_account_names=default \
+        bound_service_account_namespaces=database \
+        policies=plconlyoffice \
         audience=vault\
         ttl=24h
 
