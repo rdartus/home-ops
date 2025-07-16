@@ -356,7 +356,7 @@ controllers:
               exec:
                 command:
                 - /usr/bin/env
-                - bash
+                - sh
                 - -c
                 - curl --fail "localhost:80/"
               failureThreshold: 5
