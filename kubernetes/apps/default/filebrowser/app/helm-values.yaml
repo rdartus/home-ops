@@ -275,7 +275,11 @@ controllers:
         env:
           # FILEBROWSER_CONFIG: 
           # FILEBROWSER_DATABASE: 
-          # FILEBROWSER_ADMIN_PASSWORD: 
+          FILEBROWSER_ADMIN_PASSWORD: 
+            valueFrom:
+              secretKeyRef:
+                name: default-secret
+                key: password
           # FILEBROWSER_ONLYOFFICE_SECRET: 
           # FILEBROWSER_FFMPEG_PATH: 
           FILEBROWSER_OIDC_CLIENT_ID:
@@ -484,17 +488,53 @@ secrets:
 # Additional configMaps can be added by adding a dictionary key similar to the 'config' object.
 # @default -- See below
 configMaps:
-  {}
-  # config:
-  #   # -- Enables or disables the configMap
-  #   enabled: true
-  #   # -- Labels to add to the configMap
-  #   labels: {}
-  #   # -- Annotations to add to the configMap
-  #   annotations: {}
-  #   # -- configMap data content. Helm template enabled.
-  #   data:
-  #     foo: bar
+  config:
+    # -- Enables or disables the configMap
+    enabled: true
+    # -- Labels to add to the configMap
+    labels: {}
+    # -- Annotations to add to the configMap
+    annotations: {}
+    # -- configMap data content. Helm template enabled.
+    data: 
+      config: |
+
+       server:
+          port: &port 80
+          sources:
+            - path: /data
+              config:
+                defaultEnabled: true # this gives the source to all users by default.
+        auth:
+          methods:
+            proxy:                                #  validate:omitempty
+              enabled: false
+              createUser: false                   # create user if not exists
+              header: ""                          # required header to use for authentication. Security Warning: FileBrowser blindly accepts the header value as username.
+              logoutRedirectUrl: ""               # if provider logout url is provided, filebrowser will also redirect to logout url. Custom logout query params are respected.
+            noauth: false                         # if set to true, overrides all other auth methods and disables authentication
+            password:                             #  validate:omitempty
+              enabled: true
+              minLength: 5                        # minimum pasword length required, default is 5.  validate:omitempty
+              signup: false                       # allow signups on login page if enabled -- not secure.  validate:omitempty
+              # recaptcha:                          # recaptcha config, only used if signup is enabled  validate:omitempty
+              #   host: ""                          #  validate:required
+              #   key: ""                           #  validate:required
+              #   secret: ""                        #  validate:required
+              enforcedOtp: false                  # if set to true, TOTP is enforced for all password users users. Otherwise, users can choose to enable TOTP.
+            oidc:                                 #  validate:omitempty
+              enabled: true                      # whether to enable OIDC authentication
+              # clientId: ""                        # client id of the OIDC application
+              # clientSecret: ""                    # client secret of the OIDC application
+              issuerUrl: "https://authentik.dartus.fr/application/o/authorize/"                       # authorization URL of the OIDC provider
+              scopes: "openid email profile"      # scopes to request from the OIDC provider
+              userIdentifier: "preferred_username" # the field value to use as the username. Default is "preferred_username", can also be "email" or "username", or "phone"
+              disableVerifyTLS: false             # disable TLS verification for the OIDC provider. This is insecure and should only be used for testing.
+              logoutRedirectUrl: "https://authentik.dartus.fr/application/o/filebrowser/end-session/"               # if provider logout url is provided, filebrowser will also redirect to logout url. Custom logout query params are respected.
+              createUser: false                   # create user if not exists
+              adminGroup: "authentik Admins"                      # if set, users in this group will be granted admin privileges.
+              groupsClaim: "groups"               # the JSON field name to read groups from. Default is "groups"
+          adminUsername: admin
 
 # -- Generate ConfigMaps from a folder in the Helm chart's filesystem
 # Your files will need to be two levels deep from the base path.
@@ -587,7 +627,7 @@ service:
         primary: true
 
         # -- The port number
-        port: 80
+        port: *port
 
         # -- Port protocol.
         # Support values are `HTTP`, `HTTPS`, `TCP` and `UDP`.
@@ -762,13 +802,17 @@ route:
 # [[ref]](https://bjw-s.github.io/helm-charts/docs/common-library/common-library-storage)
 # @default -- See below
 persistence: 
-  loisir:
+  data:
     enabled: true
     type : persistentVolumeClaim
     existingClaim: pvc-all
     globalMounts:
       - path: /data
         readOnly: false
+  config:
+    enabled: true
+    type: configMap
+    identifier: config
 #   config:
 #   #   # -- Enables or disables the persistence item. Defaults to true
 #     enabled: true
