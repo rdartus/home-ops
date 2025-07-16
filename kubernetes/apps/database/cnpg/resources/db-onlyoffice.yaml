@@ -1,0 +1,10 @@
+apiVersion: postgresql.cnpg.io/v1
+kind: Database
+metadata:
+  name: db-onlyoffice
+  namespace: database
+spec:
+  name: onlyoffice
+  owner: office
+  cluster:
+    name: cnpg-cluster
