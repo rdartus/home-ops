@@ -345,25 +345,25 @@ controllers:
 
 #         # -- Probe configuration
 #         # -- [[ref]](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/)
-        probes:
-          liveness:
-            enabled: true
-            ## Set this to true if you wish to specify your own livenessProbe
-            custom: true
-            ## The spec field contains the values for the default livenessProbe.
-            ## If you selected custom: true, this field holds the definition of the livenessProbe.
-            spec:
-              exec:
-                command:
-                - /usr/bin/env
-                - sh
-                - -c
-                - curl --fail "localhost:80/"
-              failureThreshold: 5
-              initialDelaySeconds: 60
-              periodSeconds: 10
-              successThreshold: 1
-              timeoutSeconds: 10
+        # probes:
+        #   liveness:
+        #     enabled: true
+        #     ## Set this to true if you wish to specify your own livenessProbe
+        #     custom: true
+        #     ## The spec field contains the values for the default livenessProbe.
+        #     ## If you selected custom: true, this field holds the definition of the livenessProbe.
+        #     spec:
+        #       exec:
+        #         command:
+        #         - /usr/bin/env
+        #         - sh
+        #         - -c
+        #         - curl --fail "localhost:80/"
+        #       failureThreshold: 5
+        #       initialDelaySeconds: 60
+        #       periodSeconds: 10
+        #       successThreshold: 1
+        #       timeoutSeconds: 10
 #         probes:
 #           # -- Liveness probe configuration
 #           # @default -- See below
@@ -502,7 +502,7 @@ configMaps:
        server:
           port: 80
           sources:
-            - path: /data
+            - path: /jeantasse
               config:
                 defaultEnabled: true # this gives the source to all users by default.
         auth:
@@ -807,7 +807,7 @@ persistence:
     type : persistentVolumeClaim
     existingClaim: pvc-all
     globalMounts:
-      - path: /data
+      - path: /jeantasse
         readOnly: false
   config:
     enabled: true
