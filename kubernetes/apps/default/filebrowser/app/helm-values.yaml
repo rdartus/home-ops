@@ -523,10 +523,10 @@ configMaps:
               #   secret: ""                        #  validate:required
               enforcedOtp: false                  # if set to true, TOTP is enforced for all password users users. Otherwise, users can choose to enable TOTP.
             oidc:                                 #  validate:omitempty
-              enabled: true                      # whether to enable OIDC authentication
+              enabled: false                      # whether to enable OIDC authentication
               # clientId: ""                        # client id of the OIDC application
               # clientSecret: ""                    # client secret of the OIDC application
-              issuerUrl: "https://authentik.dartus.fr/application/o/authorize/"                       # authorization URL of the OIDC provider
+              issuerUrl: "https://authentik.dartus.fr/application/o/"                       # authorization URL of the OIDC provider
               scopes: "openid email profile"      # scopes to request from the OIDC provider
               userIdentifier: "preferred_username" # the field value to use as the username. Default is "preferred_username", can also be "email" or "username", or "phone"
               disableVerifyTLS: false             # disable TLS verification for the OIDC provider. This is insecure and should only be used for testing.
