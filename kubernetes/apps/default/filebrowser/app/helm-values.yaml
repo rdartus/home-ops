@@ -504,7 +504,25 @@ configMaps:
           sources:
             - path: /jeantasse
               config:
-                defaultEnabled: true # this gives the source to all users by default.
+                # indexingIntervalMinutes: 0        # optional manual overide interval in seconds to re-index the source
+                # disableIndexing: false            # disable the indexing of this source
+                # maxWatchers: 0                    # number of concurrent watchers to use for this source, currently not supported
+                # neverWatchPaths: []
+                # exclude:                          # exclude files and folders from indexing, if include is not set
+                #   hidden: false                   # exclude hidden files and folders.
+                #   ignoreZeroSizeFolders: false    # ignore folders with 0 size
+                #   filePaths: []
+                #   folderPaths: []
+                #   fileNames: []
+                #   folderNames: []
+                #   fileEndsWith: []
+                #   folderEndsWith: []
+                # include:                          # include files and folders from indexing, if exclude is not set
+                #   rootFolders: []
+                #   rootFiles: []
+                defaultUserScope: "/jeantasse/Loisir"             # default "/" should match folders under path
+                defaultEnabled: true             # should be added as a default source for new users?
+                createUserDir: false              # create a user directory for each user
         auth:
           methods:
             proxy:                                #  validate:omitempty
@@ -531,7 +549,7 @@ configMaps:
               userIdentifier: "preferred_username" # the field value to use as the username. Default is "preferred_username", can also be "email" or "username", or "phone"
               disableVerifyTLS: false             # disable TLS verification for the OIDC provider. This is insecure and should only be used for testing.
               logoutRedirectUrl: "https://authentik.dartus.fr/application/o/filebrowser/end-session/"               # if provider logout url is provided, filebrowser will also redirect to logout url. Custom logout query params are respected.
-              createUser: false                   # create user if not exists
+              createUser: true                   # create user if not exists
               adminGroup: "authentik Admins"                      # if set, users in this group will be granted admin privileges.
               groupsClaim: "groups"               # the JSON field name to read groups from. Default is "groups"
           adminUsername: admin
