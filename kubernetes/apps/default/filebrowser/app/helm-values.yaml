@@ -275,11 +275,11 @@ controllers:
         env:
           # FILEBROWSER_CONFIG: 
           # FILEBROWSER_DATABASE: 
-          FILEBROWSER_ADMIN_PASSWORD: 
-            valueFrom:
-              secretKeyRef:
-                name: default-secret
-                key: password
+          # FILEBROWSER_ADMIN_PASSWORD: 
+          #   valueFrom:
+          #     secretKeyRef:
+          #       name: default-secret
+          #       key: password
           # FILEBROWSER_ONLYOFFICE_SECRET: 
           # FILEBROWSER_FFMPEG_PATH: 
           FILEBROWSER_OIDC_CLIENT_ID:
