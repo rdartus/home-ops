@@ -1,0 +1,10 @@
+apiVersion: rabbitmq.com/v1beta1
+kind: RabbitmqCluster
+metadata:
+  name: rabbit-cluster
+spec:
+  replicas: 1
+  secretBackend:
+    vault:
+      role: rlrabbitmq
+      defaultUserPath: kv-v2/rabbitmq
