@@ -520,7 +520,7 @@ configMaps:
                 # include:                          # include files and folders from indexing, if exclude is not set
                 #   rootFolders: []
                 #   rootFiles: []
-                defaultUserScope: "/jeantasse/Loisir"             # default "/" should match folders under path
+                defaultUserScope: "/Loisir"             # default "/" should match folders under path
                 defaultEnabled: true             # should be added as a default source for new users?
                 createUserDir: false              # create a user directory for each user
         auth:
