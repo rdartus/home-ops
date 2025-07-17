@@ -4,6 +4,11 @@ metadata:
   name: vault-scripts
   namespace: default
 data:
+  all-policy.json: |
+
+    path "kv-v2/data/*" {
+      capabilities = ["read"]
+    }
   default-policy.json: |
 
     path "kv-v2/data/default/*" {
@@ -242,6 +247,7 @@ data:
         vault kv put kv-v2/scale/operator-oauth client_id="@/config/cred/tailscaleOIDCClient" client_secret="@/config/cred/tailscaleOIDCSecret"
         vault kv put kv-v2/wireguard oidcSecret="@/config/cred/gitOpsOIDCSecret" oidcClient="@/config/cred/gitOpsOIDCClient"
 
+        vault policy write plcall /config/scripts/all-policy.json
         vault policy write plccnpg /config/scripts/cnpg-policy.json
         vault policy write plcpgsql /config/scripts/pgsql-policy.json
         vault policy write plcssh /config/scripts/ssh-policy.json        
@@ -265,6 +271,13 @@ data:
 
         vault policy write reader /config/scripts/reader-policy.json       
         vault policy write manager /config/scripts/manager-policy.json        
+
+        vault write auth/kubernetes/role/rlall \
+        bound_service_account_names=default \
+        bound_service_account_namespaces=default,database,cert-manager,network \
+        policies=plcall \
+        audience=vault\
+        ttl=24h
 
         vault write auth/kubernetes/role/rlcnpg \
         bound_service_account_names=cnpg-cluster \
