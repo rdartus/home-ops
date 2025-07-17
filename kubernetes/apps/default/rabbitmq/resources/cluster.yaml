@@ -4,7 +4,7 @@ metadata:
   name: rabbit-cluster
 spec:
   replicas: 1
-  secretBackend:
-    vault:
-      role: rlrabbitmq
-      defaultUserPath: kv-v2/rabbitmq
+  # secretBackend:
+  #   vault:
+  #     role: rlrabbitmq
+  #     defaultUserPath: kv-v2/rabbitmq
