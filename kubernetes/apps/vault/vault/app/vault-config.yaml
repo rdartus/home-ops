@@ -325,7 +325,7 @@ data:
         vault write auth/kubernetes/role/rlrabbitmq \
         bound_service_account_names=default \
         bound_service_account_namespaces=default \
-        policies=plcrabbitmqr \
+        policies=plcrabbitmq \
         audience=vault\
         ttl=24h
 
