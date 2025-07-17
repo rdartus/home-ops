@@ -15,6 +15,8 @@ spec:
   dependsOn:
     - name: vault-secrets-operator
       namespace: vault
+    - name: csi-driver-smb-ressources
+      namespace: kube-system
   sourceRef:
     kind: GitRepository
     name: flux-system
