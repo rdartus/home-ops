@@ -91,7 +91,9 @@ spec:
         - ALTER SYSTEM SET search_path TO "$user", public, vectors;
         - CREATE EXTENSION IF NOT EXISTS "vectors";
 
-
+  env:
+    - name: LD_PRELOAD
+      value: ""
   # Require 1Gi of space
   storage:
   # {{- if .Values.longhorn}}
