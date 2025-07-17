@@ -10,7 +10,7 @@ spec:
   method: kubernetes
   mount: kubernetes
   kubernetes:
-    role: rlrall
+    role: rlall
     serviceAccount: default
     audiences:
       - vault
