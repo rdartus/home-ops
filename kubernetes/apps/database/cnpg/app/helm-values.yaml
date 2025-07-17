@@ -94,7 +94,9 @@ additionalArgs: []
 #    value: "{{ .Release.Name }}"
 #  - name: MY_VAR
 #    value: "mySpecialKey"
-additionalEnv: []
+additionalEnv: 
+  - name: LD_PRELOAD
+    value: ""
 
 serviceAccount:
   # -- Specifies whether the service account should be created.
