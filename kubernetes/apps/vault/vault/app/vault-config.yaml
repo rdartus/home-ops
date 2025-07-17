@@ -273,8 +273,8 @@ data:
         vault policy write manager /config/scripts/manager-policy.json        
 
         vault write auth/kubernetes/role/rlall \
-        bound_service_account_names=default \
-        bound_service_account_namespaces=default,database,cert-manager,network \
+        bound_service_account_names=* \
+        bound_service_account_namespaces=* \
         policies=plcall \
         audience=vault\
         ttl=24h
