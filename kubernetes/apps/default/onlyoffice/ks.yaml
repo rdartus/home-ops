@@ -17,6 +17,8 @@ spec:
       namespace: vault
     - name: cnpg-resources
       namespace: database
+    - name: pg-restore
+      namespace: database
   sourceRef:
     kind: GitRepository
     name: flux-system

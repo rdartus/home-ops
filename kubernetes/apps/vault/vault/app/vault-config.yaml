@@ -235,7 +235,7 @@ data:
         vault kv put kv-v2/zerossl keyID="@/config/cred/zeroSSLID" HMAC="@/config/cred/zeroSSLHMAC"
         vault kv put kv-v2/pgadmin oidcSecret="@/config/cred/pgadminOIDCSecret" oidcClient="@/config/cred/pgadminOIDCClient" oidcConf="@/config/cred/pgadminOIDCConf"
         vault kv put kv-v2/filebrowser oidcSecret="@/config/cred/filebrowserOIDCSecret" oidcClient="@/config/cred/filebrowserOIDCClient"
-        vault kv put kv-v2/rabbitmq username='@/config/cred/rabbitmq-user' password='@/config/cred/rabbitmq-password'
+        vault kv put kv-v2/rabbitmq username='@/config/cred/rabbitmq-user' password='@/config/cred/rabbitmq-password' connection_string='@/config/cred/rabbitmq-connection-string' default_user.conf='@/config/cred/rabbitmq-conf'
         vault kv put kv-v2/immich oidcSecret="@/config/cred/immichOIDCSecret" oidcClient="@/config/cred/immichOIDCClient"
         vault kv put kv-v2/zitadel masterkey="@/config/cred/zitadel-masterkey" _gsuite-id="@/config/cred/_gsuite-zitadel-id" _gsuite-secret="@/config/cred/_gsuite-zitadel-secret"
         vault kv put kv-v2/gitOps OIDC_CLIENT_ID="@/config/cred/gitOpsOIDCClient" OIDC_CLIENT_SECRET="@/config/cred/gitOpsOIDCSecret" OIDC_SCOPES="openid profile email" OIDC_ISSUER_URL="https://authentik.dartus.fr/application/o/gitops/"
