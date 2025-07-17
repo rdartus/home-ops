@@ -223,6 +223,7 @@ data:
         vault kv put kv-v2/postgresql/auth username="@/config/cred/DB-auth-user" password="@/config/cred/DB-auth-password"
         vault kv put kv-v2/postgresql/tand username="@/config/cred/DB-tand-user" password="@/config/cred/DB-tand-password"
         vault kv put kv-v2/postgresql/vauban username="@/config/cred/DB-vauban-user" password="@/config/cred/DB-vauban-password"
+        vault kv put kv-v2/postgresql/mich username="@/config/cred/DB-mich-user" password="@/config/cred/DB-mich-password"
         vault kv put kv-v2/postgresql/office username="@/config/cred/DB-office-user" password="@/config/cred/DB-office-password" token="@/config/cred/office-token" amqp="@/config/cred/office-amqp" 
         vault kv put kv-v2/ssh key="@/config/cred/key"
         vault kv put kv-v2/arr/config sonarrKey="@/config/cred/sonarrKey" prowlarrKey="@/config/cred/prowlarrKey" radarrKey="@/config/cred/radarrKey"

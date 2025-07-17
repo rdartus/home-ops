@@ -15,8 +15,10 @@ spec:
     serverCASecret: cnpg-server-cert
     clientCASecret: cnpg-client-cert
     replicationTLSSecret: cnpg-client-cert
-  imageName: ghcr.io/cloudnative-pg/postgresql:17.0
-
+  imageName: ghcr.io/tensorchord/cloudnative-pgvecto.rs:16.9
+  postgresql:
+    shared_preload_libraries:
+      - "vectors.so"
   # Example of rolling update strategy:
   # - unsupervised: automated update of the primary once all
   #                 replicas have been upgraded (default)
@@ -61,6 +63,23 @@ spec:
       login: true
       passwordSecret:
         name: vauban-secret
+    - name: mich
+      connectionLimit: -1
+      inherit: true
+      ensure: present
+      comment: immich user - needs admin for backup 
+      login: true
+      superuser: true
+      passwordSecret:
+        name: mich-secret
+    - name: office
+      connectionLimit: -1
+      inherit: true
+      ensure: present
+      comment: onlyoffice user
+      login: true
+      passwordSecret:
+        name: office-secret
 
   bootstrap:
     initdb:
@@ -68,46 +87,10 @@ spec:
       owner: potgres
       secret:
         name: pgsql-secret
-      # postInitApplicationSQLRefs:
-      #   secretRefs:
-      #   - name: pgsql-secret
-      #     key: init-user-auth
-      #   - name: pgsql-secret
-      #     key: init-authentik
-      #   - name: pgsql-secret
-      #     key: init-radarr-log 
-      #   - name: pgsql-secret
-      #     key: init-radarr-main
-      #   - name: pgsql-secret
-      #     key: init-sonarr-log 
-      #   - name: pgsql-secret
-      #     key: init-sonarr-main
-      #   - name: pgsql-secret
-      #     key: init-prowlarr-log 
-      #   - name: pgsql-secret
-      #     key: init-prowlarr-main
-      #   - name: pgsql-secret
-      #     key: init-DB
-      # postInitSQL:
-        # - CREATE ROLE vauban WITH LOGIN
-        # - CREATE DATABASE "zitadel"
-        # - ALTER DATABASE "zitadel" OWNER TO vauban
-        # - GRANT CONNECT, CREATE ON DATABASE zitadel TO vauban;
-      #   - CREATE DATABASE "sonarr-log"
-      #   - ALTER DATABASE "sonarr-log" OWNER TO "{{ .Values.db.arr_user }}"
-      #   - CREATE DATABASE "sonarr-main"
-      #   - ALTER DATABASE "sonarr-main" OWNER TO "{{ .Values.db.arr_user }}"
-      #   - CREATE DATABASE "radarr-log"
-      #   - ALTER DATABASE "radarr-log" OWNER TO "{{ .Values.db.arr_user }}"
-      #   - CREATE DATABASE "radarr-main"
-      #   - ALTER DATABASE "radarr-main" OWNER TO "{{ .Values.db.arr_user }}"
-      #   - CREATE DATABASE "prowlarr-log"
-      #   - ALTER DATABASE "prowlarr-log" OWNER TO "{{ .Values.db.arr_user }}"
-      #   - CREATE DATABASE "prowlarr-main"
-      #   - ALTER DATABASE "prowlarr-main" OWNER TO "{{ .Values.db.arr_user }}"
-      #   - CREATE USER "{{ .Values.db.auth_user }}" with password '{{ .Values.db.auth_userPass }}'
-      #   - CREATE DATABASE "authentik"
-      #   - ALTER DATABASE "authentik" OWNER TO "{{ .Values.db.auth_user }}"
+      postInitSQL:
+        - ALTER SYSTEM SET search_path TO "$user", public, vectors;
+        - CREATE EXTENSION IF NOT EXISTS "vectors";
+
 
   # Require 1Gi of space
   storage:
