@@ -7,6 +7,8 @@ resources:
   - ./pvc-all.yaml
   - ./filebrowser-auth.yaml
   - ./filebrowser-secret.yaml
+  - ./smb-secret.yaml
+  - ./smb-auth.yaml
 configMapGenerator:
   - name: filebrowser-helm-values
     files:

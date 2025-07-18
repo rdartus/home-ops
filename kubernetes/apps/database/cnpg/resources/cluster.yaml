@@ -15,15 +15,14 @@ spec:
     serverCASecret: cnpg-server-cert
     clientCASecret: cnpg-client-cert
     replicationTLSSecret: cnpg-client-cert
-  imageName: ghcr.io/tensorchord/cloudnative-vectorchord:16.9-0.4.3
-  postgresql:
-    shared_preload_libraries:
-      - "vchord.so"
-  # Example of rolling update strategy:
-  # - unsupervised: automated update of the primary once all
-  #                 replicas have been upgraded (default)
-  # - supervised: requires manual supervision to perform
-  #               the switchover of the primary
+  imageName: ghcr.io/cloudnative-pg/postgresql:17.0
+
+  # imageName: ghcr.io/tensorchord/cloudnative-vectorchord:16.9-0.4.3
+  # postgresql:
+  #   shared_preload_libraries:
+  #     - "vchord.so"
+
+
   primaryUpdateStrategy: unsupervised
   enableSuperuserAccess: true
   superuserSecret:
@@ -87,16 +86,14 @@ spec:
       owner: potgres
       secret:
         name: pgsql-secret
-      postInitSQL:
-        - ALTER SYSTEM SET search_path TO "$user", public, vectors;
-        - CREATE EXTENSION IF NOT EXISTS vchord CASCADE;
+      # postInitSQL:
+        # - ALTER SYSTEM SET search_path TO "$user", public, vectors;
+        # - CREATE EXTENSION IF NOT EXISTS vchord CASCADE;
 
-  env:
-    - name: LD_PRELOAD
-      value: ""
+  # env:
+  #   - name: LD_PRELOAD
+  #     value: ""
+
   # Require 1Gi of space
   storage:
-  # {{- if .Values.longhorn}}
-  #   storageClass: longhorn-unique
-  # {{- end}}
     size: 1Gi
