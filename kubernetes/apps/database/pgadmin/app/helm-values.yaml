@@ -261,7 +261,7 @@ envVarsExtra:
     value: "['oauth2', 'internal']"
   # - PGADMIN_CONFIG_OAUTH2_AUTO_CREATE_USER: true
   # - PGPASS_FILE: 
-  - name: PGADMIN_CONFIG_OAUTH2_CONFIG 
+  - name: PGADMIN_CONFIG_OAUTH2_CONFIG
     valueFrom:
       secretKeyRef:
         name: pgadmin-secret
