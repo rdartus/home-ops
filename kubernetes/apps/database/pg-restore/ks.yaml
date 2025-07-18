@@ -20,6 +20,8 @@ spec:
       namespace: database
     - name: cnpg-resources
       namespace: database
+    - name: kubernetes-replicator
+      namespace: kube-system
   prune: true
   sourceRef:
     kind: GitRepository

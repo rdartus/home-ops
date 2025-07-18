@@ -3,7 +3,4 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
-  - ./sytemBackup.yaml
-  # - ./sytemBackup-1.9.yaml
   - ./sytemRestore.yaml
-  - ./recurringJobs.yaml
