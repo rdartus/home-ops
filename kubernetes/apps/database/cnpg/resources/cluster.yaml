@@ -15,10 +15,10 @@ spec:
     serverCASecret: cnpg-server-cert
     clientCASecret: cnpg-client-cert
     replicationTLSSecret: cnpg-client-cert
-  imageName: ghcr.io/tensorchord/cloudnative-vectorchord:16.9
+  imageName: ghcr.io/tensorchord/cloudnative-vectorchord:16.9-0.4.3
   postgresql:
     shared_preload_libraries:
-      - "vectors.so"
+      - "vchord.so"
   # Example of rolling update strategy:
   # - unsupervised: automated update of the primary once all
   #                 replicas have been upgraded (default)
@@ -89,7 +89,7 @@ spec:
         name: pgsql-secret
       postInitSQL:
         - ALTER SYSTEM SET search_path TO "$user", public, vectors;
-        - CREATE EXTENSION IF NOT EXISTS "vectors";
+        - CREATE EXTENSION IF NOT EXISTS vchord CASCADE;
 
   env:
     - name: LD_PRELOAD
