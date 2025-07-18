@@ -278,7 +278,10 @@ controllers:
         - /bin/sh
         - -c
         - |
-          printenv
+          cd /
+          echo cnpg-cluster-rw.database.svc.cluster.local:5432:*:$SUPERUSER:$PASSWORD
+          chmod 0600 .pgpass
+          cat .pgpass
           pg_dumpall --clean --if-exists -d postgres://$SUPERUSER:$PASSWORD@cnpg-cluster-rw.database.svc.cluster.local  -f /db/dumpall_clean.sql
 
           # pg_dump  postgres://$SUPERUSER:$PASSWORD@cnpg-cluster-rw.database.svc.cluster.local/prowlarr-main -Fc -f /db/dump_prowlarr
@@ -327,6 +330,7 @@ controllers:
               secretKeyRef:
                 name: superuser-secret
                 key: password
+          PGPASSFILE: "/.pgpass"
 
 
 #         # -- Secrets and/or ConfigMaps that will be loaded as environment variables.
