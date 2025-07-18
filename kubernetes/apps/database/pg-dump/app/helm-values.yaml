@@ -161,7 +161,7 @@ controllers:
       # -- Sets the CronJob timezone (only works in Kubernetes >= 1.27)
       # timeZone: 
       # -- Sets the CronJob time when to execute your jobs
-      schedule: "30 * * * *"
+      schedule: "5 * * * *"
       # -- The deadline in seconds for starting the job if it misses its scheduled time for any reason
       startingDeadlineSeconds: 30
       # -- The number of succesful Jobs to keep
@@ -278,7 +278,7 @@ controllers:
         - /bin/sh
         - -c
         - |
-          pg_dumpall --clean > dumpall_clean.sql
+          pg_dumpall --clean -d postgres://$SUPERUSER:$PASSWORD@cnpg-cluster-rw.database.svc.cluster.local/prowlarr-main  -f /db/dumpall_clean.sql
 
           # pg_dump  postgres://$SUPERUSER:$PASSWORD@cnpg-cluster-rw.database.svc.cluster.local/prowlarr-main -Fc -f /db/dump_prowlarr
           # pg_dump  postgres://$SUPERUSER:$PASSWORD@cnpg-cluster-rw.database.svc.cluster.local/sonarr-main -Fc -f /db/dump_sonarr
