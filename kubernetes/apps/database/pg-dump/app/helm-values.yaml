@@ -269,7 +269,7 @@ controllers:
           # -- image repository
           repository: postgres
           # -- image tag
-          tag: latest
+          tag: "16.9"
           # -- image pull policy
           pullPolicy: IfNotPresent
 
@@ -278,12 +278,14 @@ controllers:
         - /bin/sh
         - -c
         - |
-          pg_dump  postgres://$SUPERUSER:$PASSWORD@cnpg-cluster-rw.database.svc.cluster.local/prowlarr-main -Fc -f /db/dump_prowlarr
-          pg_dump  postgres://$SUPERUSER:$PASSWORD@cnpg-cluster-rw.database.svc.cluster.local/sonarr-main -Fc -f /db/dump_sonarr
-          pg_dump  postgres://$SUPERUSER:$PASSWORD@cnpg-cluster-rw.database.svc.cluster.local/radarr-main -Fc -f /db/dump_radarr
-          pg_dump  postgres://$SUPERUSER:$PASSWORD@cnpg-cluster-rw.database.svc.cluster.local/authentik -Fc -f /db/dump_authentik
-          pg_dump  postgres://$SUPERUSER:$PASSWORD@cnpg-cluster-rw.database.svc.cluster.local/tandoor -Fc -f /db/dump_tandoor
-          pg_dump  postgres://$SUPERUSER:$PASSWORD@cnpg-cluster-rw.database.svc.cluster.local/zitadel -Fc -f /db/dump_zitadel
+          pg_dumpall --clean > dumpall_clean.sql
+
+          # pg_dump  postgres://$SUPERUSER:$PASSWORD@cnpg-cluster-rw.database.svc.cluster.local/prowlarr-main -Fc -f /db/dump_prowlarr
+          # pg_dump  postgres://$SUPERUSER:$PASSWORD@cnpg-cluster-rw.database.svc.cluster.local/sonarr-main -Fc -f /db/dump_sonarr
+          # pg_dump  postgres://$SUPERUSER:$PASSWORD@cnpg-cluster-rw.database.svc.cluster.local/radarr-main -Fc -f /db/dump_radarr
+          # pg_dump  postgres://$SUPERUSER:$PASSWORD@cnpg-cluster-rw.database.svc.cluster.local/authentik -Fc -f /db/dump_authentik
+          # pg_dump  postgres://$SUPERUSER:$PASSWORD@cnpg-cluster-rw.database.svc.cluster.local/tandoor -Fc -f /db/dump_tandoor
+          # pg_dump  postgres://$SUPERUSER:$PASSWORD@cnpg-cluster-rw.database.svc.cluster.local/zitadel -Fc -f /db/dump_zitadel
 #         # -- Override the args for the container
 #         args: []
 #         # -- Override the working directory for the container
