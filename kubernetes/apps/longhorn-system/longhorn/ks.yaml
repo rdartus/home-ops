@@ -60,14 +60,14 @@ spec:
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: &app longhorn-backup
+  name: &app longhorn-restore
   namespace: &namespace longhorn-system
 spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
   interval: 10m
-  path: ./kubernetes/apps/longhorn-system/longhorn/backup
+  path: ./kubernetes/apps/longhorn-system/longhorn/restore
   dependsOn:
     - name: longhorn-resources
       namespace: *namespace
