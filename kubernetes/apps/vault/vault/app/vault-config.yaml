@@ -239,7 +239,7 @@ data:
         vault kv put kv-v2/wx/list list.json="@/config/cred/wx-list"
         vault kv put kv-v2/tandoor key="@/config/cred/tandoorKey" oidcProvider="@/config/cred/tandoorSocialProvider"
         vault kv put kv-v2/zerossl keyID="@/config/cred/zeroSSLID" HMAC="@/config/cred/zeroSSLHMAC"
-        vault kv put kv-v2/pgadmin oidcSecret="@/config/cred/pgadminOIDCSecret" oidcClient="@/config/cred/pgadminOIDCClient" oidcConf="@/config/cred/pgadminOIDCConf"
+        vault kv put kv-v2/pgadmin oidcSecret="@/config/cred/pgadminOIDCSecret" oidcClient="@/config/cred/pgadminOIDCClient" oidcConf="@/config/cred/pgadminOIDCConf" servers.json="@/config/cred/pgadminserverConf"
         vault kv put kv-v2/filebrowser oidcSecret="@/config/cred/filebrowserOIDCSecret" oidcClient="@/config/cred/filebrowserOIDCClient"
         vault kv put kv-v2/rabbitmq username='@/config/cred/rabbitmq-user' password='@/config/cred/rabbitmq-password' connection_string='@/config/cred/rabbitmq-connection-string' default_user.conf='@/config/cred/rabbitmq-conf'
         vault kv put kv-v2/immich oidcSecret="@/config/cred/immichOIDCSecret" oidcClient="@/config/cred/immichOIDCClient"
