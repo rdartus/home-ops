@@ -48,11 +48,34 @@ spec:
     - name: longhorn
       namespace: *namespace
   prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+    namespace: flux-system
+  targetNamespace: *namespace
+  timeout: 30m
+  wait: true
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/kustomize.toolkit.fluxcd.io/kustomization_v1.json
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: &app longhorn-backup
+  namespace: &namespace longhorn-system
+spec:
+  commonMetadata:
+    labels:
+      app.kubernetes.io/name: *app
+  interval: 10m
+  path: ./kubernetes/apps/longhorn-system/longhorn/backup
+  dependsOn:
+    - name: longhorn-resources
+      namespace: *namespace
+  prune: true
   healthCheckExprs:
     - apiVersion: longhorn.io/v1beta2
       kind: SystemRestore
       current: status.state == "Completed"
-      # inProgress: status.state == "Restoring"
   sourceRef:
     kind: GitRepository
     name: flux-system
