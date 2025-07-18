@@ -104,7 +104,7 @@ serverDefinitions:
   # Storage for the server JSON:
   #   ConfigMap - plain text (good for non-secret data)
   #   Secret    - base-64 (better for credentials)
-  resourceType: secret
+  resourceType: Secret
 
   # Use this only when `resourceType` = ConfigMap - point to an existing ConfigMap
   # that already holds your `servers.json`
