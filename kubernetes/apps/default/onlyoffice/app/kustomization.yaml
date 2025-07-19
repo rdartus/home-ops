@@ -6,6 +6,7 @@ resources:
   - ./helmrelease.yaml
   - ./onlyoffice-auth.yaml
   - ./onlyoffice-secret.yaml
+  - ./onlyoffice-secret-db.yaml
 configMapGenerator:
   - name: onlyoffice-helm-values
     files:
