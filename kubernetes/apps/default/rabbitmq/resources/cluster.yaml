@@ -7,3 +7,25 @@ spec:
   secretBackend:
     externalSecret: 
       name: "rabbitmq-secret"
+  override:
+    statefulSet:
+      spec:
+        template:
+          spec:
+            containers:
+            - name: rabbitmq
+              volumeMounts:
+              - name: definitions
+                mountPath: /etc/rabbitmq/definitions.json
+                subPath: definitions.json  # clé du Secret
+            volumes:
+            - name: definitions
+              secret:
+                secretName: definitions-secret  # nom du Secret
+                items:
+                  - key: definitions.json        # nom de la clé dans le Secret
+                    path: definitions.json      # nom du fichier monté
+  rabbitmq:
+    additionalConfig: |
+      # charge les définitions au démarrage 
+      load_definitions = /etc/rabbitmq/definitions.json
