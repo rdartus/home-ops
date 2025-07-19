@@ -21,7 +21,7 @@ spec:
             volumes:
             - name: definitions
               secret:
-                secretName: definitions-secret  # nom du Secret
+                secretName: rabbitmq-secret  # nom du Secret
                 items:
                   - key: definitions.json        # nom de la clé dans le Secret
                     path: definitions.json      # nom du fichier monté

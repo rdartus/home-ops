@@ -22,3 +22,4 @@ resources:
   - ./kubotheque/ks.yaml
   - ./zitadel/ks.yaml
   - ./rabbitmq/ks.yaml
+  - ./onlyoffice/ks.yaml
