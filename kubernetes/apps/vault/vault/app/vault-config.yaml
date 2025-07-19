@@ -241,6 +241,7 @@ data:
         vault kv put kv-v2/zerossl keyID="@/config/cred/zeroSSLID" HMAC="@/config/cred/zeroSSLHMAC"
         vault kv put kv-v2/pgadmin oidcSecret="@/config/cred/pgadminOIDCSecret" oidcClient="@/config/cred/pgadminOIDCClient" oidcConf="@/config/cred/pgadminOIDCConf" servers.json="@/config/cred/pgadminserverConf"
         vault kv put kv-v2/filebrowser oidcSecret="@/config/cred/filebrowserOIDCSecret" oidcClient="@/config/cred/filebrowserOIDCClient"
+        vault kv put kv-v2/onlyoffice amqp="@/config/cred/office-amqp" token="@/config/cred/office-token"
         vault kv put kv-v2/rabbitmq username='@/config/cred/rabbitmq-user' password='@/config/cred/rabbitmq-password' connection_string='@/config/cred/rabbitmq-connection-string' default_user.conf='@/config/cred/rabbitmq-conf' definitions.json='@/config/cred/rabbitmq-definitions.json'
         vault kv put kv-v2/immich oidcSecret="@/config/cred/immichOIDCSecret" oidcClient="@/config/cred/immichOIDCClient"
         vault kv put kv-v2/zitadel masterkey="@/config/cred/zitadel-masterkey" _gsuite-id="@/config/cred/_gsuite-zitadel-id" _gsuite-secret="@/config/cred/_gsuite-zitadel-secret"

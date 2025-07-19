@@ -19,6 +19,8 @@ spec:
       namespace: database
     - name: pg-restore
       namespace: database
+    - name: rabbitmq
+      namespace: default
   sourceRef:
     kind: GitRepository
     name: flux-system
