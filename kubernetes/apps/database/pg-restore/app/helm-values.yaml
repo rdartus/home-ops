@@ -116,7 +116,9 @@ controllers:
           ls -la /data/dump-k3s/
 
           echo "dump_all"
-          psql -v ON_ERROR_STOP=1 -f /data/dump-k3s/dumpall_clean.sql postgres
+          psql "postgres://$SUPERUSER:$PASSWORD@cnpg-cluster-rw.database.svc.cluster.local/postgres" -v ON_ERROR_STOP=1 -f /data/dump-k3s/dumpall_clean.sql
+
+          # psql -h cnpg-cluster-rw.database.svc.cluster.local -p 5432 -U $SUPERUSER -d postgres -v ON_ERROR_STOP=1 -f /data/dump-k3s/dumpall_clean.sql postgres
 
           # echo "dump_prowlarr"
           # pg_restore --clean --create --if-exists -d "postgres://$SUPERUSER:$PASSWORD@cnpg-cluster-rw.database.svc.cluster.local/postgres" /data/dump-k3s/dump_prowlarr
