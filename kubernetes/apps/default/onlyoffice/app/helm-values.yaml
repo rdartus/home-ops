@@ -273,20 +273,20 @@ controllers:
           DB_PASSWORD:
             valueFrom:
               secretKeyRef:
-                name: office-secret
+                name: onlyoffice-db-secret
                 key: password
           AMQP_TYPE: rabbitmq
           AMQP_URI: 
             valueFrom:
               secretKeyRef:
-                name: office-secret
+                name: onlyoffice-secret
                 key: amqp
           REDIS_SERVER_HOST: redis-master.default.svc.cluster.local
           REDIS_SERVER_PORT: 6379
           JWT_SECRET:
             valueFrom:
               secretKeyRef:
-                name: office-secret
+                name: onlyoffice-secret
                 key: token
 #         # -- Override the command(s) for the container
 #         command: []
