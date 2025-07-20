@@ -40,6 +40,16 @@ controllers:
                   key: password
           REDIS_HOSTNAME: 'redis-master.default.svc.cluster.local'
           REDIS_PORT: "6379"
+          # REDIS_USERNAME:
+          #     valueFrom:
+          #       secretKeyRef:
+          #         name: immich-redis-secret
+          #         key: password
+          REDIS_PASSWORD:
+              valueFrom:
+                secretKeyRef:
+                  name: immich-redis-secret
+                  key: password
 
   machine-learning:
     strategy: RollingUpdate
