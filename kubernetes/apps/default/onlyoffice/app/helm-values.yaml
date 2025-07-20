@@ -265,33 +265,34 @@ controllers:
           pullPolicy: IfNotPresent
 
         env:
-          # DB_TYPE: postgres
-          # DB_HOST: cnpg-cluster-rw.database.svc.cluster.local
-          # DB_PORT: 5432
-          # DB_NAME: onlyoffice
-          # DB_USER: 
-          #   valueFrom:
-          #     secretKeyRef:
-          #       name: onlyoffice-db-secret
-          #       key: user
-          # DB_PASSWORD:
-          #   valueFrom:
-          #     secretKeyRef:
-          #       name: onlyoffice-db-secret
-          #       key: password
-          # AMQP_TYPE: rabbitmq
-          # AMQP_URI: 
-          #   valueFrom:
-          #     secretKeyRef:
-          #       name: onlyoffice-secret
-          #       key: amqp
-          # REDIS_SERVER_HOST: redis-master.default.svc.cluster.local
-          # REDIS_SERVER_PORT: 6379
-          JWT_SECRET:
+          DB_TYPE: postgres
+          DB_HOST: cnpg-cluster-rw.database.svc.cluster.local
+          DB_PORT: 5432
+          DB_NAME: onlyoffice
+          DB_USER: 
+            valueFrom:
+              secretKeyRef:
+                name: onlyoffice-db-secret
+                key: user
+          DB_PASSWORD:
+            valueFrom:
+              secretKeyRef:
+                name: onlyoffice-db-secret
+                key: password
+          AMQP_TYPE: rabbitmq
+          AMQP_URI: 
             valueFrom:
               secretKeyRef:
                 name: onlyoffice-secret
-                key: token
+                key: amqp
+          REDIS_SERVER_HOST: redis-master.default.svc.cluster.local
+          REDIS_SERVER_PORT: 6379
+          # JWT_SECRET:
+          #   valueFrom:
+          #     secretKeyRef:
+          #       name: onlyoffice-secret
+          #       key: token
+
 #         # -- Override the command(s) for the container
 #         command: []
 #         # -- Override the args for the container
