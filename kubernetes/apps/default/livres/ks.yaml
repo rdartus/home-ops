@@ -20,7 +20,7 @@ spec:
       namespace: default
     - name: sonarr
       namespace: default
-    - name: longhorn-resources
+    - name: longhorn-restore
       namespace: longhorn-system
   prune: true
   sourceRef:

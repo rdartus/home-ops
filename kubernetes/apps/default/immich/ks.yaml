@@ -18,6 +18,8 @@ spec:
       namespace: database
     - name: pg-restore
       namespace: database
+    - name: longhorn-restore
+      namespace: longhorn-system
   prune: true
   sourceRef:
     kind: GitRepository
