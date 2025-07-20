@@ -5,7 +5,10 @@ kind: Kustomization
 resources:
   - ./helmrelease.yaml
   - ./immich-secret.yaml
+  - ./immich-db-secret.yaml
   - ./immich-auth.yaml
+  - ./pvc-photo.yaml
+  - ./pvc-ml-cache.yaml
 configMapGenerator:
   - name: immich-helm-values
     files:

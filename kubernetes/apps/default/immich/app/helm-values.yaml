@@ -1,99 +1,130 @@
-## This chart relies on the common library chart from bjw-s
-## You can find it at https://github.com/bjw-s-labs/helm-charts/tree/923ef40a39520979c98f354ea23963ee54f54433/charts/library/common
-## Refer there for more detail about the supported values
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/refs/heads/main/charts/library/common/values.schema.json
+---
+controllers:
+  server:
+    strategy: RollingUpdate
+    pod:
+      enableServiceLinks: false
 
-# These entries are shared between all the Immich components
+    containers:
+      main:
+        image:
+          repository: ghcr.io/immich-app/immich-server
+          tag: v1.135.3@sha256:df5bbf4e29eff4688063a005708f8b96f13073200b4a7378f7661568459b31e9
+        env:
+          <<: &env-common
+            IMMICH_MEDIA_LOCATION: &mediaLocation /photo
+            DB_HOSTNAME: "cnpg-cluster-rw.database.svc.cluster.local"
+            DB_PORT: 5432
+            DB_USERNAME: 
+              valueFrom:
+                secretKeyRef:
+                  name: immich-db-secret
+                  key: username
+            DB_DATABASE_NAME: immich
+            DB_PASSWORD:
+              valueFrom:
+                secretKeyRef:
+                  name: immich-db-secret
+                  key: password
+          REDIS_HOSTNAME: 'redis-master.default.svc.cluster.local'
+          REDIS_PORT: "6379"
+        resources:
+          requests:
+            cpu: 100m
+            memory: 256Mi
+          limits:
+            memory: 4096Mi
 
-env:
-  DB_HOSTNAME: "cnpg-cluster-rw.database.svc.cluster.local"
-  DB_USERNAME: 
-    valueFrom:
-      secretKeyRef:
-        name: authentik-db-secret
-        key: username
-  DB_DATABASE_NAME: 
-  # -- You should provide your own secret outside of this helm-chart and use `postgresql.global.postgresql.auth.existingSecret` to provide credentials to the postgresql instance
-  DB_PASSWORD:
-    valueFrom:
-      secretKeyRef:
-        name: 
-        key: password
-  REDIS_HOSTNAME: 'redis-master.default.svc.cluster.local'
-  AUTHENTIK_REDIS__USERNAME:
-    valueFrom:
-      secretKeyRef:
-        name: authentik-redis-secret
-        key: password
-  AUTHENTIK_REDIS__PASSWORD:
-    valueFrom:
-      secretKeyRef:
-        name: authentik-redis-secret
-        key: password
-  MACHINE_LEARNING_HTTP_KEEPALIVE_TIMEOUT_S: 0
-  IMMICH_MACHINE_LEARNING_URL: '{{ printf "http://%s-machine-learning:3003" .Release.Name }}'
+  machine-learning:
+    strategy: RollingUpdate
+    annotations:
+    pod:
+      enableServiceLinks: false
+      nodeSelector:
+        kubernetes.io/hostname: s01
 
-image:
+    containers:
+      main:
+        image:
+          repository: ghcr.io/immich-app/immich-machine-learning
+          tag: v1.135.3@sha256:9f2f61d86af82d04926f9b896c995c502303052905517c5485dd26bf1e42a44e
+        env:
+          <<: *env-common
+          MPLCONFIGDIR: "/cache/matplotlib"
+        resources:
+          requests:
+            cpu: 100m
+            memory: 274M
+          limits:
+            memory: 3949M
 
-immich:
-  metrics:
-    # Enabling this will create the service monitors needed to monitor immich with the prometheus operator
-    enabled: false
-  persistence:
-    # Main data store for all photos shared between different components.
-    library:
-      # Automatically creating the library volume is not supported by this chart
-      # You have to specify an existing PVC to use
-      existingClaim:
-  # configuration is immich-config.json converted to yaml
-  # ref: https://immich.app/docs/install/config-file/
-  #
-  configuration: {}
-    # trash:
-    #   enabled: false
-    #   days: 30
-    # storageTemplate:
-    #   enabled: true
-    #   template: "{{y}}/{{y}}-{{MM}}-{{dd}}/{{filename}}"
 
-# Dependencies
+service:
+  server:
+    controller: server
+    ports:
+      http:
+        port: &port 2283
+  machine-learning:
+    controller: machine-learning
+    ports:
+      http:
+        port: 3003
 
-redis:
-  enabled: false
-  architecture: standalone
-  auth:
-    enabled: false
+ingress:
+  server:
+    enabled: true
+    annotations:
+      hajimari.io/enable: "true"
+      hajimari.io/group: "Media"
+      hajimari.io/icon: "cog-play-outline"
+      cert-manager.io/cluster-issuer: zerossl-prod
+    hosts:
+      - host: immich.dartus.fr
+        paths:
+          - path: /
+            pathType: Prefix
+            service:
+              identifier: server
+              port: http
+    tls:
+      - hosts:
+        - immich.dartus.fr
+        secretName: immich.dartus.fr-tls
 
-# Immich components
+persistence:
+  photo:
+    enabled: true
+    type : persistentVolumeClaim
+    existingClaim: pvc-photo
+    globalMounts:
+      - path: *mediaLocation
+        subPath: Photo
+        readOnly: false
 
-server:
-  enabled: true
-  image:
-    repository: ghcr.io/immich-app/immich-server
-    pullPolicy: IfNotPresent
-  ingress:
-    main:
-      enabled: false
-      annotations:
-        # proxy-body-size is set to 0 to remove the body limit on file uploads
-        nginx.ingress.kubernetes.io/proxy-body-size: "0"
-      hosts:
-        - host: immich.local
-          paths:
-            - path: "/"
-      tls: []
+  cache:
+    type: persistentVolumeClaim
+    existingClaim: pvc-ml-cache
+    globalMounts:
+      - path: /cache
+        subPath: cache
+      - path: /.cache
+        subPath: dotCache
 
-machine-learning:
-  enabled: true
-  image:
-    repository: ghcr.io/immich-app/immich-machine-learning
-    pullPolicy: IfNotPresent
-  env:
-    TRANSFORMERS_CACHE: /cache
-  persistence:
-    cache:
-      enabled: true
-      size: 10Gi
-      # Optional: Set this to pvc to avoid downloading the ML models every start.
-      type: emptyDir
-      accessMode: ReadWriteMany
-      # storageClass: your-class
+  matplotlib:
+    type: emptyDir
+    advancedMounts:
+      server:
+        main:
+          - path: /config/matplotlib
+
+  tmpfs:
+    type: emptyDir
+    advancedMounts:
+      server:
+        main:
+          - path: /usr/src/app/.reverse-geocoding-dump
+            subPath: geocoding
+          - path: /usr/src/app/.transformers_cache
+            subPath: transformers
