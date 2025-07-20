@@ -40,12 +40,6 @@ controllers:
                   key: password
           REDIS_HOSTNAME: 'redis-master.default.svc.cluster.local'
           REDIS_PORT: "6379"
-        resources:
-          requests:
-            cpu: 100m
-            memory: 256Mi
-          limits:
-            memory: 4096Mi
 
   machine-learning:
     strategy: RollingUpdate
@@ -63,13 +57,6 @@ controllers:
         env:
           <<: *env-common
           MPLCONFIGDIR: "/cache/matplotlib"
-        resources:
-          requests:
-            cpu: 100m
-            memory: 274M
-          limits:
-            memory: 3949M
-
 
 service:
   server:

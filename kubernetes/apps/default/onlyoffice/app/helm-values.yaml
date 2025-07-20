@@ -273,7 +273,7 @@ controllers:
             valueFrom:
               secretKeyRef:
                 name: onlyoffice-db-secret
-                key: user
+                key: username
           DB_PASSWORD:
             valueFrom:
               secretKeyRef:
