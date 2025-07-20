@@ -53,11 +53,6 @@ controllers:
 
   machine-learning:
     strategy: RollingUpdate
-    annotations:
-    pod:
-      enableServiceLinks: false
-      nodeSelector:
-        kubernetes.io/hostname: s01
 
     containers:
       main:
