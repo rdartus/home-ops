@@ -71,6 +71,9 @@ data:
     }
   immich-policy.json: |
 
+    path "kv-v2/data/postgresql/mich" {
+      capabilities = ["read"]
+    }
     path "kv-v2/data/immich" {
       capabilities = ["read"]
     }
