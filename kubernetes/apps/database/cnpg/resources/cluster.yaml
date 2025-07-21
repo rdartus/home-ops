@@ -70,7 +70,7 @@ spec:
       login: true
       superuser: true
       passwordSecret:
-        name: mich-secret2
+        name: mich-secret
     - name: onlyoffice
       connectionLimit: -1
       inherit: true
