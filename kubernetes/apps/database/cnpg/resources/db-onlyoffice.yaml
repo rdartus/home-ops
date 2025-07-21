@@ -5,6 +5,6 @@ metadata:
   namespace: database
 spec:
   name: onlyoffice
-  owner: office
+  owner: onlyoffice
   cluster:
     name: cnpg-cluster
