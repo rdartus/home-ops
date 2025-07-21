@@ -283,14 +283,17 @@ controllers:
           chmod 0600 .pgpass
           cat .pgpass
 
+          pg_dumpall --clean --if-exists -d postgres://$SUPERUSER:$PASSWORD@cnpg-cluster-rw.database.svc.cluster.local  -f /db/dumpall_clean.sql
+
           pg_dump  postgres://$SUPERUSER:$PASSWORD@cnpg-cluster-rw.database.svc.cluster.local/prowlarr-main -Fc -f /db/dump_prowlarr
           pg_dump  postgres://$SUPERUSER:$PASSWORD@cnpg-cluster-rw.database.svc.cluster.local/sonarr-main -Fc -f /db/dump_sonarr
           pg_dump  postgres://$SUPERUSER:$PASSWORD@cnpg-cluster-rw.database.svc.cluster.local/radarr-main -Fc -f /db/dump_radarr
           pg_dump  postgres://$SUPERUSER:$PASSWORD@cnpg-cluster-rw.database.svc.cluster.local/authentik -Fc -f /db/dump_authentik
           pg_dump  postgres://$SUPERUSER:$PASSWORD@cnpg-cluster-rw.database.svc.cluster.local/tandoor -Fc -f /db/dump_tandoor
           pg_dump  postgres://$SUPERUSER:$PASSWORD@cnpg-cluster-rw.database.svc.cluster.local/zitadel -Fc -f /db/dump_zitadel
+          pg_dump  postgres://$SUPERUSER:$PASSWORD@cnpg-cluster-rw.database.svc.cluster.local/onlyoffice -Fc -f /db/dump_onlyoffice
+          pg_dump  postgres://$SUPERUSER:$PASSWORD@cnpg-cluster-rw.database.svc.cluster.local/immich -Fc -f /db/dump_immich
 
-          pg_dumpall --clean --if-exists -d postgres://$SUPERUSER:$PASSWORD@cnpg-cluster-rw.database.svc.cluster.local  -f /db/dumpall_clean.sql
 #         # -- Override the args for the container
 #         args: []
 #         # -- Override the working directory for the container
