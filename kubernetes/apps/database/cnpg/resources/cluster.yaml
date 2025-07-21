@@ -15,12 +15,12 @@ spec:
     serverCASecret: cnpg-server-cert
     clientCASecret: cnpg-client-cert
     replicationTLSSecret: cnpg-client-cert
-  imageName: ghcr.io/cloudnative-pg/postgresql:17.0
+  # imageName: ghcr.io/cloudnative-pg/postgresql:17.0
 
-  # imageName: ghcr.io/tensorchord/cloudnative-vectorchord:16.9-0.4.3
-  # postgresql:
-  #   shared_preload_libraries:
-  #     - "vchord.so"
+  imageName: ghcr.io/tensorchord/cloudnative-vectorchord:16.9-0.4.3
+  postgresql:
+    shared_preload_libraries:
+      - "vchord.so"
 
 
   primaryUpdateStrategy: unsupervised

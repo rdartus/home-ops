@@ -37,6 +37,8 @@ spec:
       namespace: *namespace
     - name: kubernetes-replicator
       namespace: kube-system
+    - name: cert-manager-issuers
+      namespace: cert-manager
   prune: true
   sourceRef:
     kind: GitRepository
