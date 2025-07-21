@@ -292,7 +292,7 @@ controllers:
               secretKeyRef:
                 name: filebrowser-secret
                 key: oidcSecret
-          JWT_SECRET:
+          FILEBROWSER_ONLYOFFICE_SECRET:
             valueFrom:
               secretKeyRef:
                 name: onlyoffice-secret
