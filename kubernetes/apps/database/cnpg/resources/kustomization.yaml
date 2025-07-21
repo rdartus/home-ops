@@ -10,6 +10,8 @@ resources:
   - ./cnpg-superuser-secret.yaml
   - ./cnpg-tand-secret.yaml
   - ./cnpg-vauban-secret.yaml
+  - ./cnpg-mich-secret.yaml
+  - ./cnpg-office-secret.yaml
   - ./db-tandoor.yaml
   - ./db-authentik.yaml
   - ./db-prowlarr-log.yaml
