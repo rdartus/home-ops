@@ -287,11 +287,11 @@ controllers:
                 key: amqp
           REDIS_SERVER_HOST: redis-master.default.svc.cluster.local
           REDIS_SERVER_PORT: 6379
-          # JWT_SECRET:
-          #   valueFrom:
-          #     secretKeyRef:
-          #       name: onlyoffice-secret
-          #       key: token
+          JWT_SECRET:
+            valueFrom:
+              secretKeyRef:
+                name: onlyoffice-secret
+                key: token
 
 #         # -- Override the command(s) for the container
 #         command: []
