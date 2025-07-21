@@ -292,6 +292,11 @@ controllers:
               secretKeyRef:
                 name: filebrowser-secret
                 key: oidcSecret
+          JWT_SECRET:
+            valueFrom:
+              secretKeyRef:
+                name: onlyoffice-secret
+                key: token
           # FILEBROWSER_JWT_TOKEN_SECRET: 
           # FILEBROWSER_TOTP_SECRET: 
           # FILEBROWSER_RECAPTCHA_SECRET: 
@@ -523,6 +528,10 @@ configMaps:
                 defaultUserScope: "/Loisir"             # default "/" should match folders under path
                 defaultEnabled: true             # should be added as a default source for new users?
                 createUserDir: false              # create a user directory for each user
+        integrations:
+          office:
+            url: "https:onlyoffice.dartus.fr//:443"   # eg. a public internet IP/domain
+            # secret: TevrjpRNMmKC0JxAwY7iZ2VXLrvG1gue
         auth:
           methods:
             proxy:                                #  validate:omitempty
