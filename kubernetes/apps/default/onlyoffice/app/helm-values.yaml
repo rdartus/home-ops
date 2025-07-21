@@ -258,7 +258,7 @@ controllers:
 
         image:
           # -- image repository
-          repository: onlyoffice/communityserver
+          repository: onlyoffice/documentserver
           # -- image tag
           tag: latest
           # -- image pull policy
