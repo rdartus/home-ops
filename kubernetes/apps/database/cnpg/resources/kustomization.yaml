@@ -19,5 +19,5 @@ resources:
   - ./db-sonarr-log.yaml
   - ./db-sonarr-main.yaml
   - ./db-zitadel.yaml
-  - ./db-onlyoofice.yaml
+  - ./db-onlyoffice.yaml
   - ./db-immich.yaml
