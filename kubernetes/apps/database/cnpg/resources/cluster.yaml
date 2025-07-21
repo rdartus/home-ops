@@ -71,7 +71,7 @@ spec:
       superuser: true
       passwordSecret:
         name: mich-secret
-    - name: office
+    - name: onlyoffice
       connectionLimit: -1
       inherit: true
       ensure: present
@@ -86,9 +86,9 @@ spec:
       owner: potgres
       secret:
         name: pgsql-secret
-      # postInitSQL:
-        # - ALTER SYSTEM SET search_path TO "$user", public, vectors;
-        # - CREATE EXTENSION IF NOT EXISTS vchord CASCADE;
+      postInitSQL:
+        - ALTER SYSTEM SET search_path TO "$user", public, vectors;
+        - CREATE EXTENSION IF NOT EXISTS vchord CASCADE;
 
   # env:
   #   - name: LD_PRELOAD
