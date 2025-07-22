@@ -269,7 +269,7 @@ controllers:
           DB_HOST: cnpg-cluster-rw.database.svc.cluster.local
           DB_PORT: 5432
           DB_NAME: onlyoffice
-          DB_USER: 
+          DB_USER:
             valueFrom:
               secretKeyRef:
                 name: onlyoffice-db-secret
