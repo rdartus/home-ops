@@ -6,6 +6,7 @@ resources:
   - ./helmrelease.yaml
   - ./immich-redis-secret.yaml
   - ./immich-db-secret.yaml
+  - ./immich-secret.yaml
   - ./immich-auth.yaml
   - ./pvc-photo.yaml
   - ./pvc-ml-cache.yaml
