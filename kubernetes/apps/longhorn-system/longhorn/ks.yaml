@@ -16,6 +16,11 @@ spec:
       namespace: vault
     - name: traefik
       namespace: network
+    
+    # OPTIONAL
+    - name: cert-manager-issuers
+      namespace: cert-manager
+      
   prune: true
   healthCheckExprs:
     - apiVersion: longhorn.io/v1beta2

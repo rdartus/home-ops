@@ -15,6 +15,11 @@ spec:
   dependsOn:
     - name: vault-secrets-operator
       namespace: vault
+
+    # OPTIONAL
+    - name: longhorn-resources
+      namespace: longhorn-system
+
   sourceRef:
     kind: GitRepository
     name: flux-system
