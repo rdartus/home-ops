@@ -24,7 +24,8 @@ controllers:
           tag: v1.135.3@sha256:df5bbf4e29eff4688063a005708f8b96f13073200b4a7378f7661568459b31e9
         env:
           <<: &env-common
-            IMMICH_MEDIA_LOCATION: &mediaLocation /photo
+            UPLOAD_LOCATION : &mediaLocation /photo
+            IMMICH_CONFIG_FILE: /conf/immich.json
             DB_HOSTNAME: "cnpg-cluster-rw.database.svc.cluster.local"
             DB_PORT: 5432
             DB_USERNAME: 
@@ -105,6 +106,12 @@ persistence:
       - path: *mediaLocation
         subPath: Photo
         readOnly: false
+  config:
+    enabled: true
+    type : secret
+    name: immich-secret
+    globalMounts:
+      - path: /conf
 
   cache:
     type: persistentVolumeClaim
