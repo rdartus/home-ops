@@ -249,7 +249,7 @@ data:
         vault kv put kv-v2/filebrowser oidcSecret="@/config/cred/filebrowserOIDCSecret" oidcClient="@/config/cred/filebrowserOIDCClient"
         vault kv put kv-v2/onlyoffice amqp="@/config/cred/office-amqp" token="@/config/cred/office-token"
         vault kv put kv-v2/rabbitmq username='@/config/cred/rabbitmq-user' password='@/config/cred/rabbitmq-password' connection_string='@/config/cred/rabbitmq-connection-string' default_user.conf='@/config/cred/rabbitmq-conf' definitions.json='@/config/cred/rabbitmq-definitions.json'
-        vault kv put kv-v2/immich ="@/config/cred/immich-conf"
+        vault kv put kv-v2/immich immich.json="@/config/cred/immich-conf"
         vault kv put kv-v2/zitadel masterkey="@/config/cred/zitadel-masterkey" _gsuite-id="@/config/cred/_gsuite-zitadel-id" _gsuite-secret="@/config/cred/_gsuite-zitadel-secret"
         vault kv put kv-v2/gitOps OIDC_CLIENT_ID="@/config/cred/gitOpsOIDCClient" OIDC_CLIENT_SECRET="@/config/cred/gitOpsOIDCSecret" OIDC_SCOPES="openid profile email" OIDC_ISSUER_URL="https://authentik.dartus.fr/application/o/gitops/"
         vault kv put kv-v2/scale/operator-oauth client_id="@/config/cred/tailscaleOIDCClient" client_secret="@/config/cred/tailscaleOIDCSecret"

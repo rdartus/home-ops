@@ -85,7 +85,7 @@ ingress:
       hajimari.io/icon: "cog-play-outline"
       cert-manager.io/cluster-issuer: zerossl-prod
     hosts:
-      - host: photo.dartus.fr
+      - host: immich.dartus.fr
         paths:
           - path: /
             pathType: Prefix
@@ -94,8 +94,8 @@ ingress:
               port: http
     tls:
       - hosts:
-        - photo.dartus.fr
-        secretName: photo.dartus.fr-tls
+        - immich.dartus.fr
+        secretName: immich.dartus.fr-tls
 
 persistence:
   photo:
