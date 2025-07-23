@@ -274,7 +274,7 @@ controllers:
               secretKeyRef:
                 name: onlyoffice-db-secret
                 key: username
-          DB_PASSWORD:
+          DB_PWD:
             valueFrom:
               secretKeyRef:
                 name: onlyoffice-db-secret
