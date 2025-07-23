@@ -103,7 +103,8 @@ persistence:
     type : persistentVolumeClaim
     existingClaim: pvc-photo
     globalMounts:
-      - path: *mediaLocation
+      # - path: *mediaLocation
+      - path: /photo
         subPath: Photo
         readOnly: false
   config:
