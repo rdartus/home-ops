@@ -63,7 +63,7 @@ controllers:
           tag: v1.135.3@sha256:9f2f61d86af82d04926f9b896c995c502303052905517c5485dd26bf1e42a44e
         env:
           <<: *env-common
-          MPLCONFIGDIR: "/cache/matplotlib"
+          # MPLCONFIGDIR: "/cache/matplotlib"
 
 service:
   server:
@@ -99,15 +99,15 @@ ingress:
         secretName: immich.dartus.fr-tls
 
 persistence:
-  photo:
-    enabled: true
-    type : persistentVolumeClaim
-    existingClaim: pvc-photo
-    globalMounts:
-      # - path: *mediaLocation
-      - path: /photo
-        subPath: Photo
-        readOnly: false
+  # photo:
+  #   enabled: true
+  #   type : persistentVolumeClaim
+  #   existingClaim: pvc-photo
+  #   globalMounts:
+  #     # - path: *mediaLocation
+  #     - path: /photo
+  #       subPath: Photo
+  #       readOnly: false
   config:
     enabled: true
     type : secret
@@ -115,28 +115,28 @@ persistence:
     globalMounts:
       - path: /conf
 
-  cache:
-    type: persistentVolumeClaim
-    existingClaim: pvc-ml-cache
-    globalMounts:
-      - path: /cache
-        subPath: cache
-      - path: /.cache
-        subPath: dotCache
+  # cache:
+  #   type: persistentVolumeClaim
+  #   existingClaim: pvc-ml-cache
+  #   globalMounts:
+  #     - path: /cache
+  #       subPath: cache
+  #     - path: /.cache
+  #       subPath: dotCache
 
-  matplotlib:
-    type: emptyDir
-    advancedMounts:
-      server:
-        main:
-          - path: /config/matplotlib
+  # matplotlib:
+  #   type: emptyDir
+  #   advancedMounts:
+  #     server:
+  #       main:
+  #         - path: /config/matplotlib
 
-  tmpfs:
-    type: emptyDir
-    advancedMounts:
-      server:
-        main:
-          - path: /usr/src/app/.reverse-geocoding-dump
-            subPath: geocoding
-          - path: /usr/src/app/.transformers_cache
-            subPath: transformers
+  # tmpfs:
+  #   type: emptyDir
+  #   advancedMounts:
+  #     server:
+  #       main:
+  #         - path: /usr/src/app/.reverse-geocoding-dump
+  #           subPath: geocoding
+  #         - path: /usr/src/app/.transformers_cache
+  #           subPath: transformers
