@@ -12,6 +12,10 @@ spec:
   interval: 7m
   path: ./kubernetes/apps/database/cnpg/app
   prune: true
+# OPTIONAL
+  dependsOn:
+    - name: longhorn
+      namespace: longhorn-system
   sourceRef:
     kind: GitRepository
     name: flux-system

@@ -14,6 +14,9 @@ spec:
   dependsOn:
     - name: traefik
       namespace: network
+#OPTIONAL
+    - name: automate-wx
+      namespace: *namespace
   prune: true
   sourceRef:
     kind: GitRepository

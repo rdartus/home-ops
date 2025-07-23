@@ -22,6 +22,12 @@ spec:
       namespace: database
     - name: longhorn-restore
       namespace: longhorn-system
+#OPTIONAL
+    - name: filebrowser
+      namespace: *namespace
+    - name: immich
+      namespace: *namespace
+
   prune: true
   sourceRef:
     kind: GitRepository

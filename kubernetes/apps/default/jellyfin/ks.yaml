@@ -18,6 +18,11 @@ spec:
       namespace: network
     - name: prowlarr
       namespace: default
+#OPTIONAL
+    - name: filebrowser
+      namespace: *namespace
+    - name: immich
+      namespace: *namespace
   prune: true
   sourceRef:
     kind: GitRepository
