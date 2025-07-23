@@ -26,6 +26,7 @@ controllers:
           <<: &env-common
             # UPLOAD_LOCATION : &mediaLocation /photo
             # IMMICH_CONFIG_FILE: /conf/immich.json
+            IMMICH_IGNORE_MOUNT_CHECK_ERRORS: true
             DB_HOSTNAME: "cnpg-cluster-rw.database.svc.cluster.local"
             DB_PORT: 5432
             DB_USERNAME: 
