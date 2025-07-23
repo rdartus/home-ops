@@ -83,7 +83,7 @@ spec:
   bootstrap:
     initdb:
       database: default
-      owner: potgres
+      owner: postgres
       secret:
         name: pgsql-secret
       postInitSQL:
