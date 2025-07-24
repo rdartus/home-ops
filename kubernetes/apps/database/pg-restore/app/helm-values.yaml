@@ -115,7 +115,7 @@ controllers:
           sleep 2m # depends on not really working for cluster & database resources
           ls -la /data/dump-k3s/
 
-          echo "dump_all "
+          echo "dump_all"
           psql "postgres://$SUPERUSER:$PASSWORD@cnpg-cluster-rw.database.svc.cluster.local/postgres" -v ON_ERROR_STOP=1 -f /data/dump-k3s/dumpall_clean.sql
 
           # echo "dump_prowlarr"
