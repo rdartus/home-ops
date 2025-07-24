@@ -17,6 +17,10 @@ spec:
       namespace: vault
     - name: kube-prometeus-stack
       namespace: observability
+    - name: traefik
+      namespace: network
+    - name: metallb-resources
+      namespace: network
   decryption:
     provider: sops
     secretRef:
