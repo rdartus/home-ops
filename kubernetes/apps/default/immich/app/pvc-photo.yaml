@@ -9,4 +9,4 @@ spec:
       storage: 200Mi
   accessModes:
     - ReadWriteOnce
-  storageClassName: longhorn
+  storageClassName: jeanstock
