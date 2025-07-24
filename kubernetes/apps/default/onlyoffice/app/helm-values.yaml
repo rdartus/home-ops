@@ -620,7 +620,7 @@ ingress:
     # labels: {}
 
     # # -- Set the ingressClass that is used for this ingress.
-    # className:
+    className: "traefik-ingresses"
 
     # # -- Configure the defaultBackend for this ingress. This will disable any other rules for the ingress.
     # defaultBackend:

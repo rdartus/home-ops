@@ -24,7 +24,7 @@ controllers:
           tag: v1.135.3@sha256:df5bbf4e29eff4688063a005708f8b96f13073200b4a7378f7661568459b31e9
         env:
           <<: &env-common
-            # UPLOAD_LOCATION : &mediaLocation /photo
+            UPLOAD_LOCATION : &mediaLocation /photo
             IMMICH_CONFIG_FILE: /conf/immich.json
             IMMICH_IGNORE_MOUNT_CHECK_ERRORS: true
             DB_HOSTNAME: "cnpg-cluster-rw.database.svc.cluster.local"
@@ -79,6 +79,7 @@ service:
 
 ingress:
   server:
+    className: "traefik-ingresses"
     enabled: true
     annotations:
       hajimari.io/enable: "true"
