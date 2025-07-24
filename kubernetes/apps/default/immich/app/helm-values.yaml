@@ -100,15 +100,15 @@ ingress:
         secretName: immich.dartus.fr-tls
 
 persistence:
-  # photo:
-  #   enabled: true
-  #   type : persistentVolumeClaim
-  #   existingClaim: pvc-photo
-  #   globalMounts:
-  #     # - path: *mediaLocation
-  #     - path: /photo
-  #       subPath: Photo
-  #       readOnly: false
+  photo:
+    enabled: true
+    type : persistentVolumeClaim
+    existingClaim: pvc-photo
+    globalMounts:
+      # - path: *mediaLocation
+      - path: /photo
+        subPath: Photo
+        readOnly: false
   config:
     enabled: true
     type : secret
