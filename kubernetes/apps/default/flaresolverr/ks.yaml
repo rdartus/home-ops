@@ -12,6 +12,10 @@ spec:
   interval: 7m
   path: ./kubernetes/apps/default/flaresolverr/app
   prune: true
+  dependsOn:
+#OPTIONAL
+    - name: filebrowser
+      namespace: default
   sourceRef:
     kind: GitRepository
     name: flux-system

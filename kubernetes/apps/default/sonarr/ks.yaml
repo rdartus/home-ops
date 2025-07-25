@@ -22,6 +22,9 @@ spec:
       namespace: database
     - name: pg-restore
       namespace: database
+#OPTIONAL
+    - name: flaresolverr
+      namespace: default
   prune: true
   sourceRef:
     kind: GitRepository
