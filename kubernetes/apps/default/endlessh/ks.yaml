@@ -15,6 +15,9 @@ spec:
   dependsOn:
     - name: traefik
       namespace: network
+#OPTIONAL
+    - name: books
+      namespace: default
   sourceRef:
     kind: GitRepository
     name: flux-system
