@@ -19,6 +19,9 @@ spec:
       namespace: network
     - name: pg-restore
       namespace: database
+#OPTIONAL
+    - name: authentik
+      namespace: *namespace
   sourceRef:
     kind: GitRepository
     name: flux-system

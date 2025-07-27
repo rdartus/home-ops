@@ -21,7 +21,11 @@ spec:
     - name: longhorn-restore
       namespace: longhorn-system
 #OPTIONAL
-    - name: hajimari
+    - name: authentik
+      namespace: *namespace
+    - name: zitadel
+      namespace: *namespace
+    - name: filebrowser
       namespace: *namespace
   prune: true
   sourceRef:

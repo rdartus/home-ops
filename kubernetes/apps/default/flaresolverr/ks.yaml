@@ -16,6 +16,8 @@ spec:
 #OPTIONAL
     - name: filebrowser
       namespace: default
+    - name: immich
+      namespace: *namespace
   sourceRef:
     kind: GitRepository
     name: flux-system

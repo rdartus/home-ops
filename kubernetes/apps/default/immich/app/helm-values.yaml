@@ -24,7 +24,6 @@ controllers:
           tag: v1.135.3@sha256:df5bbf4e29eff4688063a005708f8b96f13073200b4a7378f7661568459b31e9
         env:
           <<: &env-common
-            UPLOAD_LOCATION : &mediaLocation /photo
             IMMICH_CONFIG_FILE: /conf/immich.json
             IMMICH_IGNORE_MOUNT_CHECK_ERRORS: true
             DB_HOSTNAME: "cnpg-cluster-rw.database.svc.cluster.local"
@@ -42,11 +41,6 @@ controllers:
                   key: password
           REDIS_HOSTNAME: 'redis-master.default.svc.cluster.local'
           REDIS_PORT: "6379"
-          # REDIS_USERNAME:
-          #     valueFrom:
-          #       secretKeyRef:
-          #         name: immich-redis-secret
-          #         key: password
           REDIS_PASSWORD:
               valueFrom:
                 secretKeyRef:
@@ -105,8 +99,7 @@ persistence:
     type : persistentVolumeClaim
     existingClaim: pvc-photo
     globalMounts:
-      # - path: *mediaLocation
-      - path: /photo
+      - path: /usr/src/app/upload
         subPath: Photo
         readOnly: false
   config:
@@ -116,28 +109,28 @@ persistence:
     globalMounts:
       - path: /conf
 
-  # cache:
-  #   type: persistentVolumeClaim
-  #   existingClaim: pvc-ml-cache
-  #   globalMounts:
-  #     - path: /cache
-  #       subPath: cache
-  #     - path: /.cache
-  #       subPath: dotCache
+  cache:
+    type: persistentVolumeClaim
+    existingClaim: pvc-ml-cache
+    globalMounts:
+      - path: /cache
+        subPath: cache
+      - path: /.cache
+        subPath: dotCache
 
-  # matplotlib:
-  #   type: emptyDir
-  #   advancedMounts:
-  #     server:
-  #       main:
-  #         - path: /config/matplotlib
+  matplotlib:
+    type: emptyDir
+    advancedMounts:
+      server:
+        main:
+          - path: /config/matplotlib
 
-  # tmpfs:
-  #   type: emptyDir
-  #   advancedMounts:
-  #     server:
-  #       main:
-  #         - path: /usr/src/app/.reverse-geocoding-dump
-  #           subPath: geocoding
-  #         - path: /usr/src/app/.transformers_cache
-  #           subPath: transformers
+  tmpfs:
+    type: emptyDir
+    advancedMounts:
+      server:
+        main:
+          - path: /usr/src/app/.reverse-geocoding-dump
+            subPath: geocoding
+          - path: /usr/src/app/.transformers_cache
+            subPath: transformers

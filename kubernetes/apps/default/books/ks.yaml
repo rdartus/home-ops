@@ -18,10 +18,10 @@ spec:
       namespace: network
     - name: jellyfin
       namespace: default
-    - name: sonarr
-      namespace: default
     - name: longhorn-restore
       namespace: longhorn-system
+    - name: radarr
+      namespace: default
   prune: true
   sourceRef:
     kind: GitRepository
