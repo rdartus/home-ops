@@ -15,9 +15,6 @@ spec:
   dependsOn:
     - name: vault-secrets-operator
       namespace: vault
-#OPTIONAL
-    - name: filebrowser
-      namespace: default
   sourceRef:
     kind: GitRepository
     name: flux-system
@@ -41,9 +38,6 @@ spec:
   prune: true
   dependsOn:
     - name: rabbitmq
-      namespace: default
-#OPTIONAL
-    - name: filebrowser
       namespace: default
   sourceRef:
     kind: GitRepository
