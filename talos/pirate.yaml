@@ -180,7 +180,7 @@ machine:
     install:
         # The disk used for installations.
         disk: /dev/mmcblk0
-        image: ghcr.io/talos-rpi5/installer:v1.10.2-rpi5-pre3
+        image: ghcr.io/beauhoyt/installer:v1.10.5-rpi5
         # Allows for supplying the image used to perform the installation.
         # Indicates if the installation disk should be wiped at installation time.
         wipe: true
@@ -567,7 +567,7 @@ sops:
             KzdQUnI3ZkdCbW1sTDF2OEIzNnFwUGcKz2eVq5Hb1XZ5iLzya8Hk8yGRp5D4jKgY
             O9UbtZm+NoHnpU+/t3Wjh+YHrhXBWDPqe7Yx0Cril0FmA66dqqTVyQ==
             -----END AGE ENCRYPTED FILE-----
-    lastmodified: "2025-07-04T16:54:04Z"
-    mac: ENC[AES256_GCM,data:yuDYjg3AZzJXMWJLGAuCfzb1mcaD3NX2p71+YLH3G+C/EVGbeL0uAoqCmC7Mril6ZzqawBEo6BpbxEKaLw9HfGrr5KY+mYqGVyDqGGTJRJEMxjY8oCPCcYZQCELRRkQCSu+Ockjk1blvwwNMFit+1d6Ny0PvfLe6A5zhSuMeTzc=,iv:VZbx6vdn88eMUtodqbfNkLOSVkLZ4KLVw7Rk9goXc1U=,tag:YLxj5xz+RQ9yARKEu4HvIw==,type:str]
+    lastmodified: "2025-08-01T21:25:37Z"
+    mac: ENC[AES256_GCM,data:nX0lZXntdaM+tFbVckNzgxHLLS2dOSQORSUvGz9txDinb9cf+ol+VA2Du9UYBtjlun7yZrOzdsKo+qsapqCkKTQj/3Cd+NNbzkkI92wpHdkKErGzrl6jtE0jfm8kjhF9Sa/ET12wn72tOdDK8ViV+fQJzIT0fG5euOS2m4eoC2k=,iv:KnmKKolo5Gf0/EgoLkNB8skB+bFyPEsmgKV89tI3xkg=,tag:7H+ajHRJCULY1SdDnys0Gw==,type:str]
     encrypted_regex: ^(certs|ca|secret|secret.*|serviceAccount|aggregatorCA|token|id|key)$
     version: 3.10.2
