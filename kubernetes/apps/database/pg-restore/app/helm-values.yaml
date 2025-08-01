@@ -133,6 +133,7 @@ controllers:
           pg_restore --clean --create --if-exists -d "postgres://$SUPERUSER:$PASSWORD@cnpg-cluster-rw.database.svc.cluster.local/postgres" /data/dump-k3s/dump_authentik
           echo "restore dump_tandoor"
           pg_restore --clean --create --if-exists -d "postgres://$SUPERUSER:$PASSWORD@cnpg-cluster-rw.database.svc.cluster.local/postgres" /data/dump-k3s/dump_tandoor
+          pg_restore --clean --create --if-exists -d "postgres://$SUPERUSER:$PASSWORD@cnpg-cluster-rw.database.svc.cluster.local/postgres" /data/dump-k3s/dump_immich
 
         env:
           SUPERUSER:
