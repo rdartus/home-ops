@@ -735,7 +735,7 @@ ingress:
       hajimari.io/group: "Media"
       hajimari.io/icon: "bookshelf"
       hajimari.io/appName: "livres"
-      cert-manager.io/cluster-issuer: zerossl-prod
+      cert-manager.io/cluster-issuer: letsencrypt-prod
 
     hosts:
       -  # -- Host address. Helm template can be passed.

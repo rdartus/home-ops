@@ -660,7 +660,7 @@ ingress:
     # # -- Provide additional annotations which may be required. Helm templates can be used.
     # annotations: {}
     annotations:
-      cert-manager.io/cluster-issuer: zerossl-prod
+      cert-manager.io/cluster-issuer: letsencrypt-prod
 
     # # -- Provide additional labels which may be required. Helm templates can be used.
     # labels: {}

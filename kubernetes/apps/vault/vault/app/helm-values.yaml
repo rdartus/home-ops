@@ -414,7 +414,7 @@ server:
       hajimari.io/enable: "true"
       hajimari.io/group: "Management"
       hajimari.io/icon: "safe-square"
-      cert-manager.io/cluster-issuer: zerossl-prod
+      cert-manager.io/cluster-issuer: letsencrypt-prod
       # cert-manager.io/cluster-issuer: "letsencrypt-prod"
 
 

@@ -588,7 +588,7 @@ ingress:
       hajimari.io/enable: "true"
       hajimari.io/group: "Media"
       hajimari.io/icon: "video-vintage"
-      cert-manager.io/cluster-issuer: zerossl-prod
+      cert-manager.io/cluster-issuer: letsencrypt-prod
 
 
 

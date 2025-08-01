@@ -177,7 +177,7 @@ ingress:
     hajimari.io/group: "Management"
     hajimari.io/icon: "jellyfish"
     hajimari.io/appName: "argocd"
-    cert-manager.io/cluster-issuer: zerossl-prod
+    cert-manager.io/cluster-issuer: letsencrypt-prod
     # kubernetes.io/tls-acme: "true"
 
   # -- Additional labels to add to the Ingress resource

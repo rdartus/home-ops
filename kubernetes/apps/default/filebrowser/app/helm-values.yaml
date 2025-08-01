@@ -691,7 +691,7 @@ ingress:
       hajimari.io/group: "Media"
       hajimari.io/icon: "cog-play-outline"
       # traefik.ingress.kubernetes.io/router.middlewares: "network-authentik-forward-auth@kubernetescrd"
-      cert-manager.io/cluster-issuer: zerossl-prod
+      cert-manager.io/cluster-issuer: letsencrypt-prod
 
     # # -- Provide additional labels which may be required. Helm templates can be used.
     # labels: {}

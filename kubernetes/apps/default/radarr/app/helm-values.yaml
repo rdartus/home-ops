@@ -625,7 +625,7 @@ ingress:
       hajimari.io/enable: "true"
       hajimari.io/group: "Media"
       hajimari.io/icon: "cog-play-outline"
-      cert-manager.io/cluster-issuer: zerossl-prod
+      cert-manager.io/cluster-issuer: letsencrypt-prod
       # traefik.ingress.kubernetes.io/router.middlewares: traefik-bouncer@kubernetescrd
       traefik.ingress.kubernetes.io/router.middlewares: "network-authentik-forward-auth@kubernetescrd"
 
