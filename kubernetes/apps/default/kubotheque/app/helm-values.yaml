@@ -174,7 +174,7 @@ controllers:
           pullPolicy: IfNotPresent
 
         env:
-          DB_HOST: mysql
+          DB_HOST: sql
           DB_PORT: 3306
           DB_USER: library_user
           DB_PASSWORD: SecurePassword123
