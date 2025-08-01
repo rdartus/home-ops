@@ -16,12 +16,9 @@ spec:
       namespace: vault
     - name: traefik-resources
       namespace: network
-    
     # OPTIONAL
     - name: metallb
       namespace: network
-    
-      
   prune: true
   healthCheckExprs:
     - apiVersion: longhorn.io/v1beta2
