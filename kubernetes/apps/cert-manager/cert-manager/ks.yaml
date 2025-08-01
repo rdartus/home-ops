@@ -17,6 +17,11 @@ spec:
       namespace: vault
     - name: traefik
       namespace: network
+#OPTIONAL
+    - name: kromgo
+      namespace: observability
+    - name: grafana
+      namespace: observability
   sourceRef:
     kind: GitRepository
     name: flux-system

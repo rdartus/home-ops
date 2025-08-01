@@ -19,6 +19,8 @@ spec:
     # OPTIONAL
     - name: longhorn-resources
       namespace: longhorn-system
+    - name: traefik-resources
+      namespace: network
 
   sourceRef:
     kind: GitRepository

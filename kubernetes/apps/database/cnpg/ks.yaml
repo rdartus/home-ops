@@ -16,6 +16,8 @@ spec:
   dependsOn:
     - name: longhorn
       namespace: longhorn-system
+    - name: cert-manager-issuers
+      namespace: cert-manager
   sourceRef:
     kind: GitRepository
     name: flux-system

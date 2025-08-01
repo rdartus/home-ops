@@ -35,6 +35,9 @@ spec:
   dependsOn:
     - name: traefik
       namespace: *namespace
+#OPTIONAL
+    - name: metallb
+      namespace: *namespace
   prune: true
   sourceRef:
     kind: GitRepository
