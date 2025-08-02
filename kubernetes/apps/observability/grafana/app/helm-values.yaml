@@ -233,7 +233,7 @@ ingress:
     hajimari.io/group: "Media"
     hajimari.io/icon: "bookshelf"
     hajimari.io/appName: "grafana"
-    cert-manager.io/cluster-issuer: letsencrypt-prod
+    cert-manager.io/cluster-issuer: zerossl-prod
 
   path: /
   pathType: Prefix

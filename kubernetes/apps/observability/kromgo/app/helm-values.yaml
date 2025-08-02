@@ -69,7 +69,7 @@ ingress:
       hajimari.io/group: "Media"
       hajimari.io/icon: "bookshelf"
       hajimari.io/appName: "livres"
-      cert-manager.io/cluster-issuer: letsencrypt-prod
+      cert-manager.io/cluster-issuer: zerossl-prod
     
     className: traefik-ingresses
 

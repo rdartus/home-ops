@@ -740,7 +740,7 @@ ingress:
       hajimari.io/enable: "true"
       hajimari.io/group: "Media"
       hajimari.io/icon: "chef-hat"
-      cert-manager.io/cluster-issuer: letsencrypt-prod
+      cert-manager.io/cluster-issuer: zerossl-prod
 
     # # -- Provide additional labels which may be required. Helm templates can be used.
     # labels: {}
@@ -781,7 +781,7 @@ ingress:
       hajimari.io/enable: "true"
       hajimari.io/group: "Media"
       hajimari.io/icon: "chef-hat"
-      cert-manager.io/cluster-issuer: letsencrypt-prod
+      cert-manager.io/cluster-issuer: zerossl-prod
 
     hosts:
       - host: secure2.dartus.fr

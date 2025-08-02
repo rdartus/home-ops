@@ -686,7 +686,7 @@ ingress:
       hajimari.io/icon: "bookshelf"
       hajimari.io/appName: "livres"
       traefik.ingress.kubernetes.io/router.middlewares: "network-authentik-forward-auth@kubernetescrd"
-      cert-manager.io/cluster-issuer: letsencrypt-prod
+      cert-manager.io/cluster-issuer: zerossl-prod
 
     hosts:
       -  # -- Host address. Helm template can be passed.
