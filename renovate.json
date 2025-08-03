@@ -6,21 +6,26 @@
     "github>rdartus/home-ops//.renovate/packageRules.json"
   ],
   "dependencyDashboardTitle": "Renovate Dashboard 🤖",
-  "suppressNotifications": ["prEditedNotification", "prIgnoreNotification"],
-  "ignorePaths": ["**/.vscode/**"],
+  "suppressNotifications": [
+    "prEditedNotification",
+    "prIgnoreNotification"
+  ],
+  "ignorePaths": [
+    "**/.vscode/**"
+  ],
   "flux": {
-    "fileMatch": [
-      "(^|/)kubernetes/.+\\.ya?ml$"
+    "managerFilePatterns": [
+      "/(^|/)kubernetes/.+\\.ya?ml$/"
     ]
   },
   "helm-values": {
-    "fileMatch": [
-      "(^|/)kubernetes/.+\\.ya?ml$"
+    "managerFilePatterns": [
+      "/(^|/)kubernetes/.+\\.ya?ml$/"
     ]
   },
   "kubernetes": {
-    "fileMatch": [
-      "(^|/)kubernetes/.+\\.ya?ml$"
+    "managerFilePatterns": [
+      "/(^|/)kubernetes/.+\\.ya?ml$/"
     ]
   }
 }
