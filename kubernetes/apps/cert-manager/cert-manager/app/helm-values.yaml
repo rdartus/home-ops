@@ -1,3 +1,5 @@
+# +docs:section=Global
+
 # Default values for cert-manager.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
@@ -10,6 +12,16 @@ global:
   #    - name: "image-pull-secret"
   imagePullSecrets: []
 
+  # Global node selector
+  #
+  # The nodeSelector on Pods tells Kubernetes to schedule Pods on the nodes with
+  # matching labels.
+  # For more information, see [Assigning Pods to Nodes](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/).
+  #
+  # If a component-specific nodeSelector is also set, it will take precedence.
+  # +docs:property
+  nodeSelector: {}
+  
   # Labels to apply to all resources.
   # Please note that this does not add labels to the resources created dynamically by the controllers.
   # For these resources, you have to add the labels in the template in the cert-manager custom resource:
@@ -115,14 +127,14 @@ podDisruptionBudget:
   enabled: false
 
   # This configures the minimum available pods for disruptions. It can either be set to
-  # an integer (e.g. 1) or a percentage value (e.g. 25%).
+  # an integer (e.g., 1) or a percentage value (e.g., 25%).
   # It cannot be used if `maxUnavailable` is set.
   # +docs:property
   # +docs:type=unknown
   # minAvailable: 1
 
   # This configures the maximum unavailable pods for disruptions. It can either be set to
-  # an integer (e.g. 1) or a percentage value (e.g. 25%).
+  # an integer (e.g., 1) or a percentage value (e.g., 25%).
   # it cannot be used if `minAvailable` is set.
   # +docs:property
   # +docs:type=unknown
@@ -130,7 +142,7 @@ podDisruptionBudget:
 
 # A comma-separated list of feature gates that should be enabled on the
 # controller pod.
-featureGates: "ExperimentalGatewayAPISupport=true"
+featureGates: ""
 
 # The maximum number of challenges that can be scheduled as 'processing' at once.
 maxConcurrentChallenges: 60
@@ -174,7 +186,7 @@ namespace: "cert-manager"
 # Override the "cert-manager.name" value, which is used to annotate some of
 # the resources that are created by this Chart (using "app.kubernetes.io/name").
 # NOTE: There are some inconsistencies in the Helm chart when it comes to
-# these annotations (some resources use eg. "cainjector.name" which resolves
+# these annotations (some resources use, e.g., "cainjector.name" which resolves
 # to the value "cainjector").
 # +docs:property
 # nameOverride: "my-cert-manager"
@@ -188,7 +200,10 @@ serviceAccount:
   # +docs:property
   # name: ""
 
-  # Optional additional annotations to add to the controller's Service Account.
+  # Optional additional annotations to add to the controller's Service Account. Templates are allowed for both keys and values.
+  # Example using templating:
+  # annotations:
+  #   "{{ .Chart.Name }}-helm-chart/version": "{{ .Chart.Version }}"
   # +docs:property
   # annotations: {}
 
@@ -225,17 +240,26 @@ enableCertificateOwnerRef: false
 #    kubernetesAPIQPS: 9000
 #    kubernetesAPIBurst: 9000
 #    numberOfConcurrentWorkers: 200
+#    enableGatewayAPI: true
+#    # Feature gates as of v1.18.1. Listed with their default values.
+#    # See https://cert-manager.io/docs/cli/controller/
 #    featureGates:
-#      AdditionalCertificateOutputFormats: true
-#      DisallowInsecureCSRUsageDefinition: true
-#      ExperimentalCertificateSigningRequestControllers: true
-#      ExperimentalGatewayAPISupport: true
-#      LiteralCertificateSubject: true
-#      SecretsFilteredCaching: true
-#      ServerSideApply: true
-#      StableCertificateRequestName: true
-#      UseCertificateRequestBasicConstraints: true
-#      ValidateCAA: true
+#      AdditionalCertificateOutputFormats: true # GA - default=true
+#      AllAlpha: false # ALPHA - default=false
+#      AllBeta: false # BETA - default=false
+#      ExperimentalCertificateSigningRequestControllers: false # ALPHA - default=false
+#      ExperimentalGatewayAPISupport: true # BETA - default=true
+#      LiteralCertificateSubject: true # BETA - default=true
+#      NameConstraints: true # BETA - default=true
+#      OtherNames: false # ALPHA - default=false
+#      SecretsFilteredCaching: true # BETA - default=true
+#      ServerSideApply: false # ALPHA - default=false
+#      StableCertificateRequestName: true # BETA - default=true
+#      UseCertificateRequestBasicConstraints: false # ALPHA - default=false
+#      UseDomainQualifiedFinalizer: true # GA - default=true
+#      ValidateCAA: false # ALPHA - default=false
+#      DefaultPrivateKeyRotationPolicyAlways: true # BETA - default=true
+#      ACMEHTTP01IngressPathTypeExact: true # BETA - default=true
 #    # Configure the metrics server for TLS
 #    # See https://cert-manager.io/docs/devops-tips/prometheus-metrics/#tls
 #    metricsTLSConfig:
@@ -244,7 +268,10 @@ enableCertificateOwnerRef: false
 #        secretName: "cert-manager-metrics-ca"
 #        dnsNames:
 #        - cert-manager-metrics
-config: {}
+config:
+  apiVersion: controller.config.cert-manager.io/v1alpha1
+  kind: ControllerConfiguration
+  enableGatewayAPI: true
 
 # Setting Nameservers for DNS01 Self Check.
 # For more information, see the [cert-manager documentation](https://cert-manager.io/docs/configuration/acme/dns01/#setting-nameservers-for-dns01-self-check).
@@ -266,7 +293,7 @@ disableAutoApproval: false
 # referencing these signer names will be auto-approved by cert-manager. Defaults to just
 # approving the cert-manager.io Issuer and ClusterIssuer issuers. When set to an empty
 # array, ALL issuers will be auto-approved by cert-manager. To disable the auto-approval,
-# because eg. you are using approver-policy, you can enable 'disableAutoApproval'.
+# because, e.g., you are using approver-policy, you can enable 'disableAutoApproval'.
 # ref: https://cert-manager.io/docs/concepts/certificaterequest/#approval
 # +docs:property
 approveSignerNames:
@@ -281,8 +308,7 @@ approveSignerNames:
 # For example:
 #  extraArgs:
 #    - --controllers=*,-certificaterequests-approver
-extraArgs: 
-  - --enable-gateway-api
+extraArgs: []
 
 # Additional environment variables to pass to cert-manager controller binary.
 # For example:
@@ -491,7 +517,7 @@ prometheus:
   # ServiceMonitor resource.
   # Otherwise, 'prometheus.io' annotations are added to the cert-manager and
   # cert-manager-webhook Deployments.
-  # Note that you can not enable both PodMonitor and ServiceMonitor as they are
+  # Note that you cannot enable both PodMonitor and ServiceMonitor as they are
   # mutually exclusive. Enabling both will result in an error.
   enabled: true
 
@@ -511,7 +537,8 @@ prometheus:
 
     # The target port to set on the ServiceMonitor. This must match the port that the
     # cert-manager controller is listening on for metrics.
-    targetPort: 9402
+    # +docs:type=string,integer
+    targetPort: http-metrics
 
     # The path to scrape for metrics.
     path: /metrics
@@ -545,7 +572,7 @@ prometheus:
     # +docs:property
     endpointAdditionalProperties: {}
 
-  # Note that you can not enable both PodMonitor and ServiceMonitor as they are mutually exclusive. Enabling both will result in an error.
+  # Note that you cannot enable both PodMonitor and ServiceMonitor as they are mutually exclusive. Enabling both will result in an error.
   podmonitor:
     # Create a PodMonitor to add cert-manager to Prometheus.
     enabled: false
@@ -695,14 +722,14 @@ webhook:
     enabled: false
 
     # This property configures the minimum available pods for disruptions. Can either be set to
-    # an integer (e.g. 1) or a percentage value (e.g. 25%).
+    # an integer (e.g., 1) or a percentage value (e.g., 25%).
     # It cannot be used if `maxUnavailable` is set.
     # +docs:property
     # +docs:type=unknown
     # minAvailable: 1
 
     # This property configures the maximum unavailable pods for disruptions. Can either be set to
-    # an integer (e.g. 1) or a percentage value (e.g. 25%).
+    # an integer (e.g., 1) or a percentage value (e.g., 25%).
     # It cannot be used if `minAvailable` is set.
     # +docs:property
     # +docs:type=unknown
@@ -948,6 +975,8 @@ webhook:
     - from:
       - ipBlock:
           cidr: 0.0.0.0/0
+      - ipBlock:
+          cidr: "::/0"
 
     # Egress rule for the webhook network policy. By default, it allows all
     # outbound traffic to ports 80 and 443, as well as DNS ports.
@@ -969,6 +998,8 @@ webhook:
       to:
       - ipBlock:
           cidr: 0.0.0.0/0
+      - ipBlock:
+          cidr: "::/0"
 
   # Additional volumes to add to the cert-manager controller pod.
   volumes: []
@@ -1062,14 +1093,14 @@ cainjector:
     enabled: false
 
     # `minAvailable` configures the minimum available pods for disruptions. It can either be set to
-    # an integer (e.g. 1) or a percentage value (e.g. 25%).
+    # an integer (e.g., 1) or a percentage value (e.g., 25%).
     # Cannot be used if `maxUnavailable` is set.
     # +docs:property
     # +docs:type=unknown
     # minAvailable: 1
 
     # `maxUnavailable` configures the maximum unavailable pods for disruptions. It can either be set to
-    # an integer (e.g. 1) or a percentage value (e.g. 25%).
+    # an integer (e.g., 1) or a percentage value (e.g., 25%).
     # Cannot be used if `minAvailable` is set.
     # +docs:property
     # +docs:type=unknown
@@ -1436,7 +1467,7 @@ startupapicheck:
 #     apiVersion: v1
 #     kind: ConfigMap
 #     metadata:
-#       name: '{ template "cert-manager.fullname" . }-extra-configmap'
+#       name: '{{ template "cert-manager.fullname" . }}-extra-configmap'
 extraObjects: []
 
 # Field used by our release pipeline to produce the static manifests.
