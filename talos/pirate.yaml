@@ -6,7 +6,7 @@ persist: true
 # Provides machine specific configuration options.
 machine:
     # Defines the role of the machine within the cluster.
-    type: controlplane
+    type: worker
     # The `token` is used by a machine to join the PKI of the cluster.
     token: ENC[AES256_GCM,data:3YEKoVnszIF9PH0bFeqi5tGO9ekfBTU=,iv:9JaZk1pqAx+dvlfED/p8wNHtALeY7gVDRnxRIpeKK8Q=,tag:j5Zkqlqwp/8phZMA4ahJMA==,type:str]
     # The root certificate authority of the PKI.
@@ -567,7 +567,7 @@ sops:
             KzdQUnI3ZkdCbW1sTDF2OEIzNnFwUGcKz2eVq5Hb1XZ5iLzya8Hk8yGRp5D4jKgY
             O9UbtZm+NoHnpU+/t3Wjh+YHrhXBWDPqe7Yx0Cril0FmA66dqqTVyQ==
             -----END AGE ENCRYPTED FILE-----
-    lastmodified: "2025-08-01T21:25:37Z"
-    mac: ENC[AES256_GCM,data:nX0lZXntdaM+tFbVckNzgxHLLS2dOSQORSUvGz9txDinb9cf+ol+VA2Du9UYBtjlun7yZrOzdsKo+qsapqCkKTQj/3Cd+NNbzkkI92wpHdkKErGzrl6jtE0jfm8kjhF9Sa/ET12wn72tOdDK8ViV+fQJzIT0fG5euOS2m4eoC2k=,iv:KnmKKolo5Gf0/EgoLkNB8skB+bFyPEsmgKV89tI3xkg=,tag:7H+ajHRJCULY1SdDnys0Gw==,type:str]
+    lastmodified: "2025-08-03T10:30:59Z"
+    mac: ENC[AES256_GCM,data:w2ku4CGMVMpMbaHQ/i+osQf/SLB54f8NHwDfOUggLyHPkYh3iGM2TzC7qRb3C/u0JQ99uQot7LKGt1ii1OiU0xzNCwIQR3X3LnyG40XR6SSAcRPvYCplcQZXb1zGKb5jPJL2ncFDsg5qxgjf76k1g7Fj9ZHfM1eX27qbaKC4CUc=,iv:08nszw/t8nL625HF1DeYednZkzWlbtA8oO+E4UX0Mt8=,tag:+ibBBASlQvaNTvujk7tCAg==,type:str]
     encrypted_regex: ^(certs|ca|secret|secret.*|serviceAccount|aggregatorCA|token|id|key)$
     version: 3.10.2
