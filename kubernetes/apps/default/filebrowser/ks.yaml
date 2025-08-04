@@ -19,6 +19,8 @@ spec:
       namespace: kube-system
     - name: onlyoffice
       namespace: default
+    - name: authentik
+      namespace: default
   sourceRef:
     kind: GitRepository
     name: flux-system
