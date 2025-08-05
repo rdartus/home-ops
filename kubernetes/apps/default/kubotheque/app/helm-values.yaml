@@ -129,8 +129,8 @@ controllers:
         env:
           # VITE_API_URL: http://localhost:3001
           # VITE_API_URL: https://kubotheque-ws.dartus.fr
-          NGINX_API_URL: http://ws:3000 # URL complète
-          NGINX_API_HOST: ws:3000 # Host avec port
+          NGINX_API_URL: http://localhost:3000 # URL complète
+          NGINX_API_HOST: localhost:3000 # Host avec port
       sql:
         # -- Override the container name
         # nameOverride:
