@@ -1,17 +1,17 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
+  name: hajimari
+  namespace: default
   annotations:
     acme.cert-manager.io/http01-edit-in-place: "true"
     cert-manager.io/cluster-issuer: zerossl-prod
-  name: hajimari-ingress
-  namespace: default
 spec:
-  defaultBackend:
-    service:
-      name: hajimari
-      port:
-        number: 3000
+  # defaultBackend:
+  #   service:
+  #     name: hajimari
+  #     port:
+  #       number: 3000
   ingressClassName: traefik-ingresses
   rules:
   - host: hajimari.dartus.fr
