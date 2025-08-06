@@ -336,7 +336,7 @@ controllers:
         #         - /usr/bin/env
         #         - bash
         #         - -c
-        #         - apikey=$(printenv RADARR__AUTH__APIKEY); if [ -z "$apikey" ]; then apikey=$(IFS=\> && while read -d \< E C; do if [[ $E = "ApiKey" ]]; then echo $C; fi; done < /config/config.xml); fi; curl --fail "localhost:7878/api/v3/system/status?apiKey=$apikey"
+        #         - apikey=$(printenv hajimari__AUTH__APIKEY); if [ -z "$apikey" ]; then apikey=$(IFS=\> && while read -d \< E C; do if [[ $E = "ApiKey" ]]; then echo $C; fi; done < /config/config.xml); fi; curl --fail "localhost:7878/api/v3/system/status?apiKey=$apikey"
         #       failureThreshold: 5
         #       initialDelaySeconds: 60
         #       periodSeconds: 10
@@ -677,33 +677,30 @@ ingress:
 
 
     # ## Configure the hosts for the ingress
-    # hosts:
-    #   - # -- Host address. Helm template can be passed.
-    #     host: radarr.dartus.fr
-    #     ## Configure the paths for the host
-    #     paths:
-    #       - # -- Path.  Helm template can be passed.
-    #         path: /
-    #         pathType: Prefix
-    #         service:
-    #           # -- Overrides the service name reference for this path
-    #           # The service name to reference.
-    #           identifier: main
-    #           port: http
-    #           # # -- Reference a service identifier from this values.yaml
-    #           # identifier: main
-    #           # -- Overrides the service port number reference for this path
-    #           # port: 7878
+    hosts:
+      - # -- Host address. Helm template can be passed.
+        host: hajimari.dartus.fr
+        ## Configure the paths for the host
+        paths:
+          - # -- Path.  Helm template can be passed.
+            path: /
+            pathType: Prefix
+            service:
+              # -- Overrides the service name reference for this path
+              # The service name to reference.
+              identifier: main
+              port: http
+              # # -- Reference a service identifier from this values.yaml
+              # identifier: main
+              # -- Overrides the service port number reference for this path
+              # port: 7878
 
-    # # -- Configure TLS for the ingress. Both secretName and hosts can process a Helm template.
-    # tls:
-    #   - hosts:
-    #     - radarr.dartus.fr
-    #     secretName: radarr.dartus.fr-tls
+    # -- Configure TLS for the ingress. Both secretName and hosts can process a Helm template.
+    tls:
+      - hosts:
+        - hajimari.dartus.fr
+        secretName: hajimari.dartus.fr-tls
 
-    #  - secretName: chart-example-tls
-    #    hosts:
-    #      - chart-example.local
 # -- Configure the ServiceMonitors for the chart here.
 # Additional ServiceMonitors can be added by adding a dictionary key similar to the 'main' ServiceMonitors.
 # @default -- See below
@@ -778,17 +775,17 @@ route:
         # Namespace of the referent resource
         namespace: traefik
         # Name of the section within the target resource.
-        sectionName: websecure-radarr
+        sectionName: websecure-hajimari
 
     # -- Host addresses. Helm template can be passed.
     hostnames: 
-      - radarr.dartus.fr
+      - hajimari.dartus.fr
 
     # -- Configure rules for routing. Defaults to the primary service.
     rules:
       - # -- Configure backends where matching requests should be sent.
         backendRefs: 
-          - name: radarr
+          - name: hajimari
             port: 7878
         ## Configure conditions used for matching incoming requests. Only for HTTPRoutes
         matches:
@@ -820,7 +817,7 @@ persistence:
 #   #   # -- Sets the persistence type
 #   #   # Valid options are persistentVolumeClaim, emptyDir, nfs, hostPath, secret, configMap or custom
 #     type: secret
-#     name: radarrConfig
+#     name: hajimariConfig
 
   #   # -- Storage Class for the config volume.
   #   # If set to `-`, dynamic provisioning is disabled.
