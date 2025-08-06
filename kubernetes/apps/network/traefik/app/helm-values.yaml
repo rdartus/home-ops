@@ -762,16 +762,15 @@ ports:
     protocol: TCP
     # -- See [upstream documentation](https://kubernetes.io/docs/concepts/services-networking/service/#type-nodeport)
     nodePort:  # @schema type:[integer, null]; minimum:0
-    allowACMEByPass: true
-    redirections:
-      # -- Port Redirections
-      # Added in 2.2, one can make permanent redirects via entrypoints.
-      # Same sets of parameters: to, scheme, permanent and priority.
-    # https://docs.traefik.io/routing/entrypoints/#redirection
-      entryPoint:
-        to: websecure
-        scheme: https
-        permanent: true
+    # redirections:
+    #   # -- Port Redirections
+    #   # Added in 2.2, one can make permanent redirects via entrypoints.
+    #   # Same sets of parameters: to, scheme, permanent and priority.
+    # # https://docs.traefik.io/routing/entrypoints/#redirection
+    #   entryPoint:
+    #     to: websecure
+    #     scheme: https
+    #     permanent: true
     forwardedHeaders:
       # -- Trust forwarded headers information (X-Forwarded-*).
       trustedIPs: []
@@ -810,7 +809,7 @@ ports:
     # -- See [upstream documentation](https://kubernetes.io/docs/concepts/services-networking/service/#application-protocol)
     appProtocol:  # @schema type:[string, null]
     # -- See [upstream documentation](https://doc.traefik.io/traefik/routing/entrypoints/#allowacmebypass)
-    allowACMEByPass: true
+    allowACMEByPass: false
     http3:
       ## -- Enable HTTP/3 on the entrypoint
       ## Enabling it will also enable http3 experimental feature
