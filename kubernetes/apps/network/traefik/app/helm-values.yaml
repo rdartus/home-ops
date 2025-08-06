@@ -152,6 +152,8 @@ gateway:
   # -- Additional gateway annotations (e.g. for cert-manager.io/issuer)
   annotations: 
     cert-manager.io/cluster-issuer: zerossl-prod
+    acme.cert-manager.io/http01-edit-in-place: "true"
+
   # -- [Infrastructure](https://kubernetes.io/blog/2023/11/28/gateway-api-ga/#gateway-infrastructure-labels)
   infrastructure: {}
   # -- Define listeners

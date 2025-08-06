@@ -615,6 +615,7 @@ ingress:
       hajimari.io/group: "Media"
       hajimari.io/icon: "cog-play-outline"
       cert-manager.io/cluster-issuer: zerossl-prod
+      acme.cert-manager.io/http01-edit-in-place: "true"
 
     # # -- Provide additional labels which may be required. Helm templates can be used.
     # labels: {}

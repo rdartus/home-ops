@@ -627,6 +627,7 @@ ingress:
       hajimari.io/icon: "cog-play-outline"
       traefik.ingress.kubernetes.io/router.middlewares: "network-authentik-forward-auth@kubernetescrd"
       cert-manager.io/cluster-issuer: zerossl-prod
+      acme.cert-manager.io/http01-edit-in-place: "true"
 
     # # -- Provide additional labels which may be required. Helm templates can be used.
     # labels: {}
