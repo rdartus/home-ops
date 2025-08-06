@@ -660,7 +660,7 @@ ingress:
     # annotations: {}
     annotations:
       cert-manager.io/cluster-issuer: zerossl-prod
-      acme.cert-manager.io/http01-edit-in-place: "true"
+      acme.cert-manager.io/http01-edit-in-place: "false"
 
     # # -- Provide additional labels which may be required. Helm templates can be used.
     # labels: {}

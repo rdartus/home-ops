@@ -626,7 +626,7 @@ alertmanager:
       hajimari.io/icon: "bookshelf"
       hajimari.io/appName: "alertmanager"
       cert-manager.io/cluster-issuer: zerossl-prod
-      acme.cert-manager.io/http01-edit-in-place: "true"
+      acme.cert-manager.io/http01-edit-in-place: "false"
 
 
     labels: {}
@@ -3482,7 +3482,7 @@ prometheus:
       hajimari.io/group: "Management"
       hajimari.io/icon: "safe-square"
       cert-manager.io/cluster-issuer: zerossl-prod
-      acme.cert-manager.io/http01-edit-in-place: "true"
+      acme.cert-manager.io/http01-edit-in-place: "false"
 
     labels: {}
 

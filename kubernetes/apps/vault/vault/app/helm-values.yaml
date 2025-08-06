@@ -415,7 +415,7 @@ server:
       hajimari.io/group: "Management"
       hajimari.io/icon: "safe-square"
       cert-manager.io/cluster-issuer: zerossl-prod
-      acme.cert-manager.io/http01-edit-in-place: "true"
+      acme.cert-manager.io/http01-edit-in-place: "false"
       # cert-manager.io/cluster-issuer: "letsencrypt-prod"
 
 
