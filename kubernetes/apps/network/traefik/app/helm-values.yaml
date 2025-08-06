@@ -810,7 +810,7 @@ ports:
     # -- See [upstream documentation](https://kubernetes.io/docs/concepts/services-networking/service/#application-protocol)
     appProtocol:  # @schema type:[string, null]
     # -- See [upstream documentation](https://doc.traefik.io/traefik/routing/entrypoints/#allowacmebypass)
-    allowACMEByPass: false
+    allowACMEByPass: true
     http3:
       ## -- Enable HTTP/3 on the entrypoint
       ## Enabling it will also enable http3 experimental feature
