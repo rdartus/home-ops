@@ -651,7 +651,7 @@ ingress:
 #   # -- An example is shown below
   main:
     # -- Enables or disables the ingress
-    enabled: true
+    enabled: false
 
     # # -- Override the name suffix that is used for this ingress.
     # nameOverride:
@@ -674,7 +674,6 @@ ingress:
         name: "hajimari"
         port: 
           number: 3000
-
 
     # ## Configure the hosts for the ingress
     hosts:
