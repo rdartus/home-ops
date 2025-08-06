@@ -9,9 +9,9 @@ resources:
   - ./authentik/ks.yaml
   - ./hajimari/ks.yaml
   - ./redis/ks.yaml
-  - ./prowlarr/ks.yaml
-  - ./radarr/ks.yaml
-  - ./sonarr/ks.yaml
+  # - ./prowlarr/ks.yaml
+  # - ./radarr/ks.yaml
+  # - ./sonarr/ks.yaml
   - ./flaresolverr/ks.yaml
   - ./filebrowser/ks.yaml
   - ./jellyfin/ks.yaml
