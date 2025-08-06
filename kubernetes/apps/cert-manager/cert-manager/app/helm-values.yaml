@@ -308,7 +308,8 @@ approveSignerNames:
 # For example:
 #  extraArgs:
 #    - --controllers=*,-certificaterequests-approver
-extraArgs: []
+extraArgs: 
+  - --v=4
 
 # Additional environment variables to pass to cert-manager controller binary.
 # For example:
