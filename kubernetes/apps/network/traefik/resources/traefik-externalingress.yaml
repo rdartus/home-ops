@@ -15,18 +15,6 @@ spec:
         - name: pi-external
           port: 443
 
-    - match: HostSNI(`radarr.dartus.fr`)
-      services:
-        - name: pi-external
-          port: 443
-
-
-    - match: HostSNI(`sonarr.dartus.fr`)
-      services:
-        - name: pi-external
-          port: 443
-
-
     - match: HostSNI(`stream.dartus.fr`)
       services:
         - name: pi-external
@@ -37,19 +25,6 @@ spec:
       services:
         - name: pi-external
           port: 443
-
-
-    - match: HostSNI(`prowlarr.dartus.fr`)
-      services:
-        - name: pi-external
-          port: 443
-
-
-    - match: HostSNI(`cloud.dartus.fr`)
-      services:
-        - name: pi-external
-          port: 443
-
 
     - match: HostSNI(`livres.dartus.fr`)
       services:

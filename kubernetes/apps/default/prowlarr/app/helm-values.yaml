@@ -640,7 +640,7 @@ ingress:
     ## Configure the hosts for the ingress
     hosts:
       - # -- Host address. Helm template can be passed.
-        host: prowlarr2.dartus.fr
+        host: prowlarr.dartus.fr
         ## Configure the paths for the host
         paths:
           - # -- Path.  Helm template can be passed.
@@ -659,8 +659,8 @@ ingress:
     # -- Configure TLS for the ingress. Both secretName and hosts can process a Helm template.
     tls:
       - hosts:
-        - prowlarr2.dartus.fr
-        secretName: prowlarr2.dartus.fr-tls
+        - prowlarr.dartus.fr
+        secretName: prowlarr.dartus.fr-tls
 
     #  - secretName: chart-example-tls
     #    hosts:
@@ -746,7 +746,7 @@ route: {}
 
   #   # -- Host addresses. Helm template can be passed.
   #   hostnames: 
-  #     - prowlarr2.dartus.fr
+  #     - prowlarr.dartus.fr
 
   #   # -- Configure rules for routing. Defaults to the primary service.
   #   rules:

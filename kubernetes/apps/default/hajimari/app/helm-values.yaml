@@ -482,7 +482,6 @@ configMaps:
           matchNames:
           - default
           - argocd
-          - podinfo
           - jeanpi
           
         title: "test title"
@@ -679,7 +678,7 @@ ingress:
     # ## Configure the hosts for the ingress
     # hosts:
     #   - # -- Host address. Helm template can be passed.
-    #     host: radarr2.dartus.fr
+    #     host: radarr.dartus.fr
     #     ## Configure the paths for the host
     #     paths:
     #       - # -- Path.  Helm template can be passed.
@@ -698,8 +697,8 @@ ingress:
     # # -- Configure TLS for the ingress. Both secretName and hosts can process a Helm template.
     # tls:
     #   - hosts:
-    #     - radarr2.dartus.fr
-    #     secretName: radarr2.dartus.fr-tls
+    #     - radarr.dartus.fr
+    #     secretName: radarr.dartus.fr-tls
 
     #  - secretName: chart-example-tls
     #    hosts:
@@ -782,7 +781,7 @@ route:
 
     # -- Host addresses. Helm template can be passed.
     hostnames: 
-      - radarr2.dartus.fr
+      - radarr.dartus.fr
 
     # -- Configure rules for routing. Defaults to the primary service.
     rules:

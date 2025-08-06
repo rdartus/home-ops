@@ -189,7 +189,7 @@ gateway:
         # from: All 
     # websecure-radarr:
     #   port: 443
-    #   hostname: "radarr2.dartus.fr"
+    #   hostname: "radarr.dartus.fr"
     #   protocol: HTTPS
     #   
         # from: All 
@@ -199,7 +199,7 @@ gateway:
     #   mode: Terminate
     # websecure-sonarr:
     #   port: 443
-    #   hostname: "sonarr2.dartus.fr"
+    #   hostname: "sonarr.dartus.fr"
     #   protocol: HTTPS
     #   
         # from: All 
@@ -209,7 +209,7 @@ gateway:
     #   mode: Terminate
     # websecure-prowlarr:
     #   port: 443
-    #   hostname: "prowlarr2.dartus.fr"
+    #   hostname: "prowlarr.dartus.fr"
     #   protocol: HTTPS
     #   
         # from: All 

@@ -705,7 +705,7 @@ ingress:
     ## Configure the hosts for the ingress
     hosts:
       - # -- Host address. Helm template can be passed.
-        host: cloud2.dartus.fr
+        host: cloud.dartus.fr
         ## Configure the paths for the host
         paths:
           - # -- Path.  Helm template can be passed.
@@ -724,8 +724,8 @@ ingress:
     # -- Configure TLS for the ingress. Both secretName and hosts can process a Helm template.
     tls:
       - hosts:
-        - cloud2.dartus.fr
-        secretName: cloud2.dartus.fr-tls
+        - cloud.dartus.fr
+        secretName: cloud.dartus.fr-tls
 
     #  - secretName: chart-example-tls
     #    hosts:
