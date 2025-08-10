@@ -150,6 +150,9 @@ data:
     path "kv-v2/data/postgresql/chef" {
       capabilities = ["read"]
     }
+    path "kv-v2/data/smtp/*" {
+      capabilities = ["read"]
+    }
   zerossl-policy.json: |
     path "kv-v2/data/zerossl" {
       capabilities = ["read"]

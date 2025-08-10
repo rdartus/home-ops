@@ -145,6 +145,7 @@ controllers:
               secretKeyRef:
                 name: chef-db-secret
                 key: password
+          # OIDC Settings
           OIDC_CLIENT_ID:
             valueFrom:
               secretKeyRef:
@@ -156,7 +157,33 @@ controllers:
                 name: mealie-secret
                 key: oidcSecret
           OIDC_ADMIN_GROUP: admin
-          
+          OIDC_PROVIDER_NAME: Authentik
+          OIDC_CONFIGURATION_URL: https://authentik.dartus.fr/.well-known/openid-configuration
+          # SMTP Settings
+          SMTP_HOST: smtp.gmail.com
+          SMTP_PORT: "587"
+          SMTP_FROM_NAME: 
+            valueFrom:
+              secretKeyRef:
+                name: smtp-secret
+                key: oidcSecret
+          SMTP_AUTH_STRATEGY: TLS
+          SMTP_FROM_EMAIL: 
+            valueFrom:
+              secretKeyRef:
+                name: smtp-secret
+                key: gmail_username
+          SMTP_USER: 
+            valueFrom:
+              secretKeyRef:
+                name: smtp-secret
+                key: gmail_username
+          SMTP_PASSWORD: 
+            valueFrom:
+              secretKeyRef:
+                name: smtp-secret
+                key: gmail_password
+
     # -- Set annotations on the deployment/statefulset/daemonset/cronjob/job
 #     annotations: {}
 #     # -- Set labels on the deployment/statefulset/daemonset/cronjob/job
