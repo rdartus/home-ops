@@ -268,8 +268,8 @@ controllers:
           # -- Set the container timezone
           TZ: UTC
           DOTNET_HOSTBUILDER__RELOADCONFIGONCHANGE: false
-        securityContext:
-          privileged: true
+        # securityContext:
+        #   privileged: true
 
 #         # -- Override the command(s) for the container
 #         command: []
