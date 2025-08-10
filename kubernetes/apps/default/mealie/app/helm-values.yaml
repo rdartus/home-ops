@@ -146,6 +146,8 @@ controllers:
                 name: chef-db-secret
                 key: password
           # OIDC Settings
+          OIDC_AUTH_ENABLED: true
+          OIDC_SIGNUP_ENABLED: true
           OIDC_CLIENT_ID:
             valueFrom:
               secretKeyRef:
@@ -159,6 +161,9 @@ controllers:
           OIDC_ADMIN_GROUP: admin
           OIDC_PROVIDER_NAME: Authentik
           OIDC_CONFIGURATION_URL: https://authentik.dartus.fr/.well-known/openid-configuration
+          OIDC_AUTO_REDIRECT: true
+          OIDC_REMEMBER_ME: true
+          OIDC_USER_GROUP: pecor
           # SMTP Settings
           SMTP_HOST: smtp.gmail.com
           SMTP_PORT: "587"
