@@ -23,7 +23,7 @@ spec:
       namespace: *namespace
     - name: immich
       namespace: *namespace
-  prune: false
+  prune: true
   sourceRef:
     kind: GitRepository
     name: flux-system
