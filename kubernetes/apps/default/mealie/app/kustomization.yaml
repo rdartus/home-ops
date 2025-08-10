@@ -1,0 +1,16 @@
+---
+# yaml-language-server: $schema=https://json.schemastore.org/kustomization
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - ./helmrelease.yaml
+  - ./chef-db-secret.yaml
+  - ./mealie-auth.yaml
+  - ./mealie-secret.yaml
+  - ./pvc-mealie-media.yaml
+configMapGenerator:
+  - name: mealie-helm-values
+    files:
+      - values.yaml=./helm-values.yaml
+configurations:
+  - kustomizeconfig.yaml

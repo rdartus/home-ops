@@ -1,0 +1,38 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/kustomize.toolkit.fluxcd.io/kustomization_v1.json
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: &app mealie
+  namespace: &namespace default
+spec:
+  commonMetadata:
+    labels:
+      app.kubernetes.io/name: *app
+  interval: 7m
+  path: ./kubernetes/apps/default/mealie/app
+  dependsOn:
+    - name: vault-secrets-operator
+      namespace: vault
+    - name: traefik
+      namespace: network
+    - name: cnpg
+      namespace: database
+    - name: pg-restore
+      namespace: database
+    - name: longhorn-restore
+      namespace: longhorn-system
+#OPTIONAL
+    - name: filebrowser
+      namespace: *namespace
+    - name: immich
+      namespace: *namespace
+
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+    namespace: flux-system
+  targetNamespace: *namespace
+  timeout: 5m
+  wait: true

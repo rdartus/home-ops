@@ -147,7 +147,7 @@ data:
     path "kv-v2/data/mealie" {
       capabilities = ["read"]
     }
-    path "kv-v2/data/postgresql/tand" {
+    path "kv-v2/data/postgresql/chef" {
       capabilities = ["read"]
     }
   zerossl-policy.json: |
@@ -235,6 +235,7 @@ data:
         vault kv put kv-v2/postgresql/arr username="@/config/cred/DB-arr-user" password="@/config/cred/DB-arr-password"
         vault kv put kv-v2/postgresql/auth username="@/config/cred/DB-auth-user" password="@/config/cred/DB-auth-password"
         vault kv put kv-v2/postgresql/tand username="@/config/cred/DB-tand-user" password="@/config/cred/DB-tand-password"
+        vault kv put kv-v2/postgresql/chef username="@/config/cred/DB-chef-user" password="@/config/cred/DB-chef-password"
         vault kv put kv-v2/postgresql/vauban username="@/config/cred/DB-vauban-user" password="@/config/cred/DB-vauban-password"
         vault kv put kv-v2/postgresql/mich username="@/config/cred/DB-mich-user" password="@/config/cred/DB-mich-password"
         vault kv put kv-v2/postgresql/office username="@/config/cred/DB-office-user" password="@/config/cred/DB-office-password" token="@/config/cred/office-token" amqp="@/config/cred/office-amqp" 

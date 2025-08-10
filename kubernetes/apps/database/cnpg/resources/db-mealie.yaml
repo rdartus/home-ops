@@ -1,0 +1,10 @@
+apiVersion: postgresql.cnpg.io/v1
+kind: Database
+metadata:
+  name: db-mealie
+  namespace: database
+spec:
+  name: mealie
+  owner: chef
+  cluster:
+    name: cnpg-cluster
