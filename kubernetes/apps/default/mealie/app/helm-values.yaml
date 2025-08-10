@@ -143,7 +143,7 @@ controllers:
           POSTGRES_PASSWORD:
             valueFrom:
               secretKeyRef:
-                name: tand-db-secret
+                name: chef-db-secret
                 key: password
           OIDC_CLIENT_ID:
             valueFrom:
