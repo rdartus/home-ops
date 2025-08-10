@@ -143,6 +143,13 @@ data:
     path "kv-v2/data/postgresql/tand" {
       capabilities = ["read"]
     }
+  mealie-policy.json: |
+    path "kv-v2/data/mealie" {
+      capabilities = ["read"]
+    }
+    path "kv-v2/data/postgresql/tand" {
+      capabilities = ["read"]
+    }
   zerossl-policy.json: |
     path "kv-v2/data/zerossl" {
       capabilities = ["read"]
@@ -245,6 +252,7 @@ data:
         vault kv put kv-v2/wx/list list.json="@/config/cred/wx-list"
         vault kv put kv-v2/tandoor key="@/config/cred/tandoorKey" oidcProvider="@/config/cred/tandoorSocialProvider"
         vault kv put kv-v2/zerossl keyID="@/config/cred/zeroSSLID" HMAC="@/config/cred/zeroSSLHMAC"
+        vault kv put kv-v2/mealie oidcSecret="@/config/cred/mealieOIDCSecret" oidcClient="@/config/cred/mealieOIDCClient"
         vault kv put kv-v2/pgadmin oidcSecret="@/config/cred/pgadminOIDCSecret" oidcClient="@/config/cred/pgadminOIDCClient" oidcConf="@/config/cred/pgadminOIDCConf" servers.json="@/config/cred/pgadminServerConf"
         vault kv put kv-v2/filebrowser oidcSecret="@/config/cred/filebrowserOIDCSecret" oidcClient="@/config/cred/filebrowserOIDCClient"
         vault kv put kv-v2/onlyoffice amqp="@/config/cred/office-amqp" token="@/config/cred/office-token"
@@ -273,6 +281,7 @@ data:
         vault policy write plckubeprom /config/scripts/kubeprom-policy.json     
         vault policy write plcwx /config/scripts/wx-policy.json        
         vault policy write plctandoor /config/scripts/tandoor-policy.json        
+        vault policy write plcmealie /config/scripts/mealie-policy.json        
         vault policy write plczerossl /config/scripts/zerossl-policy.json        
         vault policy write plcgitops /config/scripts/gitops-policy.json        
         vault policy write plcscale /config/scripts/scale-policy.json        
@@ -403,6 +412,13 @@ data:
         bound_service_account_names=default \
         bound_service_account_namespaces=default \
         policies=plctandoor \
+        audience=vault\
+        ttl=24h
+
+        vault write auth/kubernetes/role/rlmealie \
+        bound_service_account_names=default \
+        bound_service_account_namespaces=default \
+        policies=plcmealie \
         audience=vault\
         ttl=24h
 
