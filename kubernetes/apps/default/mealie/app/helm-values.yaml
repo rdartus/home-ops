@@ -162,11 +162,7 @@ controllers:
           # SMTP Settings
           SMTP_HOST: smtp.gmail.com
           SMTP_PORT: "587"
-          SMTP_FROM_NAME: 
-            valueFrom:
-              secretKeyRef:
-                name: smtp-secret
-                key: oidcSecret
+          SMTP_FROM_NAME: "Mealie"
           SMTP_AUTH_STRATEGY: TLS
           SMTP_FROM_EMAIL: 
             valueFrom:
