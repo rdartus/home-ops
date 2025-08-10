@@ -12,6 +12,7 @@ resources:
   - ./cnpg-vauban-secret.yaml
   - ./cnpg-mich-secret.yaml
   - ./cnpg-office-secret.yaml
+  - ./cnpg-chef-secret.yaml
   - ./db-tandoor.yaml
   - ./db-authentik.yaml
   - ./db-prowlarr-log.yaml
@@ -23,3 +24,4 @@ resources:
   - ./db-zitadel.yaml
   - ./db-onlyoffice.yaml
   - ./db-immich.yaml
+  - ./db-mealie.yaml

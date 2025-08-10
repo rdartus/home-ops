@@ -54,6 +54,14 @@ spec:
       login: true
       passwordSecret:
         name: tand-secret
+    - name: chef
+      connectionLimit: -1
+      inherit: true
+      ensure: present
+      comment: tandoor user 
+      login: true
+      passwordSecret:
+        name: chef-secret
     - name: vauban
       connectionLimit: -1
       inherit: true
