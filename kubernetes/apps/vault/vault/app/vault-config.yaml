@@ -461,6 +461,9 @@ data:
         user_claim="sub" \
         policies="reader"\
         groups_claim="groups" \
+        oidc_scopes="openid,profile,email"\
+        verbose_oidc_logging=true
+
 
         exit 0
       elif [ $STATUS = "true" ]; then
