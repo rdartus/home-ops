@@ -691,7 +691,7 @@ ingress:
 
     hosts:
       -  # -- Host address. Helm template can be passed.
-        host: livres2.dartus.fr
+        host: livres.dartus.fr
         ## Configure the paths for the host
         paths:
           -  # -- Path.  Helm template can be passed.
@@ -709,8 +709,8 @@ ingress:
 
     tls:
       - hosts:
-        - livres2.dartus.fr
-        secretName: livres2.dartus.fr-tls
+        - livres.dartus.fr
+        secretName: livres.dartus.fr-tls
 
 
 
