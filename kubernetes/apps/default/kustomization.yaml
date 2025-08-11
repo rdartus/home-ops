@@ -15,8 +15,9 @@ resources:
   - ./flaresolverr/ks.yaml
   - ./filebrowser/ks.yaml
   - ./jellyfin/ks.yaml
-  # - ./qbittorrent/ks.yaml
+  - ./qbittorrent/ks.yaml
   - ./mealie/ks.yaml
+  - ./kavita/ks.yaml
   - ./books/ks.yaml
   - ./livres/ks.yaml
   - ./kubotheque/ks.yaml

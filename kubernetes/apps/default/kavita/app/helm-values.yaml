@@ -5,25 +5,25 @@ global:
   nameOverride:
   # -- Set the entire name definition
   fullnameOverride:
-  # -- Propagate global metadata to Pod labels.
-  propagateGlobalMetadataToPods: false
   # -- Set additional global labels. Helm templates can be used.
   labels: {}
   # -- Set additional global annotations. Helm templates can be used.
   annotations: {}
-
-# -- Set the strategy for the default pod options. Defaults to
-#    overwrite: If pod-level options are set, use those instead of the defaults.
-#    merge: If pod-level options are set, merge them with the defaults
-# @default -- overwrite
-defaultPodOptionsStrategy: overwrite
 
 # -- Set default options for all controllers / pods here
 # Each of these options can be overridden on a Controller level
 defaultPodOptions:
   # -- Defines affinity constraint rules. Helm templates can be used.
   # [[ref]](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#affinity-and-anti-affinity)
-  affinity: {}
+  # affinity: 
+  #   nodeAffinity:
+  #     requiredDuringSchedulingIgnoredDuringExecution:
+  #       nodeSelectorTerms:
+  #       - matchExpressions:
+  #         - key: "kubernetes.io/hostname"
+  #           operator: In
+  #           values:
+  #           - nucoumouk
 
   # -- Set annotations on the Pod. Pod-specific values will be merged with this.
   annotations: {}
@@ -57,9 +57,6 @@ defaultPodOptions:
   # -- Use the host's pid namespace
   hostPID: false
 
-  # -- Use the host's user namespace (requires 1.29 or newer)
-  hostUsers:
-
   # -- Set image pull secrets
   imagePullSecrets: []
 
@@ -84,15 +81,14 @@ defaultPodOptions:
   schedulerName: ""
 
   # -- Configure the Security Context for the Pod
-  securityContext: {}
-
-  # -- Allows sharing process namespace between containers in a Pod
-  # -- [[ref](https://kubernetes.io/docs/tasks/configure-pod-container/share-process-namespace/)]
-  shareProcessNamespace:
+  # securityContext: 
+  #   runAsUser: 1001
+  #   fsGroup: 1001
 
   # -- Duration in seconds the pod needs to terminate gracefully
   # -- [[ref](https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#lifecycle)]
   terminationGracePeriodSeconds:
+
   # -- Specify taint tolerations
   # [[ref]](https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/)
   tolerations: []
@@ -109,6 +105,30 @@ controllers:
     # -- Set the controller type.
     # Valid options are deployment, daemonset, statefulset, cronjob or job
     type: statefulset
+
+
+    containers:
+      main:
+        # -- Override the container name
+        # nameOverride:
+
+        # -- Specify if this container depends on any other containers
+        # This is used to determine the order in which the containers are rendered.
+        dependsOn: []
+
+        image:
+          # -- image repository
+          repository: lscr.io/linuxserver/kavita
+          # -- image tag
+          tag: latest
+          # -- image pull policy
+          pullPolicy: IfNotPresent
+
+        env:
+          PUID: 1000
+          PGID: 1000
+          TZ: Europe/Paris
+
     # -- Set annotations on the deployment/statefulset/daemonset/cronjob/job
 #     annotations: {}
 #     # -- Set labels on the deployment/statefulset/daemonset/cronjob/job
@@ -149,7 +169,7 @@ controllers:
     #   # -- Specifies how to treat concurrent executions of a job that is created by this cron job
     #   # valid values are Allow, Forbid or Replace
     #   concurrencyPolicy: Replace
-    #   # -- Sets the CronJob timezone (only works in Kubernetes >= 1.27)
+    #   # -- Sets the CronJob timezone (only works in Kubernetes >:  1.27)
     #   # timeZone: 
     #   # -- Sets the CronJob time when to execute your jobs
     #   schedule: "0 5 * * *"
@@ -247,25 +267,6 @@ controllers:
 #       # -- Configure the Security Context for the container
 #       securityContext: {}
 
-    containers:
-      main:
-        # -- Override the container name
-        # nameOverride:
-
-        # -- Specify if this container depends on any other containers
-        # This is used to determine the order in which the containers are rendered.
-        dependsOn: []
-
-        image:
-          # -- image repository
-          repository: ghcr.io/home-operations/qbittorrent
-          # @default -- chart.appVersion
-          tag: sha256-9dd0164cc23e9c937e0af27fd7c3f627d1df30c182cf62ed34d3f129c55dc0e8
-          # -- image pull policy
-          pullPolicy: IfNotPresent
-
-#         # -- Override the command(s) for the container
-#         command: []
 #         # -- Override the args for the container
 #         args: []
 #         # -- Override the working directory for the container
@@ -295,107 +296,6 @@ controllers:
 #         #      value: UTC
 #         # G) - name: TZ
 #         #      value: '{{ .Release.Name }}'
-        env:
-          TZ: UTC
-              
-          QBT_Application__FileLogger__Age: '1'
-          QBT_Application__FileLogger__AgeType: '1'
-          QBT_Application__FileLogger__Backup: 'true'
-          QBT_Application__FileLogger__DeleteOld: 'true'
-          QBT_Application__FileLogger__Enabled: 'true'
-          QBT_Application__FileLogger__MaxSizeBytes: '66560'
-          QBT_Application__FileLogger__Path: '/config/qBittorrent/logs'
-
-          QBT_BitTorrent__Session__DefaultSavePath: '/data/tmp'
-          QBT_BitTorrent__Session__DisableAutoTMMByDefault: 'false'
-          QBT_BitTorrent__Session__ExcludedFileNames: 
-          QBT_BitTorrent__Session__GlobalUPSpeedLimit: '10000'
-          QBT_BitTorrent__Session__MaxActiveDownloads: '3'
-          QBT_BitTorrent__Session__MaxActiveTorrents: '5'
-          QBT_BitTorrent__Session__MaxActiveUploads: '3'
-          QBT_BitTorrent__Session__Port: '6881'
-          QBT_BitTorrent__Session__QueueingSystemEnabled: 'true'
-          QBT_BitTorrent__Session__Tags: 'radarr, sonarr, games, manga, manual'
-          QBT_BitTorrent__Session__TempPath: '/downloads/incomplete/'
-
-          QBT_Preferences__Advanced__RecheckOnCompletion: 'false'
-          QBT_Preferences__Advanced__trackerPort: '9000'
-          QBT_Preferences__Advanced__trackerPortForwarding: 'false'
-          QBT_Preferences__Connection__PortRangeMin: '6881'
-          QBT_Preferences__Connection__ResolvePeerCountries: 'true'
-          QBT_Preferences__Connection__UPnP: 'false'
-          QBT_Preferences__Downloads__SavePath: '/downloads/'
-          QBT_Preferences__Downloads__TempPath: '/downloads/incomplete/'
-          QBT_Preferences__DynDNS__DomainName: 'changeme.dyndns.org'
-          QBT_Preferences__DynDNS__Enabled: 'false'
-          QBT_Preferences__DynDNS__Password: ''
-          QBT_Preferences__DynDNS__Service: 'DynDNS'
-          QBT_Preferences__DynDNS__Username: ''
-          QBT_Preferences__General__Locale: 'en'
-          QBT_Preferences__MailNotification__email: ''
-          QBT_Preferences__MailNotification__enabled: 'false'
-          QBT_Preferences__MailNotification__password: ''
-          QBT_Preferences__MailNotification__req_auth: 'true'
-          QBT_Preferences__MailNotification__req_ssl: 'false'
-          QBT_Preferences__MailNotification__sender: 'qBittorrent_notification@example.com'
-          QBT_Preferences__MailNotification__smtp_server: 'smtp.changeme.com'
-          QBT_Preferences__MailNotification__username: ''
-          QBT_Preferences__WebUI__Address: '*'
-          QBT_Preferences__WebUI__AlternativeUIEnabled: 'false'
-          QBT_Preferences__WebUI__AuthSubnetWhitelist: '172.18.0.0/16, 192.168.0.0/16, 10.42.0.0/16, 10.41.0.0/16'
-          QBT_Preferences__WebUI__AuthSubnetWhitelistEnabled: 'true'
-          QBT_Preferences__WebUI__BanDuration: '3600'
-          QBT_Preferences__WebUI__CSRFProtection: 'true'
-          QBT_Preferences__WebUI__ClickjackingProtection: 'true'
-          QBT_Preferences__WebUI__CustomHTTPHeaders: ''
-          QBT_Preferences__WebUI__CustomHTTPHeadersEnabled: 'false'
-          QBT_Preferences__WebUI__HTTPS__CertificatePath: ''
-          QBT_Preferences__WebUI__HTTPS__Enabled: 'false'
-          QBT_Preferences__WebUI__HTTPS__KeyPath: ''
-          QBT_Preferences__WebUI__HostHeaderValidation: 'false'
-          QBT_Preferences__WebUI__LocalHostAuth: 'false'
-          QBT_Preferences__WebUI__MaxAuthenticationFailCount: '5'
-          QBT_Preferences__WebUI__Port: '8080'
-          QBT_Preferences__WebUI__ReverseProxySupportEnabled: 'true'
-          QBT_Preferences__WebUI__RootFolder: ''
-          QBT_Preferences__WebUI__SecureCookie: 'true'
-          QBT_Preferences__WebUI__ServerDomains: '*'
-          QBT_Preferences__WebUI__SessionTimeout: '3600'
-          QBT_Preferences__WebUI__TrustedReverseProxiesList: 'traefik'
-          QBT_Preferences__WebUI__UseUPnP: 'false'
-          QBT_Preferences__WebUI__Username: 'admin'
-          QBT_Preferences__WebUI__Password_PBKDF2: 
-            valueFrom:
-              secretKeyRef:
-                name: default-auth-secret
-                key: passwordPBKDF2
-          
-          QBT_Core__AutoDeleteAddedTorrentFile: 'Never'
-          CATEGORIES : |
-            {
-              "books": {
-                  "save_path": ""
-              },
-              "manga": {
-                  "save_path": "/data/seed/manga/unlinked"
-              },
-              "programmes": {
-                  "save_path": ""
-              },
-              "prowlarr": {
-                  "save_path": ""
-              },
-              "radarr": {
-                  "save_path": "/data/seed/films/hardlinked"
-              },
-              "sonarr": {
-                  "save_path": "/data/seed/series/hardlinked"
-              },
-              "tmp": {
-                  "save_path": ""
-              }
-            }
-
 
 #         # -- Secrets and/or ConfigMaps that will be loaded as environment variables.
 #         # Syntax options:
@@ -476,7 +376,7 @@ controllers:
 #             spec:
 #               initialDelaySeconds: 0
 #               timeoutSeconds: 1
-#               ## This means it has a maximum of 5*30=150 seconds to start up before it fails
+#               ## This means it has a maximum of 5*30: 150 seconds to start up before it fails
 #               periodSeconds: 5
 #               failureThreshold: 30
 
@@ -556,40 +456,6 @@ configMaps:
   #   # -- Annotations to add to the configMap
   #   annotations: {}
   #   # -- configMap data content. Helm template enabled.
-  #   data: 
-  #     categories.json: |
-  #       {
-  #         "books": {
-  #             "save_path": ""
-  #         },
-  #         "manga": {
-  #             "save_path": "/data/seed/manga/unlinked"
-  #         },
-  #         "programmes": {
-  #             "save_path": ""
-  #         },
-  #         "prowlarr": {
-  #             "save_path": ""
-  #         },
-  #         "radarr": {
-  #             "save_path": "/data/seed/films/hardlinked"
-  #         },
-  #         "sonarr": {
-  #             "save_path": "/data/seed/series/hardlinked"
-  #         },
-  #         "tmp": {
-  #             "save_path": ""
-  #         }
-  #       }
-
-  # config:
-  #   # -- Enables or disables the configMap
-  #   enabled: true
-  #   # -- Labels to add to the configMap
-  #   labels: {}
-  #   # -- Annotations to add to the configMap
-  #   annotations: {}
-  #   # -- configMap data content. Helm template enabled.
   #   data:
   #     foo: bar
 
@@ -632,127 +498,116 @@ configMapsFromFolder:
   #         binary: true# -- Configure the services for the chart here.
 # Additional services can be added by adding a dictionary key similar to the 'main' service.
 # @default -- See below
-# service:
-#   main:
-  #   # -- Enables or disables the service
-    # enabled: true
 
-  #   # -- Override the name suffix that is used for this service
-  #   nameOverride: ""
+service:
+  main:
+    # -- Enables or disables the service
+    enabled: true
 
-  #   # -- Configure which controller this service should target
-    # controller: main
 
-  #   # -- Make this the primary service for this controller (used in probes, notes, etc...).
-  #   # If there is more than 1 service targeting the controller, make sure that only 1 service is
-  #   # marked as primary.
-    # primary: true
+    # -- Configure which controller this service should target
+    controller: main
 
-  #   # -- Set the service type
-    # type: ClusterIP
+    # -- Make this the primary service for this controller (used in probes, notes, etc...).
+    # If there is more than 1 service targeting the controller, make sure that only 1 service is
+    # marked as primary.
+    primary: true
 
-  #   # -- Specify the internalTrafficPolicy for the service. Options: Cluster, Local
-  #   # -- [[ref](https://kubernetes.io/docs/concepts/services-networking/service-traffic-policy/)]
-  #   internalTrafficPolicy:
+    # -- Set the service type
+    type: ClusterIP
 
-  #   # -- Specify the externalTrafficPolicy for the service. Options: Cluster, Local
-  #   # -- [[ref](https://kubernetes.io/docs/tutorials/services/source-ip/)]
-  #   externalTrafficPolicy:
+    # # -- Specify the internalTrafficPolicy for the service. Options: Cluster, Local
+    # # -- [[ref](https://kubernetes.io/docs/concepts/services-networking/service-traffic-policy/)]
+    # internalTrafficPolicy:
 
-  #   # -- Specify the ip policy. Options: SingleStack, PreferDualStack, RequireDualStack
-  #   ipFamilyPolicy:
-  #   # -- The ip families that should be used. Options: IPv4, IPv6
-  #   ipFamilies: []
+    # # -- Specify the externalTrafficPolicy for the service. Options: Cluster, Local
+    # # -- [[ref](https://kubernetes.io/docs/tutorials/services/source-ip/)]
+    # externalTrafficPolicy:
 
-  #   # -- Provide additional annotations which may be required.
-  #   annotations: {}
+    # # -- Specify the ip policy. Options: SingleStack, PreferDualStack, RequireDualStack
+    # ipFamilyPolicy:
+    # # -- The ip families that should be used. Options: IPv4, IPv6
+    # ipFamilies: []
 
-  #   # -- Provide additional labels which may be required.
-  #   labels: {}
+    # # -- Provide additional annotations which may be required.
+    # annotations: {}
 
-  #   # -- Allow adding additional match labels
-  #   extraSelectorLabels: {}
+    # # -- Provide additional labels which may be required.
+    # labels: {}
 
-  #   # -- Configure the Service port information here.
-  #   # Additional ports can be added by adding a dictionary key similar to the 'http' service.
-  #   # @default -- See below
-  #   ports:
-  #     http:
-  #       # -- Enables or disables the port
-  #       enabled: true
+    # # -- Allow adding additional match labels
+    # extraSelectorLabels: {}
 
-  #       # -- Make this the primary port (used in probes, notes, etc...)
-  #       # If there is more than 1 service, make sure that only 1 port is marked as primary.
-  #       primary: true
+    # # -- Configure the Service port information here.
+    # # Additional ports can be added by adding a dictionary key similar to the 'http' service.
+    # # @default -- See below
+    ports:
+      http:
+        # -- Enables or disables the port
+        enabled: true
 
-  #       # -- The port number
-  #       port:
+        # -- Make this the primary port (used in probes, notes, etc...)
+        # If there is more than 1 service, make sure that only 1 port is marked as primary.
+        primary: true
 
-  #       # -- Port protocol.
-  #       # Support values are `HTTP`, `HTTPS`, `TCP` and `UDP`.
-  #       # HTTP and HTTPS spawn a TCP service and get used for internal URL and name generation
-  #       protocol: HTTP
+        # -- The port number
+        port: 5000
 
-  #       # -- Specify a service targetPort if you wish to differ the service port from the application port.
-  #       # If `targetPort` is specified, this port number is used in the container definition instead of
-  #       # the `port` value. Therefore named ports are not supported for this field.
-  #       targetPort:
-
-  #       # -- Specify the nodePort value for the LoadBalancer and NodePort service types.
-  #       # [[ref]](https://kubernetes.io/docs/concepts/services-networking/service/#type-nodeport)
-  #       nodePort:
-
-  #       # -- Specify the appProtocol value for the Service.
-  #       # [[ref]](https://kubernetes.io/docs/concepts/services-networking/service/#application-protocol)
-  #       appProtocol:
+        # -- Port protocol.
+        # Support values are `HTTP`, `HTTPS`, `TCP` and `UDP`.
+        # HTTP and HTTPS spawn a TCP service and get used for internal URL and name generation
+        protocol: HTTP
 
 # -- Configure the ingresses for the chart here.
-ingress:
-  {}
-
+ingress: 
   # -- An example is shown below
-  # main:
-  #   # -- Enables or disables the ingress
-  #   enabled: true
+  main:
+    # -- Enables or disables the ingress
+    enabled: true
 
-  #   # -- Override the name suffix that is used for this ingress.
-  #   nameOverride:
+    # # -- Override the name suffix that is used for this ingress.
+    # nameOverride:
 
-  #   # -- Provide additional annotations which may be required. Helm templates can be used.
-  #   annotations: {}
+    # # -- Provide additional annotations which may be required. Helm templates can be used.
+    # annotations: {}
+    annotations:
+      hajimari.io/enable: "true"
+      hajimari.io/group: "Media"
+      hajimari.io/icon: "chef-hat"
+      cert-manager.io/cluster-issuer: zerossl-prod
+      acme.cert-manager.io/http01-edit-in-place: "false"
 
-  #   # -- Provide additional labels which may be required. Helm templates can be used.
-  #   labels: {}
+    # # -- Provide additional labels which may be required. Helm templates can be used.
+    # labels: {}
 
-  #   # -- Set the ingressClass that is used for this ingress.
-  #   className:
+    # # -- Set the ingressClass that is used for this ingress.
+    # className:
 
-  #   # -- Configure the defaultBackend for this ingress. This will disable any other rules for the ingress.
-  #   defaultBackend:
+    # # -- Configure the defaultBackend for this ingress. This will disable any other rules for the ingress.
+    # defaultBackend:
 
-  #   ## Configure the hosts for the ingress
-  #   hosts:
-  #     - # -- Host address. Helm template can be passed.
-  #       host: chart-example.local
-  #       ## Configure the paths for the host
-  #       paths:
-  #         - # -- Path.  Helm template can be passed.
-  #           path: /
-  #           pathType: Prefix
-  #           service:
-  #             # -- Overrides the service name reference for this path
-  #             # The service name to reference.
-  #             name: main
-  #             # -- Reference a service identifier from this values.yaml
-  #             identifier: main
-  #             # -- Overrides the service port number reference for this path
-  #             port:
-
-  #   # -- Configure TLS for the ingress. Both secretName and hosts can process a Helm template.
-  #   tls: []
-  #   #  - secretName: chart-example-tls
-  #   #    hosts:
-  #   #      - chart-example.local
+    ## Configure the hosts for the ingress
+    hosts:
+      - # -- Host address. Helm template can be passed.
+        host: kavita.dartus.fr
+        ## Configure the paths for the host
+        paths:
+          - # -- Path.  Helm template can be passed.
+            path: /
+            pathType: Prefix
+            service:
+              # -- Overrides the service name reference for this path
+              # The service name to reference.
+              identifier: main
+              port: http
+              # # -- Reference a service identifier from this values.yaml
+              # identifier: main
+              # -- Overrides the service port number reference for this path
+              # port: 8989
+    tls:
+      - hosts:
+        - kavita.dartus.fr
+        secretName: kavita.dartus.fr-tls
 
 # -- Configure the ServiceMonitors for the chart here.
 # Additional ServiceMonitors can be added by adding a dictionary key similar to the 'main' ServiceMonitors.
@@ -778,7 +633,6 @@ serviceMonitor:
   #   selector: {}
 
   #   # -- Configures the target Service for the serviceMonitor. Helm templates can be used.
-  #   serviceName: '{{ include "bjw-s.common.lib.chart.names.fullname" $ }}'
 
   #   # -- Configures the endpoints for the serviceMonitor.
   #   # @default -- See values.yaml
@@ -799,53 +653,55 @@ serviceMonitor:
 # [[ref]](https://gateway-api.sigs.k8s.io/references/spec/)
 # @default -- See below
 route:
-  {}
-  # main:
-  #   # -- Enables or disables the route
-  #   enabled: false
+  main:
+    # -- Enables or disables the route
+    enabled: false
 
-  #   # -- Set the route kind
-  #   # Valid options are GRPCRoute, HTTPRoute, TCPRoute, TLSRoute, UDPRoute
-  #   kind: HTTPRoute
+    # -- Set the route kind
+    # Valid options are GRPCRoute, HTTPRoute, TCPRoute, TLSRoute, UDPRoute
+    kind: HTTPRoute
 
-  #   # -- Override the name suffix that is used for this route.
-  #   nameOverride: ""
+    # -- Provide additional annotations which may be required.
+    annotations:
+      hajimari.io/enable: "true"
+      hajimari.io/group: "Media"
+      hajimari.io/icon: "chef-hat"
 
-  #   # -- Provide additional annotations which may be required.
-  #   annotations: {}
+    # -- Provide additional labels which may be required.
+    labels: {}
 
-  #   # -- Provide additional labels which may be required.
-  #   labels: {}
+    # -- Configure the resource the route attaches to.
+    parentRefs:
+      - # Group of the referent resource.
+        group: gateway.networking.k8s.io
+        # Kind of the referent resource.
+        kind: Gateway
+        # Name of the referent resource
+        name: traefik-gateway
+        # Namespace of the referent resource
+        namespace: network
+        # Name of the section within the target resource.
+        sectionName: websecure-kavita
 
-  #   # -- Configure the resource the route attaches to.
-  #   parentRefs:
-  #     - # Group of the referent resource.
-  #       group: gateway.networking.k8s.io
-  #       # Kind of the referent resource.
-  #       kind: Gateway
-  #       # Name of the referent resource
-  #       name:
-  #       # Namespace of the referent resource
-  #       namespace:
-  #       # Name of the section within the target resource.
-  #       sectionName:
+    # -- Host addresses. Helm template can be passed.
+    hostnames: 
+      - kavita.dartus.fr
 
-  #   # -- Host addresses. Helm template can be passed.
-  #   hostnames: []
-
-  #   # -- Configure rules for routing. Defaults to the primary service.
-  #   rules:
-  #     - # -- Configure backends where matching requests should be sent.
-  #       backendRefs: []
-  #       ## Configure conditions used for matching incoming requests. Only for HTTPRoutes
-  #       matches:
-  #         - path:
-  #             type: PathPrefix
-  #             value: /
-  #       ## Request filters that are applied to the rules.
-  #       filters: []
-  #       ## Request timeout that are applied to the rules.
-  #       timeouts: {}
+    # -- Configure rules for routing. Defaults to the primary service.
+    rules:
+      - # -- Configure backends where matching requests should be sent.
+        backendRefs: 
+          - name: kavita
+            port: 5000
+        ## Configure conditions used for matching incoming requests. Only for HTTPRoutes
+        matches:
+          - path:
+              type: PathPrefix
+              value: /
+        ## Request filters that are applied to the rules.
+        filters: []
+        ## Request timeout that are applied to the rules.
+        timeouts: {}
 
 # -- Configure persistence for the chart here.
 # Additional items can be added by adding a dictionary key similar to the 'config' key.
@@ -857,14 +713,14 @@ persistence:
     type : persistentVolumeClaim
     existingClaim: pvc-loisir
     globalMounts:
-      - path: /
-        subPath: data
+      - path: /books
+        subPath: Books/Calibre-EN
         readOnly: false
 
   config:
     enabled: true
     type: persistentVolumeClaim
-    existingClaim: pvc-qbittorrent-conf
+    existingClaim: pvc-kavita-conf
 
   #   # -- Storage Class for the config volume.
   #   # If set to `-`, dynamic provisioning is disabled.

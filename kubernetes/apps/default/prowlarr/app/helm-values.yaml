@@ -258,7 +258,7 @@ controllers:
 
         image:
           # -- image repository
-          repository: ghcr.io/onedr0p/prowlarr
+          repository: ghcr.io/home-operations/prowlarr
           # -- image tag
           tag: rolling
           # -- image pull policy
