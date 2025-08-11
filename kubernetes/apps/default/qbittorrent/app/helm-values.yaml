@@ -260,7 +260,7 @@ controllers:
           # -- image repository
           repository: ghcr.io/home-operations/qbittorrent
           # @default -- chart.appVersion
-          tag: rolling
+          tag: sha256-9dd0164cc23e9c937e0af27fd7c3f627d1df30c182cf62ed34d3f129c55dc0e8
           # -- image pull policy
           pullPolicy: IfNotPresent
 
@@ -857,8 +857,8 @@ persistence:
     type : persistentVolumeClaim
     existingClaim: pvc-loisir
     globalMounts:
-      - path: /
-        subPath: data
+      - path: /data
+        subPath: /
         readOnly: false
 
   config:
