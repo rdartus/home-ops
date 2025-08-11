@@ -858,7 +858,6 @@ persistence:
     existingClaim: pvc-loisir
     globalMounts:
       - path: /data
-        subPath: /
         readOnly: false
 
   config:

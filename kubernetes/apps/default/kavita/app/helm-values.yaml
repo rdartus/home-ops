@@ -713,8 +713,7 @@ persistence:
     type : persistentVolumeClaim
     existingClaim: pvc-loisir
     globalMounts:
-      - path: /manga
-        subPath: Manga
+      - path: /data
         readOnly: false
 
   config:
