@@ -731,7 +731,7 @@ persistence:
     type : persistentVolumeClaim
     existingClaim: pvc-loisir
     globalMounts:
-      - path: /data
+      - path: /media
         readOnly: false
   config:
     enabled: true
