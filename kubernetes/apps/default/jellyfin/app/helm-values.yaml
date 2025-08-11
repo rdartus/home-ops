@@ -268,6 +268,11 @@ controllers:
           # -- Set the container timezone
           TZ: UTC
           DOTNET_HOSTBUILDER__RELOADCONFIGONCHANGE: false
+          JELLYFIN_DATA_DIR: /data
+          JELLYFIN_CONFIG_DIR: /config
+          JELLYFIN_CACHE_DIR: /cache
+          JELLYFIN_WEB_DIR: /web
+          JELLYFIN_LOG_DIR: /log
         # securityContext:
         #   privileged: true
 
