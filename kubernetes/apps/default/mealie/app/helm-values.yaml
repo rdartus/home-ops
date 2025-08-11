@@ -130,6 +130,7 @@ controllers:
           PUID: 1000
           PGID: 1000
           TZ: Europe/Paris
+          DEFAULT_GROUP: Nourir les Dragons
           # Database Settings
           POSTGRES_SERVER: cnpg-cluster-rw.database.svc.cluster.local
           POSTGRES_PORT: 5432
