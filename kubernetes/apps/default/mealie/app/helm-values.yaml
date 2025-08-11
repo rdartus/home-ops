@@ -160,7 +160,7 @@ controllers:
                 key: oidcSecret
           OIDC_ADMIN_GROUP: admin
           OIDC_PROVIDER_NAME: Authentik
-          OIDC_CONFIGURATION_URL: https://authentik.dartus.fr/.well-known/openid-configuration
+          OIDC_CONFIGURATION_URL: https://authentik.dartus.fr/application/o/mealie/.well-known/openid-configuration
           OIDC_AUTO_REDIRECT: true
           OIDC_REMEMBER_ME: true
           OIDC_USER_GROUP: pecor
