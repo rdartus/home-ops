@@ -713,8 +713,8 @@ persistence:
     type : persistentVolumeClaim
     existingClaim: pvc-loisir
     globalMounts:
-      - path: /books
-        subPath: Books/Calibre-EN
+      - path: /manga
+        subPath: Manga
         readOnly: false
 
   config:
