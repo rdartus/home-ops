@@ -766,7 +766,9 @@ persistence:
     enabled: true
     type: persistentVolumeClaim
     existingClaim: pvc-qbittorrent-conf
-
+    globalMounts:
+      - path: /config
+        readOnly: false
   #   # -- Storage Class for the config volume.
   #   # If set to `-`, dynamic provisioning is disabled.
   #   # If set to something else, the given storageClass is used.
