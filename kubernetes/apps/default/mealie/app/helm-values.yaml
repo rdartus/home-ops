@@ -158,12 +158,12 @@ controllers:
               secretKeyRef:
                 name: mealie-secret
                 key: oidcSecret
-          OIDC_ADMIN_GROUP: admin
+          OIDC_ADMIN_GROUP: authentik Admins
           OIDC_PROVIDER_NAME: Authentik
           OIDC_CONFIGURATION_URL: https://authentik.dartus.fr/application/o/mealie/.well-known/openid-configuration
           OIDC_AUTO_REDIRECT: true
           OIDC_REMEMBER_ME: true
-          OIDC_USER_GROUP: pecor
+          OIDC_USER_GROUP: Normal
           # SMTP Settings
           SMTP_HOST: smtp.gmail.com
           SMTP_PORT: "587"
