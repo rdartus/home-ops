@@ -258,21 +258,16 @@ controllers:
 
         image:
           # -- image repository
-          repository: jellyfin/jellyfin
+          repository: lscr.io/linuxserver/jellyfin
           # -- image tag
           # @default -- chart.appVersion
-          tag: "2025080405"
+          tag: latest
           # -- image pull policy
           pullPolicy: IfNotPresent
         env:
           # -- Set the container timezone
-          TZ: UTC
-          DOTNET_HOSTBUILDER__RELOADCONFIGONCHANGE: false
-          JELLYFIN_DATA_DIR: /data
-          JELLYFIN_CONFIG_DIR: /config
-          JELLYFIN_CACHE_DIR: /cache
-          JELLYFIN_WEB_DIR: /web
-          JELLYFIN_LOG_DIR: /log
+          TZ: Europe/Paris
+          JELLYFIN_PublishedServerUrl: https://stream2.dartus.fr
         # securityContext:
         #   privileged: true
 
