@@ -267,7 +267,7 @@ controllers:
         env:
           # -- Set the container timezone
           TZ: Europe/Paris
-          JELLYFIN_PublishedServerUrl: https://stream2.dartus.fr
+          JELLYFIN_PublishedServerUrl: https://stream.dartus.fr
         # securityContext:
         #   privileged: true
 
@@ -607,7 +607,7 @@ ingress:
     ## Configure the hosts for the ingress
     hosts:
       - # -- Host address. Helm template can be passed.
-        host: stream2.dartus.fr
+        host: stream.dartus.fr
         ## Configure the paths for the host
         paths:
           - # -- Path.  Helm template can be passed.
@@ -622,8 +622,8 @@ ingress:
     # -- Configure TLS for the ingress. Both secretName and hosts can process a Helm template.
     tls:
       - hosts:
-        - stream2.dartus.fr
-        secretName: stream2.dartus.fr-tls
+        - stream.dartus.fr
+        secretName: stream.dartus.fr-tls
     #  - secretName: chart-example-tls
     #    hosts:
     #      - chart-example.local

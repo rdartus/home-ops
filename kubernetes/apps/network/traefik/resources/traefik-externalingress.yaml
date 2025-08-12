@@ -15,28 +15,10 @@ spec:
         - name: pi-external
           port: 443
 
-    - match: HostSNI(`stream.dartus.fr`)
-      services:
-        - name: pi-external
-          port: 443
-
-
     - match: HostSNI(`authelia.dartus.fr`)
       services:
         - name: pi-external
           port: 443
-
-    - match: HostSNI(`livres.dartus.fr`)
-      services:
-        - name: pi-external
-          port: 443
-
-
-    - match: HostSNI(`books.dartus.fr`)
-      services:
-        - name: pi-external
-          port: 443
-
 
     - match: HostSNI(`traefik.dartus.fr`)
       services:
