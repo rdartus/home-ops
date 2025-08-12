@@ -258,10 +258,10 @@ controllers:
 
         image:
           # -- image repository
-          repository: lscr.io/linuxserver/jellyfin
+          repository: jellyfin/jellyfin
           # -- image tag
           # @default -- chart.appVersion
-          tag: latest
+          tag: "2025080405"
           # -- image pull policy
           pullPolicy: IfNotPresent
         env:
