@@ -1,6 +1,7 @@
 {
     "yaml.schemas": {
-        "https://json.schemastore.org/helmfile.json": "file:///home/jeank/k3s-argo/jeanKluster/templates/traefik/_traefik-helm-values.tpl"
+        "https://json.schemastore.org/helmfile.json": "file:///home/jeank/k3s-argo/jeanKluster/templates/traefik/_traefik-helm-values.tpl",
+        "https://raw.githubusercontent.com/crowdsecurity/helm-charts/refs/heads/main/charts/crowdsec/values.schema.json": "file:///home/jeank/home-ops/kubernetes/apps/network/crowdsec/app/helm-values.yaml"
     },
     "workbench.colorCustomizations": {
         "activityBar.activeBackground": "#1f6fd0",

@@ -1,12 +1,35 @@
 {
-    "packageRules": [
-      {
-        "matchPackageNames": ["*"],
-        "matchUpdateTypes": ["major", "minor"]
-      },
-      {
-        "matchUpdateTypes": ["patch"],
-        "enabled": false
-      }
-    ]
-  }
+  "packageRules": [
+    {
+      "description": "Grouper les mises à jour de charts Flux + valeurs Helm",
+      "managers": [
+        "flux",
+        "helm-values"
+      ],
+      "groupName": "helm charts & values (flux)"
+    },
+    {
+      "description": "Grouper mises à jour d'images provenant de manifests k8s + Dockerfile",
+      "managers": [
+        "kubernetes",
+        "dockerfile"
+      ],
+      "groupName": "container images"
+    },
+    {
+      "matchPackageNames": [
+        "*"
+      ],
+      "matchUpdateTypes": [
+        "major",
+        "minor"
+      ]
+    },
+    {
+      "matchUpdateTypes": [
+        "patch"
+      ],
+      "enabled": false
+    }
+  ]
+}

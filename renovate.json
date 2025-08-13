@@ -11,21 +11,32 @@
     "prIgnoreNotification"
   ],
   "ignorePaths": [
-    "**/.vscode/**"
+    "**/.vscode/**",
+    "kubernetes/gotk-components*.ya?ml"
+  ],
+  "enabledManagers": [
+    "flux",
+    "kubernetes",
+    "helm-values",
+    "dockerfile"
   ],
   "flux": {
     "managerFilePatterns": [
-      "/(^|/)kubernetes/.+\\.ya?ml$/"
-    ]
-  },
-  "helm-values": {
-    "managerFilePatterns": [
-      "/(^|/)kubernetes/.+\\.ya?ml$/"
+      "(^|/)kubernetes/.+/ks\\.ya?ml$",
+      "(^|/)kubernetes/.+/helmrelease\\.ya?ml$",
+      "(^|/)kubernetes/.+/(flux-?kustomization|ks|helmrelease)\\.ya?ml$"
     ]
   },
   "kubernetes": {
     "managerFilePatterns": [
-      "/(^|/)kubernetes/.+\\.ya?ml$/"
+      "(^|/)kubernetes/.+/kustomization\\.ya?ml$",
+      "(^|/)kubernetes/.+/(overlays|bases)/.+/kustomization\\.ya?ml$"
+    ]
+  },
+  "helm-values": {
+    "managerFilePatterns": [
+      "(^|/)kubernetes/.+/(helm-values|values)\\.ya?ml$",
+      "(^|/)kubernetes/.+/(values\\.[a-zA-Z0-9_-]+|.*-values)\\.ya?ml$"
     ]
   }
 }

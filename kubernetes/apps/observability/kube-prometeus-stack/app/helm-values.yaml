@@ -1150,6 +1150,14 @@ alertmanager:
       seccompProfile:
         type: RuntimeDefault
 
+    ## DNS configuration for Alertmanager.
+    ## ref: https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/api-reference/api.md#monitoring.coreos.com/v1.PodDNSConfig
+    dnsConfig: {}
+
+    ## DNS policy for Alertmanager.
+    ## ref: https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/api-reference/api.md#dnspolicystring-alias
+    dnsPolicy: ""
+
     ## ListenLocal makes the Alertmanager server listen on loopback, so that it does not bind against the Pod IP.
     ## Note this is only for the Alertmanager UI, not the gossip communication.
     ##
@@ -2667,8 +2675,6 @@ prometheusOperator:
       image:
         registry: registry.k8s.io
         repository: ingress-nginx/kube-webhook-certgen
-        tag: v1.6.0  # latest tag: https://github.com/kubernetes/ingress-nginx/blob/main/images/kube-webhook-certgen/TAG
-        sha: ""
         pullPolicy: IfNotPresent
       resources: 
         limits:
@@ -3117,8 +3123,6 @@ prometheusOperator:
   thanosImage:
     registry: quay.io
     repository: thanos/thanos
-    tag: v0.39.0
-    sha: ""
 
   ## Set a Label Selector to filter watched prometheus and prometheusAgent
   ##
@@ -4086,30 +4090,6 @@ prometheus:
     ## The remote_write spec configuration for Prometheus.
     ## ref: https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/api-reference/api.md#remotewritespec
     remoteWrite: []
-      # - url: "https://prometheus-prod-24-prod-eu-west-2.grafana.net/api/prom/push"  # Remplacez <region> par la région appropriée (ex: us, eu, etc.)
-      #   basicAuth:
-      #     username:
-      #       name: kube-prom-stack-conf-secret
-      #       key: username
-      #     password:
-      #       name: kube-prom-stack-conf-secret
-      #       key: password
-      #   writeRelabelConfigs:
-      #     # Exemple 2 : Garder spécifiquement quelques métriques essentielles
-      #     # Ces règles permettent de sélectionner des métriques importantes.
-      #     - sourceLabels: [__name__]
-      #       regex: "node_cpu_.*|node_memory_.*|node_network_.*|namespace_workload_.*|kube_node_.*|kube_pod_container_resource_.*|kube_pod_.*|kube_replicaset_.*|kube_daemonset_.*|kube_job_.*|kube_deployment_.*|container_cpu_.*|container_memory_.*|container_network_.*|namespace_.*"
-      #       action: keep
-      #     # Exemple 1 : Exclure certaines métriques jugées non essentielles
-      #     - sourceLabels: [__name__]
-      #       regex: "apiserver_.*|etcd_request_.*"
-      #       # regex: "apiserver_.*|etcd_request_.*|workqueue_.*|etcd_requests_.*|scheduler_plugin_execution_duration_.*|prober_probe_duration_.*|kubernetes_feature_enabled"
-      #       action: drop
-      #     # (Attention, l'ordre des règles est important : dès qu'une métrique match une règle, l'action est exécutée.)
-      #     # # Optionnel : Pour s'assurer qu'aucune autre métrique non sélectionnée n'est envoyée
-      #     # - action: drop
-      #   # Optionnel: vous pouvez ajouter d'autres options comme "writeRelabelConfigs" si nécessaire.
-    
     # - url: http://remote1/push
     ## additionalRemoteWrite is appended to remoteWrite
     additionalRemoteWrite: []
@@ -4181,7 +4161,7 @@ prometheus:
     #     regex: __meta_kubernetes_node_label_(.+)
     #   - source_labels: [__address__]
     #     action: replace
-    #     targetLabel: __address__
+    #     target_label: __address__
     #     regex: ([^:;]+):(\d+)
     #     replacement: ${1}:2379
     #   - source_labels: [__meta_kubernetes_node_name]
@@ -4189,7 +4169,7 @@ prometheus:
     #     regex: .*mst.*
     #   - source_labels: [__meta_kubernetes_node_name]
     #     action: replace
-    #     targetLabel: node
+    #     target_label: node
     #     regex: (.*)
     #     replacement: ${1}
     #   metric_relabel_configs:
@@ -4280,6 +4260,14 @@ prometheus:
       seccompProfile:
         type: RuntimeDefault
 
+    ## DNS configuration for Prometheus.
+    ## ref: https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/api-reference/api.md#monitoring.coreos.com/v1.PodDNSConfig
+    dnsConfig: {}
+
+    ## DNS policy for Prometheus.
+    ## ref: https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/api-reference/api.md#dnspolicystring-alias
+    dnsPolicy: ""
+
     ## Priority class assigned to the Pods
     ##
     priorityClassName: ""
@@ -4319,7 +4307,7 @@ prometheus:
     containers: []
     # containers:
     # - name: oauth-proxy
-    #   image: quay.io/oauth2-proxy/oauth2-proxy:v7.10.0
+    #   image: quay.io/oauth2-proxy/oauth2-proxy:v7.11.0
     #   args:
     #   - --upstream=http://127.0.0.1:9090
     #   - --http-address=0.0.0.0:8081

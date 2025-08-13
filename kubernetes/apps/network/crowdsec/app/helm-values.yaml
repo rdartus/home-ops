@@ -1,8 +1,5 @@
-# yaml-language-server: $schema=https://raw.githubusercontent.com/crowdsecurity/helm-charts/main/charts/crowdsec/values.schema.json
+# yaml-language-server: $schema=https://raw.githubusercontent.com/crowdsecurity/helm-charts/refs/heads/main/charts/crowdsec/values.schema.json
 ---
-# Default values for crowdsec-chart.
-# This is a YAML-formatted file.
-# Declare variables to be passed into your templates.
 
 # -- for raw logs format: json or cri (docker|containerd)
 container_runtime: containerd
@@ -127,11 +124,11 @@ config:
   
   # General configuration (https://docs.crowdsec.net/docs/configuration/crowdsec_configuration/#configuration-example)
   # This file is only mounted in the agent pod
-  agent_config.local.yaml: ""
+  agent_config.yaml.local: ""
   
   # General configuration (https://docs.crowdsec.net/docs/configuration/crowdsec_configuration/#configuration-example)
   # This file is only mounted in the appsec pod
-  appsec_config.local.yaml: ""
+  appsec_config.yaml.local: ""
 
 tls:
   enabled: false
@@ -265,15 +262,6 @@ lapi:
     # -- environment variables from metabase/metabase docker image
     # -- see https://www.metabase.com/docs/latest/configuring-metabase/environment-variables
     env: []
-    image:
-      # -- docker image repository name
-      repository: metabase/metabase
-      # -- pullPolicy
-      pullPolicy: IfNotPresent
-      # -- docker image tag
-      tag: "v0.55.10.4"
-    # -- Metabase SQLite static DB containing Dashboards
-    assetURL: https://crowdsec-statics-assets.s3-eu-west-1.amazonaws.com/metabase_sqlite.zip
 
     ## Ref: http://kubernetes.io/docs/user-guide/compute-resources/
     # -- resources for metabase dashboard
@@ -578,15 +566,6 @@ agent:
       #   protocol: TCP
       #   name: http-datasource
 
-  # -- wait-for-lapi init container
-  wait_for_lapi:
-    image:
-      # -- docker image repository name
-      repository: busybox
-      # -- pullPolicy
-      pullPolicy: IfNotPresent
-      # -- docker image tag
-      tag: "1.37"
 
 # -- Enable AppSec (https://docs.crowdsec.net/docs/next/appsec/intro)
 appsec:
@@ -754,13 +733,3 @@ appsec:
     loadBalancerIP: null
     loadBalancerClass: null
     externalTrafficPolicy: Cluster
-
-  # -- wait-for-lapi init container
-  wait_for_lapi:
-    image:
-      # -- docker image repository name
-      repository: busybox
-      # -- pullPolicy
-      pullPolicy: IfNotPresent
-      # -- docker image tag
-      tag: "1.37"
