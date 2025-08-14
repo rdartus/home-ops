@@ -6,8 +6,20 @@
     "github>rdartus/home-ops//.renovate/packageRules.json"
   ],
   "dependencyDashboardTitle": "Renovate Dashboard 🤖",
-  "suppressNotifications": ["prEditedNotification", "prIgnoreNotification"],
-  "ignorePaths": ["**/.vscode/**"],
+  "suppressNotifications": [
+    "prEditedNotification",
+    "prIgnoreNotification"
+  ],
+  "ignorePaths": [
+    "**/.vscode/**",
+    "kubernetes/gotk-components*.ya?ml"
+  ],
+  "enabledManagers": [
+    "flux",
+    "kubernetes",
+    "helm-values",
+    "dockerfile"
+  ],
   "flux": {
     "managerFilePatterns": [
       "(^|/)kubernetes/.+\\.ya?ml$"
