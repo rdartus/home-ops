@@ -3,7 +3,7 @@
   "extends": [
     "config:recommended",
     "docker:enableMajor",
-    "github>rdartus/home-ops/.renovate/packageRules.json"
+    "github>rdartus/home-ops//.renovate/packageRules.json"
   ],
   "dependencyDashboardTitle": "Renovate Dashboard 🤖",
   "suppressNotifications": ["prEditedNotification", "prIgnoreNotification"],
