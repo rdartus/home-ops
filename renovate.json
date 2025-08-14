@@ -21,17 +21,17 @@
   ],
   "flux": {
     "managerFilePatterns": [
-      "(^|/)kubernetes/.+\\.ya?ml$/"
+      "/(^|/)kubernetes/.+\\.ya?ml$/"
     ]
   },
   "kubernetes": {
     "managerFilePatterns": [
-      "(^|/)kubernetes/.+\\.ya?ml$/"
+      "/(^|/)kubernetes/.+\\.ya?ml$/"
     ]
   },
   "helm-values": {
     "managerFilePatterns": [
-      "(^|/)kubernetes/.+\\.ya?ml$/"
+      "/(^|/)kubernetes/.+\\.ya?ml$/"
     ]
   }
 }
