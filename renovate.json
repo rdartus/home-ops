@@ -11,8 +11,7 @@
     "prIgnoreNotification"
   ],
   "ignorePaths": [
-    "**/.vscode/**",
-    "kubernetes/gotk-components*.ya?ml"
+    "**/.vscode/**"
   ],
   "enabledManagers": [
     "flux",
@@ -22,17 +21,17 @@
   ],
   "flux": {
     "managerFilePatterns": [
-      "(^|/)kubernetes/.+\\.ya?ml$"
+      "(^|/)kubernetes/.+\\.ya?ml$/"
     ]
   },
   "kubernetes": {
     "managerFilePatterns": [
-      "(^|/)kubernetes/.+\\.ya?ml$"
+      "(^|/)kubernetes/.+\\.ya?ml$/"
     ]
   },
   "helm-values": {
     "managerFilePatterns": [
-      "(^|/)kubernetes/.+\\.ya?ml$"
+      "(^|/)kubernetes/.+\\.ya?ml$/"
     ]
   }
 }
