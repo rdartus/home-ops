@@ -1,7 +1,0 @@
-apiVersion: longhorn.io/v1beta2
-kind: SystemBackup
-metadata:
-  name: back-scale2
-  namespace: longhorn-system
-spec:
-  volumeBackupPolicy: always

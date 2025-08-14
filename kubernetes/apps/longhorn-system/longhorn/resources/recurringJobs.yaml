@@ -6,7 +6,7 @@ metadata:
   namespace: longhorn-system
 spec:
   concurrency: 1
-  cron: "0 * */2 * *"
+  cron: "0 3 */16 * *"
   groups:
     - default
   labels: {}
