@@ -643,7 +643,7 @@ server:
     annotations: 
       hajimari.io/enable: "true"
       hajimari.io/group: "Management"
-      hajimari.io/icon: "safe-square"
+      hajimari.io/icon: "security"
       cert-manager.io/cluster-issuer: zerossl-prod
       acme.cert-manager.io/http01-edit-in-place: "false"
     # -- additional ingress labels

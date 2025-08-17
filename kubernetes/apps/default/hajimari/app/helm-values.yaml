@@ -758,7 +758,7 @@ route:
     annotations: 
       hajimari.io/enable: "true"
       hajimari.io/group: "Media"
-      hajimari.io/icon: "cog-play-outline"
+      hajimari.io/icon: "home-search"
 
     # -- Provide additional labels which may be required.
     labels: {}

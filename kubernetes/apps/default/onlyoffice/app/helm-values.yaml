@@ -611,7 +611,7 @@ ingress:
     # # -- Provide additional annotations which may be required. Helm templates can be used.
     # annotations: {}
     annotations:
-      hajimari.io/enable: "true"
+      hajimari.io/enable: "false"
       hajimari.io/group: "Media"
       hajimari.io/icon: "cog-play-outline"
       cert-manager.io/cluster-issuer: zerossl-prod

@@ -573,7 +573,7 @@ ingress:
     annotations:
       hajimari.io/enable: "true"
       hajimari.io/group: "Media"
-      hajimari.io/icon: "chef-hat"
+      hajimari.io/icon: "ideogram-cjk-variant"
       cert-manager.io/cluster-issuer: zerossl-prod
       acme.cert-manager.io/http01-edit-in-place: "false"
 

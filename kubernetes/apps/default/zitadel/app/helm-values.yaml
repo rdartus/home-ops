@@ -673,7 +673,7 @@ ingress:
   annotations:
     hajimari.io/enable: "true"
     hajimari.io/group: "Media"
-    hajimari.io/icon: "bookshelf"
+    hajimari.io/icon: "security"
     hajimari.io/appName: "zitadel"
     cert-manager.io/cluster-issuer: zerossl-prod
     acme.cert-manager.io/http01-edit-in-place: "false"

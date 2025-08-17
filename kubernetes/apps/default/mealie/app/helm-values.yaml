@@ -720,10 +720,6 @@ route:
 
     # -- Provide additional annotations which may be required.
     annotations:
-      hajimari.io/enable: "true"
-      hajimari.io/group: "Media"
-      hajimari.io/icon: "chef-hat"
-
     # -- Provide additional labels which may be required.
     labels: {}
 
