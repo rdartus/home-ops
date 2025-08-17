@@ -5,6 +5,13 @@
         "matchUpdateTypes": ["major", "minor"]
     },
     {
+        "groupName": "Fixing Kubotheqe - versions",
+        "matchPackageNames": ["mysql"],
+        "matchFileNames": ["**kubotheque/**/helm-values.yaml"],
+        "allowedVersions": ">=8.0 <8.1"
+
+    },
+    {
         "matchUpdateTypes": ["patch"],
       "enabled": false
     }
