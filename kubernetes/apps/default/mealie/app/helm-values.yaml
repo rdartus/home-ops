@@ -120,7 +120,7 @@ controllers:
           # -- image repository
           repository: ghcr.io/mealie-recipes/mealie
           # -- image tag
-          tag: v3.0.2
+          tag: v3.1.1
           # -- image pull policy
           pullPolicy: IfNotPresent
 
