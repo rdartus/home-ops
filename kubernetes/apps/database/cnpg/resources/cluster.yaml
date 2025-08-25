@@ -17,7 +17,7 @@ spec:
     replicationTLSSecret: cnpg-client-cert
   # imageName: ghcr.io/cloudnative-pg/postgresql:17.0
 
-  imageName: ghcr.io/tensorchord/cloudnative-vectorchord:16.9-0.4.3
+  imageName: ghcr.io/tensorchord/cloudnative-vectorchord:16.9-0.5.0sha256:ae40396d48bd3fff30d29cf54e61655a8a391432a44e108c10427f224a6426c9
   postgresql:
     shared_preload_libraries:
       - "vchord.so"
