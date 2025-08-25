@@ -9,6 +9,11 @@ kubeVersionOverride: ""
 
 ## Globally shared configuration for authentik components.
 global:
+
+  # To override bitnami images
+  security:
+    allowInsecureImages: true
+
   # -- Provide a name in place of `authentik`
   nameOverride: ""
   # -- String to fully override `"authentik.fullname"`
@@ -482,7 +487,7 @@ server:
     # -- Minimum consecutive successes for the [probe] to be considered successful after having failed
     successThreshold: 1
     # -- Number of seconds after which the [probe] times out
-    timeoutSeconds: 1
+    timeoutSeconds: 3
     ## Probe configuration
     httpGet:
       path: "{{ .Values.authentik.web.path }}-/health/live/"
@@ -498,7 +503,7 @@ server:
     # -- Minimum consecutive successes for the [probe] to be considered successful after having failed
     successThreshold: 1
     # -- Number of seconds after which the [probe] times out
-    timeoutSeconds: 1
+    timeoutSeconds: 3
     ## Probe configuration
     httpGet:
       path: "{{ .Values.authentik.web.path }}-/health/ready/"
@@ -514,7 +519,7 @@ server:
     # -- Minimum consecutive successes for the [probe] to be considered successful after having failed
     successThreshold: 1
     # -- Number of seconds after which the [probe] times out
-    timeoutSeconds: 1
+    timeoutSeconds: 3
     ## Probe configuration
     httpGet:
       path: "{{ .Values.authentik.web.path }}-/health/live/"
@@ -871,6 +876,13 @@ worker:
     # limits:
     #   memory: 512Mi
 
+  # authentik worker container ports
+  containerPorts:
+    # -- http container port
+    http: 9000
+    # -- metrics container port
+    metrics: 9300
+
   # -- Host Network for authentik worker pods
   hostNetwork: false
 
@@ -912,7 +924,7 @@ worker:
     # -- Minimum consecutive successes for the [probe] to be considered successful after having failed
     successThreshold: 1
     # -- Number of seconds after which the [probe] times out
-    timeoutSeconds: 1
+    timeoutSeconds: 3
     ## Probe configuration
     exec:
       command:
@@ -929,7 +941,7 @@ worker:
     # -- Minimum consecutive successes for the [probe] to be considered successful after having failed
     successThreshold: 1
     # -- Number of seconds after which the [probe] times out
-    timeoutSeconds: 1
+    timeoutSeconds: 3
     ## Probe configuration
     exec:
       command:
@@ -946,7 +958,7 @@ worker:
     # -- Minimum consecutive successes for the [probe] to be considered successful after having failed
     successThreshold: 1
     # -- Number of seconds after which the [probe] times out
-    timeoutSeconds: 1
+    timeoutSeconds: 3
     ## Probe configuration
     exec:
       command:
@@ -989,6 +1001,49 @@ worker:
     #   maxSurge: 25%
     #   maxUnavailable: 25%
 
+  ## authentik worker metrics service configuration
+  metrics:
+    # -- deploy metrics service
+    enabled: false
+    service:
+      # -- metrics service type
+      type: ClusterIP
+      # -- metrics service clusterIP. `None` makes a "headless service" (no virtual IP)
+      clusterIP: ""
+      # -- metrics service annotations
+      annotations: {}
+      # -- metrics service labels
+      labels: {}
+      # -- metrics service port
+      servicePort: 9300
+      # -- metrics service port name
+      portName: metrics
+    serviceMonitor:
+      # -- enable a prometheus ServiceMonitor
+      enabled: false
+      # -- Prometheus ServiceMonitor interval
+      interval: 30s
+      # -- Prometheus ServiceMonitor scrape timeout
+      scrapeTimeout: 3s
+      # -- Prometheus [RelabelConfigs] to apply to samples before scraping
+      relabelings: []
+      # -- Prometheus [MetricsRelabelConfigs] to apply to samples before ingestion
+      metricRelabelings: []
+      # -- Prometheus ServiceMonitor selector
+      selector: {}
+        # prometheus: kube-prometheus
+
+      # -- Prometheus ServiceMonitor scheme
+      scheme: ""
+      # -- Prometheus ServiceMonitor tlsConfig
+      tlsConfig: {}
+      # -- Prometheus ServiceMonitor namespace
+      namespace: ""
+      # -- Prometheus ServiceMonitor labels
+      labels: {}
+      # -- Prometheus ServiceMonitor annotations
+      annotations: {}
+
 
 serviceAccount:
   # -- Create service account. Needed for managed outposts
@@ -1027,7 +1082,7 @@ geoip:
     # -- If defined, a repository for GeoIP images
     repository: ghcr.io/maxmind/geoipupdate
     # -- If defined, a tag for GeoIP images
-    tag: v7.1.0
+    tag: v7.1.1
     # -- If defined, an image digest for GeoIP images
     digest: ""
     # -- If defined, an imagePullPolicy for GeoIP images
