@@ -113,11 +113,13 @@ persistence:
   cache:
     type: persistentVolumeClaim
     existingClaim: pvc-ml-cache
-    globalMounts:
-      - path: /cache
-        subPath: cache
-      - path: /.cache
-        subPath: dotCache
+    advancedMounts:
+      machine-learning:
+        main:
+          - path: /cache
+            subPath: cache
+          - path: /.cache
+            subPath: dotCache
 
   matplotlib:
     type: emptyDir
