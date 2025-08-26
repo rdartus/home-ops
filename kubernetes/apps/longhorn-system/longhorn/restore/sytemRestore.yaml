@@ -1,7 +1,7 @@
-apiVersion: longhorn.io/v1beta2
-kind: SystemRestore
-metadata:
-  name: restore-back
-  namespace: longhorn-system
-spec:
-  systemBackup: back
+# apiVersion: longhorn.io/v1beta2
+# kind: SystemRestore
+# metadata:
+#   name: restore-back
+#   namespace: longhorn-system
+# spec:
+#   systemBackup: back

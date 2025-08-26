@@ -14,6 +14,8 @@ spec:
   dependsOn:
     - name: vault-secrets-operator
       namespace: vault
+    - name: longhorn-resources
+      namespace: longhorn-system
     - name: traefik
       namespace: network
   prune: true
