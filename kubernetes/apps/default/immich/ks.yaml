@@ -23,8 +23,8 @@ spec:
 #OPTIONAL
     - name: authentik
       namespace: *namespace
-    - name: zitadel
-      namespace: *namespace
+    # - name: zitadel
+    #   namespace: *namespace
     - name: filebrowser
       namespace: *namespace
   prune: true
