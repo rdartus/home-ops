@@ -2,9 +2,28 @@
 zitadel:
   # The ZITADEL config under configmapConfig is written to a Kubernetes ConfigMap
   # See all defaults here:
-  
+
   # https://github.com/zitadel/zitadel/blob/main/cmd/defaults.yaml
   configmapConfig:
+    Database:
+      # Postgres is the default database of ZITADEL
+      postgres:
+        Host: cnpg-cluster-rw.database.svc.cluster.local
+        Port: 5432
+        Database: zitadel
+        MaxOpenConns: 20
+        MaxIdleConns: 10
+        MaxConnLifetime: 30m
+        MaxConnIdleTime: 5m
+        Options: "" # ZITADEL_DATABASE_POSTGRES_OPTIONS
+        User:
+          Username: vauban # ZITADEL_DATABASE_POSTGRES_USER_USERNAME
+          Password: "" # ZITADEL_DATABASE_POSTGRES_USER_PASSWORD
+          SSL:
+            Mode: disable # ZITADEL_DATABASE_POSTGRES_USER_SSL_MODE
+            RootCert: "" # ZITADEL_DATABASE_POSTGRES_USER_SSL_ROOTCERT
+            Cert: "" # ZITADEL_DATABASE_POSTGRES_USER_SSL_CERT
+            Key: "" # ZITADEL_DATABASE_POSTGRES_USER_SSL_KEY
     ExternalSecure: true
     Machine:
       Identification:
