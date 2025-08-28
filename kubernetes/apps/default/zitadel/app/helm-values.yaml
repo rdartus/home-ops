@@ -2,7 +2,6 @@
 zitadel:
   # The ZITADEL config under configmapConfig is written to a Kubernetes ConfigMap
   # See all defaults here:
-  
   # https://github.com/zitadel/zitadel/blob/main/cmd/defaults.yaml
   configmapConfig:
     Log:
