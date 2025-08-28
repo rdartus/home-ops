@@ -4,126 +4,13 @@ zitadel:
   # See all defaults here:
   # https://github.com/zitadel/zitadel/blob/main/cmd/defaults.yaml
   configmapConfig:
-    Log:
-      Level: debug # ZITADEL_LOG_LEVEL
-      Formatter:
-        Format: text # ZITADEL_LOG_FORMATTER_FORMAT
-
-    # Exposes metrics on /debug/metrics
-    Metrics:
-      # Select type otel (OpenTelemetry) or none (disables collection and endpoint)
-      Type: otel # ZITADEL_METRICS_TYPE
-
-    Tracing:
-      # Choose one in "otel", "google", "log" and "none"
-      # Depending on the type there are different configuration options
-      # for type 'otel' is used for standard [open telemetry](https://opentelemetry.io)
-      # Fraction: 1.0
-      # Endpoint: 'otel.collector.endpoint'
-      # ServiceName: 'ZITADEL' # Name of the service in traces
-      #
-      # type 'log' or '' disables tracing
-      #
-      # for type 'google'
-      # ProjectID: ''
-      # Fraction: 1.0
-      Type: none # ZITADEL_TRACING_TYPE
-      Fraction: 1.0 # ZITADEL_TRACING_FRACTION
-      # The endpoint of the otel collector endpoint
-      Endpoint: "" #ZITADEL_TRACING_ENDPOINT
-      # The name of the service in traces
-      ServiceName: "ZITADEL" #ZITADEL_TRACING_SERVICENAME
-
-    # Profiler enables capturing profiling data (CPU, Memory, ...) for performance analysis
-    Profiler:
-      # Choose one of "google" and "none"
-      # Depending on the type there are different configuration options
-      # for type 'google'
-      # ProjectID: google-project-id
-      #
-      # type 'none' or '' disables profiling
-      Type: none # ZITADEL_PROFILER_TYPE
-      # projectID for google
-      ProjectID: ''  # ZITADEL_PROFILER_PROJECTID
-
-    # Port ZITADEL will listen on
-    Port: &port 8080 # ZITADEL_PORT
-    # ExternalPort is the port on which end users access ZITADEL.
-    # It can differ from Port e.g. if a reverse proxy forwards the traffic to ZITADEL
-    # Read more about external access: https://zitadel.com/docs/self-hosting/manage/custom-domain
-    ExternalPort:  443  # ZITADEL_EXTERNALPORT
-    # ExternalDomain is the domain on which end users access ZITADEL.
-    # Read more about external access: https://zitadel.com/docs/self-hosting/manage/custom-domain
-    ExternalDomain: zitadel.dartus.fr # ZITADEL_EXTERNALDOMAIN
-    # ExternalSecure specifies if ZITADEL is exposed externally using HTTPS or HTTP.
-    # Read more about external access: https://zitadel.com/docs/self-hosting/manage/custom-domain
-    ExternalSecure: true # ZITADEL_EXTERNALSECURE
-    TLS:
-      # If enabled, ZITADEL will serve all traffic over TLS (HTTPS and gRPC)
-      # you must then also provide a private key and certificate to be used for the connection
-      # either directly or by a path to the corresponding file
-      Enabled: false # ZITADEL_TLS_ENABLED
-      # Path to the private key of the TLS certificate, will be loaded into the key
-      # and overwrite any existing value
-      # E.g. /path/to/key/file.pem
-      KeyPath: # ZITADEL_TLS_KEYPATH
-      # Private key of the TLS certificate (KeyPath has a higher priority than Key)
-      # base64 encoded content of a pem file
-      Key: # ZITADEL_TLS_KEY
-      # Path to the certificate for the TLS connection, will be loaded into the Cert
-      # and overwrite any existing value
-      # E.g. /path/to/cert/file.pem
-      CertPath: # ZITADEL_TLS_CERTPATH
-      # Certificate for the TLS connection (CertPath will this overwrite if specified)
-      # base64 encoded content of a pem file
-      Cert: # ZITADEL_TLS_CERT
-
-    # Header name of HTTP2 (incl. gRPC) calls from which the instance will be matched
-    # Deprecated: Use the InstanceHostHeaders instead
-    HTTP2HostHeader: ":authority" # ZITADEL_HTTP2HOSTHEADER
-    # Header name of HTTP1 calls from which the instance will be matched
-    # Deprecated: Use the InstanceHostHeaders instead
-    HTTP1HostHeader: "host" # ZITADEL_HTTP1HOSTHEADER
-    # Ordered header name list, which will be used to match the instance
-    InstanceHostHeaders: # ZITADEL_INSTANCEHOSTHEADERS
-      - "x-zitadel-instance-host"
-    # Ordered header name list, which will be used as the public host
-    PublicHostHeaders: # ZITADEL_PUBLICHOSTHEADERS
-      - "x-zitadel-public-host"
-
-    WebAuthNName: ZITADEL # ZITADEL_WEBAUTHNNAME
-
-    Database:
-      # Postgres is the default database of ZITADEL
-      postgres:
-        Host: cnpg-cluster-rw.database.svc.cluster.local
-        Port: 5432
-        Database: zitadel
-        MaxOpenConns: 20
-        MaxIdleConns: 10
-        MaxConnLifetime: 30m
-        MaxConnIdleTime: 5m
-        Options: "" # ZITADEL_DATABASE_POSTGRES_OPTIONS
-        User:
-          Username: vauban # ZITADEL_DATABASE_POSTGRES_USER_USERNAME
-          Password: "" # ZITADEL_DATABASE_POSTGRES_USER_PASSWORD
-          SSL:
-            Mode: disable # ZITADEL_DATABASE_POSTGRES_USER_SSL_MODE
-            RootCert: "" # ZITADEL_DATABASE_POSTGRES_USER_SSL_ROOTCERT
-            Cert: "" # ZITADEL_DATABASE_POSTGRES_USER_SSL_CERT
-            Key: "" # ZITADEL_DATABASE_POSTGRES_USER_SSL_KEY
-        Admin:
-          # By default, ExistingDatabase is not specified in the connection string
-          # If the connection resolves to a database that is not existing in your system, configure an existing one here
-          # It is used in zitadel init to connect to postgres and create a dedicated database for ZITADEL.
-          ExistingDatabase: zitadel # ZITADEL_DATABASE_POSTGRES_ADMIN_EXISTINGDATABASE
-          Username: postgres # ZITADEL_DATABASE_POSTGRES_ADMIN_USERNAME
-          Password: postgres # ZITADEL_DATABASE_POSTGRES_ADMIN_PASSWORD
-          SSL:
-            Mode: disable # ZITADEL_DATABASE_POSTGRES_ADMIN_SSL_MODE
-            RootCert: "" # ZITADEL_DATABASE_POSTGRES_ADMIN_SSL_ROOTCERT
-            Cert: "" # ZITADEL_DATABASE_POSTGRES_ADMIN_SSL_CERT
-            Key: "" # ZITADEL_DATABASE_POSTGRES_ADMIN_SSL_KEY
+    ExternalSecure: true
+    Machine:
+      Identification:
+        Hostname:
+          Enabled: true
+        Webhook:
+          Enabled: false
     FirstInstance:
       Org:
         LoginClient:
@@ -131,213 +18,6 @@ zitadel:
             Username: 'login-client'
             Name: 'Automatically Initialized IAM Login Client'
           Pat.ExpirationDate: '2029-01-01T00:00:00Z'
-    DefaultInstance:
-      InstanceName: ZITADEL # ZITADEL_DEFAULTINSTANCE_INSTANCENAME
-      DefaultLanguage: fr # ZITADEL_DEFAULTINSTANCE_DEFAULTLANGUAGE
-      Org:
-        Name: Klusterfox # ZITADEL_DEFAULTINSTANCE_ORG_NAME
-        # In the DefaultInstance.Org.Human section, the initial organization's admin user with the role IAM_OWNER is defined.
-        # If DefaultInstance.Org.Machine.Machine is defined, a service user is created with the IAM_OWNER role.
-        Human:
-          # In case that UserLoginMustBeDomain is false (default) and if you don't overwrite the username with an email,
-          # it will be suffixed by the org domain (org-name + domain from config).
-          # for example zitadel-admin in org `My Org` on domain.tld -> zitadel-admin@my-org.domain.tld
-          UserName: jean.voitouh@gmail.com # ZITADEL_DEFAULTINSTANCE_ORG_HUMAN_USERNAME
-          FirstName: jean # ZITADEL_DEFAULTINSTANCE_ORG_HUMAN_FIRSTNAME
-          LastName: voitouh # ZITADEL_DEFAULTINSTANCE_ORG_HUMAN_LASTNAME
-          NickName: # ZITADEL_DEFAULTINSTANCE_ORG_HUMAN_NICKNAME
-          DisplayName: # ZITADEL_DEFAULTINSTANCE_ORG_HUMAN_DISPLAYNAME
-          Email:
-            Address: jean.voitouh@gmail.com # ZITADEL_DEFAULTINSTANCE_ORG_HUMAN_EMAIL_ADDRESS
-            Verified: true # ZITADEL_DEFAULTINSTANCE_ORG_HUMAN_EMAIL_VERIFIED
-          PreferredLanguage: en # ZITADEL_DEFAULTINSTANCE_ORG_HUMAN_PREFERREDLANGUAGE
-          Gender: # ZITADEL_DEFAULTINSTANCE_ORG_HUMAN_GENDER
-          Phone:
-            Number: # ZITADEL_DEFAULTINSTANCE_ORG_HUMAN_PHONE_NUMBER
-            Verified: # ZITADEL_DEFAULTINSTANCE_ORG_HUMAN_PHONE_VERIFIED
-          Password: # ZITADEL_DEFAULTINSTANCE_ORG_HUMAN_PASSWORD
-        # In the DefaultInstance.Org.Machine section, the initial organization's admin user with the role IAM_OWNER is defined.
-        # If DefaultInstance.Org.Machine.Machine is defined, a service user is created with the IAM_OWNER role.
-        Machine:
-          Machine:
-            Username: # ZITADEL_DEFAULTINSTANCE_ORG_MACHINE_MACHINE_USERNAME
-            Name: # ZITADEL_DEFAULTINSTANCE_ORG_MACHINE_MACHINE_NAME
-          MachineKey:
-            # date format: 2023-01-01T00:00:00Z
-            ExpirationDate: # ZITADEL_DEFAULTINSTANCE_ORG_MACHINE_MACHINEKEY_EXPIRATIONDATE
-            # Currently, the only supported value is 1 for JSON
-            Type: # ZITADEL_DEFAULTINSTANCE_ORG_MACHINE_MACHINEKEY_TYPE
-          Pat:
-            # date format: 2023-01-01T00:00:00Z
-            ExpirationDate: # ZITADEL_DEFAULTINSTANCE_ORG_MACHINE_PAT_EXPIRATIONDATE
-        LoginClient:
-          Machine:
-            Username: # ZITADEL_DEFAULTINSTANCE_ORG_LOGINCLIENT_MACHINE_USERNAME
-            Name: # ZITADEL_DEFAULTINSTANCE_ORG_LOGINCLIENT_MACHINE_NAME
-          Pat:
-            # date format: 2023-01-01T00:00:00Z
-            ExpirationDate: # ZITADEL_DEFAULTINSTANCE_ORG_LOGINCLIENT_PAT_EXPIRATIONDATE
-      SecretGenerators:
-        ClientSecret:
-          Length: 64 # ZITADEL_DEFAULTINSTANCE_SECRETGENERATORS_CLIENTSECRET_LENGTH
-          IncludeLowerLetters: true # ZITADEL_DEFAULTINSTANCE_SECRETGENERATORS_CLIENTSECRET_INCLUDELOWERLETTERS
-          IncludeUpperLetters: true # ZITADEL_DEFAULTINSTANCE_SECRETGENERATORS_CLIENTSECRET_INCLUDEUPPERLETTERS
-          IncludeDigits: true # ZITADEL_DEFAULTINSTANCE_SECRETGENERATORS_CLIENTSECRET_INCLUDEDIGITS
-          IncludeSymbols: false # ZITADEL_DEFAULTINSTANCE_SECRETGENERATORS_CLIENTSECRET_INCLUDESYMBOLS
-        InitializeUserCode:
-          Length: 6 # ZITADEL_DEFAULTINSTANCE_SECRETGENERATORS_INITIALIZEUSERCODE_LENGTH
-          Expiry: "72h" # ZITADEL_DEFAULTINSTANCE_SECRETGENERATORS_INITIALIZEUSERCODE_EXPIRY
-          IncludeLowerLetters: false # ZITADEL_DEFAULTINSTANCE_SECRETGENERATORS_INITIALIZEUSERCODE_INCLUDELOWERLETTERS
-          IncludeUpperLetters: true # ZITADEL_DEFAULTINSTANCE_SECRETGENERATORS_INITIALIZEUSERCODE_INCLUDEUPPERLETTERS
-          IncludeDigits: true # ZITADEL_DEFAULTINSTANCE_SECRETGENERATORS_INITIALIZEUSERCODE_INCLUDEDIGITS
-          IncludeSymbols: false # ZITADEL_DEFAULTINSTANCE_SECRETGENERATORS_INITIALIZEUSERCODE_INCLUDESYMBOLS
-        EmailVerificationCode:
-          Length: 6 # ZITADEL_DEFAULTINSTANCE_SECRETGENERATORS_EMAILVERIFICATIONCODE_LENGTH
-          Expiry: "1h" # ZITADEL_DEFAULTINSTANCE_SECRETGENERATORS_EMAILVERIFICATIONCODE_EXPIRY
-          IncludeLowerLetters: false # ZITADEL_DEFAULTINSTANCE_SECRETGENERATORS_EMAILVERIFICATIONCODE_INCLUDELOWERLETTERS
-          IncludeUpperLetters: true # ZITADEL_DEFAULTINSTANCE_SECRETGENERATORS_EMAILVERIFICATIONCODE_INCLUDEUPPERLETTERS
-          IncludeDigits: true # ZITADEL_DEFAULTINSTANCE_SECRETGENERATORS_EMAILVERIFICATIONCODE_INCLUDEDIGITS
-          IncludeSymbols: false # ZITADEL_DEFAULTINSTANCE_SECRETGENERATORS_EMAILVERIFICATIONCODE_INCLUDESYMBOLS
-        PhoneVerificationCode:
-          Length: 6 # ZITADEL_DEFAULTINSTANCE_SECRETGENERATORS_PHONEVERIFICATIONCODE_LENGTH
-          Expiry: "1h" # ZITADEL_DEFAULTINSTANCE_SECRETGENERATORS_PHONEVERIFICATIONCODE_EXPIRY
-          IncludeLowerLetters: false # ZITADEL_DEFAULTINSTANCE_SECRETGENERATORS_PHONEVERIFICATIONCODE_INCLUDELOWERLETTERS
-          IncludeUpperLetters: true # ZITADEL_DEFAULTINSTANCE_SECRETGENERATORS_PHONEVERIFICATIONCODE_INCLUDEUPPERLETTERS
-          IncludeDigits: true # ZITADEL_DEFAULTINSTANCE_SECRETGENERATORS_PHONEVERIFICATIONCODE_INCLUDEDIGITS
-          IncludeSymbols: false # ZITADEL_DEFAULTINSTANCE_SECRETGENERATORS_PHONEVERIFICATIONCODE_INCLUDESYMBOLS
-        PasswordVerificationCode:
-          Length: 6 # ZITADEL_DEFAULTINSTANCE_SECRETGENERATORS_PASSWORDVERIFICATIONCODE_LENGTH
-          Expiry: "1h" # ZITADEL_DEFAULTINSTANCE_SECRETGENERATORS_PASSWORDVERIFICATIONCODE_EXPIRY
-          IncludeLowerLetters: false # ZITADEL_DEFAULTINSTANCE_SECRETGENERATORS_PASSWORDVERIFICATIONCODE_INCLUDELOWERLETTERS
-          IncludeUpperLetters: true # ZITADEL_DEFAULTINSTANCE_SECRETGENERATORS_PASSWORDVERIFICATIONCODE_INCLUDEUPPERLETTERS
-          IncludeDigits: true # ZITADEL_DEFAULTINSTANCE_SECRETGENERATORS_PASSWORDVERIFICATIONCODE_INCLUDEDIGITS
-          IncludeSymbols: false # ZITADEL_DEFAULTINSTANCE_SECRETGENERATORS_PASSWORDVERIFICATIONCODE_INCLUDESYMBOLS
-        PasswordlessInitCode:
-          Length: 12 # ZITADEL_DEFAULTINSTANCE_SECRETGENERATORS_PASSWORDLESSINITCODE_LENGTH
-          Expiry: "1h" # ZITADEL_DEFAULTINSTANCE_SECRETGENERATORS_PASSWORDLESSINITCODE_EXPIRY
-          IncludeLowerLetters: true # ZITADEL_DEFAULTINSTANCE_SECRETGENERATORS_PASSWORDLESSINITCODE_INCLUDELOWERLETTERS
-          IncludeUpperLetters: true # ZITADEL_DEFAULTINSTANCE_SECRETGENERATORS_PASSWORDLESSINITCODE_INCLUDEUPPERLETTERS
-          IncludeDigits: true # ZITADEL_DEFAULTINSTANCE_SECRETGENERATORS_PASSWORDLESSINITCODE_INCLUDEDIGITS
-          IncludeSymbols: false # ZITADEL_DEFAULTINSTANCE_SECRETGENERATORS_PASSWORDLESSINITCODE_INCLUDESYMBOLS
-        DomainVerification:
-          Length: 32 # ZITADEL_DEFAULTINSTANCE_SECRETGENERATORS_DOMAINVERIFICATION_LENGTH
-          IncludeLowerLetters: true # ZITADEL_DEFAULTINSTANCE_SECRETGENERATORS_DOMAINVERIFICATION_INCLUDELOWERLETTERS
-          IncludeUpperLetters: true # ZITADEL_DEFAULTINSTANCE_SECRETGENERATORS_DOMAINVERIFICATION_INCLUDEUPPERLETTERS
-          IncludeDigits: true # ZITADEL_DEFAULTINSTANCE_SECRETGENERATORS_DOMAINVERIFICATION_INCLUDEDIGITS
-          IncludeSymbols: false # ZITADEL_DEFAULTINSTANCE_SECRETGENERATORS_DOMAINVERIFICATION_INCLUDESYMBOLS
-        OTPSMS:
-          Length: 8 # ZITADEL_DEFAULTINSTANCE_SECRETGENERATORS_OTPSMS_LENGTH
-          Expiry: "5m" # ZITADEL_DEFAULTINSTANCE_SECRETGENERATORS_OTPSMS_EXPIRY
-          IncludeLowerLetters: false # ZITADEL_DEFAULTINSTANCE_SECRETGENERATORS_OTPSMS_INCLUDELOWERLETTERS
-          IncludeUpperLetters: false # ZITADEL_DEFAULTINSTANCE_SECRETGENERATORS_OTPSMS_INCLUDEUPPERLETTERS
-          IncludeDigits: true # ZITADEL_DEFAULTINSTANCE_SECRETGENERATORS_OTPSMS_INCLUDEDIGITS
-          IncludeSymbols: false # ZITADEL_DEFAULTINSTANCE_SECRETGENERATORS_OTPSMS_INCLUDESYMBOLS
-        OTPEmail:
-          Length: 8 # ZITADEL_DEFAULTINSTANCE_SECRETGENERATORS_OTPEMAIL_LENGTH
-          Expiry: "5m" # ZITADEL_DEFAULTINSTANCE_SECRETGENERATORS_OTPEMAIL_EXPIRY
-          IncludeLowerLetters: false # ZITADEL_DEFAULTINSTANCE_SECRETGENERATORS_OTPEMAIL_INCLUDELOWERLETTERS
-          IncludeUpperLetters: false # ZITADEL_DEFAULTINSTANCE_SECRETGENERATORS_OTPEMAIL_INCLUDEUPPERLETTERS
-          IncludeDigits: true # ZITADEL_DEFAULTINSTANCE_SECRETGENERATORS_OTPEMAIL_INCLUDEDIGITS
-          IncludeSymbols: false # ZITADEL_DEFAULTINSTANCE_SECRETGENERATORS_OTPEMAIL_INCLUDESYMBOLS
-        InviteCode:
-          Length: 6 # ZITADEL_DEFAULTINSTANCE_SECRETGENERATORS_INITIALIZEUSERCODE_LENGTH
-          Expiry: "72h" # ZITADEL_DEFAULTINSTANCE_SECRETGENERATORS_INITIALIZEUSERCODE_EXPIRY
-          IncludeLowerLetters: false # ZITADEL_DEFAULTINSTANCE_SECRETGENERATORS_INITIALIZEUSERCODE_INCLUDELOWERLETTERS
-          IncludeUpperLetters: true # ZITADEL_DEFAULTINSTANCE_SECRETGENERATORS_INITIALIZEUSERCODE_INCLUDEUPPERLETTERS
-          IncludeDigits: true # ZITADEL_DEFAULTINSTANCE_SECRETGENERATORS_INITIALIZEUSERCODE_INCLUDEDIGITS
-          IncludeSymbols: false # ZITADEL_DEFAULTINSTANCE_SECRETGENERATORS_INITIALIZEUSERCODE_INCLUDESYMBOLS
-        SigningKey:
-          Length: 36 # ZITADEL_DEFAULTINSTANCE_SECRETGENERATORS_SIGNINGKEY_LENGTH
-          IncludeLowerLetters: true # ZITADEL_DEFAULTINSTANCE_SECRETGENERATORS_SIGNINGKEY_INCLUDELOWERLETTERS
-          IncludeUpperLetters: true # ZITADEL_DEFAULTINSTANCE_SECRETGENERATORS_SIGNINGKEY_INCLUDEUPPERLETTERS
-          IncludeDigits: true # ZITADEL_DEFAULTINSTANCE_SECRETGENERATORS_SIGNINGKEY_INCLUDEDIGITS
-          IncludeSymbols: false # ZITADEL_DEFAULTINSTANCE_SECRETGENERATORS_SIGNINGKEY_INCLUDESYMBOLS
-      PasswordComplexityPolicy:
-        MinLength: 8 # ZITADEL_DEFAULTINSTANCE_PASSWORDCOMPLEXITYPOLICY_MINLENGTH
-        HasLowercase: true # ZITADEL_DEFAULTINSTANCE_PASSWORDCOMPLEXITYPOLICY_HASLOWERCASE
-        HasUppercase: true # ZITADEL_DEFAULTINSTANCE_PASSWORDCOMPLEXITYPOLICY_HASUPPERCASE
-        HasNumber: true # ZITADEL_DEFAULTINSTANCE_PASSWORDCOMPLEXITYPOLICY_HASNUMBER
-        HasSymbol: true # ZITADEL_DEFAULTINSTANCE_PASSWORDCOMPLEXITYPOLICY_HASSYMBOL
-      PasswordAgePolicy:
-        ExpireWarnDays: 0 # ZITADEL_DEFAULTINSTANCE_PASSWORDAGEPOLICY_EXPIREWARNDAYS
-        MaxAgeDays: 0 # ZITADEL_DEFAULTINSTANCE_PASSWORDAGEPOLICY_MAXAGEDAYS
-      DomainPolicy:
-        UserLoginMustBeDomain: false # ZITADEL_DEFAULTINSTANCE_DOMAINPOLICY_USERLOGINMUSTBEDOMAIN
-        ValidateOrgDomains: false # ZITADEL_DEFAULTINSTANCE_DOMAINPOLICY_VALIDATEORGDOMAINS
-        SMTPSenderAddressMatchesInstanceDomain: false # ZITADEL_DEFAULTINSTANCE_DOMAINPOLICY_SMTPSENDERADDRESSMATCHESINSTANCEDOMAIN
-      LoginPolicy:
-        AllowUsernamePassword: true # ZITADEL_DEFAULTINSTANCE_LOGINPOLICY_ALLOWUSERNAMEPASSWORD
-        AllowRegister: true # ZITADEL_DEFAULTINSTANCE_LOGINPOLICY_ALLOWREGISTER
-        AllowExternalIDP: true # ZITADEL_DEFAULTINSTANCE_LOGINPOLICY_ALLOWEXTERNALIDP
-        ForceMFA: false # ZITADEL_DEFAULTINSTANCE_LOGINPOLICY_FORCEMFA
-        HidePasswordReset: false # ZITADEL_DEFAULTINSTANCE_LOGINPOLICY_HIDEPASSWORDRESET
-        IgnoreUnknownUsernames: false # ZITADEL_DEFAULTINSTANCE_LOGINPOLICY_IGNOREUNKNOWNUSERNAMES
-        AllowDomainDiscovery: true # ZITADEL_DEFAULTINSTANCE_LOGINPOLICY_ALLOWDOMAINDISCOVERY
-        # 1 is allowed, 0 is not allowed
-        PasswordlessType: 1 # ZITADEL_DEFAULTINSTANCE_LOGINPOLICY_PASSWORDLESSTYPE
-        # DefaultRedirectURL is empty by default because we use the Console UI
-        DefaultRedirectURI: # ZITADEL_DEFAULTINSTANCE_LOGINPOLICY_DEFAULTREDIRECTURI
-        # 240h = 10d
-        PasswordCheckLifetime: 240h # ZITADEL_DEFAULTINSTANCE_LOGINPOLICY_PASSWORDCHECKLIFETIME
-        # 240h = 10d
-        ExternalLoginCheckLifetime: 240h # ZITADEL_DEFAULTINSTANCE_LOGINPOLICY_EXTERNALLOGINCHECKLIFETIME
-        # 720h = 30d
-        MfaInitSkipLifetime: 720h # ZITADEL_DEFAULTINSTANCE_LOGINPOLICY_MFAINITSKIPLIFETIME
-        SecondFactorCheckLifetime: 18h # ZITADEL_DEFAULTINSTANCE_LOGINPOLICY_SECONDFACTORCHECKLIFETIME
-        MultiFactorCheckLifetime: 12h # ZITADEL_DEFAULTINSTANCE_LOGINPOLICY_MULTIFACTORCHECKLIFETIME
-      PrivacyPolicy:
-        TOSLink: "" # ZITADEL_DEFAULTINSTANCE_PRIVACYPOLICY_TOSLINK
-        PrivacyLink: "" # ZITADEL_DEFAULTINSTANCE_PRIVACYPOLICY_PRIVACYLINK
-        HelpLink: "" # ZITADEL_DEFAULTINSTANCE_PRIVACYPOLICY_HELPLINK
-        SupportEmail: "" # ZITADEL_DEFAULTINSTANCE_PRIVACYPOLICY_SUPPORTEMAIL
-        DocsLink: https://zitadel.com/docs # ZITADEL_DEFAULTINSTANCE_PRIVACYPOLICY_DOCSLINK
-        CustomLink: "" # ZITADEL_DEFAULTINSTANCE_PRIVACYPOLICY_CUSTOMLINK
-        CustomLinkText: "" # ZITADEL_DEFAULTINSTANCE_PRIVACYPOLICY_CUSTOMLINKTEXT
-      NotificationPolicy:
-        PasswordChange: true # ZITADEL_DEFAULTINSTANCE_NOTIFICATIONPOLICY_PASSWORDCHANGE
-      LabelPolicy:
-        PrimaryColor: "#5469d4" # ZITADEL_DEFAULTINSTANCE_LABELPOLICY_PRIMARYCOLOR
-        BackgroundColor: "#fafafa" # ZITADEL_DEFAULTINSTANCE_LABELPOLICY_BACKGROUNDCOLOR
-        WarnColor: "#cd3d56" # ZITADEL_DEFAULTINSTANCE_LABELPOLICY_WARNCOLOR
-        FontColor: "#000000" # ZITADEL_DEFAULTINSTANCE_LABELPOLICY_FONTCOLOR
-        PrimaryColorDark: "#2073c4" # ZITADEL_DEFAULTINSTANCE_LABELPOLICY_PRIMARYCOLORDARK
-        BackgroundColorDark: "#111827" # ZITADEL_DEFAULTINSTANCE_LABELPOLICY_BACKGROUNDCOLORDARK
-        WarnColorDark: "#ff3b5b" # ZITADEL_DEFAULTINSTANCE_LABELPOLICY_WARNCOLORDARK
-        FontColorDark: "#ffffff" # ZITADEL_DEFAULTINSTANCE_LABELPOLICY_FONTCOLORDARK
-        HideLoginNameSuffix: false # ZITADEL_DEFAULTINSTANCE_LABELPOLICY_HIDELOGINNAMESUFFIX
-        ErrorMsgPopup: false # ZITADEL_DEFAULTINSTANCE_LABELPOLICY_ERRORMSGPOPUP
-        DisableWatermark: false # ZITADEL_DEFAULTINSTANCE_LABELPOLICY_DISABLEWATERMARK
-      LockoutPolicy:
-        MaxPasswordAttempts: 0 # ZITADEL_DEFAULTINSTANCE_LOCKOUTPOLICY_MAXPASSWORDATTEMPTS
-        MaxOTPAttempts: 0 # ZITADEL_DEFAULTINSTANCE_LOCKOUTPOLICY_MAXOTPATTEMPTS
-        ShouldShowLockoutFailure: true # ZITADEL_DEFAULTINSTANCE_LOCKOUTPOLICY_SHOULDSHOWLOCKOUTFAILURE
-
-      # Sets the default values for lifetime and expiration for OIDC in each newly created instance
-      # This default can be overwritten for each instance during runtime
-      # Overwrites the system defaults
-      # If defined but not all durations are set it will result in an error
-      OIDCSettings:
-        AccessTokenLifetime: 12h # ZITADEL_DEFAULTINSTANCE_OIDCSETTINGS_ACCESSTOKENLIFETIME
-        IdTokenLifetime: 12h # ZITADEL_DEFAULTINSTANCE_OIDCSETTINGS_IDTOKENLIFETIME
-        # 720h are 30 days
-        RefreshTokenIdleExpiration: 720h # ZITADEL_DEFAULTINSTANCE_OIDCSETTINGS_REFRESHTOKENIDLEEXPIRATION
-        # 2160h are 90 days
-        RefreshTokenExpiration: 2160h # ZITADEL_DEFAULTINSTANCE_OIDCSETTINGS_REFRESHTOKENEXPIRATION
-      # this configuration sets the default email configuration
-      SMTPConfiguration:
-        # Configuration of the host
-        SMTP:
-          # must include the port, like smtp.mailtrap.io:2525. IPv6 is also supported, like [2001:db8::1]:2525
-          Host: smtp.gmail.com:587 # ZITADEL_DEFAULTINSTANCE_SMTPCONFIGURATION_SMTP_HOST
-          User: # ZITADEL_DEFAULTINSTANCE_SMTPCONFIGURATION_SMTP_USER
-          Password: # ZITADEL_DEFAULTINSTANCE_SMTPCONFIGURATION_SMTP_PASSWORD
-        TLS: true # ZITADEL_DEFAULTINSTANCE_SMTPCONFIGURATION_TLS
-        # If the host of the sender is different from ExternalDomain set DefaultInstance.DomainPolicy.SMTPSenderAddressMatchesInstanceDomain to false
-        From: # ZITADEL_DEFAULTINSTANCE_SMTPCONFIGURATION_FROM
-        FromName: Zitadel # ZITADEL_DEFAULTINSTANCE_SMTPCONFIGURATION_FROMNAME
-        ReplyToAddress: # ZITADEL_DEFAULTINSTANCE_SMTPCONFIGURATION_REPLYTOADDRESS
-      # Configure the MessageTexts by environment variable using JSON notation:
-      # ZITADEL_DEFAULTINSTANCE_MESSAGETEXTS='[{"messageTextType": "InitCode", "title": "My custom title"},{"messageTextType": "PasswordReset", "greeting": "Hi there!"}]'
 
   # The ZITADEL config under secretConfig is written to a Kubernetes Secret
   # See all defaults here:
@@ -361,6 +41,10 @@ zitadel:
   # Reference the name of the secret that contains the masterkey. The key should be named "masterkey".
   # Note: Either zitadel.masterkey or zitadel.masterkeySecretName must be set
   masterkeySecretName: "zitadel-masterkey"
+
+  # Number of old ReplicaSets to retain for rollback purposes
+  # Set to 0 to not keep any old ReplicaSets
+  revisionHistoryLimit: 10
 
   # Annotations set on masterkey secret
   masterkeyAnnotations:
@@ -458,6 +142,9 @@ login:
   # ZITADEL_API_URL="http://{{ include "zitadel.fullname" . }}:{{ .Values.service.port }}"
   # CUSTOM_REQUEST_HEADERS="Host:{{ .Values.zitadel.configmapConfig.ExternalDomain }}"
   customConfigmapConfig:
+  # To deploy zitadel multiple times in the same namespace, use a loginClientSecretPrefix.
+  # To mount it, also change the referenced secretName for the login client to "{loginClientSecretPrefix}login-client"
+  loginClientSecretPrefix:
   extraVolumeMounts:
   - name: login-client
     mountPath: /login-client
@@ -466,6 +153,7 @@ login:
   - name: login-client
     secret:
       defaultMode: 444
+      # Adjust this if you want to reference a different secret for the login client PAT.
       secretName: login-client
   replicaCount: 3
   initContainers: []
@@ -546,6 +234,7 @@ login:
   tolerations: []
   affinity: {}
   topologySpreadConstraints: []
+  revisionHistoryLimit: 10
 
 replicaCount: 1
 
@@ -659,10 +348,10 @@ service:
   clusterIP: ""
   # If service type is "LoadBalancer", this can optionally be set to either "Cluster" or "Local"
   externalTrafficPolicy: ""
-  port: *port
+  port: 8080
   protocol: http2
   appProtocol: kubernetes.io/h2c
-  annotations: 
+  annotations:
     traefik.ingress.kubernetes.io/service.serversscheme: h2c
   labels: {}
   scheme: HTTP
@@ -718,7 +407,7 @@ initJob:
   # grant: set ALL grant to user
   # user: initialize only the database user
   # zitadel: initialize ZITADEL internals (skip "create user" and "create database")
-  command: "zitadel"
+  command: ""
 
 setupJob:
   annotations:
