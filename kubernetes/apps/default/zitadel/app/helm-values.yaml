@@ -427,7 +427,7 @@ initJob:
   # grant: set ALL grant to user
   # user: initialize only the database user
   # zitadel: initialize ZITADEL internals (skip "create user" and "create database")
-  command: ""
+  command: "zitadel"
 
 setupJob:
   annotations:
