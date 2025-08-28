@@ -5,6 +5,19 @@ zitadel:
 
   # https://github.com/zitadel/zitadel/blob/main/cmd/defaults.yaml
   configmapConfig:
+    ExternalPort:  443  # ZITADEL_EXTERNALPORT
+    # ExternalDomain is the domain on which end users access ZITADEL.
+    # Read more about external access: https://zitadel.com/docs/self-hosting/manage/custom-domain
+    ExternalDomain: zitadel.dartus.fr # ZITADEL_EXTERNALDOMAIN
+    # ExternalSecure specifies if ZITADEL is exposed externally using HTTPS or HTTP.
+    # Read more about external access: https://zitadel.com/docs/self-hosting/manage/custom-domain
+    ExternalSecure: true # ZITADEL_EXTERNALSECURE
+    TLS:
+      # If enabled, ZITADEL will serve all traffic over TLS (HTTPS and gRPC)
+      # you must then also provide a private key and certificate to be used for the connection
+      # either directly or by a path to the corresponding file
+      Enabled: false # ZITADEL_TLS_ENABLED
+
     Database:
       # Postgres is the default database of ZITADEL
       postgres:
