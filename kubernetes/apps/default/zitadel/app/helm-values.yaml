@@ -37,7 +37,6 @@ zitadel:
             RootCert: "" # ZITADEL_DATABASE_POSTGRES_USER_SSL_ROOTCERT
             Cert: "" # ZITADEL_DATABASE_POSTGRES_USER_SSL_CERT
             Key: "" # ZITADEL_DATABASE_POSTGRES_USER_SSL_KEY
-    ExternalSecure: true
     Machine:
       Identification:
         Hostname:
