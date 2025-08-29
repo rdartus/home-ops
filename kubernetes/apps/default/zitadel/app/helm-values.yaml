@@ -5,6 +5,10 @@ zitadel:
 
   # https://github.com/zitadel/zitadel/blob/main/cmd/defaults.yaml
   configmapConfig:
+    Log:
+      Level: debug # ZITADEL_LOG_LEVEL
+      Formatter:
+        Format: text # ZITADEL_LOG_FORMATTER_FORMAT
     ExternalPort:  443  # ZITADEL_EXTERNALPORT
     # ExternalDomain is the domain on which end users access ZITADEL.
     # Read more about external access: https://zitadel.com/docs/self-hosting/manage/custom-domain
