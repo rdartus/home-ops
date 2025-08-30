@@ -28,6 +28,17 @@ zitadel:
       # The name of the service in traces
       ServiceName: "ZITADEL" #ZITADEL_TRACING_SERVICENAME
 
+
+    LogStore:
+      Access:
+        Stdout:
+          # If enabled, all access logs are printed to the binary's standard output
+          Enabled: true # ZITADEL_LOGSTORE_ACCESS_STDOUT_ENABLED
+      Execution:
+        Stdout:
+          # If enabled, all execution logs are printed to the binary's standard output
+          Enabled: true # ZITADEL_LOGSTORE_EXECUTION_STDOUT_ENABLED
+
     ExternalPort:  443  # ZITADEL_EXTERNALPORT
     # ExternalDomain is the domain on which end users access ZITADEL.
     # Read more about external access: https://zitadel.com/docs/self-hosting/manage/custom-domain
