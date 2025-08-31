@@ -21,7 +21,7 @@ zitadel:
       # for type 'google'
       # ProjectID: ''
       # Fraction: 1.0
-      Type: otel # ZITADEL_TRACING_TYPE
+      Type: log # ZITADEL_TRACING_TYPE
       Fraction: 1.0 # ZITADEL_TRACING_FRACTION
       # The endpoint of the otel collector endpoint
       Endpoint: "" #ZITADEL_TRACING_ENDPOINT
