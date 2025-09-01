@@ -370,6 +370,16 @@ env:
         key: secpassword
   - name: ZITADEL_FIRSTINSTANCE_ORG_HUMAN_PASSWORDCHANGEREQUIRED
     value: "false"
+  - name: ZITADEL_DATABASE_POSTGRES_ADMIN_USERNAME
+    valueFrom:
+      secretKeyRef:
+        name: superuser-secret
+        key: username
+  - name: ZITADEL_DATABASE_POSTGRES_ADMIN_PASSWORD
+    valueFrom:
+      secretKeyRef:
+        name: superuser-secret
+        key: password
 
   # - name: ZITADEL_TLS_KEY
   #   valueFrom:
@@ -473,7 +483,8 @@ initJob:
   # grant: set ALL grant to user
   # user: initialize only the database user
   # zitadel: initialize ZITADEL internals (skip "create user" and "create database")
-  command: "zitadel"
+  command: ""
+  # command: "zitadel"
 
 setupJob:
   annotations:
