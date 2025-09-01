@@ -27,8 +27,6 @@ zitadel:
       Endpoint: "" #ZITADEL_TRACING_ENDPOINT
       # The name of the service in traces
       ServiceName: "ZITADEL" #ZITADEL_TRACING_SERVICENAME
-
-
     LogStore:
       Access:
         Stdout:
