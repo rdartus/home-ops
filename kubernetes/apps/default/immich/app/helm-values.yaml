@@ -54,7 +54,7 @@ controllers:
       main:
         image:
           repository: ghcr.io/immich-app/immich-machine-learning
-          tag: v1.139.3@sha256:11fb28355bfb78eae9549692faac178da1c2df46af3e533f4c9145c5e2f1600c
+          tag: v1.140.1@sha256:6239f9852f2ccd8bef52b161629a8fc62bac7636750c06e5fe021e994bab4781
         env:
           <<: *env-common
           # MPLCONFIGDIR: "/cache/matplotlib"
