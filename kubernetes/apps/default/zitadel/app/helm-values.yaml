@@ -439,7 +439,7 @@ ingress:
     hajimari.io/icon: "security"
     hajimari.io/appName: "zitadel"
     cert-manager.io/cluster-issuer: zerossl-prod
-    acme.cert-manager.io/http01-edit-in-place: "false"
+    acme.cert-manager.io/http01-edit-in-place: "true"
 
   hosts:
     - host: zitadel.dartus.fr

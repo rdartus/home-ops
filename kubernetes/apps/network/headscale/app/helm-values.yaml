@@ -741,7 +741,7 @@ ingress:
       hajimari.io/group: "Media"
       hajimari.io/icon: "chef-hat"
       cert-manager.io/cluster-issuer: zerossl-prod
-      acme.cert-manager.io/http01-edit-in-place: "false"
+      acme.cert-manager.io/http01-edit-in-place: "true"
 
     # # -- Provide additional labels which may be required. Helm templates can be used.
     # labels: {}
@@ -783,7 +783,7 @@ ingress:
       hajimari.io/group: "Media"
       hajimari.io/icon: "chef-hat"
       cert-manager.io/cluster-issuer: zerossl-prod
-      acme.cert-manager.io/http01-edit-in-place: "false"
+      acme.cert-manager.io/http01-edit-in-place: "true"
 
     hosts:
       - host: secure2.dartus.fr

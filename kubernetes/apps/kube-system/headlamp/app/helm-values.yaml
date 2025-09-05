@@ -178,7 +178,7 @@ ingress:
     hajimari.io/icon: "jellyfish"
     hajimari.io/appName: "argocd"
     cert-manager.io/cluster-issuer: zerossl-prod
-    acme.cert-manager.io/http01-edit-in-place: "false"
+    acme.cert-manager.io/http01-edit-in-place: "true"
     # kubernetes.io/tls-acme: "true"
 
   # -- Additional labels to add to the Ingress resource

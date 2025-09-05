@@ -234,7 +234,7 @@ ingress:
     hajimari.io/icon: "bookshelf"
     hajimari.io/appName: "grafana"
     cert-manager.io/cluster-issuer: zerossl-prod
-    acme.cert-manager.io/http01-edit-in-place: "false"
+    acme.cert-manager.io/http01-edit-in-place: "true"
   path: /
   pathType: Prefix
   hosts:

@@ -650,7 +650,7 @@ server:
       hajimari.io/group: "Management"
       hajimari.io/icon: "security"
       cert-manager.io/cluster-issuer: zerossl-prod
-      acme.cert-manager.io/http01-edit-in-place: "false"
+      acme.cert-manager.io/http01-edit-in-place: "true"
     # -- additional ingress labels
     labels: {}
     # -- defines which ingress controller will implement the resource

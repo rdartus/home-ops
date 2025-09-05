@@ -624,7 +624,7 @@ ingress:
       hajimari.io/group: "Media"
       hajimari.io/icon: "download"
       cert-manager.io/cluster-issuer: zerossl-prod
-      acme.cert-manager.io/http01-edit-in-place: "false"
+      acme.cert-manager.io/http01-edit-in-place: "true"
 
 
 

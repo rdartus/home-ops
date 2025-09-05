@@ -4,7 +4,7 @@ metadata:
   name: hajimari
   namespace: default
   annotations:
-    acme.cert-manager.io/http01-edit-in-place: "false"
+    acme.cert-manager.io/http01-edit-in-place: "true"
     cert-manager.io/cluster-issuer: zerossl-prod
 spec:
   # defaultBackend:
