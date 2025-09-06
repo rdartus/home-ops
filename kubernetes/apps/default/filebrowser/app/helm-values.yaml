@@ -504,6 +504,7 @@ configMaps:
     data: 
       config: |
 
+        # https://cloud.dartus.fr/static/config.generated.yaml
         server:
           port: 80
           sources:
@@ -530,7 +531,7 @@ configMaps:
                 createUserDir: false              # create a user directory for each user
         integrations:
           office:
-            url: "https:onlyoffice.dartus.fr//:443"   # eg. a public internet IP/domain
+            url: "https://onlyoffice.dartus.fr:443"   # eg. a public internet IP/domain
             # secret: TevrjpRNMmKC0JxAwY7iZ2VXLrvG1gue
         auth:
           methods:
