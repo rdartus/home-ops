@@ -260,7 +260,7 @@ controllers:
           # -- image repository
           repository: ghcr.io/gtsteffaniak/filebrowser
           # -- image tag
-          tag: latest@sha256:344632f3df4e9d8b59be276f702523707522d1138057c3f67dfae064c6405484
+          tag: latest@sha256:f3b7261576b0f6362809f8faaea19f06586c180eff641e5093caff8bed2ceff3
           # -- image pull policy
           pullPolicy: IfNotPresent
 
