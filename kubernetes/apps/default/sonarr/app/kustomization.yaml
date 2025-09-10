@@ -9,7 +9,7 @@ resources:
   - ./arr-db-secret.yaml
   - ./arr-conf-secret.yaml
   - ./arr-auth.yaml
-  - ./pvc-sonarr-app.yaml
+  - ./pvc-sonarr-config.yaml
   # - ./smb-secret.yaml
   # - ./smb-auth.yaml
 configMapGenerator:
