@@ -769,7 +769,15 @@ route: {}
 # Additional items can be added by adding a dictionary key similar to the 'config' key.
 # [[ref]](https://bjw-s.github.io/helm-charts/docs/common-library/common-library-storage)
 # @default -- See below
-persistence: {}
+persistence:
+  custom:
+    enabled: true
+    type : persistentVolumeClaim
+    existingClaim: pvc-prowlarr-custom
+    globalMounts:
+      - path: /config/Definitions/Custom
+        readOnly: false
+
   # loisir:
   #   enabled: true
   #   type : persistentVolumeClaim

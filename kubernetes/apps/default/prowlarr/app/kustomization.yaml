@@ -4,6 +4,7 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
   - ./helmrelease.yaml
+  - ./pvc-prowlarr-custom.yaml
 configMapGenerator:
   - name: prowlarr-helm-values
     files:

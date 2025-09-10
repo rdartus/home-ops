@@ -781,6 +781,16 @@ persistence:
     globalMounts:
       - path: /data
         readOnly: false
+
+  app:
+    enabled: true
+    type : persistentVolumeClaim
+    existingClaim: pvc-sonarr-app
+    globalMounts:
+      - path: /app
+        readOnly: false
+
+
 #   config:
 #   #   # -- Enables or disables the persistence item. Defaults to true
 #     enabled: true
