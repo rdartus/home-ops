@@ -84,8 +84,9 @@ defaultPodOptions:
   schedulerName: ""
 
   # -- Configure the Security Context for the Pod
-  securityContext: {}
-
+  securityContext: 
+      fsGroup: 65534
+      
   # -- Allows sharing process namespace between containers in a Pod
   # -- [[ref](https://kubernetes.io/docs/tasks/configure-pod-container/share-process-namespace/)]
   shareProcessNamespace:
