@@ -779,6 +779,15 @@ persistence:
       - path: /config/Definitions/Custom
         readOnly: false
 
+
+# https://github.com/Prowlarr/Prowlarr/issues/2479
+# # Télécharger les définitions YGG vers le dossier personnalisé
+# curl -o /config/Definitions/Custom/yggtorrent.yml \
+#   https://raw.githubusercontent.com/Jackett/Jackett/master/src/Jackett.Common/Definitions/yggtorrent.yml
+
+# curl -o /config/Definitions/Custom/yggcookie.yml \
+#   https://raw.githubusercontent.com/Jackett/Jackett/master/src/Jackett.Common/Definitions/yggcookie.yml
+
   # loisir:
   #   enabled: true
   #   type : persistentVolumeClaim

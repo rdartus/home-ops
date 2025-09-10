@@ -265,6 +265,7 @@ controllers:
           pullPolicy: IfNotPresent
 
         env:
+          DS_LOG_LEVEL: DEBUG
           DB_TYPE: postgres
           DB_HOST: cnpg-cluster-rw.database.svc.cluster.local
           DB_PORT: 5432
