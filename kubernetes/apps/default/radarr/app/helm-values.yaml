@@ -782,13 +782,13 @@ persistence:
       - path: /data
         readOnly: false
 
-  app:
-    enabled: true
-    type : persistentVolumeClaim
-    existingClaim: pvc-radarr-app
-    globalMounts:
-      - path: /app
-        readOnly: false
+  # app:
+  #   enabled: true
+  #   type : persistentVolumeClaim
+  #   existingClaim: pvc-radarr-app
+  #   globalMounts:
+  #     - path: /app
+  #       readOnly: false
 
 
 #   config:
