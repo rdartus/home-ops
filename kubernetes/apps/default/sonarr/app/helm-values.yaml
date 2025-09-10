@@ -778,7 +778,6 @@ persistence:
     globalMounts:
       - path: /data
         readOnly: false
-
   conf:
     enabled: true
     type : persistentVolumeClaim
