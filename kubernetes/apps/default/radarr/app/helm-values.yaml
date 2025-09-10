@@ -86,7 +86,7 @@ defaultPodOptions:
   # -- Configure the Security Context for the Pod
   securityContext: 
       fsGroup: 65534
-      
+
   # -- Allows sharing process namespace between containers in a Pod
   # -- [[ref](https://kubernetes.io/docs/tasks/configure-pod-container/share-process-namespace/)]
   shareProcessNamespace:
@@ -783,13 +783,13 @@ persistence:
       - path: /data
         readOnly: false
 
-  # config:
-  #   enabled: true
-  #   type : persistentVolumeClaim
-  #   existingClaim: pvc-radarr-config
-  #   globalMounts:
-  #     - path: /config
-  #       readOnly: false
+  config:
+    enabled: true
+    type : persistentVolumeClaim
+    existingClaim: pvc-radarr-config
+    globalMounts:
+      - path: /config
+        readOnly: false
 
 
 #   config:
