@@ -785,7 +785,7 @@ persistence:
   app:
     enabled: true
     type : persistentVolumeClaim
-    existingClaim: pvc-sonarr-app
+    existingClaim: pvc-radarr-app
     globalMounts:
       - path: /app
         readOnly: false
