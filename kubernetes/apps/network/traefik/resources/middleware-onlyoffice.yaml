@@ -1,0 +1,12 @@
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: middleware-onlyoffice
+  namespace: network
+  annotations:
+    argocd.argoproj.io/sync-wave: "-100"
+    argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
+spec:
+  headers:
+    customRequestHeaders:
+      X-Forwarded-Proto: "https"

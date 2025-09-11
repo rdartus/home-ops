@@ -9,3 +9,4 @@ resources:
   - ./wireguard-ingressroute.yaml
   - ./dashboard-ingress.yaml
   - ./traefik-authentik-middleware.yaml
+  - ./middleware-onlyoffice.yaml
