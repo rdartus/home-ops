@@ -8,5 +8,6 @@ metadata:
     argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
 spec:
   headers:
+    accessControlAllowOriginList: "*"
     customRequestHeaders:
       X-Forwarded-Proto: "https"
