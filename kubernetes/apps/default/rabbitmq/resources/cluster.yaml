@@ -3,10 +3,14 @@ kind: RabbitmqCluster
 metadata:
   name: rabbit-cluster
 spec:
-  replicas: 2
+  replicas: 1
   secretBackend:
     externalSecret: 
       name: "rabbitmq-secret"
+  resources:
+    limits:
+      cpu: 1000m
+      memory: 2Gi
   override:
     statefulSet:
       spec:
