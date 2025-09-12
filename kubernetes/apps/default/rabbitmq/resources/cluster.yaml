@@ -3,7 +3,7 @@ kind: RabbitmqCluster
 metadata:
   name: rabbit-cluster
 spec:
-  replicas: 1
+  replicas: 2
   secretBackend:
     externalSecret: 
       name: "rabbitmq-secret"
