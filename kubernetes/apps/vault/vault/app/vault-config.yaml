@@ -450,7 +450,22 @@ data:
         audience=vault\
         ttl=24h
 
-        vault write auth/oidc/config \
+        vault write auth/oidc/role/reader \
+        bound_audiences="@/config/cred/vaultOIDCClient" \
+        allowed_redirect_uris="https://vault.dartus.fr/ui/vault/auth/oidc/oidc/callback" \
+        allowed_redirect_uris="https://vault.dartus.fr/oidc/callback" \
+        allowed_redirect_uris="http://vault.dartus.fr/ui/vault/auth/oidc/oidc/callback" \
+        allowed_redirect_uris="http://vault.dartus.fr/ui/vault/auth?with=oidc" \
+        allowed_redirect_uris="http://vault.dartus.fr/oidc/callback" \
+        allowed_redirect_uris="http://localhost:8250/oidc/callback" \
+        user_claim="email" \
+        policies="reader"\
+        groups_claim="groups" \
+        oidc_scopes="openid,profile,email"\
+        verbose_oidc_logging=true
+
+
+        vault write -f auth/oidc/config \
         oidc_discovery_url="https://authentik.dartus.fr/application/o/vault/" \
         oidc_client_id="@/config/cred/vaultOIDCClient" \
         oidc_client_secret="@/config/cred/vaultOIDCSecret" \
@@ -470,21 +485,6 @@ data:
           mount_accessor="$MOUNT_ACCESSOR" \
           canonical_id="$GROUP_ID" \
           name="authentik Admins"
-
-        vault write auth/oidc/role/reader \
-        bound_audiences="@/config/cred/vaultOIDCClient" \
-        allowed_redirect_uris="https://vault.dartus.fr/ui/vault/auth/oidc/oidc/callback" \
-        allowed_redirect_uris="https://vault.dartus.fr/oidc/callback" \
-        allowed_redirect_uris="http://vault.dartus.fr/ui/vault/auth/oidc/oidc/callback" \
-        allowed_redirect_uris="http://vault.dartus.fr/ui/vault/auth?with=oidc" \
-        allowed_redirect_uris="http://vault.dartus.fr/oidc/callback" \
-        allowed_redirect_uris="http://localhost:8250/oidc/callback" \
-        user_claim="email" \
-        policies="reader"\
-        groups_claim="groups" \
-        oidc_scopes="openid,profile,email"\
-        verbose_oidc_logging=true
-
 
         exit 0
       elif [ $STATUS = "true" ]; then
