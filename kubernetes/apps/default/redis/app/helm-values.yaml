@@ -114,7 +114,7 @@ diagnosticMode:
 image:
   registry: docker.io
   repository: bitnami/redis
-  digest: ""
+  tag: "latest"
   ## Specify a imagePullPolicy
   ## ref: https://kubernetes.io/docs/concepts/containers/images/#pre-pulled-images
   ##
@@ -1185,7 +1185,7 @@ sentinel:
   image:
     registry: docker.io
     repository: bitnami/redis-sentinel
-    digest: ""
+    tag: "latest"
     ## Specify a imagePullPolicy
     ## ref: https://kubernetes.io/docs/concepts/containers/images/#pre-pulled-images
     ##
@@ -1783,7 +1783,7 @@ metrics:
   image:
     registry: docker.io
     repository: bitnami/redis-exporter
-    digest: ""
+    tag: "latest"
     pullPolicy: IfNotPresent
     ## Optionally specify an array of imagePullSecrets.
     ## Secrets must be manually created in the namespace.
@@ -2160,7 +2160,7 @@ volumePermissions:
   image:
     registry: docker.io
     repository: bitnami/os-shell
-    digest: ""
+    tag: "latest"
     pullPolicy: IfNotPresent
     ## Optionally specify an array of imagePullSecrets.
     ## Secrets must be manually created in the namespace.
@@ -2223,7 +2223,7 @@ kubectl:
   image:
     registry: docker.io
     repository: bitnami/kubectl
-    digest: ""
+    tag: "latest"
     ## Specify a imagePullPolicy
     ## ref: https://kubernetes.io/docs/concepts/containers/images/#pre-pulled-images
     ##
@@ -2291,7 +2291,7 @@ sysctl:
   image:
     registry: docker.io
     repository: bitnami/os-shell
-    digest: ""
+    tag: "latest"
     pullPolicy: IfNotPresent
     ## Optionally specify an array of imagePullSecrets.
     ## Secrets must be manually created in the namespace.
