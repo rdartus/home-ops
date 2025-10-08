@@ -300,11 +300,12 @@ controllers:
               secretKeyRef:
                 name: filebrowser-secret
                 key: oidcSecret
-          FILEBROWSER_ONLYOFFICE_SECRET:
-            valueFrom:
-              secretKeyRef:
-                name: onlyoffice-secret
-                key: token
+          # FILEBROWSER_ONLYOFFICE_SECRET:
+          #   valueFrom:
+          #     secretKeyRef:
+          #       name: onlyoffice-secret
+          #       key: token
+
           # FILEBROWSER_JWT_TOKEN_SECRET: 
           # FILEBROWSER_TOTP_SECRET: 
           # FILEBROWSER_RECAPTCHA_SECRET: 
@@ -539,9 +540,9 @@ configMaps:
                 createUserDir: false              # create a user directory for each user
           externalUrl: "https://cloud.dartus.fr"   # used by share links if set (eg. http://mydomain.com)
           internalUrl: "https://cloud.dartus.fr"   # used by integrations if set, this is the base domain that an integration service will use ti communicate with filebrowser (eg. http://localhost:8080)
-        integrations:
-          office:
-            url: "https://onlyoffice.dartus.fr"   # eg. a public internet IP/domain
+        # integrations:
+        #   office:
+        #     url: "https://onlyoffice.dartus.fr"   # eg. a public internet IP/domain
             # secret: TevrjpRNMmKC0JxAwY7iZ2VXLrvG1gue
         auth:
           methods:
