@@ -22,6 +22,6 @@ resources:
   - ./livres/ks.yaml
   # - ./kubotheque/ks.yaml
   - ./zitadel/ks.yaml
-  - ./rabbitmq/ks.yaml
-  - ./onlyoffice/ks.yaml
+  # - ./rabbitmq/ks.yaml
+  # - ./onlyoffice/ks.yaml
   - ./immich/ks.yaml

@@ -17,10 +17,10 @@ spec:
       namespace: vault
     - name: csi-driver-smb-ressources
       namespace: kube-system
-    - name: onlyoffice
-      namespace: default
     - name: authentik
       namespace: default
+    # - name: onlyoffice
+    #   namespace: default
   sourceRef:
     kind: GitRepository
     name: flux-system

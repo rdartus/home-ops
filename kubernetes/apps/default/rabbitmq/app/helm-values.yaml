@@ -25,7 +25,7 @@ global:
   ##
   security:
     ## @param global.security.allowInsecureImages Allows skipping image verification
-    allowInsecureImages: true
+    allowInsecureImages: false
   ## Compatibility adaptations for Kubernetes platforms
   ##
   compatibility:
@@ -78,8 +78,8 @@ diagnosticMode:
 ##
 rabbitmqImage:
   registry: docker.io
-  repository: bitnamicharts/rabbitmq
-  #tag: latest
+  repository: bitnami/rabbitmq
+  tag: latest
   digest: ""
   ## Optionally specify an array of imagePullSecrets.
   ## Secrets must be manually created in the namespace.
@@ -99,8 +99,8 @@ rabbitmqImage:
 ##
 credentialUpdaterImage:
   registry: docker.io
-  repository: bitnamicharts/rmq-default-credential-updater
-  #tag: latest
+  repository: bitnami/rmq-default-credential-updater
+  tag: latest
   digest: ""
   ## Optionally specify an array of imagePullSecrets.
   ## Secrets must be manually created in the namespace.
@@ -122,8 +122,8 @@ clusterOperator:
   ##
   image:
     registry: docker.io
-    repository: bitnamicharts/rabbitmq-cluster-operator
-    #tag: latest
+    repository: bitnami/rabbitmq-cluster-operator
+    tag: latest
     digest: ""
     ## Specify a imagePullPolicy
     ## ref: https://kubernetes.io/docs/concepts/containers/images/#pre-pulled-images
@@ -664,8 +664,8 @@ msgTopologyOperator:
   ##
   image:
     registry: docker.io
-    repository: bitnamicharts/rmq-messaging-topology-operator
-    #tag: latest
+    repository: bitnami/rmq-messaging-topology-operator
+    tag: latest
     digest: ""
     ## Specify a imagePullPolicy
     ## ref: https://kubernetes.io/docs/concepts/containers/images/#pre-pulled-images
