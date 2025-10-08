@@ -79,7 +79,7 @@ diagnosticMode:
 rabbitmqImage:
   registry: docker.io
   repository: bitnamicharts/rabbitmq
-  tag: latest
+  #tag: latest
   digest: ""
   ## Optionally specify an array of imagePullSecrets.
   ## Secrets must be manually created in the namespace.
@@ -100,7 +100,7 @@ rabbitmqImage:
 credentialUpdaterImage:
   registry: docker.io
   repository: bitnamicharts/rmq-default-credential-updater
-  tag: latest
+  #tag: latest
   digest: ""
   ## Optionally specify an array of imagePullSecrets.
   ## Secrets must be manually created in the namespace.
@@ -123,7 +123,7 @@ clusterOperator:
   image:
     registry: docker.io
     repository: bitnamicharts/rabbitmq-cluster-operator
-    tag: latest
+    #tag: latest
     digest: ""
     ## Specify a imagePullPolicy
     ## ref: https://kubernetes.io/docs/concepts/containers/images/#pre-pulled-images
@@ -665,7 +665,7 @@ msgTopologyOperator:
   image:
     registry: docker.io
     repository: bitnamicharts/rmq-messaging-topology-operator
-    tag: latest
+    #tag: latest
     digest: ""
     ## Specify a imagePullPolicy
     ## ref: https://kubernetes.io/docs/concepts/containers/images/#pre-pulled-images
