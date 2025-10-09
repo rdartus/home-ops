@@ -202,8 +202,7 @@ data:
       echo "Checking if Vault is up and running (try $COUNT)..."
       VAULT_STATUS=$(vault status $1 2>&1)
       EXIT_STATUS=$?
-      STATUS = $(vault status)
-      echo "Vault status $STATUS"
+      echo "Check Vault status"
       export STATUS=$(vault status | grep 'Initialized' | awk '{print $2}')
       echo "status vault $STATUS"
       if [ $STATUS = "false" ]; then
