@@ -33,6 +33,7 @@ defaultPodOptions:
   #           values:
   #           - nucoumouk
 
+
   # -- Set annotations on the Pod. Pod-specific values will be merged with this.
   annotations: {}
 
