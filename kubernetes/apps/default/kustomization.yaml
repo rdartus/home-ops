@@ -15,13 +15,13 @@ resources:
   - ./flaresolverr/ks.yaml
   - ./filebrowser/ks.yaml
   - ./jellyfin/ks.yaml
-  - ./qbittorrent/ks.yaml
   - ./mealie/ks.yaml
   - ./kavita/ks.yaml
   - ./books/ks.yaml
   - ./livres/ks.yaml
-  # - ./kubotheque/ks.yaml
   - ./zitadel/ks.yaml
+  - ./immich/ks.yaml
+  # - ./qbittorrent/ks.yaml
+  # - ./kubotheque/ks.yaml
   # - ./rabbitmq/ks.yaml
   # - ./onlyoffice/ks.yaml
-  - ./immich/ks.yaml

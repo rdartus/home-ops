@@ -501,7 +501,7 @@ setupJob:
   machinekeyWriter:
     image:
       repository: bitnami/kubectl
-      tag: ""
+      tag: "latest"
     resources: {}
 
 readinessProbe:
