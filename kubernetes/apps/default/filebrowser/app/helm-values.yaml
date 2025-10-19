@@ -519,22 +519,6 @@ configMaps:
           sources:
             - path: /jeantasse
               config:
-                # indexingIntervalMinutes: 0        # optional manual overide interval in seconds to re-index the source
-                # disableIndexing: false            # disable the indexing of this source
-                # maxWatchers: 0                    # number of concurrent watchers to use for this source, currently not supported
-                # neverWatchPaths: []
-                # exclude:                          # exclude files and folders from indexing, if include is not set
-                #   hidden: false                   # exclude hidden files and folders.
-                #   ignoreZeroSizeFolders: false    # ignore folders with 0 size
-                #   filePaths: []
-                #   folderPaths: []
-                #   fileNames: []
-                #   folderNames: []
-                #   fileEndsWith: []
-                #   folderEndsWith: []
-                # include:                          # include files and folders from indexing, if exclude is not set
-                #   rootFolders: []
-                #   rootFiles: []
                 defaultUserScope: "/Loisir"             # default "/" should match folders under path
                 defaultEnabled: true             # should be added as a default source for new users?
                 createUserDir: false              # create a user directory for each user
@@ -849,10 +833,10 @@ persistence:
     globalMounts:
       - path: /jeantasse
         readOnly: false
-  config:
-    enabled: true
-    type: configMap
-    identifier: config
+  # config:
+  #   enabled: true
+  #   type: configMap
+  #   identifier: config
 #   config:
 #   #   # -- Enables or disables the persistence item. Defaults to true
 #     enabled: true
