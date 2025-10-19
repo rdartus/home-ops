@@ -833,10 +833,10 @@ persistence:
     globalMounts:
       - path: /jeantasse
         readOnly: false
-  # config:
-  #   enabled: true
-  #   type: configMap
-  #   identifier: config
+  config:
+    enabled: true
+    type: configMap
+    identifier: config
 #   config:
 #   #   # -- Enables or disables the persistence item. Defaults to true
 #     enabled: true
