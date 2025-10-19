@@ -519,9 +519,10 @@ configMaps:
           sources:
             - path: /jeantasse
               config:
-                defaultUserScope: "/Loisir"             # default "/" should match folders under path
                 defaultEnabled: true             # should be added as a default source for new users?
-                createUserDir: false              # create a user directory for each user
+            # - path: /folder
+            #   config:
+            #     defaultEnabled: true
           externalUrl: "https://cloud.dartus.fr"   # used by share links if set (eg. http://mydomain.com)
           internalUrl: "https://cloud.dartus.fr"   # used by integrations if set, this is the base domain that an integration service will use ti communicate with filebrowser (eg. http://localhost:8080)
         # integrations:
