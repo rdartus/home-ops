@@ -517,12 +517,9 @@ configMaps:
         server:
           port: 80
           sources:
-            - path: /jeantasse
+            - path: /config
               config:
-                defaultEnabled: true             # should be added as a default source for new users?
-            # - path: /folder
-            #   config:
-            #     defaultEnabled: true
+                defaultEnabled: true
           externalUrl: "https://cloud.dartus.fr"   # used by share links if set (eg. http://mydomain.com)
           internalUrl: "https://cloud.dartus.fr"   # used by integrations if set, this is the base domain that an integration service will use ti communicate with filebrowser (eg. http://localhost:8080)
         # integrations:
