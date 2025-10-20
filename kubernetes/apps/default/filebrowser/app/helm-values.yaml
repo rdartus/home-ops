@@ -558,6 +558,11 @@ configMaps:
               adminGroup: "authentik Admins"                      # if set, users in this group will be granted admin privileges.
               groupsClaim: "groups"               # the JSON field name to read groups from. Default is "groups"
           adminUsername: admin
+        userDefaults:
+          fileLoading:                            # upload and download settings
+            maxConcurrentUpload: 1
+            uploadChunkSizeMb: 5
+            clearAll: false
 
 # -- Generate ConfigMaps from a folder in the Helm chart's filesystem
 # Your files will need to be two levels deep from the base path.
