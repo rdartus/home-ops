@@ -14,6 +14,9 @@ grafana.ini:
     check_for_updates: false
     check_for_plugin_updates: false
     reporting_enabled: false
+  smtp:
+    enabled: true
+    host: smtp.gmail.com:465
   auth.anonymous:
     enabled: false
   auth.generic_oauth:
