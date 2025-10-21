@@ -167,9 +167,82 @@ data:
     }
 
   admin-policy.json: |
-    path "/secret/*" {
-        capabilities = ["create", "read", "update", "delete", "list"]
+    # Accès global en lecture et écriture sur les secrets engines
+    path "secret/*" {
+      capabilities = ["create", "read", "update", "delete", "list"]
     }
+
+    path "kv-v2/*" {
+      capabilities = ["create", "read", "update", "delete", "list", "sudo"]
+    }
+
+    path "auth/*" {
+      capabilities = ["create", "read", "update", "delete", "list", "sudo"]
+    }
+
+    # Gestion complète des secrets engines (activation/désactivation/config)
+    path "sys/mounts/*" {
+      capabilities = ["create", "read", "update", "delete", "list", "sudo"]
+    }
+    path "sys/mounts" {
+      capabilities = ["read", "list"]
+    }
+
+    # Gestion complète des policies
+    path "sys/policies/acl/*" {
+      capabilities = ["create", "read", "update", "delete", "list", "sudo"]
+    }
+    path "sys/policies/acl" {
+      capabilities = ["list"]
+    }
+
+    # Gestion complète des tokens
+    path "auth/token/*" {
+      capabilities = ["create", "read", "update", "delete", "list", "sudo"]
+    }
+
+    # Gestion des approles
+    path "auth/approle/*" {
+      capabilities = ["create", "read", "update", "delete", "list", "sudo"]
+    }
+
+    # Gestion des méthodes d'authentification
+    path "sys/auth/*" {
+      capabilities = ["create", "read", "update", "delete", "list", "sudo"]
+    }
+    path "sys/auth" {
+      capabilities = ["read", "list"]
+    }
+
+    # Accès complet à la configuration système
+    path "sys/config/*" {
+      capabilities = ["create", "read", "update", "delete", "list", "sudo"]
+    }
+
+    # Gestion des entités et groupes d'identité
+    path "identity/*" {
+      capabilities = ["create", "read", "update", "delete", "list", "sudo"]
+    }
+
+    # Lecture des informations système et métriques
+    path "sys/health" {
+      capabilities = ["read"]
+    }
+    path "sys/mounts" {
+      capabilities = ["read", "list"]
+    }
+    path "sys/seal-status" {
+      capabilities = ["read"]
+    }
+
+    # Possibilité de gérer les audit devices
+    path "sys/audit/*" {
+      capabilities = ["create", "read", "update", "delete", "list", "sudo"]
+    }
+    path "sys/audit" {
+      capabilities = ["read", "list"]
+    }
+
   reader-policy.json: |
     path "/secret/*" {
       capabilities = ["read", "list"]
@@ -473,11 +546,9 @@ data:
         ALIAS_ADMIN_GROUP_NAME="authentik Admins"
 
         vault write identity/group name="admin" policies="admin" type="external"
-        # 1) créer le groupe et extraire l'id depuis la sortie texte
-        CREATE_OUT=$(vault write identity/group name="$GROUP_NAME" type="external" policies="$GROUP_POLICIES" 2>&1)
-
-        # Exemple de ligne attendue: "id  8ccda2b8-181f-8569-8099-033e813e2a87"
-        GROUP_ID=$(printf '%s\n' "$CREATE_OUT" | awk '$1=="id" {print $2; exit}')
+        # Exemple de ligne attendue: "id  8ccda2b8-181f-8569-8099-033e813e2a87" possibilité d'utiliser vault read -field=id. 
+        GROUP_ID=$(vault read identity/group/name/admin | awk '$1=="id" {print $2; exit}')
+        # possibilité d'utiliser vault read -field=id: vault read -field=id  identity/group/name/admin
         MOUNT_ACCESSOR=$(vault auth list 2>/dev/null | awk '$2=="oidc" {print $3; exit}')
 
         vault write identity/group-alias \
