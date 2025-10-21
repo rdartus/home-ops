@@ -8,12 +8,33 @@ env:
   GF_PLUGINS_ALLOW_LOADING_UNSIGNED_PLUGINS: natel-discrete-panel,pr0ps-trackmap-panel,panodata-map-panel
   GF_SECURITY_ANGULAR_SUPPORT_ENABLED: true
   GF_SERVER_ROOT_URL: https://grafana.dartus.fr
+
 envFromSecret: "grafana-secret"
+envValueFrom:
+  GF_SMTP_USER:
+    valueFrom:
+      secretKeyRef:
+        name: smtp-secret
+        key: gmail_username
+  GF_SMTP_FROM_ADDRESS:
+    valueFrom:
+      secretKeyRef:
+        name: smtp-secret
+        key: gmail_username
+  GF_SMTP_PASSWORD:
+    valueFrom:
+      secretKeyRef:
+        name: smtp-secret
+        key: gmail_password
+
 grafana.ini:
   analytics:
     check_for_updates: false
     check_for_plugin_updates: false
     reporting_enabled: false
+  smtp:
+    enabled: true
+    host: smtp.gmail.com:465
   auth.anonymous:
     enabled: false
   auth.generic_oauth:
@@ -4211,3 +4232,20 @@ persistence:
   enabled: false
 testFramework:
   enabled: false
+## Configure grafana alerting (can be templated)
+## ref: https://docs.grafana.com/alerting/set-up/provision-alerting-resources/file-provisioning/
+##
+alerting: 
+  contactpoints.yaml:
+    secret:
+      apiVersion: 1
+      contactPoints:
+          - orgId: 1
+            name: grafana-default-email
+            receivers:
+              - uid: ff1qoq8xf239cd
+                type: email
+                settings:
+                  addresses: richard.dartus@gmail.com
+                  singleEmail: false
+                disableResolveMessage: false
