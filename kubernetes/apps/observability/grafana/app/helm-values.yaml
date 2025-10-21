@@ -4211,3 +4211,20 @@ persistence:
   enabled: false
 testFramework:
   enabled: false
+## Configure grafana alerting (can be templated)
+## ref: https://docs.grafana.com/alerting/set-up/provision-alerting-resources/file-provisioning/
+##
+alerting: 
+  contactpoints.yaml:
+    secret:
+      apiVersion: 1
+      contactPoints:
+          - orgId: 1
+            name: grafana-default-email
+            receivers:
+              - uid: ff1qoq8xf239cd
+                type: email
+                settings:
+                  addresses: richard.dartus@gmail.com
+                  singleEmail: false
+                disableResolveMessage: false
