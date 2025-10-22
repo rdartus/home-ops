@@ -124,6 +124,9 @@ data:
     path "kv-v2/data/kubeprom/*" {
       capabilities = ["read"]
     }
+    path "kv-v2/data/smtp/*" {
+      capabilities = ["read"]
+    }
 
   wx-policy.json: |
     path "kv-v2/data/wx/*" {

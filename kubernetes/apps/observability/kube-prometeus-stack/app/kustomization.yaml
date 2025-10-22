@@ -5,6 +5,7 @@ kind: Kustomization
 resources:
   - ./helmrelease.yaml
   - ./observability-auth.yaml
+  - ./observability-secret-smtp.yaml
   - ./kube-prom-stack-secret-conf.yaml
 configMapGenerator:
   - name: kube-prometheus-stack-helm-values
