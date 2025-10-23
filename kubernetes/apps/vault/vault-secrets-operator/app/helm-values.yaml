@@ -1096,7 +1096,7 @@ csi:
       # The Docker repository of the liveness probe image.
       repository: registry.k8s.io/sig-storage/livenessprobe
       # The version of the liveness probe image to download.
-      tag: v2.16.0
+      tag: v2.17.0
 
     # Additional arguments to pass to the liveness probe container.
     # @type: array
