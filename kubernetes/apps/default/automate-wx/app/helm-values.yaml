@@ -233,6 +233,8 @@ controllers:
 #         repository:
 #         # -- Override the image tag for the containers
 #         tag:
+#         # -- Override the image digest for the containers
+#         digest:
 #         # -- Override the image pull policy for the containers
 #         pullPolicy:
 #       # -- Override the command(s) for the containers
@@ -262,6 +264,8 @@ controllers:
           repository: ghcr.io/rdartus/automate-wx
           # -- image tag
           tag: latest
+#           # -- image digest
+#           digest:
           # -- image pull policy
           pullPolicy: IfNotPresent
 
@@ -435,6 +439,7 @@ serviceAccount:
   #   enabled: false
   #   annotations: {}
   #   labels: {}
+
 # -- Use this to populate secrets with the values you specify.
 # Be aware that these values are not encrypted by default, and could therefore visible
 # to anybody with access to the values.yaml file.
@@ -729,7 +734,7 @@ route:
 
 # -- Configure persistence for the chart here.
 # Additional items can be added by adding a dictionary key similar to the 'config' key.
-# [[ref]](https://bjw-s.github.io/helm-charts/docs/common-library/common-library-storage)
+# [[ref]](https://bjw-s-labs.github.io/helm-charts/docs/common-library/common-library-storage)
 # @default -- See below
 persistence:
   config:
@@ -879,3 +884,7 @@ rbac:
   #       - kind: ServiceAccount
   #         name: test
   #         namespace: "{{ .Release.Namespace }}"
+  #       - kind: Group
+  #         name: oidc:/test-user
+  #       - kind: User
+  #         name: username
