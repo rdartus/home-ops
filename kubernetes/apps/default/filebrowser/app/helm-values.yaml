@@ -313,11 +313,11 @@ controllers:
               secretKeyRef:
                 name: filebrowser-secret
                 key: oidcSecret
-          FILEBROWSER_ONLYOFFICE_SECRET:
-            valueFrom:
-              secretKeyRef:
-                name: onlyoffice-secret
-                key: token
+          # FILEBROWSER_ONLYOFFICE_SECRET:
+          #   valueFrom:
+          #     secretKeyRef:
+          #       name: onlyoffice-secret
+          #       key: token
 
           # FILEBROWSER_JWT_TOKEN_SECRET: 
           # FILEBROWSER_TOTP_SECRET: 
