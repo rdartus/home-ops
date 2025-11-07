@@ -528,7 +528,7 @@ configMaps:
         server:
           port: 80
           sources:
-            - path: "/"
+            - path: "/jeantasse"
               config:
                 defaultEnabled: true
                 createUserDir: false
@@ -568,9 +568,9 @@ configMaps:
           port: 80
           baseURL:  "/"
           logging:
-            - levels: "info|warning|error"
+            - levels: "debug|info|warning|error"
           sources:
-            - path: "/srv"
+            - path: "/jeantasse"
         userDefaults:
           editorQuickSave: false                  # show quick save button in editor
           hideSidebarFileActions: false           # hide the file actions in the sidebar
@@ -613,6 +613,30 @@ configMaps:
           deleteWithoutConfirming: false          # delete files without confirmation
           disableOnlyOfficeExt: ".md .txt .pdf"   # list of file extensions to disable onlyoffice editor for
           showSelectMultiple: false               # show select multiple files on desktop
+        auth:
+          methods:
+            proxy:
+              enabled: false
+              createUser: false
+              header: ""
+              logoutRedirectUrl: ""
+            noauth: false
+            password:
+              enabled: true
+              minLength: 5
+              signup: false
+              enforcedOtp: false
+            oidc:
+              enabled: true
+              issuerUrl: "https://authentik.dartus.fr/application/o/filebrowser/"
+              scopes: "openid email profile"
+              userIdentifier: "preferred_username
+              disableVerifyTLS: true
+              logoutRedirectUrl: "https://authentik.dartus.fr/application/o/filebrowser/end-session/"
+              createUser: true
+              adminGroup: "authentik Admins"
+              groupsClaim: "groups"
+          adminUsername: admin
 
 # -- Generate ConfigMaps from a folder in the Helm chart's filesystem
 # Your files will need to be two levels deep from the base path.
