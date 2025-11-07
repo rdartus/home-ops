@@ -9,8 +9,6 @@ resources:
   - ./crowdsec/ks.yaml
   - ./ddns-updater/ks.yaml
   - ./wireguard/ks.yaml
-  - ./headscale/ks.yaml
   - ./metallb/ks.yaml
-  - ./tailscale/ks.yaml
 components:
   - ../../components/flux/sops
