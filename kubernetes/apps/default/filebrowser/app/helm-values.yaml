@@ -296,28 +296,28 @@ controllers:
           FILEBROWSER_CONFIG: "/config/config.yaml"
           # FILEBROWSER_DATABASE: /config/database
           FILEBROWSER_DEVMODE: true 
-          # FILEBROWSER_ADMIN_PASSWORD: 
-          #   valueFrom:
-          #     secretKeyRef:
-          #       name: default-secret
-          #       key: password
-          # # FILEBROWSER_ONLYOFFICE_SECRET: 
-          # # FILEBROWSER_FFMPEG_PATH: 
-          # FILEBROWSER_OIDC_CLIENT_ID:
-          #   valueFrom:
-          #     secretKeyRef:
-          #       name: filebrowser-secret
-          #       key: oidcClient
-          # FILEBROWSER_OIDC_CLIENT_SECRET: 
-          #   valueFrom:
-          #     secretKeyRef:
-          #       name: filebrowser-secret
-          #       key: oidcSecret
-          # FILEBROWSER_ONLYOFFICE_SECRET:
-          #   valueFrom:
-          #     secretKeyRef:
-          #       name: onlyoffice-secret
-          #       key: token
+          FILEBROWSER_ADMIN_PASSWORD: 
+            valueFrom:
+              secretKeyRef:
+                name: default-secret
+                key: password
+          # FILEBROWSER_ONLYOFFICE_SECRET: 
+          # FILEBROWSER_FFMPEG_PATH: 
+          FILEBROWSER_OIDC_CLIENT_ID:
+            valueFrom:
+              secretKeyRef:
+                name: filebrowser-secret
+                key: oidcClient
+          FILEBROWSER_OIDC_CLIENT_SECRET: 
+            valueFrom:
+              secretKeyRef:
+                name: filebrowser-secret
+                key: oidcSecret
+          FILEBROWSER_ONLYOFFICE_SECRET:
+            valueFrom:
+              secretKeyRef:
+                name: onlyoffice-secret
+                key: token
 
           # FILEBROWSER_JWT_TOKEN_SECRET: 
           # FILEBROWSER_TOTP_SECRET: 
@@ -613,30 +613,6 @@ configMaps:
           deleteWithoutConfirming: false          # delete files without confirmation
           disableOnlyOfficeExt: ".md .txt .pdf"   # list of file extensions to disable onlyoffice editor for
           showSelectMultiple: false               # show select multiple files on desktop
-        auth:
-          methods:
-            proxy:
-              enabled: false
-              createUser: false
-              header: ""
-              logoutRedirectUrl: ""
-            noauth: false
-            password:
-              enabled: true
-              minLength: 5
-              signup: false
-              enforcedOtp: false
-            oidc:
-              enabled: true
-              issuerUrl: "https://authentik.dartus.fr/application/o/filebrowser/"
-              scopes: "openid email profile"
-              userIdentifier: "preferred_username
-              disableVerifyTLS: true
-              logoutRedirectUrl: "https://authentik.dartus.fr/application/o/filebrowser/end-session/"
-              createUser: true
-              adminGroup: "authentik Admins"
-              groupsClaim: "groups"
-          adminUsername: admin
 
 # -- Generate ConfigMaps from a folder in the Helm chart's filesystem
 # Your files will need to be two levels deep from the base path.
