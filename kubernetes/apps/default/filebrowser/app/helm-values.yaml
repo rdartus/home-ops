@@ -526,9 +526,6 @@ configMaps:
           methods:
             proxy:
               enabled: false
-              createUser: false
-              header: ""
-              logoutRedirectUrl: ""
             noauth: false
             password:
               enabled: true
@@ -571,7 +568,6 @@ configMaps:
               enabled: false
               createUser: false
               header: ""
-              logoutRedirectUrl: ""
             noauth: false
             password:
               enabled: true
@@ -584,7 +580,6 @@ configMaps:
               scopes: "openid email profile"
               userIdentifier: "preferred_username
               disableVerifyTLS: true
-              logoutRedirectUrl: "https://authentik.dartus.fr/application/o/filebrowser/end-session/"
               createUser: true
               adminGroup: "authentik Admins"
               groupsClaim: "groups"
