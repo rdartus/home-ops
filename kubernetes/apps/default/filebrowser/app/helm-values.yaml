@@ -513,53 +513,42 @@ configMaps:
     data: 
       config: |
 
-        # https://cloud.dartus.fr/static/config.generated.yaml
         server:
           port: 80
           sources:
             - path: "/jeantasse"
               config:
-                defaultEnabled: true             # should be added as a default source for new users?
-                createUserDir: false              # create a user directory for each user
-                defaultUserScope: "/Loisir"             # default "/" should match folders under path
-          externalUrl: "https://cloud.dartus.fr"   # used by share links if set (eg. http://mydomain.com)
-          internalUrl: "https://cloud.dartus.fr"   # used by integrations if set, this is the base domain that an integration service will use ti communicate with filebrowser (eg. http://localhost:8080)
-        # integrations:
-        #   office:
-        #     url: "https://onlyoffice.dartus.fr"   # eg. a public internet IP/domain
-            # secret: TevrjpRNMmKC0JxAwY7iZ2VXLrvG1gue
+                defaultEnabled: true
+                createUserDir: false
+                defaultUserScope: "/Loisir"
+          externalUrl: "https://cloud.dartus.fr"
+          internalUrl: "https://cloud.dartus.fr"
         auth:
           methods:
-            proxy:                                #  validate:omitempty
+            proxy:
               enabled: false
-              createUser: false                   # create user if not exists
-              header: ""                          # required header to use for authentication. Security Warning: FileBrowser blindly accepts the header value as username.
-              logoutRedirectUrl: ""               # if provider logout url is provided, filebrowser will also redirect to logout url. Custom logout query params are respected.
-            noauth: false                         # if set to true, overrides all other auth methods and disables authentication
-            password:                             #  validate:omitempty
+              createUser: false
+              header: ""
+              logoutRedirectUrl: ""
+            noauth: false
+            password:
               enabled: true
-              minLength: 5                        # minimum pasword length required, default is 5.  validate:omitempty
-              signup: false                       # allow signups on login page if enabled -- not secure.  validate:omitempty
-              # recaptcha:                          # recaptcha config, only used if signup is enabled  validate:omitempty
-              #   host: ""                          #  validate:required
-              #   key: ""                           #  validate:required
-              #   secret: ""                        #  validate:required
-              enforcedOtp: false                  # if set to true, TOTP is enforced for all password users users. Otherwise, users can choose to enable TOTP.
-            oidc:                                 #  validate:omitempty
-              enabled: true                      # whether to enable OIDC authentication
-              # clientId: ""                        # client id of the OIDC application
-              # clientSecret: ""                    # client secret of the OIDC application
-              issuerUrl: "https://authentik.dartus.fr/application/o/filebrowser/"                       # authorization URL of the OIDC provider
-              scopes: "openid email profile"      # scopes to request from the OIDC provider
-              userIdentifier: "preferred_username" # the field value to use as the username. Default is "preferred_username", can also be "email" or "username", or "phone"
-              disableVerifyTLS: true             # disable TLS verification for the OIDC provider. This is insecure and should only be used for testing.
-              logoutRedirectUrl: "https://authentik.dartus.fr/application/o/filebrowser/end-session/"               # if provider logout url is provided, filebrowser will also redirect to logout url. Custom logout query params are respected.
-              createUser: true                   # create user if not exists
-              adminGroup: "authentik Admins"                      # if set, users in this group will be granted admin privileges.
-              groupsClaim: "groups"               # the JSON field name to read groups from. Default is "groups"
+              minLength: 5
+              signup: false
+              enforcedOtp: false
+            oidc:
+              enabled: true
+              issuerUrl: "https://authentik.dartus.fr/application/o/filebrowser/"
+              scopes: "openid email profile"
+              userIdentifier: "preferred_username
+              disableVerifyTLS: true
+              logoutRedirectUrl: "https://authentik.dartus.fr/application/o/filebrowser/end-session/"
+              createUser: true
+              adminGroup: "authentik Admins"
+              groupsClaim: "groups"
           adminUsername: admin
         userDefaults:
-          fileLoading:                            # upload and download settings
+          fileLoading:
             maxConcurrentUpload: 1
             uploadChunkSizeMb: 5
             clearAll: false
