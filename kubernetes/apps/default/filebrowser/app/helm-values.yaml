@@ -515,6 +515,11 @@ configMaps:
       config: |
         server:
           port: 80
+          sources:
+            - path: "."
+              config:
+                defaultEnabled: true
+                createUserDir: false
           externalUrl: "https://cloud.dartus.fr"
           internalUrl: "https://cloud.dartus.fr"
         auth:
