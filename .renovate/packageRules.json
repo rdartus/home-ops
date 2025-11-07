@@ -7,7 +7,7 @@
     {
         "groupName": "Fixing Kubotheqe - versions",
         "matchPackageNames": ["mysql"],
-        "matchFileNames": ["**kubotheque/**/helm-values.yaml"],
+        "matchFileNames": ["**/kubotheque/**/helm-values.yaml"],
         "allowedVersions": ">=8.0 <8.1"
 
     },
