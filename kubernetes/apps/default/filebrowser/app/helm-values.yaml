@@ -565,6 +565,30 @@ configMaps:
                 defaultUserScope: "/Loisir"
           externalUrl: "https://cloud.dartus.fr"
           internalUrl: "https://cloud.dartus.fr"
+        auth:
+          methods:
+            proxy:
+              enabled: false
+              createUser: false
+              header: ""
+              logoutRedirectUrl: ""
+            noauth: false
+            password:
+              enabled: true
+              minLength: 5
+              signup: false
+              enforcedOtp: false
+            oidc:
+              enabled: true
+              issuerUrl: "https://authentik.dartus.fr/application/o/filebrowser/"
+              scopes: "openid email profile"
+              userIdentifier: "preferred_username
+              disableVerifyTLS: true
+              logoutRedirectUrl: "https://authentik.dartus.fr/application/o/filebrowser/end-session/"
+              createUser: true
+              adminGroup: "authentik Admins"
+              groupsClaim: "groups"
+          adminUsername: admin
         userDefaults:
           editorQuickSave: false                  # show quick save button in editor
           hideSidebarFileActions: false           # hide the file actions in the sidebar
