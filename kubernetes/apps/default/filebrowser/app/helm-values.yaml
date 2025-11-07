@@ -256,13 +256,25 @@ controllers:
 #       securityContext: {}
 
     containers:
+      tools:
+        dependsOn: []
+        image:
+          repository: alpine/git
+          tag: latest
+          # -- image pull policy
+          pullPolicy: IfNotPresent
+        command:
+          - "sh"
+          - "-c"
+          - "while true; do sleep 6000; done"
+
       main:
         # -- Override the container name
         # nameOverride:
 
         # -- Specify if this container depends on any other containers
         # This is used to determine the order in which the containers are rendered.
-        dependsOn: []
+        dependsOn: ["tools"]
 
         image:
           # -- image repository
