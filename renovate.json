@@ -11,7 +11,8 @@
     "prIgnoreNotification"
   ],
   "ignorePaths": [
-    "**/.vscode/**"
+    "**/.vscode/**",
+    "**/_archive/**"
   ],
   "enabledManagers": [
     "flux",
