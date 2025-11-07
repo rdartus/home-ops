@@ -568,6 +568,7 @@ configMaps:
               enabled: false
               createUser: false
               header: ""
+              logoutRedirectUrl: ""
             noauth: false
             password:
               enabled: true
@@ -578,7 +579,7 @@ configMaps:
               enabled: true
               issuerUrl: "https://authentik.dartus.fr/application/o/filebrowser/"
               scopes: "openid email profile"
-              userIdentifier: "preferred_username
+              userIdentifier: "preferred_username"
               disableVerifyTLS: true
               createUser: true
               adminGroup: "authentik Admins"
