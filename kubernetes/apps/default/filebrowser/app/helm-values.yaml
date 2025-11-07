@@ -283,6 +283,7 @@ controllers:
         env:
           FILEBROWSER_CONFIG: /config/config 
           # FILEBROWSER_DATABASE: /config/database
+          FILEBROWSER_DEVMODE: true 
           FILEBROWSER_ADMIN_PASSWORD: 
             valueFrom:
               secretKeyRef:
@@ -512,7 +513,6 @@ configMaps:
     # -- configMap data content. Helm template enabled.
     data: 
       config: |
-
         server:
           port: 80
           sources:
