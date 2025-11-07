@@ -281,7 +281,7 @@ controllers:
 
 
         env:
-          FILEBROWSER_CONFIG: /config/config 
+          FILEBROWSER_CONFIG: "/config/config"
           # FILEBROWSER_DATABASE: /config/database
           FILEBROWSER_DEVMODE: true 
           FILEBROWSER_ADMIN_PASSWORD: 
@@ -516,7 +516,7 @@ configMaps:
         server:
           port: 80
           sources:
-            - path: "."
+            - path: "/"
               config:
                 defaultEnabled: true
                 createUserDir: false
