@@ -520,7 +520,6 @@ configMaps:
               config:
                 defaultEnabled: true
                 createUserDir: false
-                defaultUserScope: "/Loisir"
           externalUrl: "https://cloud.dartus.fr"
           internalUrl: "https://cloud.dartus.fr"
         auth:
