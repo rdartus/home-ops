@@ -296,23 +296,23 @@ controllers:
           FILEBROWSER_CONFIG: "/config/config"
           # FILEBROWSER_DATABASE: /config/database
           FILEBROWSER_DEVMODE: true 
-          FILEBROWSER_ADMIN_PASSWORD: 
-            valueFrom:
-              secretKeyRef:
-                name: default-secret
-                key: password
-          # FILEBROWSER_ONLYOFFICE_SECRET: 
-          # FILEBROWSER_FFMPEG_PATH: 
-          FILEBROWSER_OIDC_CLIENT_ID:
-            valueFrom:
-              secretKeyRef:
-                name: filebrowser-secret
-                key: oidcClient
-          FILEBROWSER_OIDC_CLIENT_SECRET: 
-            valueFrom:
-              secretKeyRef:
-                name: filebrowser-secret
-                key: oidcSecret
+          # FILEBROWSER_ADMIN_PASSWORD: 
+          #   valueFrom:
+          #     secretKeyRef:
+          #       name: default-secret
+          #       key: password
+          # # FILEBROWSER_ONLYOFFICE_SECRET: 
+          # # FILEBROWSER_FFMPEG_PATH: 
+          # FILEBROWSER_OIDC_CLIENT_ID:
+          #   valueFrom:
+          #     secretKeyRef:
+          #       name: filebrowser-secret
+          #       key: oidcClient
+          # FILEBROWSER_OIDC_CLIENT_SECRET: 
+          #   valueFrom:
+          #     secretKeyRef:
+          #       name: filebrowser-secret
+          #       key: oidcSecret
           # FILEBROWSER_ONLYOFFICE_SECRET:
           #   valueFrom:
           #     secretKeyRef:
