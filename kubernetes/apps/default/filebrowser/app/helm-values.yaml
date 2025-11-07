@@ -256,25 +256,13 @@ controllers:
 #       securityContext: {}
 
     containers:
-      tools:
-        dependsOn: []
-        image:
-          repository: alpine/git
-          tag: latest
-          # -- image pull policy
-          pullPolicy: IfNotPresent
-        command:
-          - "sh"
-          - "-c"
-          - "while true; do sleep 6000; done"
-
       main:
         # -- Override the container name
         # nameOverride:
 
         # -- Specify if this container depends on any other containers
         # This is used to determine the order in which the containers are rendered.
-        dependsOn: ["tools"]
+        dependsOn: []
 
         image:
           # -- image repository
@@ -571,6 +559,11 @@ configMaps:
             - levels: "debug|info|warning|error"
           sources:
             - path: "/jeantasse"
+              config:
+                defaultEnabled: true
+                createUserDir: false
+          externalUrl: "https://cloud.dartus.fr"
+          internalUrl: "https://cloud.dartus.fr"
         userDefaults:
           editorQuickSave: false                  # show quick save button in editor
           hideSidebarFileActions: false           # hide the file actions in the sidebar
