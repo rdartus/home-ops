@@ -301,16 +301,16 @@ controllers:
               secretKeyRef:
                 name: filebrowser-secret
                 key: oidcSecret
-          # FILEBROWSER_ONLYOFFICE_SECRET:
-          #   valueFrom:
-          #     secretKeyRef:
-          #       name: onlyoffice-secret
-          #       key: token
+          FILEBROWSER_ONLYOFFICE_SECRET:
+            valueFrom:
+              secretKeyRef:
+                name: onlyoffice-secret
+                key: token
 
           # FILEBROWSER_JWT_TOKEN_SECRET: 
           # FILEBROWSER_TOTP_SECRET: 
           # FILEBROWSER_RECAPTCHA_SECRET: 
-#         # -- Environment variables. Template enabled.
+        # -- Environment variables. Template enabled.
 #         # Syntax options:
 #         # A) TZ: UTC
 #         # B) PASSWD: '{{ .Release.Name }}'
@@ -518,14 +518,20 @@ configMaps:
           baseURL:  "/"
           logging:
             - levels: "debug|info|warning|error"
+            - apiLevels: "debug|info|warning|error"
           sources:
             - path: "/jeantasse"
               config:
                 defaultEnabled: true
                 createUserDir: false
                 defaultUserScope: "/Loisir"
-          externalUrl: "https://cloud.dartus.fr"
-          internalUrl: "https://cloud.dartus.fr"
+          externalUrl: "https://cloud.dartus.fr:443/"   # used by share links if set (eg. http://mydomain.com)
+          internalUrl: "http://filebrowser.default.svc.cluster.local/"   # used by integrations if set, this is the base domain that an integration service will use ti communicate with filebrowser (eg. http://localhost:8080)
+        integrations:
+          office:
+            url: "https://onlyoffice.dartus.fr:443"   # eg. a public internet IP/domain
+            # secret: TevrjpRNMmKC0JxAwY7iZ2VXLrvG1gue
+
         auth:
           methods:
             proxy:
@@ -571,13 +577,13 @@ configMaps:
             disableHideSidebar: true             # disable the hide sidebar preview for previews and editors
             highQuality: true                    # generate high quality thumbnail preview images
             image: true                          # show thumbnail preview image for image files
-            video: true                          # show thumbnail preview image for video files
+            video: false                          # show thumbnail preview image for video files
             motionVideoPreview: true             # show multiple frames for videos in thumbnail preview when hovering
             office: true                         # show thumbnail preview image for office files
             popup: true                          # show larger popup preview when hovering over thumbnail
-            autoplayMedia: true                  # autoplay media files in preview
+            autoplayMedia: false                  # autoplay media files in preview
             defaultMediaPlayer: true             # disable html5 media player and use the default media player
-            folder: true                         # show thumbnail preview image for folder files
+            folder: false                         # show thumbnail preview image for folder files
           permissions:
             api: false                            # allow api access
             admin: false                          # allow admin access

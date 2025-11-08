@@ -273,29 +273,31 @@ controllers:
           pullPolicy: IfNotPresent
 
         env:
-          DS_LOG_LEVEL: DEBUG
-          DB_TYPE: postgres
-          DB_HOST: cnpg-cluster-rw.database.svc.cluster.local
-          DB_PORT: 5432
-          DB_NAME: onlyoffice
-          DB_USER:
-            valueFrom:
-              secretKeyRef:
-                name: onlyoffice-db-secret
-                key: username
-          DB_PWD:
-            valueFrom:
-              secretKeyRef:
-                name: onlyoffice-db-secret
-                key: password
-          AMQP_TYPE: rabbitmq
-          AMQP_URI: 
-            valueFrom:
-              secretKeyRef:
-                name: onlyoffice-secret
-                key: amqp
-          REDIS_SERVER_HOST: redis-master.default.svc.cluster.local
-          REDIS_SERVER_PORT: 6379
+          LOG_LEVEL: DEBUG
+          # DS_LOG_LEVEL: DEBUG
+          # DB_TYPE: postgres
+          # DB_HOST: cnpg-cluster-rw.database.svc.cluster.local
+          # DB_PORT: 5432
+          # DB_NAME: onlyoffice
+          # DB_USER:
+          #   valueFrom:
+          #     secretKeyRef:
+          #       name: onlyoffice-db-secret
+          #       key: username
+          # DB_PWD:
+          #   valueFrom:
+          #     secretKeyRef:
+          #       name: onlyoffice-db-secret
+          #       key: password
+          # AMQP_TYPE: rabbitmq
+          # AMQP_URI: 
+          #   valueFrom:
+          #     secretKeyRef:
+          #       name: onlyoffice-secret
+          #       key: amqp
+          # REDIS_SERVER_HOST: redis-master.default.svc.cluster.local
+          # REDIS_SERVER_PORT: 6379
+          JWT_ENABLED: true
           JWT_SECRET:
             valueFrom:
               secretKeyRef:

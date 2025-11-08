@@ -24,4 +24,4 @@ resources:
   # - ./qbittorrent/ks.yaml
   # - ./kubotheque/ks.yaml
   # - ./rabbitmq/ks.yaml
-  # - ./onlyoffice/ks.yaml
+  - ./onlyoffice/ks.yaml
