@@ -512,42 +512,6 @@ configMaps:
     annotations: {}
     # -- configMap data content. Helm template enabled.
     data: 
-      tmp.yaml: |
-        server:
-          port: 80
-          sources:
-            - path: "/jeantasse"
-              config:
-                defaultEnabled: true
-                createUserDir: false
-          externalUrl: "https://cloud.dartus.fr"
-          internalUrl: "https://cloud.dartus.fr"
-        auth:
-          methods:
-            proxy:
-              enabled: false
-            noauth: false
-            password:
-              enabled: true
-              minLength: 5
-              signup: false
-              enforcedOtp: false
-            oidc:
-              enabled: true
-              issuerUrl: "https://authentik.dartus.fr/application/o/filebrowser/"
-              scopes: "openid email profile"
-              userIdentifier: "preferred_username
-              disableVerifyTLS: true
-              logoutRedirectUrl: "https://authentik.dartus.fr/application/o/filebrowser/end-session/"
-              createUser: true
-              adminGroup: "authentik Admins"
-              groupsClaim: "groups"
-          adminUsername: admin
-        userDefaults:
-          fileLoading:
-            maxConcurrentUpload: 1
-            uploadChunkSizeMb: 5
-            clearAll: false
       config.yaml: |
         server:
           port: 80
