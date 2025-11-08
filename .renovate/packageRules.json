@@ -14,6 +14,16 @@
     {
         "matchUpdateTypes": ["patch"],
       "enabled": false
+    },
+    {
+      "matchPackageNames": ["kube-prometheus-stack"],
+      "matchUpdateTypes": ["major"],
+      "enabled": true
+    },
+    {
+      "matchPackageNames": ["kube-prometheus-stack"],
+      "matchUpdateTypes": ["minor", "patch", "pin", "digest"],
+      "enabled": false
     }
   ]
 }
