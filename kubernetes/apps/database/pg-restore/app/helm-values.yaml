@@ -5,6 +5,8 @@ global:
   nameOverride:
   # -- Set the entire name definition
   fullnameOverride:
+  # -- Propagate global metadata to Pod labels.
+  propagateGlobalMetadataToPods: false
   # -- Set additional global labels. Helm templates can be used.
   labels: {}
   # -- Set additional global annotations. Helm templates can be used.
@@ -49,6 +51,9 @@ defaultPodOptions:
   # -- Use the host's pid namespace
   hostPID: false
 
+  # -- Use the host's user namespace (requires 1.29 or newer)
+  hostUsers:
+
   # -- Set image pull secrets
   imagePullSecrets: []
 
@@ -74,7 +79,10 @@ defaultPodOptions:
 
   # -- Configure the Security Context for the Pod
   securityContext: {}
-    # fsGroup: 65533
+
+  # -- Allows sharing process namespace between containers in a Pod
+  # -- [[ref](https://kubernetes.io/docs/tasks/configure-pod-container/share-process-namespace/)]
+  shareProcessNamespace:
 
   # -- Duration in seconds the pod needs to terminate gracefully
   # -- [[ref](https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#lifecycle)]
@@ -192,31 +200,91 @@ controllers:
 # @default -- See below
 secrets:
   {}
+  # secret:
+  #   # -- Enables or disables the Secret
+  #   enabled: false
+  #   # -- Labels to add to the Secret
+  #   labels: {}
+  #   # -- Annotations to add to the Secret
+  #   annotations: {}
+  #   # -- Secret stringData content. Helm template enabled.
+  #   stringData:
+  #     {}
+  #     # foo: bar
+
+# -- Configure configMaps for the chart here.
+# Additional configMaps can be added by adding a dictionary key similar to the 'config' object.
+# @default -- See below
 configMaps:
   {}
-configMapsFromFolderBasePath: null
+  # config:
+  #   # -- Enables or disables the configMap
+  #   enabled: true
+  #   # -- Labels to add to the configMap
+  #   labels: {}
+  #   # -- Annotations to add to the configMap
+  #   annotations: {}
+  #   # -- configMap data content. Helm template enabled.
+  #   data:
+  #     foo: bar
+
+# -- Generate ConfigMaps from a folder in the Helm chart's filesystem
+# Your files will need to be two levels deep from the base path.
+# For example, if you set this to `files/`, you should have this file tree
+# files:
+# └── configmap1
+#     ├── file1
+#     └── file2
+# This will generate a ConfigMap named `configmap1` with keys `file1` and `file2`.
+configMapsFromFolder:
+  enabled: false
+  # #-- The path in your parent's chart filesystem where you can add files to be converted into individual ConfigMaps.
+  # basePath: "files/configMaps"
+  # #-- Define overrides for the generated ConfigMaps, each key is the name of a folder in `basePath`
+  # configMapsOverrides:
+  #   test:
+  #     # All ConfigMaps support a `forceRename` field, which allows you to rename the ConfigMap
+  #     forceRename: null
+  #     annotations:
+  #       test: test
+  #     labels:
+  #       test: test
+  #     # Configure how the individual files are added to the ConfigMap
+  #     fileAttributeOverrides:
+  #       # The key is the name of the file inside the ConfigMap's folder
+  #       test.tpl:
+  #         # If true the file won't be added to the ConfigMap
+  #         exclude: false
+  #         # If your file is a binary file like an image, set this to true. Takes precedence over `escaped`
+  #         binary: false
+  #         # If your file contains `gotpl` syntax that you don't want templated by Helm, set this to true
+  #         escaped: true
+  #       test.txt:
+  #         exclude: true
+  #   test2:
+  #     fileAttributeOverrides:
+  #       image.png:
+  #         binary: true
 
 # -- Configure the services for the chart here.
 # Additional services can be added by adding a dictionary key similar to the 'main' service.
 # @default -- See below
-# service:
-#   main:
+service:
+  {}
+  # main:
   #   # -- Enables or disables the service
-    # enabled: true
-
-  #   # -- Override the name suffix that is used for this service
-  #   nameOverride: ""
+  #   enabled: true
 
   #   # -- Configure which controller this service should target
-    # controller: main
+  #   controller: main
 
   #   # -- Make this the primary service for this controller (used in probes, notes, etc...).
   #   # If there is more than 1 service targeting the controller, make sure that only 1 service is
   #   # marked as primary.
-    # primary: true
+  #   primary: true
 
   #   # -- Set the service type
-    # type: ClusterIP
+  #   type: ClusterIP
 
   #   # -- Specify the internalTrafficPolicy for the service. Options: Cluster, Local
   #   # -- [[ref](https://kubernetes.io/docs/concepts/services-networking/service-traffic-policy/)]
@@ -277,8 +345,149 @@ configMapsFromFolderBasePath: null
 ingress:
   {}
 
+  # -- An example is shown below
+  # main:
+  #   # -- Enables or disables the ingress
+  #   enabled: true
+
+  #   # -- Override the name suffix that is used for this ingress.
+  #   nameOverride:
+
+  #   # -- Provide additional annotations which may be required. Helm templates can be used.
+  #   annotations: {}
+
+  #   # -- Provide additional labels which may be required. Helm templates can be used.
+  #   labels: {}
+
+  #   # -- Set the ingressClass that is used for this ingress.
+  #   className:
+
+  #   # -- Configure the defaultBackend for this ingress. This will disable any other rules for the ingress.
+  #   defaultBackend:
+
+  #   ## Configure the hosts for the ingress
+  #   hosts:
+  #     - # -- Host address. Helm template can be passed.
+  #       host: chart-example.local
+  #       ## Configure the paths for the host
+  #       paths:
+  #         - # -- Path.  Helm template can be passed.
+  #           path: /
+  #           pathType: Prefix
+  #           service:
+  #             # -- Overrides the service name reference for this path
+  #             # The service name to reference.
+  #             name: main
+  #             # -- Reference a service identifier from this values.yaml
+  #             identifier: main
+  #             # -- Overrides the service port number reference for this path
+  #             port:
+
+  #   # -- Configure TLS for the ingress. Both secretName and hosts can process a Helm template.
+  #   tls: []
+  #   #  - secretName: chart-example-tls
+  #   #    hosts:
+  #   #      - chart-example.local
+
+# -- Configure the ServiceMonitors for the chart here.
+# Additional ServiceMonitors can be added by adding a dictionary key similar to the 'main' ServiceMonitors.
+# @default -- See below
+serviceMonitor:
+  {}
+  # main:
+  #   # -- Enables or disables the serviceMonitor.
+  #   enabled: false
+
+  #   # -- Override the name suffix that is used for this serviceMonitor.
+  #   nameOverride: ""
+
+  #   # -- Provide additional annotations which may be required.
+  #   annotations: {}
+
+  #   # -- Provide additional labels which may be required.
+  #   labels: {}
+
+  #   # -- Configures a custom selector for the serviceMonitor, this takes precedence over
+  #   # specifying a service name.
+  #   # Helm templates can be used.
+  #   selector: {}
+
+  #   # -- Configures the target Service for the serviceMonitor. Helm templates can be used.
+  #   serviceName: '{{ include "bjw-s.common.lib.chart.names.fullname" $ }}'
+
+  #   # -- Configures the endpoints for the serviceMonitor. Helm templates can be used.
+  #   # @default -- See values.yaml
+  #   endpoints:
+  #     - port: http
+  #       scheme: http
+  #       path: /metrics
+  #       interval: 1m
+  #       scrapeTimeout: 10s
+
+  #   # -- Configures custom targetLabels for the serviceMonitor. (All collected
+  #   # meterics will have these labels, taking the value from the target service)
+  #   # [[ref]](https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/api.md#servicemonitorspec/)
+  #   targetLabels: []
+
+# -- Configure the gateway routes for the chart here.
+# Additional routes can be added by adding a dictionary key similar to the 'main' route.
+# [[ref]](https://gateway-api.sigs.k8s.io/references/spec/)
+# @default -- See below
 route:
   {}
+  # main:
+  #   # -- Enables or disables the route
+  #   enabled: false
+
+  #   # -- Set the route kind
+  #   # Valid options are GRPCRoute, HTTPRoute, TCPRoute, TLSRoute, UDPRoute
+  #   kind: HTTPRoute
+
+  #   # -- Override the name suffix that is used for this route.
+  #   nameOverride: ""
+
+  #   # -- Provide additional annotations which may be required.
+  #   annotations: {}
+
+  #   # -- Provide additional labels which may be required.
+  #   labels: {}
+
+  #   # -- Configure the resource the route attaches to.
+  #   parentRefs:
+  #     - # Group of the referent resource.
+  #       group: gateway.networking.k8s.io
+  #       # Kind of the referent resource.
+  #       kind: Gateway
+  #       # Name of the referent resource
+  #       name:
+  #       # Namespace of the referent resource
+  #       namespace:
+  #       # Name of the section within the target resource.
+  #       sectionName:
+
+  #   # -- Host addresses. Helm template can be passed.
+  #   hostnames: []
+
+  #   # -- Configure rules for routing. Defaults to the primary service.
+  #   rules:
+  #     - # -- Optional name of the route rule. This name must be unique within a Route if it is set.
+  #       name: ""
+  #       # -- Configure backends where matching requests should be sent.
+  #       backendRefs: []
+  #       ## Configure conditions used for matching incoming requests. Only for HTTPRoutes
+  #       matches:
+  #         - path:
+  #             type: PathPrefix
+  #             value: /
+  #       ## Request filters that are applied to the rules.
+  #       filters: []
+  #       ## Request timeout that are applied to the rules.
+  #       timeouts: {}
+
+# -- Configure persistence for the chart here.
+# Additional items can be added by adding a dictionary key similar to the 'config' key.
+# [[ref]](https://bjw-s-labs.github.io/helm-charts/docs/common-library/common-library-storage)
+# @default -- See below
 persistence:
   config:
   #   # -- Enables or disables the persistence item. Defaults to true
@@ -432,3 +641,8 @@ rbac:
   #       - identifier: default
   #       - kind: ServiceAccount
   #         name: test
+  #         namespace: "{{ .Release.Namespace }}"
+  #       - kind: Group
+  #         name: oidc:/test-user
+  #       - kind: User
+  #         name: username

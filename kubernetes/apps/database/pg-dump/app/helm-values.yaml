@@ -12,16 +12,10 @@ global:
   # -- Set additional global annotations. Helm templates can be used.
   annotations: {}
 
-# -- Set the strategy for the default pod options. Defaults to
-#    overwrite: If pod-level options are set, use those instead of the defaults.
-#    merge: If pod-level options are set, merge them with the defaults
-# @default -- overwrite
-defaultPodOptionsStrategy: overwrite
-
 # -- Set default options for all controllers / pods here
 # Each of these options can be overridden on a Controller level
 defaultPodOptions:
-  # -- Defines affinity constraint rules. Helm templates can be used.
+  # -- Defines affinity constraint rules.
   # [[ref]](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#affinity-and-anti-affinity)
   # affinity: 
   #   nodeAffinity:
@@ -101,6 +95,7 @@ defaultPodOptions:
   # -- Duration in seconds the pod needs to terminate gracefully
   # -- [[ref](https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#lifecycle)]
   terminationGracePeriodSeconds:
+
   # -- Specify taint tolerations
   # [[ref]](https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/)
   tolerations: []
@@ -147,6 +142,15 @@ controllers:
 #       identifier:
 #       # -- Explicitly set the service account name
 #       name:
+
+#     # -- Pod Disruption Budget configuration for the Pods in this controller
+#     # -- [[ref]](https://kubernetes.io/docs/tasks/run-application/configure-pdb/)
+#     podDisruptionBudget:
+#       {}
+#       # minAvailable: 1
+#       # maxUnavailable: 1
+
+
 #     # -- CronJob configuration. Required only when using `controller.type: cronjob`.
 #     # @default -- See below
     cronjob:
@@ -240,6 +244,8 @@ controllers:
 #         repository:
 #         # -- Override the image tag for the containers
 #         tag:
+#         # -- Override the image digest for the containers
+#         digest:
 #         # -- Override the image pull policy for the containers
 #         pullPolicy:
 #       # -- Override the command(s) for the containers
@@ -454,16 +460,13 @@ controllers:
 #     # Each initContainer should have its own key
 #     initContainers: {}
 
-# -- If true forces the controllers to use the `default` ServiceAccount for the namespace if one is not explicitly defined.
-# This feature flag will be removed on future versions where this will be the default behavior.
-enforceServiceAccountCreation: false
-
 serviceAccount:
   {}
   # default:
   #   enabled: false
   #   annotations: {}
   #   labels: {}
+
 # -- Use this to populate secrets with the values you specify.
 # Be aware that these values are not encrypted by default, and could therefore visible
 # to anybody with access to the values.yaml file.
@@ -535,27 +538,27 @@ configMapsFromFolder:
   #   test2:
   #     fileAttributeOverrides:
   #       image.png:
-  #         binary: true# -- Configure the services for the chart here.
+  #         binary: true
+
+# -- Configure the services for the chart here.
 # Additional services can be added by adding a dictionary key similar to the 'main' service.
 # @default -- See below
-# service:
-#   main:
+service:
+  {}
+  # main:
   #   # -- Enables or disables the service
-    # enabled: true
-
-  #   # -- Override the name suffix that is used for this service
-  #   nameOverride: ""
+  #   enabled: true
 
   #   # -- Configure which controller this service should target
-    # controller: main
+  #   controller: main
 
   #   # -- Make this the primary service for this controller (used in probes, notes, etc...).
   #   # If there is more than 1 service targeting the controller, make sure that only 1 service is
   #   # marked as primary.
-    # primary: true
+  #   primary: true
 
   #   # -- Set the service type
-    # type: ClusterIP
+  #   type: ClusterIP
 
   #   # -- Specify the internalTrafficPolicy for the service. Options: Cluster, Local
   #   # -- [[ref](https://kubernetes.io/docs/concepts/services-networking/service-traffic-policy/)]
@@ -684,8 +687,9 @@ serviceMonitor:
   #   selector: {}
 
   #   # -- Configures the target Service for the serviceMonitor. Helm templates can be used.
+  #   serviceName: '{{ include "bjw-s.common.lib.chart.names.fullname" $ }}'
 
-  #   # -- Configures the endpoints for the serviceMonitor.
+  #   # -- Configures the endpoints for the serviceMonitor. Helm templates can be used.
   #   # @default -- See values.yaml
   #   endpoints:
   #     - port: http
@@ -740,7 +744,9 @@ route:
 
   #   # -- Configure rules for routing. Defaults to the primary service.
   #   rules:
-  #     - # -- Configure backends where matching requests should be sent.
+  #     - # -- Optional name of the route rule. This name must be unique within a Route if it is set.
+  #       name: ""
+  #       # -- Configure backends where matching requests should be sent.
   #       backendRefs: []
   #       ## Configure conditions used for matching incoming requests. Only for HTTPRoutes
   #       matches:
@@ -754,9 +760,10 @@ route:
 
 # -- Configure persistence for the chart here.
 # Additional items can be added by adding a dictionary key similar to the 'config' key.
-# [[ref]](https://bjw-s.github.io/helm-charts/docs/common-library/common-library-storage)
+# [[ref]](https://bjw-s-labs.github.io/helm-charts/docs/common-library/common-library-storage)
 # @default -- See below
 persistence:
+  # config:
   #   # -- Enables or disables the persistence item. Defaults to true
   #   # -- Sets the persistence type
   #   # Valid options are persistentVolumeClaim, emptyDir, nfs, hostPath, secret, configMap or custom
@@ -903,3 +910,8 @@ rbac:
   #       - identifier: default
   #       - kind: ServiceAccount
   #         name: test
+  #         namespace: "{{ .Release.Namespace }}"
+  #       - kind: Group
+  #         name: oidc:/test-user
+  #       - kind: User
+  #         name: username

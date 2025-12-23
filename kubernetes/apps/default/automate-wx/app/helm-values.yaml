@@ -12,16 +12,10 @@ global:
   # -- Set additional global annotations. Helm templates can be used.
   annotations: {}
 
-# -- Set the strategy for the default pod options. Defaults to
-#    overwrite: If pod-level options are set, use those instead of the defaults.
-#    merge: If pod-level options are set, merge them with the defaults
-# @default -- overwrite
-defaultPodOptionsStrategy: overwrite
-
 # -- Set default options for all controllers / pods here
 # Each of these options can be overridden on a Controller level
 defaultPodOptions:
-  # -- Defines affinity constraint rules. Helm templates can be used.
+  # -- Defines affinity constraint rules.
   # [[ref]](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#affinity-and-anti-affinity)
   affinity: {}
 
@@ -140,6 +134,15 @@ controllers:
 #       identifier:
 #       # -- Explicitly set the service account name
 #       name:
+
+#     # -- Pod Disruption Budget configuration for the Pods in this controller
+#     # -- [[ref]](https://kubernetes.io/docs/tasks/run-application/configure-pdb/)
+#     podDisruptionBudget:
+#       {}
+#       # minAvailable: 1
+#       # maxUnavailable: 1
+
+
 #     # -- CronJob configuration. Required only when using `controller.type: cronjob`.
 #     # @default -- See below
     cronjob:
@@ -429,10 +432,6 @@ controllers:
 #     # Each initContainer should have its own key
 #     initContainers: {}
 
-# -- If true forces the controllers to use the `default` ServiceAccount for the namespace if one is not explicitly defined.
-# This feature flag will be removed on future versions where this will be the default behavior.
-enforceServiceAccountCreation: false
-
 serviceAccount:
   {}
   # default:
@@ -521,9 +520,6 @@ service:
   # main:
   #   # -- Enables or disables the service
   #   enabled: true
-
-  #   # -- Override the name suffix that is used for this service
-  #   nameOverride: ""
 
   #   # -- Configure which controller this service should target
   #   controller: main
@@ -720,7 +716,9 @@ route:
 
   #   # -- Configure rules for routing. Defaults to the primary service.
   #   rules:
-  #     - # -- Configure backends where matching requests should be sent.
+  #     - # -- Optional name of the route rule. This name must be unique within a Route if it is set.
+  #       name: ""
+  #       # -- Configure backends where matching requests should be sent.
   #       backendRefs: []
   #       ## Configure conditions used for matching incoming requests. Only for HTTPRoutes
   #       matches:

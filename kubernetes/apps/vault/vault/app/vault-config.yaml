@@ -85,6 +85,11 @@ data:
     path "kv-v2/data/filebrowser" {
       capabilities = ["read"]
     }
+  christmas-policy.json: |
+
+    path "kv-v2/data/christmas" {
+      capabilities = ["read"]
+    }
   rabbitmq-policy.json: |
 
     path "kv-v2/data/rabbitmq" {
@@ -337,6 +342,7 @@ data:
         vault kv put kv-v2/mealie oidcSecret="@/config/cred/mealieOIDCSecret" oidcClient="@/config/cred/mealieOIDCClient"
         vault kv put kv-v2/pgadmin oidcSecret="@/config/cred/pgadminOIDCSecret" oidcClient="@/config/cred/pgadminOIDCClient" oidcConf="@/config/cred/pgadminOIDCConf" servers.json="@/config/cred/pgadminServerConf"
         vault kv put kv-v2/filebrowser oidcSecret="@/config/cred/filebrowserOIDCSecret" oidcClient="@/config/cred/filebrowserOIDCClient"
+        vault kv put kv-v2/christmas oidcSecret="@/config/cred/christmasOIDCSecret" oidcClient="@/config/cred/christmasOIDCClient"
         vault kv put kv-v2/onlyoffice amqp="@/config/cred/office-amqp" token="@/config/cred/office-token"
         vault kv put kv-v2/rabbitmq username='@/config/cred/rabbitmq-user' password='@/config/cred/rabbitmq-password' connection_string='@/config/cred/rabbitmq-connection-string' default_user.conf='@/config/cred/rabbitmq-conf' definitions.json='@/config/cred/rabbitmq-definitions.json'
         vault kv put kv-v2/immich immich.json="@/config/cred/immich-conf"
@@ -352,6 +358,7 @@ data:
         vault policy write plcpgadmin /config/scripts/pgadmin-policy.json        
         vault policy write plcimmich /config/scripts/immich-policy.json        
         vault policy write plcfilebrowser /config/scripts/filebrowser-policy.json
+        vault policy write plcchristmas /config/scripts/christmas-policy.json
         vault policy write plcrabbitmq /config/scripts/rabbitmq-policy.json
         vault policy write plconlyoffice /config/scripts/onlyoffice-policy.json
         vault policy write plccrowdsec /config/scripts/crowdsec-policy.json        
@@ -431,6 +438,13 @@ data:
         bound_service_account_names=default \
         bound_service_account_namespaces=default \
         policies=plcfilebrowser \
+        audience=vault\
+        ttl=24h
+
+        vault write auth/kubernetes/role/rlchristmas \
+        bound_service_account_names=default \
+        bound_service_account_namespaces=default \
+        policies=plcchristmas \
         audience=vault\
         ttl=24h
 
