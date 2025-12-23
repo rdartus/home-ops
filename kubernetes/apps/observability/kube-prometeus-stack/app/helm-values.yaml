@@ -939,8 +939,6 @@ alertmanager:
 
     ## Image of Alertmanager
     ##
-    image:
-      pullPolicy: IfNotPresent
 
     ## If true then the user will be responsible to provide a secret with alertmanager configuration
     ## So when true the config part will be ignored (including templateFiles) and the one in the secret will be used
@@ -2554,9 +2552,6 @@ prometheusOperator:
 
       ## Prometheus-operator webhook image
       ##
-      image:
-        # if not set appVersion field from Chart.yaml is used
-        pullPolicy: IfNotPresent
 
       ## Define Log Format
       # Use logfmt (default) or json logging
@@ -2662,8 +2657,6 @@ prometheusOperator:
 
     patch:
       enabled: true
-      image:
-        pullPolicy: IfNotPresent
       resources: 
         limits:
           cpu: 100m
@@ -3060,9 +3053,6 @@ prometheusOperator:
 
   ## Prometheus-operator image
   ##
-  image:
-    # if not set appVersion field from Chart.yaml is used
-    pullPolicy: IfNotPresent
 
   ## Prometheus image to use for prometheuses managed by the operator
   ##
@@ -3083,7 +3073,6 @@ prometheusOperator:
   ## Prometheus-config-reloader
   ##
   prometheusConfigReloader:
-    image:
       # if not set appVersion field from Chart.yaml is used
 
     # add prometheus config reloader liveness and readiness probe. Default: false
@@ -3100,7 +3089,6 @@ prometheusOperator:
 
   ## Thanos side-car image when configured
   ##
-  thanosImage:
 
   ## Set a Label Selector to filter watched prometheus and prometheusAgent
   ##
@@ -3760,8 +3748,6 @@ prometheus:
 
     ## Image of Prometheus.
     ##
-    image:
-      pullPolicy: IfNotPresent
 
     ## Tolerations for use with node taints
     ## ref: https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/
@@ -4853,7 +4839,6 @@ thanosRuler:
 
     ## Image of ThanosRuler
     ##
-    image:
 
     ## Namespaces to be selected for PrometheusRules discovery.
     ## If nil, select own namespace. Namespaces to be selected for ServiceMonitor discovery.
