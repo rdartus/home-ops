@@ -50,8 +50,6 @@ crds:
       kubectl:
         registry: registry.k8s.io
         repository: kubectl
-        tag: ""  # defaults to the Kubernetes version
-        sha: ""
         pullPolicy: IfNotPresent
 
     env: {}
@@ -942,10 +940,6 @@ alertmanager:
     ## Image of Alertmanager
     ##
     image:
-      registry: quay.io
-      repository: prometheus/alertmanager
-      tag: v0.29.0
-      sha: ""
       pullPolicy: IfNotPresent
 
     ## If true then the user will be responsible to provide a secret with alertmanager configuration
@@ -2561,11 +2555,7 @@ prometheusOperator:
       ## Prometheus-operator webhook image
       ##
       image:
-        registry: quay.io
-        repository: prometheus-operator/admission-webhook
         # if not set appVersion field from Chart.yaml is used
-        tag: ""
-        sha: ""
         pullPolicy: IfNotPresent
 
       ## Define Log Format
@@ -2673,8 +2663,6 @@ prometheusOperator:
     patch:
       enabled: true
       image:
-        registry: registry.k8s.io
-        repository: ingress-nginx/kube-webhook-certgen
         pullPolicy: IfNotPresent
       resources: 
         limits:
@@ -3073,11 +3061,7 @@ prometheusOperator:
   ## Prometheus-operator image
   ##
   image:
-    registry: quay.io
-    repository: prometheus-operator/prometheus-operator
     # if not set appVersion field from Chart.yaml is used
-    tag: ""
-    sha: ""
     pullPolicy: IfNotPresent
 
   ## Prometheus image to use for prometheuses managed by the operator
@@ -3100,11 +3084,7 @@ prometheusOperator:
   ##
   prometheusConfigReloader:
     image:
-      registry: quay.io
-      repository: prometheus-operator/prometheus-config-reloader
       # if not set appVersion field from Chart.yaml is used
-      tag: ""
-      sha: ""
 
     # add prometheus config reloader liveness and readiness probe. Default: false
     enableProbe: false
@@ -3121,8 +3101,6 @@ prometheusOperator:
   ## Thanos side-car image when configured
   ##
   thanosImage:
-    registry: quay.io
-    repository: thanos/thanos
 
   ## Set a Label Selector to filter watched prometheus and prometheusAgent
   ##
@@ -3783,10 +3761,6 @@ prometheus:
     ## Image of Prometheus.
     ##
     image:
-      registry: quay.io
-      repository: prometheus/prometheus
-      tag: v3.7.2
-      sha: ""
       pullPolicy: IfNotPresent
 
     ## Tolerations for use with node taints
@@ -4880,10 +4854,6 @@ thanosRuler:
     ## Image of ThanosRuler
     ##
     image:
-      registry: quay.io
-      repository: thanos/thanos
-      tag: v0.40.1
-      sha: ""
 
     ## Namespaces to be selected for PrometheusRules discovery.
     ## If nil, select own namespace. Namespaces to be selected for ServiceMonitor discovery.
