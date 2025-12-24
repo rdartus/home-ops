@@ -878,13 +878,13 @@ route:
 # Additional items can be added by adding a dictionary key similar to the 'config' key.
 # [[ref]](https://bjw-s.github.io/helm-charts/docs/common-library/common-library-storage)
 # @default -- See below
-persistence: {}
+persistence:
 
-  # books:
-  #   enabled: true
-  #   type : pvc
-  #   existingClaim: pvc-books
-  #   size: 200Mi
+  books:
+    enabled: true
+    type : pvc
+    existingClaim: pvc-santa
+    size: 200Mi
   #   # -- Storage Class for the config volume.
   #   # If set to `-`, dynamic provisioning is disabled.
   #   # If set to something else, the given storageClass is used.
