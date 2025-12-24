@@ -880,7 +880,7 @@ route:
 # @default -- See below
 persistence:
 
-  books:
+  santa:
     enabled: true
     type : pvc
     existingClaim: pvc-santa

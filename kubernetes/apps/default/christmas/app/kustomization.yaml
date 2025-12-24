@@ -6,6 +6,7 @@ resources:
   - ./helmrelease.yaml
   - ./christmas-secret.yaml
   - ./christmas-auth.yaml
+  - ./pvc-santa.yaml
 configMapGenerator:
   - name: christmas-helm-values
     files:
