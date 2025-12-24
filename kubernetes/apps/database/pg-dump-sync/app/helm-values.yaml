@@ -604,7 +604,6 @@ route:
 # [[ref]](https://bjw-s-labs.github.io/helm-charts/docs/common-library/common-library-storage)
 # @default -- See below
 persistence:
-  {}
   # config:
   #   # -- Enables or disables the persistence item. Defaults to true
   #   enabled: false
