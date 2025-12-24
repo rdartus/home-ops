@@ -2,7 +2,7 @@
 # Copyright (c) HashiCorp, Inc.
 # SPDX-License-Identifier: MPL-2.0
 
-# Available parameters and their default values for the Vault chart
+# Available parameters and their default values for the Vault chart.
 global:
   # enabled is the master enabled switch. Setting this to true or false
   # will enable or disable all the components within this chart by default.
