@@ -24,6 +24,6 @@ resources:
   - ./db-sonarr-main.yaml
   - ./db-zitadel.yaml
   - ./db-onlyoffice.yaml
-  - ./db-paaperless.yaml
+  - ./db-paperless.yaml
   - ./db-immich.yaml
   - ./db-mealie.yaml
