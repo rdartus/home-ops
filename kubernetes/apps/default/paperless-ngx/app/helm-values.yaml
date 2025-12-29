@@ -119,7 +119,7 @@ controllers:
 
         image:
           # -- image repository
-          repository: ghcr.io/paperless-ngx/paperless-ngx:latest
+          repository: ghcr.io/paperless-ngx/paperless-ngx
           # -- image tag
           tag: latest
           # -- image pull policy
