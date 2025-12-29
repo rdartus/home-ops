@@ -11,6 +11,7 @@ resources:
   - ./cnpg-tand-secret.yaml
   - ./cnpg-vauban-secret.yaml
   - ./cnpg-mich-secret.yaml
+  - ./cnpg-paper-secret.yaml
   - ./cnpg-office-secret.yaml
   - ./cnpg-chef-secret.yaml
   - ./db-tandoor.yaml
@@ -23,5 +24,6 @@ resources:
   - ./db-sonarr-main.yaml
   - ./db-zitadel.yaml
   - ./db-onlyoffice.yaml
+  - ./db-paaperless.yaml
   - ./db-immich.yaml
   - ./db-mealie.yaml
