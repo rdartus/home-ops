@@ -21,6 +21,7 @@ resources:
   - ./livres/ks.yaml
   - ./immich/ks.yaml
   - ./christmas/ks.yaml
+  - ./paperless-ngx/ks.yaml
   # - ./zitadel/ks.yaml
   # - ./qbittorrent/ks.yaml
   # - ./kubotheque/ks.yaml
