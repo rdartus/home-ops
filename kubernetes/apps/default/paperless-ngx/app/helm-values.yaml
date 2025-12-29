@@ -132,12 +132,12 @@ controllers:
           PAPERLESS_DBUSER: 
             valueFrom:
               secretKeyRef:
-                name: paperless-db-secret
+                name: paperless-secret
                 key: username
           PAPERLESS_DBPASS: 
               valueFrom:
                 secretKeyRef:
-                  name: paperless-db-secret
+                  name: paperless-secret
                   key: password
 
     # -- Set annotations on the deployment/statefulset/daemonset/cronjob/job
