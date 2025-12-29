@@ -10,7 +10,7 @@ spec:
     labels:
       app.kubernetes.io/name: *app
   interval: 7m
-  path: ./kubernetes/apps/default/papeless-ngx/app
+  path: ./kubernetes/apps/default/paperless-ngx/app
   prune: true
   sourceRef:
     kind: GitRepository
