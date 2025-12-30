@@ -154,7 +154,7 @@ controllers:
           PAPERLESS_SOCIALACCOUNT_PROVIDERS: 
             valueFrom:
               secretKeyRef:
-                name: tandoor-app-secret
+                name: paperless-app-secret
                 key: oidcProvider
       gotenberg:
         image: 
