@@ -134,7 +134,8 @@ controllers:
                 name: paperless-redis-secret
                 key: url
 
-          PAPERLESS_DBHOST: cnpg-cluster-rw.database.svc.cluster.local/
+          PAPERLESS_DBHOST: cnpg-cluster-rw.database.svc.cluster.local
+          PAPERLESS_DBENGINE: postgresql
           PAPERLESS_DBNAME: paperless
           PAPERLESS_DBUSER: 
             valueFrom:
