@@ -350,6 +350,7 @@ data:
         vault kv put kv-v2/wx/config username="@/config/cred/wx-user" password="@/config/cred/wx-password"
         vault kv put kv-v2/wx/list list.json="@/config/cred/wx-list"
         vault kv put kv-v2/tandoor key="@/config/cred/tandoorKey" oidcProvider="@/config/cred/tandoorSocialProvider"
+        vault kv put kv-v2/paperless oidcProvider="@/config/cred/paperlessSocialProvider"
         vault kv put kv-v2/zerossl keyID="@/config/cred/zeroSSLID" HMAC="@/config/cred/zeroSSLHMAC"
         vault kv put kv-v2/mealie oidcSecret="@/config/cred/mealieOIDCSecret" oidcClient="@/config/cred/mealieOIDCClient"
         vault kv put kv-v2/pgadmin oidcSecret="@/config/cred/pgadminOIDCSecret" oidcClient="@/config/cred/pgadminOIDCClient" oidcConf="@/config/cred/pgadminOIDCConf" servers.json="@/config/cred/pgadminServerConf"

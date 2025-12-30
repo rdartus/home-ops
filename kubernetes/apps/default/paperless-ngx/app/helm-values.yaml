@@ -147,6 +147,15 @@ controllers:
                 secretKeyRef:
                   name: paperless-db-secret
                   key: password
+          PAPERLESS_CONSUMER_DISABLE: true
+          PAPERLESS_OCR_PAGES: 1
+          PAPERLESS_WEBSERVER_WORKERS: 1
+          PAPERLESS_OCR_CLEAN: none
+          PAPERLESS_SOCIALACCOUNT_PROVIDERS: 
+            valueFrom:
+              secretKeyRef:
+                name: tandoor-app-secret
+                key: oidcProvider
       gotenberg:
         image: 
           repository: docker.io/gotenberg/gotenberg

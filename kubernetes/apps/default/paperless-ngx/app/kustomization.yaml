@@ -6,6 +6,7 @@ resources:
   - ./helmrelease.yaml
   - ./paperless-redis-secret.yaml
   - ./paperless-db-secret.yaml
+  - ./paperless-app-secret.yaml
   - ./paperless-auth.yaml
   - ./pvc-paperless.yaml
 configMapGenerator:
