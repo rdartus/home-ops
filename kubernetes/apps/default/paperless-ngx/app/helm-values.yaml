@@ -126,6 +126,8 @@ controllers:
           pullPolicy: IfNotPresent
         dependsOn: [tika, gotenberg]
         env:
+          PAPERLESS_TIKA_GOTENBERG_ENDPOINT: http://gotenberg:3000
+          PAPERLESS_TIKA_ENDPOINT: http://tika:9998
           PAPERLESS_REDIS: redis://redis-master.default.svc.cluster.local:6379
           PAPERLESS_DBHOST: cnpg-cluster-rw.database.svc.cluster.local/
           PAPERLESS_DBNAME: paperless
