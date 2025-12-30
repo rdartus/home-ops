@@ -124,7 +124,7 @@ controllers:
           tag: latest
           # -- image pull policy
           pullPolicy: IfNotPresent
-
+        dependsOn: [tika, gotenberg]
         env:
           PAPERLESS_REDIS: redis://redis-master.default.svc.cluster.local:6379
           PAPERLESS_DBHOST: cnpg-cluster-rw.database.svc.cluster.local/
@@ -139,7 +139,25 @@ controllers:
                 secretKeyRef:
                   name: paperless-db-secret
                   key: password
+      gotenberg:
+        image: 
+          repository: docker.io/gotenberg/gotenberg:8.25
+          tag: latest
+          # -- image pull policy
+          pullPolicy: IfNotPresent
 
+        # The gotenberg chromium route is used to convert .eml files. We do not
+        # want to allow external content like tracking pixels or even javascript.
+        command:
+          - "gotenberg"
+          - "--chromium-disable-javascript=true"
+          - "--chromium-allow-list=file:///tmp/.*"
+      tika:
+        image: 
+          repository: docker.io/apache/tika:latest
+          tag: latest
+          # -- image pull policy
+          pullPolicy: IfNotPresent
     # -- Set annotations on the deployment/statefulset/daemonset/cronjob/job
 #     annotations: {}
 #     # -- Set labels on the deployment/statefulset/daemonset/cronjob/job
