@@ -343,7 +343,7 @@ data:
         vault kv put kv-v2/default/smb username="jeank" password="@/config/cred/jeank-smb"
         vault kv put kv-v2/default/smb-longhorn CIFS_USERNAME="jeank" CIFS_PASSWORD="@/config/cred/jeank-smb"
         vault kv put kv-v2/crowdsec/config enroll_key="@/config/cred/crowdsec_enroll_key" bouncer_traefik="@/config/cred/crowdsec_bouncer_traefik"
-        vault kv put kv-v2/redis/config password="@/config/cred/redis-password"
+        vault kv put kv-v2/redis/config password="@/config/cred/redis-password" url="@/config/cred/redis-url"
         vault kv put kv-v2/authentik/config key="@/config/cred/authentik-key" _gsuite-id="@/config/cred/_gsuite-authentik-id" _gsuite-secret="@/config/cred/_gsuite-authentik-secret"
         vault kv put kv-v2/kubeprom/config username="@/config/cred/grafanaUser" password="@/config/cred/grafanaPassword"
         vault kv put kv-v2/smtp/config gmail_username="@/config/cred/gmail-user" gmail_password="@/config/cred/gmail-password" username="@/config/cred/gmail-username"
