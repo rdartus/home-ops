@@ -141,8 +141,8 @@ controllers:
                   key: password
       gotenberg:
         image: 
-          repository: docker.io/gotenberg/gotenberg:8.25
-          tag: latest
+          repository: docker.io/gotenberg/gotenberg
+          tag: 8.25
           # -- image pull policy
           pullPolicy: IfNotPresent
 
@@ -154,7 +154,7 @@ controllers:
           - "--chromium-allow-list=file:///tmp/.*"
       tika:
         image: 
-          repository: docker.io/apache/tika:latest
+          repository: docker.io/apache/tika
           tag: latest
           # -- image pull policy
           pullPolicy: IfNotPresent
