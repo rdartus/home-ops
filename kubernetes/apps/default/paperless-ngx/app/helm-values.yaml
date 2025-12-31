@@ -151,6 +151,8 @@ controllers:
                   key: password
           PAPERLESS_CONSUMER_DISABLE: true
           PAPERLESS_OCR_PAGES: 1
+          PAPERLESS_APP_TITLE: jeanscan
+          PAPERLESS_ENABLE_ALLAUTH: true
           PAPERLESS_WEBSERVER_WORKERS: 1
           PAPERLESS_OCR_CLEAN: none
           PAPERLESS_ACCOUNT_ALLOW_SIGNUPS: false
