@@ -139,6 +139,17 @@ controllers:
               secretKeyRef:
                 name: ghostfolio-db-secret
                 key: url
+          POSTGRES_USER: 
+            valueFrom:
+              secretKeyRef:
+                name: ghostfolio-db-secret
+                key: user
+          DATABASE_URL:  postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@localhost:5432/ghostfolio
+          POSTGRES_PASSWORD: 
+            valueFrom:
+              secretKeyRef:
+                name: ghostfolio-db-secret
+                key: password
           ENABLE_FEATURE_AUTH_OIDC: true
           OIDC_CLIENT_ID:
               valueFrom:
