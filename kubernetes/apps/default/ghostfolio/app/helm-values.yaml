@@ -709,23 +709,7 @@ ingress:
 
     hosts:
       -  # -- Host address. Helm template can be passed.
-        host: cadeau.dartus.fr
-        ## Configure the paths for the host
-        paths:
-          -  # -- Path.  Helm template can be passed.
-            path: /
-            pathType: Prefix
-            service:
-              # -- Overrides the service name reference for this path
-              # The service name to reference.
-              identifier: main
-              port: http              
-              # # -- Reference a service identifier from this values.yaml
-              # identifier: main
-              # -- Overrides the service port number reference for this path
-              # port: 9696
-      -  # -- Host address. Helm template can be passed.
-        host: cadeaux.dartus.fr
+        host: budget.dartus.fr
         ## Configure the paths for the host
         paths:
           -  # -- Path.  Helm template can be passed.
@@ -743,9 +727,8 @@ ingress:
 
     tls:
       - hosts:
-        - cadeau.dartus.fr
-        - cadeaux.dartus.fr
-        secretName: cadeau.dartus.fr-tls
+        - budget.dartus.fr
+        secretName: budget.dartus.fr-tls
 
   # -- An example is shown below
   # main:
