@@ -144,12 +144,12 @@ controllers:
               valueFrom:
                 secretKeyRef:
                   name: ghostfolio-app-secret
-                  key: password
+                  key: oidcClient
           OIDC_CLIENT_SECRET:
               valueFrom:
                 secretKeyRef:
                   name: ghostfolio-app-secret
-                  key: id
+                  key: oidcSecret
 
 
     # -- Set annotations on the deployment/statefulset/daemonset/cronjob/job
