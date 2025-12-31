@@ -905,7 +905,7 @@ route:
 # @default -- See below
 persistence:
 
-  santa:
+  paperless:
     enabled: true
     type : persistentVolumeClaim
     existingClaim: pvc-paperless

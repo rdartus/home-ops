@@ -873,10 +873,10 @@ route:
 # @default -- See below
 persistence:
 
-  santa:
+  ghost:
     enabled: true
     type : persistentVolumeClaim
-    existingClaim: pvc-santa
+    existingClaim: pvc-ghost
   #   # -- Storage Class for the config volume.
   #   # If set to `-`, dynamic provisioning is disabled.
   #   # If set to something else, the given storageClass is used.
