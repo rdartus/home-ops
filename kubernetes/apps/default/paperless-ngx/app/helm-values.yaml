@@ -737,7 +737,7 @@ ingress:
 
     hosts:
       -  # -- Host address. Helm template can be passed.
-        host: paperless.dartus.fr
+        host: scan.dartus.fr
         ## Configure the paths for the host
         paths:
           -  # -- Path.  Helm template can be passed.
@@ -755,8 +755,8 @@ ingress:
 
     tls:
       - hosts:
-        - paperless.dartus.fr
-        secretName: paperless.dartus.fr-tls
+        - scan.dartus.fr
+        secretName: scan.dartus.fr-tls
 
 
 
