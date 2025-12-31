@@ -347,7 +347,7 @@ data:
         vault kv put kv-v2/postgresql/vauban username="@/config/cred/DB-vauban-user" password="@/config/cred/DB-vauban-password"
         vault kv put kv-v2/postgresql/mich username="@/config/cred/DB-mich-user" password="@/config/cred/DB-mich-password"
         vault kv put kv-v2/postgresql/paper username="@/config/cred/DB-paper-user" password="@/config/cred/DB-paper-password"
-        vault kv put kv-v2/postgresql/ghost username="@/config/cred/DB-ghost-user" password="@/config/cred/DB-ghost-password"
+        vault kv put kv-v2/postgresql/ghost username="@/config/cred/DB-ghost-user" password="@/config/cred/DB-ghost-password" url="@/config/cred/ghostfolioURL"
         vault kv put kv-v2/postgresql/office username="@/config/cred/DB-office-user" password="@/config/cred/DB-office-password" token="@/config/cred/office-token" amqp="@/config/cred/office-amqp" 
         vault kv put kv-v2/ssh key="@/config/cred/key"
         vault kv put kv-v2/arr/config sonarrKey="@/config/cred/sonarrKey" prowlarrKey="@/config/cred/prowlarrKey" radarrKey="@/config/cred/radarrKey"
