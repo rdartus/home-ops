@@ -6,6 +6,7 @@ resources:
   - ./helmrelease.yaml
   - ./ghostfolio-redis-secret.yaml
   - ./ghostfolio-app-secret.yaml
+  - ./ghostfolio-db-secret.yaml
   - ./ghostfolio-auth.yaml
   - ./pvc-ghost.yaml
 configMapGenerator:
