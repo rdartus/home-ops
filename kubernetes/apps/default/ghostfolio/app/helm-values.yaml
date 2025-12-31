@@ -127,6 +127,7 @@ controllers:
 
         env:
           REDIS_HOST: redis-master.default.svc.cluster.local
+          ROOT_URL: budget.dartus.fr
           REDIS_PASSWORD: 
             valueFrom:
               secretKeyRef:
