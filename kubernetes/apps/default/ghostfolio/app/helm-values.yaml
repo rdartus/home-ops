@@ -140,12 +140,12 @@ controllers:
               secretKeyRef:
                 name: ghostfolio-db-secret
                 key: url
+          DATABASE_URL:  postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@cnpg-cluster-rw.database.svc.cluster.local:5432/ghostfolio
           POSTGRES_USER: 
             valueFrom:
               secretKeyRef:
                 name: ghostfolio-db-secret
-                key: user
-          DATABASE_URL:  postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@cnpg-cluster-rw.database.svc.cluster.local:5432/ghostfolio
+                key: username
           POSTGRES_PASSWORD: 
             valueFrom:
               secretKeyRef:
