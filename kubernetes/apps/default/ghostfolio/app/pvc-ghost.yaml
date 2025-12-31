@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: pvc-santa
+  name: pvc-ghost
   namespace: default
 spec:
   resources:
