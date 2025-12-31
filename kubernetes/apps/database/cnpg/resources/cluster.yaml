@@ -88,6 +88,14 @@ spec:
       superuser: true
       passwordSecret:
         name: paper-secret
+    - name: ghost
+      connectionLimit: -1
+      inherit: true
+      ensure: present
+      comment: ghostfolio user 
+      login: true
+      passwordSecret:
+        name: ghost-secret
     - name: onlyoffice
       connectionLimit: -1
       inherit: true
