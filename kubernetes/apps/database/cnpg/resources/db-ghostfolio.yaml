@@ -1,0 +1,10 @@
+apiVersion: postgresql.cnpg.io/v1
+kind: Database
+metadata:
+  name: db-ghostfolio
+  namespace: database
+spec:
+  name: ghostfolio
+  owner: ghost
+  cluster:
+    name: cnpg-cluster

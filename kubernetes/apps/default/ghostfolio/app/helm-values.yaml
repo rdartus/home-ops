@@ -119,41 +119,38 @@ controllers:
 
         image:
           # -- image repository
-          repository: wingysam/christmas-community
+          repository: ghostfolio/ghostfolio
           # -- image tag
           tag: latest
           # -- image pull policy
           pullPolicy: IfNotPresent
 
         env:
-          # Table mode, set to 'false' to revert to box mode
-          TABLE: 'true'
-          # Single list mode
-          # (for weddings, birthdays, etc. only the admin account's list is accessible)
-          # Set to 'true' to enable
-          SINGLE_LIST: 'false'
-          LANGUAGE: 'fr-FR'
-          # Some websites (like walmart) send headers that are larger than 8MB in
-          # length. If issues are encountered, set the node.js limit to a higher
-          # number than 8192
-          #NODE_OPTIONS: "--max-http-header-size=32768"
-          OIDC_CLIENT_ID: 
+          REDIS_HOST: redis-master.default.svc.cluster.local
+          REDIS_PASSWORD: 
             valueFrom:
               secretKeyRef:
-                name: christmas-secret
-                key: oidcClient
-
-          OIDC_CLIENT_SECRET: 
+                name: ghostfolio-redis-secret
+                key: password
+          REDIS_PORT: "6379"
+          POSTGRES_DB: ghostfolio
+          POSTGRES_URL: 
             valueFrom:
               secretKeyRef:
-                name: christmas-secret
-                key: oidcSecret
+                name: ghostfolio-db-secret
+                key: url
+          ENABLE_FEATURE_AUTH_OIDC: true
+          OIDC_CLIENT_ID:
+              valueFrom:
+                secretKeyRef:
+                  name: ghostfolio-app-secret
+                  key: password
+          OIDC_CLIENT_SECRET:
+              valueFrom:
+                secretKeyRef:
+                  name: ghostfolio-app-secret
+                  key: id
 
-          OIDC_AUTHORIZATION_URL: https://authentik.dartus.fr/application/o/authorize/
-          OIDC_TOKEN_URL: https://authentik.dartus.fr/application/o/token/
-          OIDC_ISSUER: https://authentik.dartus.fr/application/o/christmas/
-          OIDC_PROVIDER_NAME: Authentik
-          OIDC_AUTO_CREATE_USER: true
 
     # -- Set annotations on the deployment/statefulset/daemonset/cronjob/job
 #     annotations: {}

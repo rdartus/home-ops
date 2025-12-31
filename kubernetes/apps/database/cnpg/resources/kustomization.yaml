@@ -11,6 +11,7 @@ resources:
   - ./cnpg-tand-secret.yaml
   - ./cnpg-vauban-secret.yaml
   - ./cnpg-mich-secret.yaml
+  - ./cnpg-ghost-secret.yaml
   - ./cnpg-paper-secret.yaml
   - ./cnpg-office-secret.yaml
   - ./cnpg-chef-secret.yaml
@@ -25,5 +26,6 @@ resources:
   - ./db-zitadel.yaml
   - ./db-onlyoffice.yaml
   - ./db-paperless.yaml
+  - ./db-ghostfolio.yaml
   - ./db-immich.yaml
   - ./db-mealie.yaml
