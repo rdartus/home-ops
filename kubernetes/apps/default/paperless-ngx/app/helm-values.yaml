@@ -128,7 +128,7 @@ controllers:
         env:
           PAPERLESS_TIKA_GOTENBERG_ENDPOINT: http://gotenberg:3000
           PAPERLESS_TIKA_ENDPOINT: http://tika:9998
-          PAPERLESS_URL : https://paperless.dartus.fr
+          PAPERLESS_URL : https://scan.dartus.fr
           PAPERLESS_APPS: allauth.socialaccount.providers.openid_connect
           PAPERLESS_REDIS:
             valueFrom:
