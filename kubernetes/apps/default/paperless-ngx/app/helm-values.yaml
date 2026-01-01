@@ -162,6 +162,16 @@ controllers:
               secretKeyRef:
                 name: paperless-app-secret
                 key: oidcProvider
+          PAPERLESS_GMAIL_OAUTH_CLIENT_ID: 
+            valueFrom:
+              secretKeyRef:
+                name: paperless-app-secret
+                key: gmailOidcClient
+          PAPERLESS_GMAIL_OAUTH_CLIENT_SECRET: 
+            valueFrom:
+              secretKeyRef:
+                name: paperless-app-secret
+                key: gmailOidcSecret
       gotenberg:
         image: 
           repository: docker.io/gotenberg/gotenberg
