@@ -154,6 +154,7 @@ controllers:
                 secretKeyRef:
                   name: ghostfolio-app-secret
                   key: oidcSecret
+          OIDC_ISSUER: https://authentik.dartus.fr/application/o/ghostfolio/.well-known/openid-configuration
 
 
     # -- Set annotations on the deployment/statefulset/daemonset/cronjob/job
