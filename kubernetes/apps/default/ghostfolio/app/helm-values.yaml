@@ -119,7 +119,17 @@ controllers:
 
         env:
           REDIS_HOST: redis-master.default.svc.cluster.local
-          ROOT_URL: budget.dartus.fr
+          ROOT_URL: https://budget.dartus.fr
+          JWT_SECRET_KEY: 
+            valueFrom:
+              secretKeyRef:
+                name: ghostfolio-app-secret
+                key: secretKey
+          ACCESS_TOKEN_SALT: 
+            valueFrom:
+              secretKeyRef:
+                name: ghostfolio-app-secret
+                key: salt
           REDIS_PASSWORD: 
             valueFrom:
               secretKeyRef:
