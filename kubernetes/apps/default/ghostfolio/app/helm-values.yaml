@@ -135,11 +135,11 @@ controllers:
                 key: password
           REDIS_PORT: "6379"
           POSTGRES_DB: ghostfolio
-          POSTGRES_URL: 
-            valueFrom:
-              secretKeyRef:
-                name: ghostfolio-db-secret
-                key: url
+          # POSTGRES_URL: 
+          #   valueFrom:
+          #     secretKeyRef:
+          #       name: ghostfolio-db-secret
+          #       key: url
           DATABASE_URL:  postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@cnpg-cluster-rw.database.svc.cluster.local:5432/ghostfolio
           POSTGRES_USER: 
             valueFrom:
