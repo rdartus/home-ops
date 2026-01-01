@@ -157,6 +157,8 @@ controllers:
           PAPERLESS_ENABLE_ALLAUTH: true
           PAPERLESS_ACCOUNT_ALLOW_SIGNUPS: false
           PAPERLESS_SOCIAL_AUTO_SIGNUP: true
+          PAPERLESS_AUTO_LOGIN: true
+          PAPERLESS_AUTO_CREATE: true
           PAPERLESS_SOCIALACCOUNT_PROVIDERS: 
             valueFrom:
               secretKeyRef:
