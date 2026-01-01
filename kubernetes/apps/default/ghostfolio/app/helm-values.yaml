@@ -127,7 +127,7 @@ controllers:
                 key: password
           REDIS_PORT: "6379"
           POSTGRES_DB: ghostfolio
-          POSTGRES_URL: 
+          DATABASE_URL: 
             valueFrom:
               secretKeyRef:
                 name: ghostfolio-db-secret
