@@ -164,6 +164,7 @@ controllers:
               secretKeyRef:
                 name: paperless-app-secret
                 key: oidcProvider
+          PAPERLESS_OAUTH_CALLBACK_BASE_URL: https://scan.dartus.fr/api/oauth/callback/ 
           PAPERLESS_GMAIL_OAUTH_CLIENT_ID: 
             valueFrom:
               secretKeyRef:
