@@ -8,5 +8,5 @@ spec:
     requests:
       storage: 1000Mi
   accessModes:
-    - ReadWriteOnce
+    - ReadWriteMany
   storageClassName: longhorn
