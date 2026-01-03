@@ -144,10 +144,6 @@ controllers:
           # pg_restore --clean --create --if-exists -d "postgres://$SUPERUSER:$PASSWORD@cnpg-cluster-rw.database.svc.cluster.local/postgres" /data/dump-k3s/dump_authentik
           # echo "restore dump_mealie"
           # pg_restore --clean --create --if-exists -d "postgres://$SUPERUSER:$PASSWORD@cnpg-cluster-rw.database.svc.cluster.local/postgres" /data/dump-k3s/dump_mealie
-          # echo "restore dump_paperless"
-          # pg_restore --clean --create --if-exists -d "postgres://$SUPERUSER:$PASSWORD@cnpg-cluster-rw.database.svc.cluster.local/postgres" /data/dump-k3s/dump_paperless
-          # echo "restore dump_ghostfolio"
-          # pg_restore --clean --create --if-exists -d "postgres://$SUPERUSER:$PASSWORD@cnpg-cluster-rw.database.svc.cluster.local/postgres" /data/dump-k3s/dump_ghostfolio
 
         env:
           SUPERUSER:
