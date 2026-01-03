@@ -299,6 +299,7 @@ controllers:
           pg_dump  postgres://$SUPERUSER:$PASSWORD@cnpg-cluster-rw.database.svc.cluster.local/immich -Fc -f /db/dump_immich
           pg_dump  postgres://$SUPERUSER:$PASSWORD@cnpg-cluster-rw.database.svc.cluster.local/ghostfolio -Fc -f /db/dump_ghostfolio
           pg_dump  postgres://$SUPERUSER:$PASSWORD@cnpg-cluster-rw.database.svc.cluster.local/paperless -Fc -f /db/dump_paperless
+          echo "done"
 
         # pg_dumpall --clean --if-exists -d postgres://$SUPERUSER:$PASSWORD@cnpg-cluster-rw.database.svc.cluster.local  -f /db/dumpall_clean.sql 
 #         # -- Override the args for the container
