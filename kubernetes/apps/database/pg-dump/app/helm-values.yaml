@@ -297,6 +297,8 @@ controllers:
           pg_dump  postgres://$SUPERUSER:$PASSWORD@cnpg-cluster-rw.database.svc.cluster.local/zitadel -Fc -f /db/dump_zitadel
           pg_dump  postgres://$SUPERUSER:$PASSWORD@cnpg-cluster-rw.database.svc.cluster.local/onlyoffice -Fc -f /db/dump_onlyoffice
           pg_dump  postgres://$SUPERUSER:$PASSWORD@cnpg-cluster-rw.database.svc.cluster.local/immich -Fc -f /db/dump_immich
+          pg_dump  postgres://$SUPERUSER:$PASSWORD@cnpg-cluster-rw.database.svc.cluster.local/ghostfolio -Fc -f /db/dump_ghostfolio
+          pg_dump  postgres://$SUPERUSER:$PASSWORD@cnpg-cluster-rw.database.svc.cluster.local/paperless -Fc -f /db/dump_paperless
 
         # pg_dumpall --clean --if-exists -d postgres://$SUPERUSER:$PASSWORD@cnpg-cluster-rw.database.svc.cluster.local  -f /db/dumpall_clean.sql
 
