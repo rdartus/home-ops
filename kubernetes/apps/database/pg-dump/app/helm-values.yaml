@@ -274,7 +274,7 @@ controllers:
           # -- image repository
           repository: postgres
           # -- image tag
-          tag: "16.9"
+          tag: "16.11"
           # -- image pull policy
           pullPolicy: IfNotPresent
 
