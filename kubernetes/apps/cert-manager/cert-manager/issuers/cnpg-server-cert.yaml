@@ -9,16 +9,17 @@ spec:
   usages:
     - server auth
   dnsNames:
-    - cluster-example-lb.internal.mydomain.net
-    - cluster-example-rw
-    - cluster-example-rw.default
-    - cluster-example-rw.default.svc
-    - cluster-example-r
-    - cluster-example-r.default
-    - cluster-example-r.default.svc
-    - cluster-example-ro
-    - cluster-example-ro.default
-    - cluster-example-ro.default.svc
+    - cnpg-cluster-lb.dartus.fr
+    - cnpg-cluster-rw
+    - cnpg-cluster-rw.default
+    - cnpg-cluster-rw.default.svc
+    - cnpg-cluster-r
+    - cnpg-cluster-r.default
+    - cnpg-cluster-r.default.svc
+    - cnpg-cluster-ro
+    - cnpg-cluster-ro.default
+    - cnpg-cluster-ro.default.svc
+  commonName: cnpg-cluster-lb.dartus.fr
   issuerRef:
     name: selfsigned
     kind: ClusterIssuer
