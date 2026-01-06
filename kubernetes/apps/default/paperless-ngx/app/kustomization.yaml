@@ -8,7 +8,8 @@ resources:
   - ./paperless-db-secret.yaml
   - ./paperless-app-secret.yaml
   - ./paperless-auth.yaml
-  - ./pvc-paperless.yaml
+  - ./pvc-paperless-media.yaml
+  - ./pvc-paperless-db.yaml
 configMapGenerator:
   - name: paperless-helm-values
     files:

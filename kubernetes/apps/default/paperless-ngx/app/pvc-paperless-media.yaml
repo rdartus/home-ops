@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: pvc-paperless
+  name: pvc-paperless-media
   namespace: default
 spec:
   resources:

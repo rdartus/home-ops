@@ -918,10 +918,21 @@ route:
 # @default -- See below
 persistence:
 
-  paperless:
+  paperless-db:
     enabled: true
     type : persistentVolumeClaim
-    existingClaim: pvc-paperless
+    existingClaim: pvc-paperless-db
+    globalMounts:
+      - path: /usr/src/paperless/data
+        readOnly: false
+
+  paperless-media:
+    enabled: true
+    type : persistentVolumeClaim
+    existingClaim: pvc-paperless-media
+    globalMounts:
+      - path: /usr/src/paperless/media
+        readOnly: false
   #   # -- Storage Class for the config volume.
   #   # If set to `-`, dynamic provisioning is disabled.
   #   # If set to something else, the given storageClass is used.
