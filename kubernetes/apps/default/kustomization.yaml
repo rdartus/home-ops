@@ -25,6 +25,6 @@ resources:
   - ./paperless-ngx/ks.yaml
   # - ./zitadel/ks.yaml
   # - ./qbittorrent/ks.yaml
-  # - ./kubotheque/ks.yaml
+  - ./kubotheque/ks.yaml
   # - ./rabbitmq/ks.yaml
   - ./onlyoffice/ks.yaml
