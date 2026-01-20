@@ -21,7 +21,7 @@ resources:
   - ./livres/ks.yaml
   - ./immich/ks.yaml
   # - ./christmas/ks.yaml
-  - ./testChristmas/ks.yaml
+  - ./test-Christmas/ks.yaml
   - ./ghostfolio/ks.yaml
   - ./paperless-ngx/ks.yaml
   # - ./zitadel/ks.yaml
