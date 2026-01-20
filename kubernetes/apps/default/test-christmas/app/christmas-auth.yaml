@@ -1,7 +1,7 @@
 apiVersion: secrets.hashicorp.com/v1beta1
 kind: VaultAuth
 metadata:
-  name: testChristmas-auth
+  name: test-christmas-auth
   namespace: default
   annotations:
     argocd.argoproj.io/sync-wave: "10"
@@ -10,7 +10,7 @@ spec:
   method: kubernetes
   mount: kubernetes
   kubernetes:
-    role: rltestChristmas
+    role: rltest-christmas
     serviceAccount: default
     audiences:
       - vault
