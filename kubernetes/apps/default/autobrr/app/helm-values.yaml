@@ -12,16 +12,10 @@ global:
   # -- Set additional global annotations. Helm templates can be used.
   annotations: {}
 
-# -- Set the strategy for the default pod options. Defaults to
-#    overwrite: If pod-level options are set, use those instead of the defaults.
-#    merge: If pod-level options are set, merge them with the defaults
-# @default -- overwrite
-defaultPodOptionsStrategy: overwrite
-
 # -- Set default options for all controllers / pods here
 # Each of these options can be overridden on a Controller level
 defaultPodOptions:
-  # -- Defines affinity constraint rules. Helm templates can be used.
+  # -- Defines affinity constraint rules.
   # [[ref]](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#affinity-and-anti-affinity)
   affinity: {}
 
@@ -84,7 +78,8 @@ defaultPodOptions:
   schedulerName: ""
 
   # -- Configure the Security Context for the Pod
-  securityContext: {}
+  securityContext: 
+      fsGroup: 65534
 
   # -- Allows sharing process namespace between containers in a Pod
   # -- [[ref](https://kubernetes.io/docs/tasks/configure-pod-container/share-process-namespace/)]
@@ -93,6 +88,7 @@ defaultPodOptions:
   # -- Duration in seconds the pod needs to terminate gracefully
   # -- [[ref](https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#lifecycle)]
   terminationGracePeriodSeconds:
+
   # -- Specify taint tolerations
   # [[ref]](https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/)
   tolerations: []
@@ -109,38 +105,6 @@ controllers:
     # -- Set the controller type.
     # Valid options are deployment, daemonset, statefulset, cronjob or job
     type: statefulset
-    containers:
-      front:
-        # -- Override the container name
-        # nameOverride:
-
-        # -- Specify if this container depends on any other containers
-        # This is used to determine the order in which the containers are rendered.
-
-        image:
-          # -- image repository
-          repository: rdartus/test-christmas-frontend
-          # -- image tag
-          tag: latest
-          # -- image pull policy
-          pullPolicy: IfNotPresent
-
-      back:
-        # -- Override the container name
-        # nameOverride:
-
-        # -- Specify if this container depends on any other containers
-        # This is used to determine the order in which the containers are rendered.
-
-        image:
-          # -- image repository
-          repository: rdartus/test-christmas-backend
-          # -- image tag
-          tag: latest
-          # -- image pull policy
-          pullPolicy: IfNotPresent
-
-
     # -- Set annotations on the deployment/statefulset/daemonset/cronjob/job
 #     annotations: {}
 #     # -- Set labels on the deployment/statefulset/daemonset/cronjob/job
@@ -171,33 +135,42 @@ controllers:
 #       identifier:
 #       # -- Explicitly set the service account name
 #       name:
+
+#     # -- Pod Disruption Budget configuration for the Pods in this controller
+#     # -- [[ref]](https://kubernetes.io/docs/tasks/run-application/configure-pdb/)
+#     podDisruptionBudget:
+#       {}
+#       # minAvailable: 1
+#       # maxUnavailable: 1
+
+
 #     # -- CronJob configuration. Required only when using `controller.type: cronjob`.
 #     # @default -- See below
-    # cronjob:
-    #   # -- Suspends the CronJob
-    #   # [[ref]](https://kubernetes.io/docs/concepts/workloads/controllers/cron-jobs/#schedule-suspension)
-    #   # @default -- false
-    #   # suspend: 
-    #   # -- Specifies how to treat concurrent executions of a job that is created by this cron job
-    #   # valid values are Allow, Forbid or Replace
-    #   concurrencyPolicy: Replace
-    #   # -- Sets the CronJob timezone (only works in Kubernetes >= 1.27)
-    #   # timeZone: 
-    #   # -- Sets the CronJob time when to execute your jobs
-    #   schedule: "0 5 * * *"
-    #   # -- The deadline in seconds for starting the job if it misses its scheduled time for any reason
-    #   startingDeadlineSeconds: 30
-    #   # -- The number of succesful Jobs to keep
-    #   successfulJobsHistory: 1
-    #   # -- The number of failed Jobs to keep
-    #   failedJobsHistory: 1
-    #   # -- If this field is set, ttlSecondsAfterFinished after the Job finishes, it is eligible to
-    #   # be automatically deleted.
-    #   # ttlSecondsAfterFinished:
-    #   # -- Limits the number of times a failed job will be retried
-    #   backoffLimit: 6
-    #   # -- Specify the number of parallel jobs
-      # parallelism: 0
+#     cronjob:
+#       # -- Suspends the CronJob
+#       # [[ref]](https://kubernetes.io/docs/concepts/workloads/controllers/cron-jobs/#schedule-suspension)
+#       # @default -- false
+#       suspend:
+#       # -- Specifies how to treat concurrent executions of a job that is created by this cron job
+#       # valid values are Allow, Forbid or Replace
+#       concurrencyPolicy: Forbid
+#       # -- Sets the CronJob timezone (only works in Kubernetes >= 1.27)
+#       timeZone:
+#       # -- Sets the CronJob time when to execute your jobs
+#       schedule: "*/20 * * * *"
+#       # -- The deadline in seconds for starting the job if it misses its scheduled time for any reason
+#       startingDeadlineSeconds: 30
+#       # -- The number of succesful Jobs to keep
+#       successfulJobsHistory: 1
+#       # -- The number of failed Jobs to keep
+#       failedJobsHistory: 1
+#       # -- If this field is set, ttlSecondsAfterFinished after the Job finishes, it is eligible to
+#       # be automatically deleted.
+#       ttlSecondsAfterFinished:
+#       # -- Limits the number of times a failed job will be retried
+#       backoffLimit: 6
+#       # -- Specify the number of parallel jobs
+#       parallelism:
 
 #     # -- Job configuration. Required only when using `controller.type: job`.
 #     # @default -- See below
@@ -264,6 +237,8 @@ controllers:
 #         repository:
 #         # -- Override the image tag for the containers
 #         tag:
+#         # -- Override the image digest for the containers
+#         digest:
 #         # -- Override the image pull policy for the containers
 #         pullPolicy:
 #       # -- Override the command(s) for the containers
@@ -279,22 +254,22 @@ controllers:
 #       # -- Configure the Security Context for the container
 #       securityContext: {}
 
-#     containers:
-#       main:
-#         # -- Override the container name
-#         nameOverride:
+    containers:
+      main:
+        # -- Override the container name
+        # nameOverride:
 
-#         # -- Specify if this container depends on any other containers
-#         # This is used to determine the order in which the containers are rendered.
-#         dependsOn: []
+        # -- Specify if this container depends on any other containers
+        # This is used to determine the order in which the containers are rendered.
+        dependsOn: []
 
-#         image:
-#           # -- image repository
-#           repository:
-#           # -- image tag
-#           tag:
-#           # -- image pull policy
-#           pullPolicy:
+        image:
+          # -- image repository
+          repository: ghcr.io/autobrr/autobrr:latest
+          # -- image tag
+          tag: rolling
+          # -- image pull policy
+          pullPolicy: IfNotPresent
 
 #         # -- Override the command(s) for the container
 #         command: []
@@ -302,6 +277,39 @@ controllers:
 #         args: []
 #         # -- Override the working directory for the container
 #         workingDir:
+
+
+        env:
+          AUTOBRR__PORT: &port 7474
+          AUTOBRR__LOG_LEVEL: INFO
+          AUTOBRR__CHECK_FOR_UPDATES: "false"
+          # AUTOBRR__HOST: string
+          # AUTOBRR__BASE_URL: string
+          # AUTOBRR__LOG_LEVEL: string
+          # AUTOBRR__LOG_PATH: string
+          # AUTOBRR__LOG_MAX_SIZE: string/int without MB
+          # AUTOBRR__LOG_MAX_BACKUPS: string/int
+          # AUTOBRR__SESSION_SECRET: string
+          # AUTOBRR__CUSTOM_DEFINITIONS: string
+          # AUTOBRR__DATABASE_TYPE: sqlite/postgres
+          # AUTOBRR__POSTGRES_HOST: string
+          # AUTOBRR__POSTGRES_PORT: string
+          # AUTOBRR__POSTGRES_DATABASE: string
+          # AUTOBRR__POSTGRES_USER: string
+          # AUTOBRR__POSTGRES_PASS: string
+          # AUTOBRR__POSTGRES_SSLMODE: string
+          # AUTOBRR__POSTGRES_EXTRA_PARAMS: string
+          # AUTOBRR__OIDC_ENABLED: bool
+          # AUTOBRR__OIDC_ISSUER: string
+          # AUTOBRR__OIDC_CLIENT_ID: string
+          # AUTOBRR__OIDC_CLIENT_SECRET: string
+          # AUTOBRR__OIDC_REDIRECT_URL: string
+          # AUTOBRR__OIDC_DISABLE_BUILT_IN_LOGIN: bool
+          # AUTOBRR__METRICS_ENABLED: bool
+          # AUTOBRR__METRICS_HOST: string
+          # AUTOBRR__METRICS_PORT: int
+          # AUTOBRR__METRICS_BASIC_AUTH_USERS: string
+
 #         # -- Environment variables. Template enabled.
 #         # Syntax options:
 #         # A) TZ: UTC
@@ -326,6 +334,7 @@ controllers:
 #         #      value: UTC
 #         # G) - name: TZ
 #         #      value: '{{ .Release.Name }}'
+#         env:
 
 #         # -- Secrets and/or ConfigMaps that will be loaded as environment variables.
 #         # Syntax options:
@@ -353,43 +362,40 @@ controllers:
 
 #         # -- Probe configuration
 #         # -- [[ref]](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/)
-#         probes:
-#           # -- Liveness probe configuration
-#           # @default -- See below
-#           liveness:
-#             # -- Enable the liveness probe
-#             enabled: true
-#             # -- Set this to `true` if you wish to specify your own livenessProbe
-#             custom: false
-#             # -- sets the probe type when not using a custom probe
-#             # @default -- "TCP"
-#             type: TCP
-#             # -- The spec field contains the values for the default livenessProbe.
-#             # If you selected `custom: true`, this field holds the definition of the livenessProbe.
-#             # @default -- See below
-#             spec:
-#               initialDelaySeconds: 0
-#               periodSeconds: 10
-#               timeoutSeconds: 1
-#               failureThreshold: 3
-
-#           # -- Readiness probe configuration
-#           readiness:
-#             # -- Enable the readiness probe
-#             enabled: true
-#             # -- Set this to `true` if you wish to specify your own readinessProbe
-#             custom: false
-#             # -- sets the probe type when not using a custom probe
-#             # @default -- "TCP"
-#             type: TCP
-#             # -- The spec field contains the values for the default readinessProbe.
-#             # If you selected `custom: true`, this field holds the definition of the readinessProbe.
-#             # @default -- See below
-#             spec:
-#               initialDelaySeconds: 0
-#               periodSeconds: 10
-#               timeoutSeconds: 1
-#               failureThreshold: 3
+        probes:
+          liveness:
+            enabled: true
+            ## Set this to true if you wish to specify your own livenessProbe
+            custom: true
+            ## The spec field contains the values for the default livenessProbe.
+            ## If you selected custom: true, this field holds the definition of the livenessProbe.
+            spec:
+              httpGet:
+                path: /api/healthz/liveness
+                port: *port
+              initialDelaySeconds: 0
+              periodSeconds: 10
+              timeoutSeconds: 1
+              failureThreshold: 3
+          readiness:
+            enabled: true
+            custom: true
+            spec:
+              httpGet:
+                path: /api/healthz/readiness
+                port: *port
+              initialDelaySeconds: 0
+              periodSeconds: 10
+              timeoutSeconds: 1
+              failureThreshold: 3
+          startup:
+            enabled: true
+            spec:
+              httpGet:
+                path: /api/healthz/liveness
+                port: *port
+              failureThreshold: 30
+              periodSeconds: 10
 
 #           # -- Startup probe configuration
 #           startup:
@@ -444,16 +450,13 @@ controllers:
 #     # Each initContainer should have its own key
 #     initContainers: {}
 
-# -- If true forces the controllers to use the `default` ServiceAccount for the namespace if one is not explicitly defined.
-# This feature flag will be removed on future versions where this will be the default behavior.
-enforceServiceAccountCreation: false
-
 serviceAccount:
   {}
   # default:
   #   enabled: false
   #   annotations: {}
   #   labels: {}
+
 # -- Use this to populate secrets with the values you specify.
 # Be aware that these values are not encrypted by default, and could therefore visible
 # to anybody with access to the values.yaml file.
@@ -476,7 +479,8 @@ secrets:
 # -- Configure configMaps for the chart here.
 # Additional configMaps can be added by adding a dictionary key similar to the 'config' object.
 # @default -- See below
-configMaps: {}
+configMaps:
+  {}
   # config:
   #   # -- Enables or disables the configMap
   #   enabled: true
@@ -524,7 +528,9 @@ configMapsFromFolder:
   #   test2:
   #     fileAttributeOverrides:
   #       image.png:
-  #         binary: true# -- Configure the services for the chart here.
+  #         binary: true
+
+# -- Configure the services for the chart here.
 # Additional services can be added by adding a dictionary key similar to the 'main' service.
 # @default -- See below
 service:
@@ -570,7 +576,7 @@ service:
     # # Additional ports can be added by adding a dictionary key similar to the 'http' service.
     # # @default -- See below
     ports:
-      front:
+      http:
         # -- Enables or disables the port
         enabled: true
 
@@ -579,22 +585,7 @@ service:
         primary: true
 
         # -- The port number
-        port: 3000
-
-        # -- Port protocol.
-        # Support values are `HTTP`, `HTTPS`, `TCP` and `UDP`.
-        # HTTP and HTTPS spawn a TCP service and get used for internal URL and name generation
-        protocol: HTTP
-      back:
-        # -- Enables or disables the port
-        enabled: true
-
-        # -- Make this the primary port (used in probes, notes, etc...)
-        # If there is more than 1 service, make sure that only 1 port is marked as primary.
-        primary: true
-
-        # -- The port number
-        port: 8080
+        port: *port
 
         # -- Port protocol.
         # Support values are `HTTP`, `HTTPS`, `TCP` and `UDP`.
@@ -613,187 +604,65 @@ service:
         # # -- Specify the appProtocol value for the Service.
         # # [[ref]](https://kubernetes.io/docs/concepts/services-networking/service/#application-protocol)
         # appProtocol:
-  # ws:
-  #   # -- Enables or disables the service
-  #   enabled: true
-  #   # -- Configure which controller this service should target
-  #   controller: main
-  #   # -- Set the service type
-  #   type: ClusterIP
-  #   ports:
-  #     http:
-  #       enabled: true
-  #       port: 3000
-  #       protocol: HTTP
-
-#   main:
-  #   # -- Enables or disables the service
-    # enabled: true
-
-  #   # -- Override the name suffix that is used for this service
-  #   nameOverride: ""
-
-  #   # -- Configure which controller this service should target
-    # controller: main
-
-  #   # -- Make this the primary service for this controller (used in probes, notes, etc...).
-  #   # If there is more than 1 service targeting the controller, make sure that only 1 service is
-  #   # marked as primary.
-    # primary: true
-
-  #   # -- Set the service type
-    # type: ClusterIP
-
-  #   # -- Specify the internalTrafficPolicy for the service. Options: Cluster, Local
-  #   # -- [[ref](https://kubernetes.io/docs/concepts/services-networking/service-traffic-policy/)]
-  #   internalTrafficPolicy:
-
-  #   # -- Specify the externalTrafficPolicy for the service. Options: Cluster, Local
-  #   # -- [[ref](https://kubernetes.io/docs/tutorials/services/source-ip/)]
-  #   externalTrafficPolicy:
-
-  #   # -- Specify the ip policy. Options: SingleStack, PreferDualStack, RequireDualStack
-  #   ipFamilyPolicy:
-  #   # -- The ip families that should be used. Options: IPv4, IPv6
-  #   ipFamilies: []
-
-  #   # -- Provide additional annotations which may be required.
-  #   annotations: {}
-
-  #   # -- Provide additional labels which may be required.
-  #   labels: {}
-
-  #   # -- Allow adding additional match labels
-  #   extraSelectorLabels: {}
-
-  #   # -- Configure the Service port information here.
-  #   # Additional ports can be added by adding a dictionary key similar to the 'http' service.
-  #   # @default -- See below
-  #   ports:
-  #     http:
-  #       # -- Enables or disables the port
-  #       enabled: true
-
-  #       # -- Make this the primary port (used in probes, notes, etc...)
-  #       # If there is more than 1 service, make sure that only 1 port is marked as primary.
-  #       primary: true
-
-  #       # -- The port number
-  #       port:
-
-  #       # -- Port protocol.
-  #       # Support values are `HTTP`, `HTTPS`, `TCP` and `UDP`.
-  #       # HTTP and HTTPS spawn a TCP service and get used for internal URL and name generation
-  #       protocol: HTTP
-
-  #       # -- Specify a service targetPort if you wish to differ the service port from the application port.
-  #       # If `targetPort` is specified, this port number is used in the container definition instead of
-  #       # the `port` value. Therefore named ports are not supported for this field.
-  #       targetPort:
-
-  #       # -- Specify the nodePort value for the LoadBalancer and NodePort service types.
-  #       # [[ref]](https://kubernetes.io/docs/concepts/services-networking/service/#type-nodeport)
-  #       nodePort:
-
-  #       # -- Specify the appProtocol value for the Service.
-  #       # [[ref]](https://kubernetes.io/docs/concepts/services-networking/service/#application-protocol)
-  #       appProtocol:
 
 # -- Configure the ingresses for the chart here.
-ingress:
+ingress: 
+#   # -- An example is shown below
   main:
+    # -- Enables or disables the ingress
     enabled: true
+
+    # # -- Override the name suffix that is used for this ingress.
+    # nameOverride:
+
+    # # -- Provide additional annotations which may be required. Helm templates can be used.
+    # annotations: {}
     annotations:
       hajimari.io/enable: "true"
       hajimari.io/group: "Media"
-      hajimari.io/icon: "bookshelf"
-      hajimari.io/appName: "livres"
+      hajimari.io/icon: "cog-play-outline"
       cert-manager.io/cluster-issuer: zerossl-prod
-      acme.cert-manager.io/http01-edit-in-place: "true"
+      acme.cert-manager.io/http01-edit-in-place: "false"
+      # traefik.ingress.kubernetes.io/router.middlewares: traefik-bouncer@kubernetescrd
+      traefik.ingress.kubernetes.io/router.middlewares: "network-authentik-forward-auth@kubernetescrd"
 
+    # # -- Provide additional labels which may be required. Helm templates can be used.
+    # labels: {}
+
+    # # -- Set the ingressClass that is used for this ingress.
+    # className:
+
+    # # -- Configure the defaultBackend for this ingress. This will disable any other rules for the ingress.
+    # defaultBackend:
+
+    ## Configure the hosts for the ingress
     hosts:
-      -  # -- Host address. Helm template can be passed.
-        host: cadeau.dartus.fr
+      - # -- Host address. Helm template can be passed.
+        host: autobrr.dartus.fr
         ## Configure the paths for the host
         paths:
-          -  # -- Path.  Helm template can be passed.
+          - # -- Path.  Helm template can be passed.
             path: /
             pathType: Prefix
             service:
               # -- Overrides the service name reference for this path
               # The service name to reference.
               identifier: main
-              port: front              
+              port: http
               # # -- Reference a service identifier from this values.yaml
               # identifier: main
               # -- Overrides the service port number reference for this path
-              # port: 9696
-      -  # -- Host address. Helm template can be passed.
-        host: cadeaux.dartus.fr
-        ## Configure the paths for the host
-        paths:
-          -  # -- Path.  Helm template can be passed.
-            path: /
-            pathType: Prefix
-            service:
-              # -- Overrides the service name reference for this path
-              # The service name to reference.
-              identifier: main
-              port: front              
-              # # -- Reference a service identifier from this values.yaml
-              # identifier: main
-              # -- Overrides the service port number reference for this path
-              # port: 9696
+              # port: 7878
 
+    # -- Configure TLS for the ingress. Both secretName and hosts can process a Helm template.
     tls:
       - hosts:
-        - cadeau.dartus.fr
-        - cadeaux.dartus.fr
-        secretName: cadeau.dartus.fr-tls
+        - autobrr.dartus.fr
+        secretName: autobrr.dartus.fr-tls
 
-  # -- An example is shown below
-  # main:
-  #   # -- Enables or disables the ingress
-  #   enabled: true
-
-  #   # -- Override the name suffix that is used for this ingress.
-  #   nameOverride:
-
-  #   # -- Provide additional annotations which may be required. Helm templates can be used.
-  #   annotations: {}
-
-  #   # -- Provide additional labels which may be required. Helm templates can be used.
-  #   labels: {}
-
-  #   # -- Set the ingressClass that is used for this ingress.
-  #   className:
-
-  #   # -- Configure the defaultBackend for this ingress. This will disable any other rules for the ingress.
-  #   defaultBackend:
-
-  #   ## Configure the hosts for the ingress
-  #   hosts:
-  #     - # -- Host address. Helm template can be passed.
-  #       host: chart-example.local
-  #       ## Configure the paths for the host
-  #       paths:
-  #         - # -- Path.  Helm template can be passed.
-  #           path: /
-  #           pathType: Prefix
-  #           service:
-  #             # -- Overrides the service name reference for this path
-  #             # The service name to reference.
-  #             name: main
-  #             # -- Reference a service identifier from this values.yaml
-  #             identifier: main
-  #             # -- Overrides the service port number reference for this path
-  #             port:
-
-  #   # -- Configure TLS for the ingress. Both secretName and hosts can process a Helm template.
-  #   tls: []
-  #   #  - secretName: chart-example-tls
-  #   #    hosts:
-  #   #      - chart-example.local
+    #  - secretName: chart-example-tls
+    #    hosts:
+    #      - chart-example.local
 
 # -- Configure the ServiceMonitors for the chart here.
 # Additional ServiceMonitors can be added by adding a dictionary key similar to the 'main' ServiceMonitors.
@@ -821,7 +690,7 @@ serviceMonitor:
   #   # -- Configures the target Service for the serviceMonitor. Helm templates can be used.
   #   serviceName: '{{ include "bjw-s.common.lib.chart.names.fullname" $ }}'
 
-  #   # -- Configures the endpoints for the serviceMonitor.
+  #   # -- Configures the endpoints for the serviceMonitor. Helm templates can be used.
   #   # @default -- See values.yaml
   #   endpoints:
   #     - port: http
@@ -839,65 +708,90 @@ serviceMonitor:
 # Additional routes can be added by adding a dictionary key similar to the 'main' route.
 # [[ref]](https://gateway-api.sigs.k8s.io/references/spec/)
 # @default -- See below
-route:
-  {}
-  # main:
-  #   # -- Enables or disables the route
-  #   enabled: false
+route: 
+  main:
+    # -- Enables or disables the route
+    enabled: false
 
-  #   # -- Set the route kind
-  #   # Valid options are GRPCRoute, HTTPRoute, TCPRoute, TLSRoute, UDPRoute
-  #   kind: HTTPRoute
+    # -- Set the route kind
+    # Valid options are GRPCRoute, HTTPRoute, TCPRoute, TLSRoute, UDPRoute
+    kind: HTTPRoute
 
-  #   # -- Override the name suffix that is used for this route.
-  #   nameOverride: ""
 
-  #   # -- Provide additional annotations which may be required.
-  #   annotations: {}
+    # -- Provide additional annotations which may be required.
+    annotations: 
+      hajimari.io/enable: "true"
+      hajimari.io/group: "Media"
+      hajimari.io/icon: "cog-play-outline"
 
-  #   # -- Provide additional labels which may be required.
-  #   labels: {}
+    # -- Provide additional labels which may be required.
+    labels: {}
 
-  #   # -- Configure the resource the route attaches to.
-  #   parentRefs:
-  #     - # Group of the referent resource.
-  #       group: gateway.networking.k8s.io
-  #       # Kind of the referent resource.
-  #       kind: Gateway
-  #       # Name of the referent resource
-  #       name:
-  #       # Namespace of the referent resource
-  #       namespace:
-  #       # Name of the section within the target resource.
-  #       sectionName:
+    # -- Configure the resource the route attaches to.
+    parentRefs:
+      - # Group of the referent resource.
+        group: gateway.networking.k8s.io
+        # Kind of the referent resource.
+        kind: Gateway
+        # Name of the referent resource
+        name: traefik-gateway
+        # Namespace of the referent resource
+        namespace: network
+        # Name of the section within the target resource.
+        sectionName: websecure-autobrr
 
-  #   # -- Host addresses. Helm template can be passed.
-  #   hostnames: []
+    # -- Host addresses. Helm template can be passed.
+    hostnames: 
+      - autobrr.dartus.fr
 
-  #   # -- Configure rules for routing. Defaults to the primary service.
-  #   rules:
-  #     - # -- Configure backends where matching requests should be sent.
-  #       backendRefs: []
-  #       ## Configure conditions used for matching incoming requests. Only for HTTPRoutes
-  #       matches:
-  #         - path:
-  #             type: PathPrefix
-  #             value: /
-  #       ## Request filters that are applied to the rules.
-  #       filters: []
-  #       ## Request timeout that are applied to the rules.
-  #       timeouts: {}
+    # -- Configure rules for routing. Defaults to the primary service.
+    rules:
+      - # -- Configure backends where matching requests should be sent.
+        backendRefs: 
+          - name: autobrr
+            port: 7878
+        ## Configure conditions used for matching incoming requests. Only for HTTPRoutes
+        matches:
+          - path:
+              type: PathPrefix
+              value: /
+        ## Request filters that are applied to the rules.
+        filters: 
+          - type: ExtensionRef
+            extensionRef:
+              group: traefik.io
+              kind: Middleware
+              name: authentik-forward-auth
+        ## Request timeout that are applied to the rules.
+        timeouts: {}
 
 # -- Configure persistence for the chart here.
 # Additional items can be added by adding a dictionary key similar to the 'config' key.
 # [[ref]](https://bjw-s.github.io/helm-charts/docs/common-library/common-library-storage)
 # @default -- See below
-persistence:
-
-  santa:
+persistence: 
+  config:
     enabled: true
-    type : persistentVolumeClaim
-    existingClaim: pvc-santa
+    type : emptyDir
+    globalMounts:
+      - path: /tmp
+        readOnly: false
+  config:
+    enabled: true
+    type: persistentVolumeClaim
+    existingClaim: pvc-autobrr-config
+    globalMounts:
+      - path: /config
+
+#   config:
+#   #   # -- Enables or disables the persistence item. Defaults to true
+#     enabled: true
+
+#   #   # -- Sets the persistence type
+#   #   # Valid options are persistentVolumeClaim, emptyDir, nfs, hostPath, secret, configMap or custom
+#     type: secret
+#     name: autobrrConfig
+
   #   # -- Storage Class for the config volume.
   #   # If set to `-`, dynamic provisioning is disabled.
   #   # If set to something else, the given storageClass is used.
@@ -1037,3 +931,7 @@ rbac:
   #       - kind: ServiceAccount
   #         name: test
   #         namespace: "{{ .Release.Namespace }}"
+  #       - kind: Group
+  #         name: oidc:/test-user
+  #       - kind: User
+  #         name: username
