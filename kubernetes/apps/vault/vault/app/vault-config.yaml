@@ -22,6 +22,9 @@ data:
     path "kv-v2/data/postgresql/arr" {
       capabilities = ["read"]
     }
+    path "kv-v2/data/autobrr/*" {
+      capabilities = ["read"]
+    }
   ddns-updater-policy.json: |
 
     path "kv-v2/data/ddns-updater/*" {
@@ -363,6 +366,7 @@ data:
         vault kv put kv-v2/wx/list list.json="@/config/cred/wx-list"
         vault kv put kv-v2/tandoor key="@/config/cred/tandoorKey" oidcProvider="@/config/cred/tandoorSocialProvider"
         vault kv put kv-v2/paperless oidcProvider="@/config/cred/paperlessSocialProvider" gmailOidcClient="@/config/cred/paperlessGmailOIDCClient" gmailOidcSecret="@/config/cred/paperlessGmailOIDCSecret"
+        vault kv put kv-v2/autobrr oidcSecret="@/config/cred/autobrrOIDCSecret" oidcClient="@/config/cred/autobrrOIDCClient"
         vault kv put kv-v2/ghostfolio oidcSecret="@/config/cred/ghostfolioOIDCSecret" oidcClient="@/config/cred/ghostfolioOIDCClient" salt="@/config/cred/ghostfolioSalt" secretKey="@/config/cred/ghostfolioSecretKey"
         vault kv put kv-v2/zerossl keyID="@/config/cred/zeroSSLID" HMAC="@/config/cred/zeroSSLHMAC"
         vault kv put kv-v2/mealie oidcSecret="@/config/cred/mealieOIDCSecret" oidcClient="@/config/cred/mealieOIDCClient"
