@@ -269,9 +269,9 @@ controllers:
 
         image:
           # -- image repository
-          repository: ghcr.io/autobrr/autobrr
+          repository: ghcr.io/ygege/ygege
           # -- image tag
-          tag: v1.71.0@sha256:db9794958a0f9db93059c1e9f06193a063ce3846d346d7a7c9eca607c6617c51
+          tag: latest@sha256:56f28df68c5806ef81e639e826afc004e17e9f43f08848a8aa0d5649316cc49a
           # -- image pull policy
           pullPolicy: IfNotPresent
 
@@ -284,43 +284,29 @@ controllers:
 
 
         env:
-          AUTOBRR__PORT: &port 7474
-          AUTOBRR__LOG_LEVEL: INFO
-          AUTOBRR__CHECK_FOR_UPDATES: "false"
-          # AUTOBRR__HOST: string
-          # AUTOBRR__BASE_URL: string
-          # AUTOBRR__LOG_LEVEL: string
-          # AUTOBRR__LOG_PATH: string
-          # AUTOBRR__LOG_MAX_SIZE: string/int without MB
-          # AUTOBRR__LOG_MAX_BACKUPS: string/int
-          # AUTOBRR__SESSION_SECRET: string
-          # AUTOBRR__CUSTOM_DEFINITIONS: string
-          AUTOBRR__DATABASE_TYPE: postgres
-          AUTOBRR__POSTGRES_HOST: cnpg-cluster-rw.database.svc.cluster.local
-          AUTOBRR__POSTGRES_PORT: "5432"
-          AUTOBRR__POSTGRES_DATABASE: autobrr
-          AUTOBRR__POSTGRES_USER: 
+          BIND_PORT: &port 8715
+          YGG_USERNAME:
             valueFrom:
               secretKeyRef:
-                name: arr-db-secret
-                key: username
-          AUTOBRR__POSTGRES_PASS: 
+                name: arr-conf-secret
+                key: yggUsername
+          YGG_PASSWORD:
             valueFrom:
               secretKeyRef:
-                name: arr-db-secret
-                key: password
-          AUTOBRR__POSTGRES_SSLMODE: disable
-          # AUTOBRR__POSTGRES_EXTRA_PARAMS: string
-          # AUTOBRR__OIDC_ENABLED: bool
-          # AUTOBRR__OIDC_ISSUER: string
-          # AUTOBRR__OIDC_CLIENT_ID: string
-          # AUTOBRR__OIDC_CLIENT_SECRET: string
-          # AUTOBRR__OIDC_REDIRECT_URL: string
-          # AUTOBRR__OIDC_DISABLE_BUILT_IN_LOGIN: bool
-          # AUTOBRR__METRICS_ENABLED: bool
-          # AUTOBRR__METRICS_HOST: string
-          # AUTOBRR__METRICS_PORT: int
-          # AUTOBRR__METRICS_BASIC_AUTH_USERS: string
+                name: arr-conf-secret
+                key: yggPassword
+          LOG_LEVEL: "debug"          
+          # ygege__POSTGRES_EXTRA_PARAMS: string
+          # ygege__OIDC_ENABLED: bool
+          # ygege__OIDC_ISSUER: string
+          # ygege__OIDC_CLIENT_ID: string
+          # ygege__OIDC_CLIENT_SECRET: string
+          # ygege__OIDC_REDIRECT_URL: string
+          # ygege__OIDC_DISABLE_BUILT_IN_LOGIN: bool
+          # ygege__METRICS_ENABLED: bool
+          # ygege__METRICS_HOST: string
+          # ygege__METRICS_PORT: int
+          # ygege__METRICS_BASIC_AUTH_USERS: string
 
 #         # -- Environment variables. Template enabled.
 #         # Syntax options:
@@ -374,40 +360,14 @@ controllers:
 
 #         # -- Probe configuration
 #         # -- [[ref]](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/)
-        probes:
-          liveness:
-            enabled: true
-            ## Set this to true if you wish to specify your own livenessProbe
-            custom: true
-            ## The spec field contains the values for the default livenessProbe.
-            ## If you selected custom: true, this field holds the definition of the livenessProbe.
-            spec:
-              httpGet:
-                path: /api/healthz/liveness
-                port: *port
-              initialDelaySeconds: 0
-              periodSeconds: 10
-              timeoutSeconds: 1
-              failureThreshold: 3
-          readiness:
-            enabled: true
-            custom: true
-            spec:
-              httpGet:
-                path: /api/healthz/readiness
-                port: *port
-              initialDelaySeconds: 0
-              periodSeconds: 10
-              timeoutSeconds: 1
-              failureThreshold: 3
-          startup:
-            enabled: true
-            spec:
-              httpGet:
-                path: /api/healthz/liveness
-                port: *port
-              failureThreshold: 30
-              periodSeconds: 10
+        # probes:
+        #   liveness:
+        #     enabled: true
+        #     ## Set this to true if you wish to specify your own livenessProbe
+        #     custom: true
+        #     ## The spec field contains the values for the default livenessProbe.
+        #     ## If you selected custom: true, this field holds the definition of the livenessProbe.
+        #     spec:
 
 #           # -- Startup probe configuration
 #           startup:
@@ -622,7 +582,7 @@ ingress:
 #   # -- An example is shown below
   main:
     # -- Enables or disables the ingress
-    enabled: true
+    enabled: false
 
     # # -- Override the name suffix that is used for this ingress.
     # nameOverride:
@@ -650,7 +610,7 @@ ingress:
     ## Configure the hosts for the ingress
     hosts:
       - # -- Host address. Helm template can be passed.
-        host: autobrr.dartus.fr
+        host: ygege.dartus.fr
         ## Configure the paths for the host
         paths:
           - # -- Path.  Helm template can be passed.
@@ -669,8 +629,8 @@ ingress:
     # -- Configure TLS for the ingress. Both secretName and hosts can process a Helm template.
     tls:
       - hosts:
-        - autobrr.dartus.fr
-        secretName: autobrr.dartus.fr-tls
+        - ygege.dartus.fr
+        secretName: ygege.dartus.fr-tls
 
     #  - secretName: chart-example-tls
     #    hosts:
@@ -750,17 +710,17 @@ route:
         # Namespace of the referent resource
         namespace: network
         # Name of the section within the target resource.
-        sectionName: websecure-autobrr
+        sectionName: websecure-ygege
 
     # -- Host addresses. Helm template can be passed.
     hostnames: 
-      - autobrr.dartus.fr
+      - ygege.dartus.fr
 
     # -- Configure rules for routing. Defaults to the primary service.
     rules:
       - # -- Configure backends where matching requests should be sent.
         backendRefs: 
-          - name: autobrr
+          - name: ygege
             port: 7878
         ## Configure conditions used for matching incoming requests. Only for HTTPRoutes
         matches:
@@ -791,7 +751,7 @@ persistence:
   config:
     enabled: true
     type: persistentVolumeClaim
-    existingClaim: pvc-autobrr-config
+    existingClaim: pvc-ygege-config
     globalMounts:
       - path: /config
 
@@ -802,7 +762,7 @@ persistence:
 #   #   # -- Sets the persistence type
 #   #   # Valid options are persistentVolumeClaim, emptyDir, nfs, hostPath, secret, configMap or custom
 #     type: secret
-#     name: autobrrConfig
+#     name: ygegeConfig
 
   #   # -- Storage Class for the config volume.
   #   # If set to `-`, dynamic provisioning is disabled.

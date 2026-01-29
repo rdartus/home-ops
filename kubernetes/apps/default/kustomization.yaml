@@ -7,12 +7,12 @@ resources:
   - ./automate-wx/ks.yaml
   - ./endlessh/ks.yaml
   - ./authentik/ks.yaml
+  # - ./autobrr/ks.yaml
   - ./hajimari/ks.yaml
   - ./redis/ks.yaml
   - ./prowlarr/ks.yaml
   - ./radarr/ks.yaml
   - ./sonarr/ks.yaml
-  - ./autobrr/ks.yaml
   - ./flaresolverr/ks.yaml
   - ./filebrowser/ks.yaml
   - ./jellyfin/ks.yaml
@@ -21,6 +21,7 @@ resources:
   - ./books/ks.yaml
   - ./livres/ks.yaml
   - ./immich/ks.yaml
+  - ./ygege/ks.yaml
   # - ./christmas/ks.yaml
   - ./test-christmas/ks.yaml
   - ./ghostfolio/ks.yaml

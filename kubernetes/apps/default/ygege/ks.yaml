@@ -1,0 +1,32 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/kustomize.toolkit.fluxcd.io/kustomization_v1.json
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: &app ygege
+  namespace: &namespace default
+spec:
+  commonMetadata:
+    labels:
+      app.kubernetes.io/name: *app
+  interval: 7m
+  path: ./kubernetes/apps/default/ygege/app
+  dependsOn:
+    - name: vault-secrets-operator
+      namespace: vault
+    - name: traefik
+      namespace: network
+    - name: authentik
+      namespace: default
+    - name: sonarr
+      namespace: default
+    - name: pg-restore
+      namespace: database
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+    namespace: flux-system
+  targetNamespace: *namespace
+  timeout: 5m
+  wait: true

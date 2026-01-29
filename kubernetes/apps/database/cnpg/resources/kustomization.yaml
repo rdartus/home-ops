@@ -17,6 +17,7 @@ resources:
   - ./cnpg-chef-secret.yaml
   - ./db-tandoor.yaml
   - ./db-authentik.yaml
+  - ./db-autobrr.yaml
   - ./db-prowlarr-log.yaml
   - ./db-prowlarr-main.yaml
   - ./db-radarr-log.yaml
