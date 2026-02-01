@@ -14,6 +14,10 @@ data:
     path "kv-v2/data/default/*" {
       capabilities = ["read"]
     }
+    path "kv-v2/data/ghcr" {
+      capabilities = ["read"]
+    }
+
   arr-policy.json: |
 
     path "kv-v2/data/arr/*" {
@@ -341,6 +345,7 @@ data:
         vault auth enable kubernetes
         vault write auth/kubernetes/config kubernetes_host="https://$KUBERNETES_PORT_443_TCP_ADDR:443"
 
+        vault kv put kv-v2/ghcr username="@/config/cred/ghcr-username" token="@/config/cred/ghcr-token"
         # vault kv put kv-v2/postgresql/config init-authentik="@/config/cred/init-authentik.sql" init-radarr-log="@/config/cred/init-radarr-log.sql" init-radarr-main="@/config/cred/init-radarr-main.sql" init-sonarr-log="@/config/cred/init-sonarr-log.sql" init-sonarr-main="@/config/cred/init-sonarr-main.sql" init-prowlarr-log="@/config/cred/init-prowlarr-log.sql" init-prowlarr-main="@/config/cred/init-prowlarr-main.sql" init-user-auth="@/config/cred/init-user-auth.sql" init-DB="@/config/cred/init-DB.sql"
         vault kv put kv-v2/postgresql/superuser username="postgres" password="@/config/cred/DB-superuser-password"
         vault kv put kv-v2/postgresql/arr username="@/config/cred/DB-arr-user" password="@/config/cred/DB-arr-password"
