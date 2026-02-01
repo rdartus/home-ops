@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: pvc-santa2
+  name: pvc-test-christmas
   namespace: default
 spec:
   resources:

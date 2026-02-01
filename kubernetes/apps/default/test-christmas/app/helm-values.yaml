@@ -898,7 +898,7 @@ persistence:
   santa:
     enabled: true
     type : persistentVolumeClaim
-    existingClaim: pvc-santa
+    existingClaim: pvc-test-christmas
   #   # -- Storage Class for the config volume.
   #   # If set to `-`, dynamic provisioning is disabled.
   #   # If set to something else, the given storageClass is used.
