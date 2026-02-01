@@ -5,6 +5,7 @@ kind: Kustomization
 resources:
   - ./default-auth.yaml
   - ./default-secret.yaml
+  - ./pull-secret.yaml
   - ./idm-auth.yaml
   - ./authentik-secret-db.yaml
   - ./authentik-secret-default.yaml
