@@ -61,7 +61,7 @@ defaultPodOptions:
   hostUsers:
 
   # -- Set image pull secrets
-  imagePullSecrets: []
+  imagePullSecrets: [ghcr-secret]
 
   # -- Set labels on the Pod. Pod-specific values will be merged with this.
   labels: {}
