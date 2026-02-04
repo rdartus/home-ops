@@ -120,7 +120,7 @@ controllers:
 
         image:
           # -- image repository
-          repository: ghcr.io/rdartus/test-christmas-frontend
+          repository: ghcr.io/rdartus/testchristmas-frontend
           # -- image tag
           tag: latest
           # -- image pull policy
@@ -135,7 +135,7 @@ controllers:
 
         image:
           # -- image repository
-          repository: ghcr.io/rdartus/test-christmas-backend
+          repository: ghcr.io/rdartus/testchristmas-backend
           # -- image tag
           tag: latest
           # -- image pull policy
