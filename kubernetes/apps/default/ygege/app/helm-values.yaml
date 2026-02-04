@@ -1,7 +1,7 @@
 # yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/refs/heads/main/charts/library/common/values.schema.json
 ---
 global:
-  # -- Set an override for the prefix of the fullnam
+  # -- Set an override for the prefix of the fullname
   nameOverride:
   # -- Set the entire name definition
   fullnameOverride:
@@ -269,9 +269,9 @@ controllers:
 
         image:
           # -- image repository
-          repository: ghcr.io/ygege/ygege
+          repository: uwucode/ygege
           # -- image tag
-          tag: latest@sha256:56f28df68c5806ef81e639e826afc004e17e9f43f08848a8aa0d5649316cc49a
+          tag: latest@sha256:584aee2c088adf5657268726d78dd83adeeec759d5b78e28681fe506a3f1cdd6
           # -- image pull policy
           pullPolicy: IfNotPresent
 
