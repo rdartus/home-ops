@@ -78,12 +78,12 @@ defaultPodOptions:
   schedulerName: ""
 
   # -- Configure the Security Context for the Pod
-  securityContext: 
-    runAsNonRoot: true
-    runAsUser: 1001
-    runAsGroup: 100
-    fsGroup: 100
-    fsGroupChangePolicy: OnRootMismatch
+  securityContext: {}
+    # runAsNonRoot: true
+    # runAsUser: 1001
+    # runAsGroup: 100
+    # fsGroup: 100
+    # fsGroupChangePolicy: OnRootMismatch
 
   # -- Allows sharing process namespace between containers in a Pod
   # -- [[ref](https://kubernetes.io/docs/tasks/configure-pod-container/share-process-namespace/)]
