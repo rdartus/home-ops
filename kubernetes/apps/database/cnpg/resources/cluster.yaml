@@ -9,7 +9,7 @@ metadata:
     argocd.argoproj.io/sync-wave: "6"
 
 spec:
-  instances: 1
+  instances: 2
   certificates:
     serverTLSSecret: cnpg-server-cert
     serverCASecret: cnpg-server-cert

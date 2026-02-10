@@ -560,7 +560,7 @@ sops:
             dWl5dXVTU1NENnlrV2JGYlA3eExPT1UK42yh6D/7IYN8agqS80Mce/eJco5Cbkrp
             +MwW9R7IrpWPwqV2A+z04NAAIap+q2iIt+kSKmH9fu2LQBVHcOlEyA==
             -----END AGE ENCRYPTED FILE-----
-    lastmodified: "2025-10-07T22:38:54Z"
-    mac: ENC[AES256_GCM,data:9swwcMx9mLspQlfJz/Py06+fTrWwE8J2a/fk60r9u1K/oVNJpflfMMi0aQpkUmtIx1yHUJ4CtjGHwD/bwqYdrRLqLlCUNp+oK3DdWO1R3TEqyQIPcb/MiX72MXdUtgFRCud/n0IkClcKCUJCAnzi7zlOvIdlJdInw9t80R9sYcw=,iv:WBXXBevfHMatHuYRQbCCcSmMZcuNK4PMZVQVs9hCCm0=,tag:Ha8gKYWrGr0q9tP54n972g==,type:str]
+    lastmodified: "2026-02-10T11:12:41Z"
+    mac: ENC[AES256_GCM,data:ZVnlPsJmpMX2u/u24jbi1DIY3EuTzfVff6PYcLE/HlPVu1R7reF7JSFgDUGGW1EAZRucybFjArkc1BrTOmt2Gl/3CwUi2asACph4F8Wa31Pi8gTw+wxS58786KRgdUCQSQhsS6rgQJvLptIku/dzrAtGhhiMY03/3j2jVZMjmHA=,iv:3hBoTuOw3f31ixwIO4uk5N7uMJn+f3ef1lUyd61O/Us=,tag:dXj634ZMzhmduBcgFgATlA==,type:str]
     encrypted_regex: ^(certs|ca|secret|secret.*|serviceAccount|aggregatorCA|token|id|key)$
     version: 3.10.2
