@@ -238,7 +238,7 @@ gateway:
     #   mode: Terminate
     websecure-traefik:
       port: 443
-      hostname: "traefik2.dartus.fr"
+      hostname: "traefik.dartus.fr"
       protocol: HTTPS
       namespacePolicy: 
         from: All 

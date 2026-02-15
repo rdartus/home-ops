@@ -119,7 +119,7 @@ controllers:
           # -- image repository
           repository: lscr.io/linuxserver/kavita
           # -- image tag
-          tag: latest
+          tag: latest@sha256:072793ab41f048a8638b4ac12ff8bf1c6c168273d233b8a1326ba6d711e74405
           # -- image pull policy
           pullPolicy: IfNotPresent
 
