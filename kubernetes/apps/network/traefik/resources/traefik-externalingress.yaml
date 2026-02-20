@@ -5,7 +5,7 @@ metadata:
   namespace: default
 spec:
   type: ExternalName
-  externalName: piege.dartus.fr   # <-- remplace par le FQDN ou IP résolvable
+  externalName: nascobar.dartus.fr   # <-- remplace par le FQDN ou IP résolvable
   ports:
     - port: &port 7476
       targetPort: *port
@@ -33,6 +33,45 @@ spec:
         pathType: Prefix
         backend:
           service:
-            name: qui-external
+            name: qui
             port:
               number: 7476
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: piege
+  namespace: default
+spec:
+  type: ExternalName
+  externalName: piege.dartus.fr   # <-- remplace par le FQDN ou IP résolvable
+  ports:
+    - port: &port 80
+      targetPort: *port
+      protocol: TCP
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: piege
+  namespace: default
+  annotations:
+    kubernetes.io/ingress.class: traefik
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    # optionnel : rediriger http->https (Traefik-specific middleware peut faire ça)
+spec:
+  tls:
+  - hosts:
+    - piege.dartus.fr
+    secretName: piege-tls
+  rules:
+  - host: piege.dartus.fr
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: piege
+            port:
+              number: 80
