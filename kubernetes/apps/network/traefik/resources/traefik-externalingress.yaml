@@ -1,29 +1,38 @@
-apiVersion: traefik.io/v1alpha1
-kind: IngressRouteTCP
+apiVersion: v1
+kind: Service
 metadata:
-  name: pi-ingress
-  namespace: network
-  annotations:
-    argocd.argoproj.io/sync-wave: "-100"
-    argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
+  name: qui
+  namespace: default
 spec:
-  entryPoints:
-    - websecure
-  routes:
-    - match: HostSNI(`tor.dartus.fr`)
-      services:
-        - name: pi-external
-          port: 443
-
-    - match: HostSNI(`authelia.dartus.fr`)
-      services:
-        - name: pi-external
-          port: 443
-
-    - match: HostSNI(`traefik.dartus.fr`)
-      services:
-        - name: pi-external
-          port: 443
-
+  type: ExternalName
+  externalName: piege.dartus.fr   # <-- remplace par le FQDN ou IP résolvable
+  ports:
+    - port: &port 7476
+      targetPort: *port
+      protocol: TCP
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: qui
+  namespace: default
+  annotations:
+    kubernetes.io/ingress.class: traefik
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    # optionnel : rediriger http->https (Traefik-specific middleware peut faire ça)
+spec:
   tls:
-    passthrough: true
+  - hosts:
+    - tor.dartus.fr
+    secretName: qui-tls
+  rules:
+  - host: tor.dartus.fr
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: qui-external
+            port:
+              number: 7476
