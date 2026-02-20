@@ -16,9 +16,11 @@ kind: Ingress
 metadata:
   name: qui
   namespace: network
+  ingressClassName: traefik-ingresses
   annotations:
     kubernetes.io/ingress.class: traefik
-    cert-manager.io/cluster-issuer: letsencrypt-prod
+    cert-manager.io/cluster-issuer: zerossl-prod
+    acme.cert-manager.io/http01-edit-in-place: "false"
     # optionnel : rediriger http->https (Traefik-specific middleware peut faire ça)
 spec:
   tls:
@@ -55,9 +57,11 @@ kind: Ingress
 metadata:
   name: piege
   namespace: network
+  ingressClassName: traefik-ingresses
   annotations:
     kubernetes.io/ingress.class: traefik
-    cert-manager.io/cluster-issuer: letsencrypt-prod
+    cert-manager.io/cluster-issuer: zerossl-prod
+    acme.cert-manager.io/http01-edit-in-place: "false"
     # optionnel : rediriger http->https (Traefik-specific middleware peut faire ça)
 spec:
   tls:
