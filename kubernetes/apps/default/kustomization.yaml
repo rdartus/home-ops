@@ -8,7 +8,7 @@ resources:
   - ./endlessh/ks.yaml
   - ./authentik/ks.yaml
   # - ./autobrr/ks.yaml
-  # - ./coder/ks.yaml
+  - ./coder/ks.yaml
   - ./hajimari/ks.yaml
   - ./redis/ks.yaml
   - ./prowlarr/ks.yaml

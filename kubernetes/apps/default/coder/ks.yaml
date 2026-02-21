@@ -16,7 +16,7 @@ spec:
       namespace: vault
     - name: traefik
       namespace: network
-    - name: jellyfin
+    - name: authentik
       namespace: default
     - name: longhorn-restore
       namespace: longhorn-system
