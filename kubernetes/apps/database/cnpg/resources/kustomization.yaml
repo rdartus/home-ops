@@ -15,6 +15,7 @@ resources:
   - ./cnpg-paper-secret.yaml
   - ./cnpg-office-secret.yaml
   - ./cnpg-chef-secret.yaml
+  - ./cnpg-coder-secret.yaml
   - ./db-tandoor.yaml
   - ./db-authentik.yaml
   - ./db-autobrr.yaml
@@ -30,3 +31,4 @@ resources:
   - ./db-ghostfolio.yaml
   - ./db-immich.yaml
   - ./db-mealie.yaml
+  - ./db-code.yaml
