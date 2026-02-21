@@ -104,6 +104,14 @@ spec:
       login: true
       passwordSecret:
         name: office-secret
+    - name: coder
+      connectionLimit: -1
+      inherit: true
+      ensure: present
+      comment: coder user
+      login: true
+      passwordSecret:
+        name: coder-secret
 
   bootstrap:
     initdb:
