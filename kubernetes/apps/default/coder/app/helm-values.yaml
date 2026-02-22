@@ -49,9 +49,6 @@ coder:
     - name: CODER_PG_CONNECTION_URL
       valueFrom:
         secretKeyRef:
-          # You'll need to create a secret called coder-db-url with your
-          # Postgres connection URL like:
-          # postgres://coder:password@postgres:5432/coder?sslmode=disable
           name: coder-db-secret
           key: url
 
