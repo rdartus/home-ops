@@ -286,7 +286,7 @@ coder:
 
   # coder.resources -- The resources to request for Coder. The below values are
   # defaults and can be overridden.
-  resources:
+  resources: null
     # limits:
     #  cpu: 2000m
     #  memory: 4096Mi
