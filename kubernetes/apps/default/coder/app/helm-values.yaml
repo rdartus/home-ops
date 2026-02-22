@@ -293,9 +293,9 @@ coder:
     # limits:
     #  cpu: 2000m
     #  memory: 4096Mi
-    # requests:
-    #  cpu: 2000m
-    #  memory: 4096Mi
+    requests:
+     cpu: 1000m
+     memory: 1024Mi
 
   # coder.readinessProbe -- Readiness probe configuration for the Coder container.
   # See https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#Probe
