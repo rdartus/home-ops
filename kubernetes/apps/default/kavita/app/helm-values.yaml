@@ -611,7 +611,7 @@ ingress:
     # labels: {}
 
     # # -- Set the ingressClass that is used for this ingress.
-    # className:
+    className: traefik-ingresses
 
     # # -- Configure the defaultBackend for this ingress. This will disable any other rules for the ingress.
     # defaultBackend:
@@ -634,9 +634,21 @@ ingress:
               # identifier: main
               # -- Overrides the service port number reference for this path
               # port: 8989
+      - # -- Host address. Helm template can be passed.
+        host: manga.dartus.fr
+        ## Configure the paths for the host
+        paths:
+          - # -- Path.  Helm template can be passed.
+            path: /
+            pathType: Prefix
+            service:
+              identifier: main
+              port: http
+
     tls:
       - hosts:
         - kavita.dartus.fr
+        - manga.dartus.fr
         secretName: kavita.dartus.fr-tls
 
 # -- Configure the ServiceMonitors for the chart here.
