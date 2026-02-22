@@ -32,14 +32,14 @@ coder:
     - name: CODER_OIDC_CLIENT_ID
       valueFrom:
         secretKeyRef:
-          name: coder-authentik-secret
-          key: coder-app-secret
+          name: coder-app-secret
+          key: oidcClient
 
     - name: CODER_OIDC_CLIENT_SECRET 
       valueFrom:
         secretKeyRef:
-          name: coder-authentik-secret
-          key: coder-app-secret
+          name: coder-app-secret
+          key: oidcSecret
     - name: CODER_OIDC_SIGN_IN_TEXT 
       value: Log in with authentik
     - name: CODER_OIDC_ICON_URL 
