@@ -46,7 +46,7 @@ metadata:
   namespace: network
 spec:
   type: ExternalName
-  externalName: piege.dartus.fr   # <-- remplace par le FQDN ou IP résolvable
+  externalName: piege.lan   # <-- remplace par le FQDN ou IP résolvable
   ports:
     - port: &port 80
       targetPort: *port
