@@ -24,10 +24,10 @@ coder:
   #
   # We will additionally set CODER_ACCESS_URL if unset to the cluster service
   # URL, unless coder.envUseClusterAccessURL is set to false.
-  
+
   env: 
     - name: CODER_OIDC_ISSUER_URL 
-      value: https://authentik.company/application/o/coder/
+      value: https://authentik.dartus.fr/application/o/coder/
     - name: CODER_OIDC_EMAIL_DOMAIN 
       value: acme.company,acme-corp.company
     - name: CODER_OIDC_CLIENT_ID
@@ -44,7 +44,7 @@ coder:
     - name: CODER_OIDC_SIGN_IN_TEXT 
       value: Log in with authentik
     - name: CODER_OIDC_ICON_URL 
-      value: https://authentik.company/static/dist/assets/icons/icon.png
+      value: https://authentik.dartus.fr/static/dist/assets/icons/icon.png
     - name: CODER_ACCESS_URL
       value: "https://coder.dartus.fr"
     - name: CODER_PG_CONNECTION_URL
