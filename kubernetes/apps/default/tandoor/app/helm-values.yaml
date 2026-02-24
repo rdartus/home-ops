@@ -122,7 +122,7 @@ controllers:
           # -- image repository
           repository: vabene1111/recipes
           # -- image tag
-          tag: 2.3.3
+          tag: 2.5.3
           # -- image pull policy
           pullPolicy: IfNotPresent
 
