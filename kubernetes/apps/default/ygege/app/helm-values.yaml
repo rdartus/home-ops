@@ -271,7 +271,7 @@ controllers:
           # -- image repository
           repository: uwucode/ygege
           # -- image tag
-          tag: latest@sha256:584aee2c088adf5657268726d78dd83adeeec759d5b78e28681fe506a3f1cdd6
+          tag: latest@sha256:5080897f143a287caf4c081e35258928e2cce004021b69c858c69ff6493578e6
           # -- image pull policy
           pullPolicy: IfNotPresent
 
