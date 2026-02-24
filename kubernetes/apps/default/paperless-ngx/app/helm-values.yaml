@@ -177,7 +177,7 @@ controllers:
       gotenberg:
         image: 
           repository: docker.io/gotenberg/gotenberg
-          tag: 8.25
+          tag: 8.27
           # -- image pull policy
           pullPolicy: IfNotPresent
 
