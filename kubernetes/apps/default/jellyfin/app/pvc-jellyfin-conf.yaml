@@ -6,7 +6,7 @@ metadata:
 spec:
   resources:
     requests:
-    storage:  10Gi
+    storage:  12Gi
   accessModes:
     - ReadWriteOnce
   storageClassName: longhorn
