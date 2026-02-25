@@ -121,7 +121,7 @@ controllers:
           # -- image repository
           repository: ghcr.io/paperless-ngx/paperless-ngx
           # -- image tag
-          tag: latest
+          tag: 2.20.8@sha256:e231ec11a1907bfdf172b4f120b4ef1994feb71e6cc624e8b88c53e2da3dfb62
           # -- image pull policy
           pullPolicy: IfNotPresent
         dependsOn: [tika, gotenberg]
@@ -177,7 +177,7 @@ controllers:
       gotenberg:
         image: 
           repository: docker.io/gotenberg/gotenberg
-          tag: 8.27
+          tag: 8.27@sha256:d71ab8c13b6bd47c7bc81195082005dfb17eaa75e8b1fadd347a64ee66ed98d5
           # -- image pull policy
           pullPolicy: IfNotPresent
 
@@ -190,7 +190,7 @@ controllers:
       tika:
         image: 
           repository: docker.io/apache/tika
-          tag: latest
+          tag: 3.2.3.0@sha256:c0154cb95587cde64be74f35ada1a2bd7892219f3f0ac3c9dc6cab34046b3573
           # -- image pull policy
           pullPolicy: IfNotPresent
     # -- Set annotations on the deployment/statefulset/daemonset/cronjob/job

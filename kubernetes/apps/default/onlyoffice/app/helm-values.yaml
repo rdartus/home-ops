@@ -266,7 +266,7 @@ controllers:
           # -- image repository
           repository: onlyoffice/documentserver
           # -- image tag
-          tag: latest
+          tag: 9.3@sha256:4cb83b05d91d6776de74a9f65645aac8838161b27a95ae00c776f58ae53dd111
           # -- image pull policy
           pullPolicy: IfNotPresent
 

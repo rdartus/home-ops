@@ -266,9 +266,9 @@ controllers:
           # -- image repository
           # repository: ghcr.io/home-operations/qbittorrent
           # tag: rolling
-          repository: lscr.io/linuxserver/qbittorrent
+          repository: linuxserver/qbittorrent
           # @default -- chart.appVersion
-          tag: latest
+          tag: 5.1.4@sha256:065792d2b11f0facff340210fc1cf13623b029a94ecdf08b02d06d922205f618
           # -- image pull policy
           pullPolicy: IfNotPresent
 
