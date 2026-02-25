@@ -17,8 +17,8 @@ spec:
       namespace: vault
     - name: cnpg-resources
       namespace: database
-    - name: pg-restore
-      namespace: database
+    # - name: pg-restore
+    #   namespace: database
     # - name: rabbitmq
     #   namespace: default
     # - name: rabbitmq-resources

@@ -20,8 +20,8 @@ spec:
       namespace: default
     - name: cnpg
       namespace: database
-    - name: pg-restore
-      namespace: database
+    # - name: pg-restore
+    #   namespace: database
 #OPTIONAL
     - name: flaresolverr
       namespace: default

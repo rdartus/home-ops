@@ -17,8 +17,8 @@ spec:
       namespace: vault
     - name: traefik
       namespace: network
-    - name: pg-restore
-      namespace: database
+    # - name: pg-restore
+    #   namespace: database
 #OPTIONAL
     - name: authentik
       namespace: *namespace
