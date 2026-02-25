@@ -30,7 +30,7 @@ coder:
     - name: CODER_OIDC_EMAIL_DOMAIN 
       value: gmail.com,dartus.fr
     - name: CODER_DISABLE_PASSWORD_AUTH 
-      value: true
+      value: "true"
     - name: CODER_OIDC_CLIENT_ID
       valueFrom:
         secretKeyRef:
