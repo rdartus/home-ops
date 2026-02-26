@@ -268,7 +268,7 @@ controllers:
           # tag: rolling
           repository: linuxserver/qbittorrent
           # @default -- chart.appVersion
-          tag: 5.1.4@sha256:065792d2b11f0facff340210fc1cf13623b029a94ecdf08b02d06d922205f618
+          tag: 20.04.1@sha256:fc98c8af048936d0070dc5e5992feab08664f8a61a860d91be02f782f8721485
           # -- image pull policy
           pullPolicy: IfNotPresent
 
