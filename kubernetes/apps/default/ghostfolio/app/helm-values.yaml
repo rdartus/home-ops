@@ -118,7 +118,7 @@ controllers:
           pullPolicy: IfNotPresent
 
         env:
-          REDIS_HOST: redis-master.default.svc.cluster.local
+          REDIS_HOST: valkey.default.svc.cluster.local
           ROOT_URL: https://budget.dartus.fr
           JWT_SECRET_KEY: 
             valueFrom:

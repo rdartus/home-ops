@@ -18,8 +18,8 @@ spec:
       namespace: network
     # - name: pg-restore
     #   namespace: database
-    - name: redis
-      namespace: default
+    - name: valkey
+      namespace: *namespace
   prune: true
   sourceRef:
     kind: GitRepository

@@ -293,7 +293,7 @@ controllers:
           #     secretKeyRef:
           #       name: onlyoffice-secret
           #       key: amqp
-          # REDIS_SERVER_HOST: redis-master.default.svc.cluster.local
+          # REDIS_SERVER_HOST: valkey.default.svc.cluster.local
           # REDIS_SERVER_PORT: 6379
           JWT_ENABLED: true
           JWT_SECRET:
