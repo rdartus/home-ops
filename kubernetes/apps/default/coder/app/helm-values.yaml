@@ -33,6 +33,8 @@ coder:
       value: "true"
     - name: CODER_OIDC_IGNORE_EMAIL_VERIFIED 
       value: "true"
+    - name: CODER_EXPERIMENTS
+      value: "*"
     - name: CODER_OIDC_CLIENT_ID
       valueFrom:
         secretKeyRef:
