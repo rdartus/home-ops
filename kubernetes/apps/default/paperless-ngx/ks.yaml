@@ -12,6 +12,9 @@ spec:
   interval: 7m
   path: ./kubernetes/apps/default/paperless-ngx/app
   prune: true
+  dependsOn:
+    - name: valkey
+      namespace: *namespace
   sourceRef:
     kind: GitRepository
     name: flux-system

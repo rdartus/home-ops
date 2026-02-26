@@ -27,4 +27,5 @@ resources:
   - ./mittwald.yaml
   - ./zitadel.yaml
   - ./runix.yaml
+  - ./valkey.yaml
   # - ./local-path-provisioner.yaml

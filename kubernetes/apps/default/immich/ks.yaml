@@ -27,6 +27,8 @@ spec:
     #   namespace: *namespace
     - name: filebrowser
       namespace: *namespace
+    - name: valkey
+      namespace: *namespace
   prune: true
   sourceRef:
     kind: GitRepository

@@ -10,7 +10,7 @@ resources:
   # - ./autobrr/ks.yaml
   - ./coder/ks.yaml
   - ./hajimari/ks.yaml
-  - ./redis/ks.yaml
+  - ./valkey/ks.yaml
   - ./prowlarr/ks.yaml
   - ./radarr/ks.yaml
   - ./sonarr/ks.yaml
