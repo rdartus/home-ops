@@ -117,7 +117,7 @@ controllers:
 
         image:
           # -- image repository
-          repository: lscr.io/linuxserver/kavita
+          repository: linuxserver/kavita
           # -- image tag
           tag: 0.8.9@sha256:0ddc68e6cc2df4023b1048b0eda61d93ad5bc8ff5ab078be2c3d9354a9121c25
           # -- image pull policy
