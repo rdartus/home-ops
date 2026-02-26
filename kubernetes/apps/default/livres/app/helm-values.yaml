@@ -118,7 +118,7 @@ controllers:
           # -- image repository
           repository: ghcr.io/linuxserver/calibre-web
           # -- image tag
-          tag: 5.33.2@sha256:60f5cf63215a8511a906371ab34bff4c339d5f87c194324cb7d561845d2baae1
+          tag: 0.6.26@sha256:997d1e559f708e61733cd3683c55d2faeb937a55623a7e2cb644e32ce49d9e47
           # -- image pull policy
           pullPolicy: IfNotPresent
 
