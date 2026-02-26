@@ -32,7 +32,7 @@ coder:
     - name: CODER_DISABLE_PASSWORD_AUTH 
       value: "true"
     - name: CODER_EXPERIMENTS 
-      value: "*"
+      value: "workspace-sharing"
     - name: CODER_OIDC_IGNORE_EMAIL_VERIFIED 
       value: "true"
     - name: CODER_OIDC_CLIENT_ID
