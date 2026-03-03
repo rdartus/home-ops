@@ -1,6 +1,5 @@
 # yaml-language-server: $schema=https://raw.githubusercontent.com/crowdsecurity/helm-charts/refs/heads/main/charts/crowdsec/values.schema.json
 ---
-
 # -- for raw logs format: json or cri (docker|containerd)
 container_runtime: containerd
 
@@ -205,7 +204,7 @@ lapi:
           name: crowdsec-secret
           key: bouncer_traefik
     - name: ENROLL_INSTANCE_NAME
-      value: JeanBalade2
+      value: ClusterStop
     # by default disable the agent because it only needs the local API.
     #- name: DISABLE_AGENT
     #  value: "true"
