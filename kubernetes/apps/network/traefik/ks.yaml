@@ -35,6 +35,8 @@ spec:
   dependsOn:
     - name: traefik
       namespace: *namespace
+    - name: crowdsec
+      namespace: *namespace
 #OPTIONAL
     - name: metallb
       namespace: *namespace

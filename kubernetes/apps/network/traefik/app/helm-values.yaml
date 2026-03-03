@@ -66,7 +66,14 @@ deployment:
   #     - name: dsdsocket
   #       mountPath: /socket
   # -- Additional volumes available for use with initContainers and additionalContainers
-  additionalVolumes: []
+  additionalVolumes:
+    # mount the LAPI bouncer key so the plugin can read it from a file
+    - name: crowdsec-key
+      secret:
+        secretName: crowdsec-secret
+        items:
+          - key: bouncer_traefik
+            path: lapi-key
   # - name: dsdsocket
   #   hostPath:
   #     path: /var/run/statsd-exporter
@@ -481,7 +488,10 @@ volumes: []
 #   type: configMap
 
 # -- Additional volumeMounts to add to the Traefik container
-additionalVolumeMounts: []
+additionalVolumeMounts:
+  - name: crowdsec-key
+    mountPath: /etc/crowdsec
+    readOnly: true
 # -- For instance when using a logshipper for access logs
 # - name: traefik-logs
 #   mountPath: /var/log/traefik
@@ -1046,7 +1056,10 @@ ports:
     # It follows the provider naming convention: https://doc.traefik.io/traefik/providers/overview/#provider-namespace
     #   - namespace-name1@kubernetescrd
     #   - namespace-name2@kubernetescrd
-    middlewares: []  # @schema type: [array, null]
+    middlewares:
+      - "crowdsec@kubernetescrd"  # apply the CrowdSec plugin globally on this entrypoint
+      # you can add other middlewares here as needed (e.g. authn)
+
     observability:  # @schema additionalProperties: false
       # -- Enables metrics for this entryPoint.
       metrics:  # @schema type:[boolean, null]; default: true
