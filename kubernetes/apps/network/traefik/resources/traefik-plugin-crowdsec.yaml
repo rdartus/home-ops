@@ -1,4 +1,4 @@
-apiVersion: traefik.containo.us/v1alpha1
+apiVersion: traefik.io/v1alpha1
 kind: Middleware
 metadata:
   name: crowdsec
@@ -14,5 +14,10 @@ spec:
       crowdsecLapiHost: "http://crowdsec-service.network.svc.cluster.local:8080"
       # the key is stored in the `crowdsec-secret` secret mounted below
       crowdsecLapiKeyFile: "/etc/crowdsec/lapi-key"
+      forwardedHeadersTrustedIPs:
+        - 10.0.0.0/8
+        - 192.168.0.0/16
+        - 134.209.137.94
+        - 2a03:b0c0:2:f0::f557:a001
       # refresh interval for stream/cache, not critical for heartbeat
       updateIntervalSeconds: 60
