@@ -37,6 +37,8 @@ spec:
       namespace: *namespace
     - name: crowdsec
       namespace: *namespace
+    - name: cert-manager-issuers
+      namespace: cert-manager
 #OPTIONAL
     - name: metallb
       namespace: *namespace
