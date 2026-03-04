@@ -11,9 +11,9 @@ spec:
   routes:
     - match: Host(`traefik.dartus.fr`)
       kind: Rule
-      middlewares:
-        - name: authentik-forward-auth
-          namespace: network
+      # middlewares:
+      #   - name: authentik-forward-auth
+      #     namespace: network
       services:
         - name: api@internal
           kind: TraefikService
