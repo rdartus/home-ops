@@ -736,6 +736,7 @@ ingress:
       hajimari.io/icon: "bookshelf"
       hajimari.io/appName: "livres"
       cert-manager.io/cluster-issuer: zerossl-prod
+      traefik.ingress.kubernetes.io/router.middlewares: network-crowdsec@kubernetescrd
       acme.cert-manager.io/http01-edit-in-place: "true"
 
     hosts:

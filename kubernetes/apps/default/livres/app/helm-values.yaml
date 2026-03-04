@@ -685,6 +685,7 @@ ingress:
       hajimari.io/appName: "livres"
       traefik.ingress.kubernetes.io/router.middlewares: "network-authentik-forward-auth@kubernetescrd"
       cert-manager.io/cluster-issuer: zerossl-prod
+      traefik.ingress.kubernetes.io/router.middlewares: network-crowdsec@kubernetescrd
       acme.cert-manager.io/http01-edit-in-place: "false"
 
     hosts:

@@ -598,6 +598,7 @@ ingress:
       hajimari.io/group: "Media"
       hajimari.io/icon: "video-vintage"
       cert-manager.io/cluster-issuer: zerossl-prod
+      traefik.ingress.kubernetes.io/router.middlewares: network-crowdsec@kubernetescrd
       acme.cert-manager.io/http01-edit-in-place: "true"
 
 

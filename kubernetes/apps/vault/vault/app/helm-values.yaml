@@ -414,6 +414,7 @@ server:
       hajimari.io/group: "Management"
       hajimari.io/icon: "safe-square"
       cert-manager.io/cluster-issuer: zerossl-prod
+      traefik.ingress.kubernetes.io/router.middlewares: network-crowdsec@kubernetescrd
       acme.cert-manager.io/http01-edit-in-place: "true"
       # cert-manager.io/cluster-issuer: "letsencrypt-prod"
 
