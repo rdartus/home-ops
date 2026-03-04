@@ -11,7 +11,7 @@ spec:
       # the mode can be "live" (default) or "stream"; choose whatever fits you
       crowdsecMode: live
       # point at the local LAPI service provided by the CrowdSec chart
-      crowdsecLapiHost: "http://crowdsec-service.network.svc.cluster.local:8080"
+      crowdsecLapiHost: "crowdsec-service.network.svc.cluster.local:8080"
       # the key is stored in the `crowdsec-secret` secret mounted below
       crowdsecLapiKeyFile: "/etc/crowdsec/lapi-key"
       forwardedHeadersTrustedIPs:
