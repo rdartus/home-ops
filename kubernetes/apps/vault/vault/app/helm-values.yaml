@@ -76,7 +76,7 @@ injector:
   # required.
   agentImage:
     repository: "hashicorp/vault"
-    tag: 1.20.1@sha256:50e1ecbe385742293c4a7e18c90f55d4dcc39724a05c6ab35933305fe7622cf3
+    tag: 1.21.4@sha256:4e33b126a59c0c333b76fb4e894722462659a6bec7c48c9ee8cea56fccfd2569
 
   # The default values for the injected Vault Agent containers.
   agentDefaults:
@@ -373,7 +373,7 @@ server:
 
   image:
     repository: "hashicorp/vault"
-    tag: 1.20.1@sha256:50e1ecbe385742293c4a7e18c90f55d4dcc39724a05c6ab35933305fe7622cf3
+    tag: 1.21.4@sha256:4e33b126a59c0c333b76fb4e894722462659a6bec7c48c9ee8cea56fccfd2569
     # Overrides the default Image Pull Policy
     pullPolicy: IfNotPresent
 
@@ -1208,7 +1208,7 @@ csi:
 
     image:
       repository: "hashicorp/vault"
-      tag: 1.20.1@sha256:50e1ecbe385742293c4a7e18c90f55d4dcc39724a05c6ab35933305fe7622cf3
+      tag: 1.21.4@sha256:4e33b126a59c0c333b76fb4e894722462659a6bec7c48c9ee8cea56fccfd2569
       pullPolicy: IfNotPresent
 
     logFormat: standard
