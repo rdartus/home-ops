@@ -1027,12 +1027,15 @@ ports:
       advertisedPort:  # @schema type:[integer, null]; minimum:0
     forwardedHeaders:
         # -- Trust forwarded headers information (X-Forwarded-*).
-      trustedIPs: []
-      insecure: true
+      trustedIPs:
+        - 10.0.0.0/8
+        - 192.168.0.0/16
+        - 172.16.0.0/12
+      insecure: false
     proxyProtocol:
       # -- Enable the Proxy Protocol header parsing for the entry point
       trustedIPs: []
-      insecure: true
+      insecure: false
     # -- See [upstream documentation](https://doc.traefik.io/traefik/routing/entrypoints/#transport)
     transport:
       respondingTimeouts:
@@ -1120,8 +1123,9 @@ service:
   labels: {}
   # -- Additional entries here will be added to the service spec.
   # -- Cannot contain type, selector or ports entries.
-  spec: {}
-  # externalTrafficPolicy: Cluster
+  spec:
+    externalTrafficPolicy: Local
+  # externalTrafficPolicy: Local
   # loadBalancerIP: "1.2.3.4"
   # clusterIP: "2.3.4.5"
   loadBalancerSourceRanges: []
