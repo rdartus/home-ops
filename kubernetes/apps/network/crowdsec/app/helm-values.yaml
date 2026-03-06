@@ -387,7 +387,17 @@ agent:
     #   containerPort: 8080
     #   protocol: TCP
   # -- To add custom acquisitions using available datasources (https://docs.crowdsec.net/docs/next/data_sources/intro)
-  additionalAcquisition: []
+  additionalAcquisition:
+    # Kubernetes API audit logs — present on every node (Talos)
+    # ensures every agent always has live log sources and
+    # enables detection of k8s API abuse (crowdsecurity/k8s-audit-logs)
+    - source: file
+      filenames:
+        - /var/log/audit/kube/kube-apiserver-*.log
+      labels:
+        type: k8s-audit
+      poll_without_inotify: true
+
     # - source: kinesis
     #   stream_name: my-stream
     #   labels:
@@ -404,8 +414,8 @@ agent:
       podName: "traefik-*" #ingress-nginx-controller-*
       # -- program name related to specific parser you will use (see https://hub.crowdsec.net/author/crowdsecurity/configurations/docker-logs)
       program: "traefik" #nginx
-      # -- If set to true, will poll the files using os.Stat instead of using inotify
-      poll_without_inotify: false
+      # -- Use polling instead of inotify to handle symlink rotation in k8s log dirs
+      poll_without_inotify: true
     - namespace: "default" # endlessh ssh tarpit lives in default namespace
       # -- to select pod logs to process
       podName: "endlessh-*"
@@ -413,6 +423,7 @@ agent:
       program: "endlessh"
       # use polling rather than inotify to handle symlink rotation
       poll_without_inotify: true
+
 
   # -- pod priority class name
   priorityClassName: ""
@@ -459,7 +470,7 @@ agent:
   # -- environment variables from crowdsecurity/crowdsec docker image
   env:
     - name: COLLECTIONS
-      value: "crowdsecurity/traefik crowdsecurity/endlessh"
+      value: "crowdsecurity/traefik crowdsecurity/endlessh crowdsecurity/k8s-audit-logs"
     - name: TZ
       value: "Europe/Paris"
     # by default we configure the docker-logs parser to be able to parse docker logs in k8s
