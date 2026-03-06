@@ -390,10 +390,10 @@ agent:
   additionalAcquisition:
     # Kubernetes API audit logs — present on every node (Talos)
     # ensures every agent always has live log sources and
-    # enables detection of k8s API abuse (crowdsecurity/k8s-audit-logs)
+    # enables detection of k8s API abuse (crowdsecurity/k8s-audit)
     - source: file
       filenames:
-        - /var/log/audit/kube/kube-apiserver-*.log
+        - /var/log/audit/kube/kube-apiserver*.log
       labels:
         type: k8s-audit
       poll_without_inotify: true
@@ -470,7 +470,7 @@ agent:
   # -- environment variables from crowdsecurity/crowdsec docker image
   env:
     - name: COLLECTIONS
-      value: "crowdsecurity/traefik crowdsecurity/endlessh crowdsecurity/k8s-audit-logs"
+      value: "crowdsecurity/traefik crowdsecurity/endlessh crowdsecurity/k8s-audit"
     - name: TZ
       value: "Europe/Paris"
     # by default we configure the docker-logs parser to be able to parse docker logs in k8s
