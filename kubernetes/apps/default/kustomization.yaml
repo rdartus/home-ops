@@ -22,7 +22,7 @@ resources:
   - ./books/ks.yaml
   - ./livres/ks.yaml
   - ./immich/ks.yaml
-  - ./ygege/ks.yaml
+  # - ./ygege/ks.yaml
   # - ./christmas/ks.yaml
   - ./test-christmas/ks.yaml
   - ./ghostfolio/ks.yaml

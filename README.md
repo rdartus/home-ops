@@ -84,8 +84,6 @@ This Git repository contains the following directories under [kubernetes](./kube
 
 ### Cluster layout
 
-This is a high-level look how Flux deploys my applications with dependencies. Below there are 3 Flux kustomizations `postgres`, `postgres-cluster`, and `atuin`. `postgres` is the first app that needs to be running and healthy before `postgres-cluster` and once `postgres-cluster` is healthy `atuin` will be deployed.
-
 ```mermaid
 graph TD;
 
@@ -121,7 +119,6 @@ graph TD;
   observability__kromgo["kromgo"]
   observability__kube_prometeus_stack["kube-prometeus-stack"]
   kube_system__kubernetes_replicator["kubernetes-replicator"]
-  default__kubotheque["kubotheque"]
   default__livres["livres"]
   longhorn_system__local_path_provisioner["local-path-provisioner"]
   longhorn_system__longhorn["longhorn"]
@@ -137,11 +134,9 @@ graph TD;
   database__pg_restore["pg-restore"]
   database__pgadmin["pgadmin"]
   default__prowlarr["prowlarr"]
-  default__qbittorrent["qbittorrent"]
   default__rabbitmq["rabbitmq"]
   default__rabbitmq_resources["rabbitmq-resources"]
   default__radarr["radarr"]
-  default__redis["redis"]
   default__sonarr["sonarr"]
   default__tandoor["tandoor"]
   default__test_christmas["test-christmas"]
@@ -151,11 +146,8 @@ graph TD;
   vault__vault["vault"]
   vault__vault_secrets_operator["vault-secrets-operator"]
   network__wireguard["wireguard"]
-  default__ygege["ygege"]
-  default__zitadel["zitadel"]
 
   flux_controller --> default__christmas
-  flux_controller --> default__kubotheque
   flux_controller --> default__test_christmas
   flux_controller --> default__valkey
   flux_controller --> flux_system__cluster_meta
@@ -178,9 +170,10 @@ graph TD;
   database__cnpg_resources --> default__onlyoffice
   default__authentik --> database__pgadmin
   default__authentik --> default__filebrowser
-  default__authentik --> default__zitadel
   default__automate_wx --> default__hajimari
   default__books --> default__endlessh
+  default__endlessh --> default__ghostfolio
+  default__endlessh --> default__paperless
   default__filebrowser --> default__immich
   default__flaresolverr --> default__sonarr
   default__immich --> default__flaresolverr
@@ -190,7 +183,6 @@ graph TD;
   default__jellyfin --> default__books
   default__jellyfin --> default__livres
   default__prowlarr --> default__jellyfin
-  default__prowlarr --> default__qbittorrent
   default__rabbitmq --> default__rabbitmq_resources
   default__radarr --> default__books
   default__radarr --> default__coder
@@ -198,10 +190,7 @@ graph TD;
   default__sonarr --> default__autobrr
   default__sonarr --> default__prowlarr
   default__sonarr --> default__radarr
-  default__sonarr --> default__ygege
   default__valkey --> default__authentik
-  default__valkey --> default__ghostfolio
-  default__valkey --> default__paperless
   flux_system__cluster_meta --> flux_system__cluster_apps
   kube_system__csi_driver_smb_ressources --> default__filebrowser
   kube_system__kubernetes_replicator --> database__cnpg_resources
@@ -231,12 +220,33 @@ graph TD;
   vault__vault_secrets_operator --> default__authentik
   vault__vault_secrets_operator --> default__automate_wx
   vault__vault_secrets_operator --> default__rabbitmq
-  vault__vault_secrets_operator --> default__redis
   vault__vault_secrets_operator --> kube_system__csi_driver_smb
   vault__vault_secrets_operator --> kube_system__csi_driver_smb_ressources
   vault__vault_secrets_operator --> network__crowdsec
   vault__vault_secrets_operator --> network__ddns_updater
   vault__vault_secrets_operator --> network__wireguard
+
+  classDef cls_flux_ctrl fill:#1a001a,stroke:#ff00ff,color:#ff00ff,stroke-width:3px,font-weight:bold;
+  classDef cls_cert_manager fill:#0d0d0d,stroke:#00ff9f,color:#00ff9f,stroke-width:2px;
+  classDef cls_database fill:#0d0d0d,stroke:#ff6b35,color:#ff6b35,stroke-width:2px;
+  classDef cls_default fill:#0d0d0d,stroke:#00d4ff,color:#00d4ff,stroke-width:2px;
+  classDef cls_flux_system fill:#0d0d0d,stroke:#39ff14,color:#39ff14,stroke-width:2px;
+  classDef cls_kube_system fill:#0d0d0d,stroke:#d400ff,color:#d400ff,stroke-width:2px;
+  classDef cls_longhorn_system fill:#0d0d0d,stroke:#ff003c,color:#ff003c,stroke-width:2px;
+  classDef cls_network fill:#0d0d0d,stroke:#00ffe7,color:#00ffe7,stroke-width:2px;
+  classDef cls_observability fill:#0d0d0d,stroke:#ff007f,color:#ff007f,stroke-width:2px;
+  classDef cls_vault fill:#0d0d0d,stroke:#ffe600,color:#ffe600,stroke-width:2px;
+
+  class flux_controller cls_flux_ctrl;
+  class cert_manager__cert_manager,cert_manager__cert_manager_issuers cls_cert_manager;
+  class database__cnpg,database__cnpg_resources,database__pg_dump,database__pg_dump_sync,database__pg_restore,database__pgadmin cls_database;
+  class default__authentik,default__autobrr,default__automate_wx,default__books,default__christmas,default__coder,default__endlessh,default__filebrowser,default__flaresolverr,default__ghostfolio,default__hajimari,default__immich,default__jellyfin,default__kavita,default__livres,default__mealie,default__onlyoffice,default__paperless,default__prowlarr,default__rabbitmq,default__rabbitmq_resources,default__radarr,default__sonarr,default__tandoor,default__test_christmas,default__valkey cls_default;
+  class flux_system__cluster_apps,flux_system__cluster_meta,flux_system__flux_instance,flux_system__flux_operator cls_flux_system;
+  class kube_system__csi_driver_smb,kube_system__csi_driver_smb_ressources,kube_system__kubernetes_replicator cls_kube_system;
+  class longhorn_system__local_path_provisioner,longhorn_system__longhorn,longhorn_system__longhorn_resources,longhorn_system__longhorn_restore cls_longhorn_system;
+  class network__crowdsec,network__ddns_updater,network__metallb,network__metallb_resources,network__traefik,network__traefik_resources,network__wireguard cls_network;
+  class observability__grafana,observability__kromgo,observability__kube_prometeus_stack cls_observability;
+  class vault__vault,vault__vault_secrets_operator cls_vault;
 ```
 
 ### Networking

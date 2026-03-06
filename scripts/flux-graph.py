@@ -85,6 +85,66 @@ def load_kustomizations(repo_root: Path, exclude_archive: bool = True) -> list[d
 FLUX_CONTROLLER_ID = "flux_controller"
 FLUX_CONTROLLER_LABEL = "Flux Controller"
 
+# Colors per namespace — Cyberpunk palette (neon on dark, GitHub light & dark safe)
+NAMESPACE_COLORS: dict[str, dict[str, str]] = {
+    "cert-manager":    {"fill": "#0d0d0d", "stroke": "#00ff9f", "color": "#00ff9f"},
+    "database":        {"fill": "#0d0d0d", "stroke": "#ff6b35", "color": "#ff6b35"},
+    "default":         {"fill": "#0d0d0d", "stroke": "#00d4ff", "color": "#00d4ff"},
+    "flux-system":     {"fill": "#0d0d0d", "stroke": "#39ff14", "color": "#39ff14"},
+    "kube-system":     {"fill": "#0d0d0d", "stroke": "#d400ff", "color": "#d400ff"},
+    "longhorn-system": {"fill": "#0d0d0d", "stroke": "#ff003c", "color": "#ff003c"},
+    "network":         {"fill": "#0d0d0d", "stroke": "#00ffe7", "color": "#00ffe7"},
+    "observability":   {"fill": "#0d0d0d", "stroke": "#ff007f", "color": "#ff007f"},
+    "vault":           {"fill": "#0d0d0d", "stroke": "#ffe600", "color": "#ffe600"},
+}
+FLUX_CTRL_COLOR = {"fill": "#1a001a", "stroke": "#ff00ff", "color": "#ff00ff"}
+DEFAULT_NS_COLOR = {"fill": "#0d0d0d", "stroke": "#555555", "color": "#aaaaaa"}
+
+
+def _ns_class_id(ns: str) -> str:
+    """Stable Mermaid class identifier for a namespace."""
+    return "cls_" + re.sub(r"[^a-zA-Z0-9_]", "_", ns)
+
+
+def _color_lines(
+    nodes: dict[str, str],
+    ns_from: dict[str, str],
+    include_controller: bool = False,
+) -> list[str]:
+    """Return classDef + class assignment lines for all namespaces present."""
+    # Collect which namespaces are actually used
+    used_ns: dict[str, list[str]] = {}   # ns -> [node_ids]
+    for nid in nodes:
+        ns = ns_from.get(nid, "")
+        used_ns.setdefault(ns, []).append(nid)
+
+    lines = []
+    # classDef declarations
+    if include_controller:
+        c = FLUX_CTRL_COLOR
+        lines.append(
+            f'  classDef cls_flux_ctrl '
+            f'fill:{c["fill"]},stroke:{c["stroke"]},color:{c["color"]},'
+            f'stroke-width:3px,font-weight:bold;'
+        )
+    for ns in sorted(used_ns):
+        c = NAMESPACE_COLORS.get(ns, DEFAULT_NS_COLOR)
+        cid = _ns_class_id(ns)
+        lines.append(
+            f'  classDef {cid} '
+            f'fill:{c["fill"]},stroke:{c["stroke"]},color:{c["color"]},stroke-width:2px;'
+        )
+
+    lines.append("")
+    # class assignments
+    if include_controller:
+        lines.append(f"  class {FLUX_CONTROLLER_ID} cls_flux_ctrl;")
+    for ns, nids in sorted(used_ns.items()):
+        cid = _ns_class_id(ns)
+        lines.append(f"  class {','.join(sorted(nids))} {cid};")
+
+    return lines
+
 
 def node_id(name: str, namespace: str) -> str:
     """Stable, sanitised Mermaid node id."""
@@ -184,6 +244,12 @@ def render_simple(
     reduced = transitive_reduction(edges)
     root_ids = [nid for nid in sorted(nodes) if nid not in has_deps]
 
+    # Build namespace lookup from node_id prefix (namespace__name)
+    def _ns(nid: str) -> str:
+        parts = nid.split("__", 1)
+        return parts[0].replace("_", "-") if len(parts) == 2 else ""
+    ns_from = {nid: _ns(nid) for nid in nodes}
+
     lines = ["graph TD;"]
     lines.append("")
     lines.append(f'  {FLUX_CONTROLLER_ID}["{FLUX_CONTROLLER_LABEL}"]')
@@ -199,6 +265,9 @@ def render_simple(
     lines.append("")
     for prereq, dependent in sorted(reduced):
         lines.append(f"  {prereq} --> {dependent}")
+
+    lines.append("")
+    lines.extend(_color_lines(nodes, ns_from, include_controller=True))
 
     return "\n".join(lines)
 
@@ -216,12 +285,9 @@ def render_full(
         node_id(ks["name"], ks["namespace"]): ks["namespace"]
         for ks in kustomizations
     }
-    # For nodes referenced as deps that may live outside filter_ns, fall back
-    # to extracting namespace from the node_id pattern "ns__name"
     def ns_from_id(nid: str) -> str:
         if nid in ns_map:
             return ns_map[nid]
-        # node_id format: namespace__name (double underscore)
         parts = nid.split("__", 1)
         return parts[0].replace("_", "-") if len(parts) == 2 else "unknown"
 
@@ -230,10 +296,11 @@ def render_full(
         ns = ns_from_id(nid)
         ns_to_nodes.setdefault(ns, []).append((nid, label))
 
+    ns_from = {nid: ns_from_id(nid) for nid in nodes}
+
     lines = ["graph TD;"]
 
     for ns in sorted(ns_to_nodes):
-        # Prefix with "ns_" to avoid Mermaid reserved keywords (e.g. "default")
         sg_id = "ns_" + re.sub(r"[^a-zA-Z0-9_]", "_", ns)
         lines.append("")
         lines.append(f'  subgraph {sg_id}["{ns}"]')
@@ -244,6 +311,9 @@ def render_full(
     lines.append("")
     for prereq, dependent in sorted(edges):
         lines.append(f"  {prereq} --> {dependent}")
+
+    lines.append("")
+    lines.extend(_color_lines(nodes, ns_from, include_controller=False))
 
     return "\n".join(lines)
 
