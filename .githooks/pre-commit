@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+# .githooks/pre-commit
+# Regenerates the Flux dependency graph in README.md before each commit.
+# Install once with:  git config core.hooksPath .githooks
+
+set -euo pipefail
+
+SCRIPT="$(git rev-parse --show-toplevel)/scripts/flux-graph.py"
+
+if [[ ! -f "$SCRIPT" ]]; then
+  echo "[pre-commit] flux-graph.py not found, skipping graph update."
+  exit 0
+fi
+
+echo "[pre-commit] Regenerating Flux dependency graph…"
+python3 "$SCRIPT" --update-readme
+
+# Stage the README so the updated graph is included in the commit
+git add README.md
+
+echo "[pre-commit] README.md graph updated and staged."

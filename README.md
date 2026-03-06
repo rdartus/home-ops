@@ -88,15 +88,220 @@ This is a high-level look how Flux deploys my applications with dependencies. Be
 
 ```mermaid
 graph TD;
-  id1>Kustomization: flux-system] -->|Creates| id2>Kustomization: cluster-apps];
-  id2>Kustomization: cluster-apps] -->|Creates| id3>Kustomization: postgres];
-  id2>Kustomization: cluster-apps] -->|Creates| id5>Kustomization: postgres-cluster]
-  id2>Kustomization: cluster-apps] -->|Creates| id8>Kustomization: atuin]
-  id3>Kustomization: postgres] -->|Creates| id4(HelmRelease: postgres);
-  id5>Kustomization: postgres-cluster] -->|Depends on| id3>Kustomization: postgres];
-  id5>Kustomization: postgres-cluster] -->|Creates| id10(Cluster: postgres);
-  id8>Kustomization: atuin] -->|Creates| id9(HelmRelease: atuin);
-  id8>Kustomization: atuin] -->|Depends on| id5>Kustomization: postgres-cluster];
+  cert_manager__cert_manager["Kustomization: cert-manager"]
+  cert_manager__cert_manager_issuers["Kustomization: cert-manager-issuers"]
+  database__cnpg["Kustomization: cnpg"]
+  database__cnpg_resources["Kustomization: cnpg-resources"]
+  database__pg_dump["Kustomization: pg-dump"]
+  database__pg_dump_sync["Kustomization: pg-dump-sync"]
+  database__pg_restore["Kustomization: pg-restore"]
+  database__pgadmin["Kustomization: pgadmin"]
+  default__authentik["Kustomization: authentik"]
+  default__autobrr["Kustomization: autobrr"]
+  default__automate_wx["Kustomization: automate-wx"]
+  default__books["Kustomization: books"]
+  default__christmas["Kustomization: christmas"]
+  default__coder["Kustomization: coder"]
+  default__endlessh["Kustomization: endlessh"]
+  default__filebrowser["Kustomization: filebrowser"]
+  default__flaresolverr["Kustomization: flaresolverr"]
+  default__ghostfolio["Kustomization: ghostfolio"]
+  default__hajimari["Kustomization: hajimari"]
+  default__immich["Kustomization: immich"]
+  default__jellyfin["Kustomization: jellyfin"]
+  default__kavita["Kustomization: kavita"]
+  default__kubotheque["Kustomization: kubotheque"]
+  default__livres["Kustomization: livres"]
+  default__mealie["Kustomization: mealie"]
+  default__onlyoffice["Kustomization: onlyoffice"]
+  default__paperless["Kustomization: paperless"]
+  default__prowlarr["Kustomization: prowlarr"]
+  default__qbittorrent["Kustomization: qbittorrent"]
+  default__rabbitmq["Kustomization: rabbitmq"]
+  default__rabbitmq_resources["Kustomization: rabbitmq-resources"]
+  default__radarr["Kustomization: radarr"]
+  default__redis["Kustomization: redis"]
+  default__sonarr["Kustomization: sonarr"]
+  default__tandoor["Kustomization: tandoor"]
+  default__test_christmas["Kustomization: test-christmas"]
+  default__valkey["Kustomization: valkey"]
+  default__ygege["Kustomization: ygege"]
+  default__zitadel["Kustomization: zitadel"]
+  flux_system__cluster_apps["Kustomization: cluster-apps"]
+  flux_system__cluster_meta["Kustomization: cluster-meta"]
+  flux_system__flux_instance["Kustomization: flux-instance"]
+  flux_system__flux_operator["Kustomization: flux-operator"]
+  kube_system__csi_driver_smb["Kustomization: csi-driver-smb"]
+  kube_system__csi_driver_smb_ressources["Kustomization: csi-driver-smb-ressources"]
+  kube_system__kubernetes_replicator["Kustomization: kubernetes-replicator"]
+  longhorn_system__local_path_provisioner["Kustomization: local-path-provisioner"]
+  longhorn_system__longhorn["Kustomization: longhorn"]
+  longhorn_system__longhorn_resources["Kustomization: longhorn-resources"]
+  longhorn_system__longhorn_restore["Kustomization: longhorn-restore"]
+  network__crowdsec["Kustomization: crowdsec"]
+  network__ddns_updater["Kustomization: ddns-updater"]
+  network__metallb["Kustomization: metallb"]
+  network__metallb_resources["Kustomization: metallb-resources"]
+  network__traefik["Kustomization: traefik"]
+  network__traefik_resources["Kustomization: traefik-resources"]
+  network__wireguard["Kustomization: wireguard"]
+  observability__grafana["Kustomization: grafana"]
+  observability__kromgo["Kustomization: kromgo"]
+  observability__kube_prometeus_stack["Kustomization: kube-prometeus-stack"]
+  vault__vault["Kustomization: vault"]
+  vault__vault_secrets_operator["Kustomization: vault-secrets-operator"]
+
+  cert_manager__cert_manager -->|"Depends on"| network__traefik
+  cert_manager__cert_manager -->|"Depends on"| observability__grafana
+  cert_manager__cert_manager -->|"Depends on"| observability__kromgo
+  cert_manager__cert_manager -->|"Depends on"| vault__vault_secrets_operator
+  cert_manager__cert_manager_issuers -->|"Depends on"| cert_manager__cert_manager
+  cert_manager__cert_manager_issuers -->|"Depends on"| network__traefik
+  cert_manager__cert_manager_issuers -->|"Depends on"| vault__vault_secrets_operator
+  database__cnpg -->|"Depends on"| cert_manager__cert_manager_issuers
+  database__cnpg -->|"Depends on"| longhorn_system__longhorn
+  database__cnpg_resources -->|"Depends on"| cert_manager__cert_manager_issuers
+  database__cnpg_resources -->|"Depends on"| database__cnpg
+  database__cnpg_resources -->|"Depends on"| kube_system__kubernetes_replicator
+  database__pg_dump -->|"Depends on"| database__cnpg
+  database__pg_dump -->|"Depends on"| longhorn_system__longhorn_restore
+  database__pg_dump -->|"Depends on"| network__traefik
+  database__pg_dump -->|"Depends on"| vault__vault_secrets_operator
+  database__pg_dump_sync -->|"Depends on"| database__cnpg
+  database__pg_dump_sync -->|"Depends on"| longhorn_system__longhorn_restore
+  database__pg_dump_sync -->|"Depends on"| network__traefik
+  database__pg_dump_sync -->|"Depends on"| vault__vault_secrets_operator
+  database__pg_restore -->|"Depends on"| database__cnpg
+  database__pg_restore -->|"Depends on"| database__cnpg_resources
+  database__pg_restore -->|"Depends on"| kube_system__kubernetes_replicator
+  database__pg_restore -->|"Depends on"| network__traefik
+  database__pg_restore -->|"Depends on"| vault__vault_secrets_operator
+  database__pgadmin -->|"Depends on"| database__cnpg_resources
+  database__pgadmin -->|"Depends on"| default__authentik
+  database__pgadmin -->|"Depends on"| network__traefik
+  database__pgadmin -->|"Depends on"| vault__vault_secrets_operator
+  default__authentik -->|"Depends on"| default__valkey
+  default__authentik -->|"Depends on"| network__traefik
+  default__authentik -->|"Depends on"| vault__vault_secrets_operator
+  default__autobrr -->|"Depends on"| default__authentik
+  default__autobrr -->|"Depends on"| default__sonarr
+  default__autobrr -->|"Depends on"| network__traefik
+  default__autobrr -->|"Depends on"| vault__vault_secrets_operator
+  default__automate_wx -->|"Depends on"| vault__vault_secrets_operator
+  default__books -->|"Depends on"| default__jellyfin
+  default__books -->|"Depends on"| default__radarr
+  default__books -->|"Depends on"| longhorn_system__longhorn_restore
+  default__books -->|"Depends on"| network__traefik
+  default__books -->|"Depends on"| vault__vault_secrets_operator
+  default__coder -->|"Depends on"| default__authentik
+  default__coder -->|"Depends on"| default__radarr
+  default__coder -->|"Depends on"| longhorn_system__longhorn_restore
+  default__coder -->|"Depends on"| network__traefik
+  default__coder -->|"Depends on"| vault__vault_secrets_operator
+  default__endlessh -->|"Depends on"| default__books
+  default__endlessh -->|"Depends on"| network__traefik
+  default__filebrowser -->|"Depends on"| default__authentik
+  default__filebrowser -->|"Depends on"| kube_system__csi_driver_smb_ressources
+  default__filebrowser -->|"Depends on"| vault__vault_secrets_operator
+  default__flaresolverr -->|"Depends on"| default__filebrowser
+  default__flaresolverr -->|"Depends on"| default__immich
+  default__ghostfolio -->|"Depends on"| default__valkey
+  default__hajimari -->|"Depends on"| default__automate_wx
+  default__hajimari -->|"Depends on"| network__traefik
+  default__immich -->|"Depends on"| database__cnpg_resources
+  default__immich -->|"Depends on"| default__authentik
+  default__immich -->|"Depends on"| default__filebrowser
+  default__immich -->|"Depends on"| default__valkey
+  default__immich -->|"Depends on"| longhorn_system__longhorn_restore
+  default__immich -->|"Depends on"| vault__vault_secrets_operator
+  default__jellyfin -->|"Depends on"| default__filebrowser
+  default__jellyfin -->|"Depends on"| default__immich
+  default__jellyfin -->|"Depends on"| default__prowlarr
+  default__jellyfin -->|"Depends on"| network__traefik
+  default__jellyfin -->|"Depends on"| vault__vault_secrets_operator
+  default__kavita -->|"Depends on"| database__cnpg
+  default__kavita -->|"Depends on"| default__filebrowser
+  default__kavita -->|"Depends on"| default__immich
+  default__kavita -->|"Depends on"| longhorn_system__longhorn_restore
+  default__kavita -->|"Depends on"| network__traefik
+  default__kavita -->|"Depends on"| vault__vault_secrets_operator
+  default__livres -->|"Depends on"| default__jellyfin
+  default__livres -->|"Depends on"| default__radarr
+  default__livres -->|"Depends on"| longhorn_system__longhorn_restore
+  default__livres -->|"Depends on"| network__traefik
+  default__livres -->|"Depends on"| vault__vault_secrets_operator
+  default__mealie -->|"Depends on"| database__cnpg
+  default__mealie -->|"Depends on"| default__filebrowser
+  default__mealie -->|"Depends on"| default__immich
+  default__mealie -->|"Depends on"| longhorn_system__longhorn_restore
+  default__mealie -->|"Depends on"| network__traefik
+  default__mealie -->|"Depends on"| vault__vault_secrets_operator
+  default__onlyoffice -->|"Depends on"| database__cnpg_resources
+  default__onlyoffice -->|"Depends on"| vault__vault_secrets_operator
+  default__paperless -->|"Depends on"| default__valkey
+  default__prowlarr -->|"Depends on"| default__authentik
+  default__prowlarr -->|"Depends on"| default__sonarr
+  default__prowlarr -->|"Depends on"| network__traefik
+  default__prowlarr -->|"Depends on"| vault__vault_secrets_operator
+  default__qbittorrent -->|"Depends on"| default__prowlarr
+  default__qbittorrent -->|"Depends on"| longhorn_system__longhorn_resources
+  default__qbittorrent -->|"Depends on"| network__traefik
+  default__qbittorrent -->|"Depends on"| vault__vault_secrets_operator
+  default__rabbitmq -->|"Depends on"| vault__vault_secrets_operator
+  default__rabbitmq_resources -->|"Depends on"| default__rabbitmq
+  default__radarr -->|"Depends on"| default__authentik
+  default__radarr -->|"Depends on"| default__sonarr
+  default__radarr -->|"Depends on"| network__traefik
+  default__radarr -->|"Depends on"| vault__vault_secrets_operator
+  default__redis -->|"Depends on"| vault__vault_secrets_operator
+  default__sonarr -->|"Depends on"| database__cnpg
+  default__sonarr -->|"Depends on"| default__authentik
+  default__sonarr -->|"Depends on"| default__flaresolverr
+  default__sonarr -->|"Depends on"| network__traefik
+  default__sonarr -->|"Depends on"| vault__vault_secrets_operator
+  default__tandoor -->|"Depends on"| database__cnpg
+  default__tandoor -->|"Depends on"| default__filebrowser
+  default__tandoor -->|"Depends on"| default__immich
+  default__tandoor -->|"Depends on"| longhorn_system__longhorn_restore
+  default__tandoor -->|"Depends on"| network__traefik
+  default__tandoor -->|"Depends on"| vault__vault_secrets_operator
+  default__ygege -->|"Depends on"| default__authentik
+  default__ygege -->|"Depends on"| default__sonarr
+  default__ygege -->|"Depends on"| network__traefik
+  default__ygege -->|"Depends on"| vault__vault_secrets_operator
+  default__zitadel -->|"Depends on"| default__authentik
+  default__zitadel -->|"Depends on"| network__traefik
+  default__zitadel -->|"Depends on"| vault__vault_secrets_operator
+  flux_system__cluster_apps -->|"Depends on"| flux_system__cluster_meta
+  kube_system__csi_driver_smb -->|"Depends on"| network__traefik
+  kube_system__csi_driver_smb -->|"Depends on"| vault__vault_secrets_operator
+  kube_system__csi_driver_smb_ressources -->|"Depends on"| network__traefik
+  kube_system__csi_driver_smb_ressources -->|"Depends on"| vault__vault_secrets_operator
+  longhorn_system__longhorn -->|"Depends on"| network__metallb
+  longhorn_system__longhorn -->|"Depends on"| network__traefik_resources
+  longhorn_system__longhorn -->|"Depends on"| vault__vault_secrets_operator
+  longhorn_system__longhorn_resources -->|"Depends on"| longhorn_system__longhorn
+  longhorn_system__longhorn_restore -->|"Depends on"| longhorn_system__longhorn_resources
+  network__crowdsec -->|"Depends on"| vault__vault_secrets_operator
+  network__ddns_updater -->|"Depends on"| network__traefik
+  network__ddns_updater -->|"Depends on"| vault__vault_secrets_operator
+  network__metallb_resources -->|"Depends on"| network__metallb
+  network__traefik_resources -->|"Depends on"| network__crowdsec
+  network__traefik_resources -->|"Depends on"| network__metallb
+  network__traefik_resources -->|"Depends on"| network__traefik
+  network__wireguard -->|"Depends on"| vault__vault_secrets_operator
+  observability__grafana -->|"Depends on"| network__metallb_resources
+  observability__grafana -->|"Depends on"| network__traefik
+  observability__grafana -->|"Depends on"| observability__kube_prometeus_stack
+  observability__grafana -->|"Depends on"| vault__vault_secrets_operator
+  observability__kromgo -->|"Depends on"| network__metallb_resources
+  observability__kromgo -->|"Depends on"| network__traefik
+  observability__kromgo -->|"Depends on"| observability__kube_prometeus_stack
+  observability__kromgo -->|"Depends on"| vault__vault_secrets_operator
+  observability__kube_prometeus_stack -->|"Depends on"| longhorn_system__longhorn_resources
+  observability__kube_prometeus_stack -->|"Depends on"| network__traefik_resources
+  observability__kube_prometeus_stack -->|"Depends on"| vault__vault_secrets_operator
+  vault__vault_secrets_operator -->|"Depends on"| vault__vault
 ```
 
 ### Networking
