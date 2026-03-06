@@ -3,10 +3,21 @@
 flux-graph.py — Generate a Mermaid dependency graph from Flux Kustomization files.
 
 Usage:
-  python3 scripts/flux-graph.py                  # print Mermaid to stdout
+  python3 scripts/flux-graph.py                  # simple graph (default)
+  python3 scripts/flux-graph.py --full           # full graph: subgraphs + all edges
   python3 scripts/flux-graph.py --update-readme  # patch the README in-place
   python3 scripts/flux-graph.py --namespace default  # filter to one namespace
-  python3 scripts/flux-graph.py --no-archive     # already the default; kept for clarity
+  python3 scripts/flux-graph.py --include-archive    # include _archive/ files
+
+Simple mode (default):
+  - Flat graph, no subgraphs.
+  - Transitive edges removed: if C->B->A, the direct C->A edge is dropped.
+  - Nodes with no dependsOn are linked from a virtual "Flux Controller" root.
+
+Full mode (--full):
+  - Nodes grouped in subgraphs per namespace.
+  - All declared edges kept (no reduction).
+  - No virtual root node.
 """
 
 import argparse
@@ -71,6 +82,10 @@ def load_kustomizations(repo_root: Path, exclude_archive: bool = True) -> list[d
 
 # ── graph building ────────────────────────────────────────────────────────────
 
+FLUX_CONTROLLER_ID = "flux_controller"
+FLUX_CONTROLLER_LABEL = "Flux Controller"
+
+
 def node_id(name: str, namespace: str) -> str:
     """Stable, sanitised Mermaid node id."""
     return re.sub(r"[^a-zA-Z0-9_]", "_", f"{namespace}__{name}")
@@ -79,53 +94,157 @@ def node_id(name: str, namespace: str) -> str:
 def build_graph(
     kustomizations: list[dict],
     filter_ns: str | None = None,
-) -> tuple[dict, list[tuple]]:
+) -> tuple[dict[str, str], list[tuple[str, str]]]:
     """
     Returns:
-      nodes  – {node_id: label_string}
-      edges  – [(from_id, to_id, label)]
-    Arrows follow the "A depends on B" direction: A --> B.
+      nodes – {node_id: label}
+      edges – [(prerequisite_id, dependent_id)]  (before transitive reduction)
+    Nodes with no declared dependsOn are collected as roots; they will be
+    connected to the virtual Flux Controller node by render_mermaid.
     """
-    nodes: dict[str, str] = {}
-    edges: list[tuple] = []
+    ns_lookup: dict[tuple[str, str], str] = {
+        (ks["name"], ks["namespace"]): ks["namespace"]
+        for ks in kustomizations
+    }
 
-    # Index for quick lookup
-    known: dict[tuple, str] = {}  # (name, namespace) -> node_id
+    nodes: dict[str, str] = {}   # node_id -> label
+    edges: list[tuple[str, str]] = []
+    # Track which nodes have at least one declared dependency
+    has_deps: set[str] = set()
+
+    def ensure_node(name: str, namespace: str) -> str:
+        nid = node_id(name, namespace)
+        if nid not in nodes:
+            nodes[nid] = name
+        return nid
 
     for ks in kustomizations:
         if filter_ns and ks["namespace"] != filter_ns:
             continue
-        nid = node_id(ks["name"], ks["namespace"])
-        label = f"Kustomization: {ks['name']}"
-        nodes[nid] = label
-        known[(ks["name"], ks["namespace"])] = nid
+        ensure_node(ks["name"], ks["namespace"])
 
     for ks in kustomizations:
         if filter_ns and ks["namespace"] != filter_ns:
             continue
-        src_id = node_id(ks["name"], ks["namespace"])
+        dependent_id = ensure_node(ks["name"], ks["namespace"])
         for dep in ks["dependsOn"]:
             dep_name = dep.get("name", "")
-            dep_ns = dep.get("namespace", ks["namespace"])
-            dep_id = node_id(dep_name, dep_ns)
-            # Add the dependency node even if it lives outside filter_ns
-            if dep_id not in nodes:
-                nodes[dep_id] = f"Kustomization: {dep_name}"
-            edges.append((src_id, dep_id, "dependsOn"))
+            dep_ns = dep.get("namespace") or ks["namespace"]
+            if (dep_name, dep_ns) not in ns_lookup:
+                dep_ns = next(
+                    (ns for (n, ns) in ns_lookup if n == dep_name), dep_ns
+                )
+            prereq_id = ensure_node(dep_name, dep_ns)
+            edges.append((prereq_id, dependent_id))
+            has_deps.add(dependent_id)
 
-    return nodes, edges
+    return nodes, edges, has_deps
+
+
+# ── transitive reduction ──────────────────────────────────────────────────────
+
+def transitive_reduction(edges: list[tuple[str, str]]) -> list[tuple[str, str]]:
+    """
+    Remove redundant edges from a DAG.
+    Edge (u, v) is redundant when v is reachable from u via a longer path,
+    i.e. through at least one intermediate node.
+    """
+    # Build adjacency list (full reachability per node, excluding direct edge)
+    adj: dict[str, set[str]] = {}
+    for u, v in edges:
+        adj.setdefault(u, set()).add(v)
+        adj.setdefault(v, set())  # ensure every node exists
+
+    def reachable_via_others(u: str, v: str) -> bool:
+        """True if v is reachable from u through any successor of u other than v."""
+        visited: set[str] = set()
+        stack = [w for w in adj.get(u, set()) if w != v]
+        while stack:
+            node = stack.pop()
+            if node == v:
+                return True
+            if node not in visited:
+                visited.add(node)
+                stack.extend(adj.get(node, set()))
+        return False
+
+    return [(u, v) for u, v in edges if not reachable_via_others(u, v)]
 
 
 # ── Mermaid rendering ─────────────────────────────────────────────────────────
 
-def render_mermaid(nodes: dict, edges: list[tuple]) -> str:
+def render_simple(
+    nodes: dict[str, str],
+    edges: list[tuple[str, str]],
+    has_deps: set[str],
+) -> str:
+    """
+    Simple mode: flat graph, transitive reduction, virtual Flux Controller root.
+    """
+    reduced = transitive_reduction(edges)
+    root_ids = [nid for nid in sorted(nodes) if nid not in has_deps]
+
     lines = ["graph TD;"]
-    for nid, label in sorted(nodes.items()):
-        lines.append(f'  {nid}["{label}"]')
     lines.append("")
-    for src, dst, rel in sorted(edges):
-        arrow_label = "Depends on" if rel == "dependsOn" else rel
-        lines.append(f"  {src} -->|\"{arrow_label}\"| {dst}")
+    lines.append(f'  {FLUX_CONTROLLER_ID}["{FLUX_CONTROLLER_LABEL}"]')
+    lines.append("")
+
+    for nid, label in sorted(nodes.items(), key=lambda x: x[1]):
+        lines.append(f'  {nid}["{label}"]')
+
+    lines.append("")
+    for nid in root_ids:
+        lines.append(f"  {FLUX_CONTROLLER_ID} --> {nid}")
+
+    lines.append("")
+    for prereq, dependent in sorted(reduced):
+        lines.append(f"  {prereq} --> {dependent}")
+
+    return "\n".join(lines)
+
+
+def render_full(
+    nodes: dict[str, str],
+    edges: list[tuple[str, str]],
+    kustomizations: list[dict],
+) -> str:
+    """
+    Full mode: one subgraph per namespace, all declared edges, no reduction.
+    """
+    # Build namespace mapping from the raw kustomizations list
+    ns_map: dict[str, str] = {
+        node_id(ks["name"], ks["namespace"]): ks["namespace"]
+        for ks in kustomizations
+    }
+    # For nodes referenced as deps that may live outside filter_ns, fall back
+    # to extracting namespace from the node_id pattern "ns__name"
+    def ns_from_id(nid: str) -> str:
+        if nid in ns_map:
+            return ns_map[nid]
+        # node_id format: namespace__name (double underscore)
+        parts = nid.split("__", 1)
+        return parts[0].replace("_", "-") if len(parts) == 2 else "unknown"
+
+    ns_to_nodes: dict[str, list[tuple[str, str]]] = {}
+    for nid, label in sorted(nodes.items(), key=lambda x: x[1]):
+        ns = ns_from_id(nid)
+        ns_to_nodes.setdefault(ns, []).append((nid, label))
+
+    lines = ["graph TD;"]
+
+    for ns in sorted(ns_to_nodes):
+        # Prefix with "ns_" to avoid Mermaid reserved keywords (e.g. "default")
+        sg_id = "ns_" + re.sub(r"[^a-zA-Z0-9_]", "_", ns)
+        lines.append("")
+        lines.append(f'  subgraph {sg_id}["{ns}"]')
+        for nid, label in ns_to_nodes[ns]:
+            lines.append(f'    {nid}["{label}"]')
+        lines.append("  end")
+
+    lines.append("")
+    for prereq, dependent in sorted(edges):
+        lines.append(f"  {prereq} --> {dependent}")
+
     return "\n".join(lines)
 
 
@@ -181,6 +300,11 @@ def main() -> None:
         help="Also include files under kubernetes/_archive/",
     )
     parser.add_argument(
+        "--full",
+        action="store_true",
+        help="Full graph: subgraphs per namespace + all edges (no transitive reduction).",
+    )
+    parser.add_argument(
         "--repo",
         metavar="PATH",
         default=str(REPO_ROOT),
@@ -194,8 +318,12 @@ def main() -> None:
     if not kustomizations:
         sys.exit("[ERROR] No Kustomization manifests found.")
 
-    nodes, edges = build_graph(kustomizations, filter_ns=args.namespace)
-    mermaid = render_mermaid(nodes, edges)
+    nodes, edges, has_deps = build_graph(kustomizations, filter_ns=args.namespace)
+
+    if args.full:
+        mermaid = render_full(nodes, edges, kustomizations)
+    else:
+        mermaid = render_simple(nodes, edges, has_deps)
 
     if args.update_readme:
         update_readme(mermaid, readme=repo_root / "README.md")
