@@ -77,6 +77,7 @@ This Git repository contains the following directories under [kubernetes](./kube
 
 ```sh
 📁 kubernetes      # Kubernetes cluster defined as code
+├─📁 _archive      # Apps undeployed - to be removed
 ├─📁 apps          # Apps deployed into my cluster grouped by namespace (see below)
 ├─📁 components    # Re-usable kustomize components
 └─📁 flux          # Flux system configuration
@@ -251,18 +252,6 @@ graph TD;
 
 ### Networking
 
-<details>
-  <summary>Click to see a high-level network diagram</summary>
-
-  <img src="https://github.com/user-attachments/assets/c6bb2848-d900-4796-975b-4e80dcba4850" align="center" width="600px" alt="network"/>
-</details>
-
----
-
-## <img src="https://fonts.gstatic.com/s/e/notoemoji/latest/1f30e/512.gif" alt="🌎" width="20" height="20"> DNS
-
-In my cluster there are two instances of [ExternalDNS](https://github.com/kubernetes-sigs/external-dns) running. One for syncing private DNS records to my `UDM Pro Max` using [ExternalDNS webhook provider for UniFi](https://github.com/kashalls/external-dns-unifi-webhook), while another instance syncs public DNS to `Cloudflare`. This setup is managed by creating routes with two specific gatways: `internal` for private DNS and `external` for public DNS. The `external-dns` instances then syncs the DNS records to their respective platforms accordingly.
-
 ---
 
 ## <img src="https://fonts.gstatic.com/s/e/notoemoji/latest/2699_fe0f/512.gif" alt="⚙" width="20" height="20"> Hardware
@@ -270,9 +259,9 @@ In my cluster there are two instances of [ExternalDNS](https://github.com/kubern
 
 | Device                        | Count | OS Disk Size   | Data Disk Size             | Ram   | Operating System | Purpose                 |
 |-------------------------------|-------|---------------|-----------------------------|-------|------------------|-------------------------|
-| Intel NUC                     | 1     | 160GB M.2     | -                           | 16GB  | Talos            | Kubernetes              |
-| Raspberry Pi 5                | 1     | 64GB (SD)     | -                           | 8GB   | Talos            | Kubernetes              |
-| Raspberry Pi 4                | 1     | 64GB (SD)     | -                           | 8GB   | PiKVM            | NAS                     |
+| Intel NUC (N150)              | 1     | 160GB M.2     | -                           | 16GB  | Talos            | Kubernetes              |
+| Intel NUC (XXXXXU)            | 1     | 64GB (SD)     | -                           | 16B   | Talos            | Kubernetes              |
+| Raspberry Pi 4                | 1     | 64GB (SD)     | -                           | 8GB   | Raspberry Pi OS  | NAS                     |
 | Raspberry Pi ZeroW            | 1     | 16GB (SD)     | -                           | 0,5GB | Raspberry Pi OS  | DNS Server              |
 
 ---
@@ -312,36 +301,6 @@ See [LICENSE](./LICENSE).
 
 ---
 ## <img src="https://fonts.gstatic.com/s/e/notoemoji/latest/1f308/512.gif" alt="🌈" width="20" height="20"> Usefull notes & cmd
-WSL Conf
-``` zsh
-cd ~/code/jeanpi/ && sudo docker compose down && cp ~/config/radarr/radarr.db ~/tmp/radarr.db && cp ~/config/sonarr/sonarr.db ~/tmp/sonarr.db && cp ~/config/prowlarr/prowlarr.db ~/tmp/prowlarr.db && cd ~/code/jeanpi/ && sudo docker compose up -d
-
-scp -P 22022 jeank@192.168.1.32:/home/jeank/.kube/config /home/jeank/.kube/config
-scp -P 22022 jeank@192.168.1.16:/home/jeank/tmp/prowlarr.db /home/jeank/k3s-argo/db/prowlarr.db
-scp -P 22022 jeank@192.168.1.16:/home/jeank/tmp/radarr.db /home/jeank/k3s-argo/db/radarr.db
-scp -P 22022 jeank@192.168.1.16:/home/jeank/tmp/sonarr.db /home/jeank/k3s-argo/db/sonarr.db
-scp /home/jeank/k3s-argo/db/prowlarr.db jeank@192.168.1.32:/home/jeank/k3s-argo/db/prowlarr.db
-scp /home/jeank/k3s-argo/db/radarr.db jeank@192.168.1.32:/home/jeank/k3s-argo/db/radarr.db
-scp /home/jeank/k3s-argo/db/sonarr.db jeank@192.168.1.32:/home/jeank/k3s-argo/db/sonarr.db
-sed -i 's/127.0.0.1/192.168.1.32/g' ~/.kube/config
-```
-
-Deploy JeanKluter & K3S : 
-``` zsh
-kubectl apply -k ~/k3s-argo/localApps/kusto-argo/
-kubectl apply -k ~/k3s-argo/localApps
-sudo k3s ctl images import k3s-argo/pgloader.tar
-```
-Vault Conf :
-```zsh
-mkdir ~/cred
-sudo chown jeank:1000 cred
-kubectl exec -it vault-0 -- /bin/sh vault auth enable kubernetes
-kubectl exec -it vault-0 -- /bin/sh vault operator init -key-shares=3 -key-threshold=2
-kubectl exec -it vault-0 -- /bin/sh vault operator
-kubectl exec -it $(kubectl get pod -l app.kubernetes.io/name=traefik -n traefik -o jsonpath='{.items[0].metadata.name}') -n traefik -- /bin/sh
-
-```
 
 Get logs
 ```zsh
