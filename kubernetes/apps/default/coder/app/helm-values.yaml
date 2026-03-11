@@ -397,7 +397,7 @@ coder:
     enable: true
     # coder.service.type -- The type of service to expose. See:
     # https://kubernetes.io/docs/concepts/services-networking/service/#publishing-services-service-types
-    type: LoadBalancer
+    type: ClusterIP
     # coder.service.sessionAffinity -- Must be set to ClientIP or None
     # AWS ELB does not support session stickiness based on ClientIP, so you must set this to None.
     # The error message you might see: "Unsupported load balancer affinity: ClientIP"
