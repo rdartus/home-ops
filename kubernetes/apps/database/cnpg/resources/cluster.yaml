@@ -29,6 +29,18 @@ spec:
     name: superuser-secret
 
   managed:
+    services:
+      additional:
+        - selectorType: rw
+          serviceTemplate:
+            metadata:
+              name: cnpg-cluster-rw-lb
+              annotations:
+                metallb.universe.tf/loadBalancerIPs: 192.168.1.5
+            spec:
+              type: LoadBalancer
+              externalTrafficPolicy: Local
+
     roles:
     - name: arr
       connectionLimit: -1
