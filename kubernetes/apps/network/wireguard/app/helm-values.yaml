@@ -265,7 +265,7 @@ controllers:
           # -- image repository
           repository: linuxserver/wireguard
           # -- image tag
-          tag: 1.0.20250521@sha256:72a3c0b6eb67bcecf0138092a7a66220c081246083c7f1e0d078c186560e745b
+          tag: 1.0.20250521@sha256:fd4a95e233a90070372ccf7f488ef005932eb16ca1b0bd40afbdbb3dae9a3951
           # -- image pull policy
           pullPolicy: IfNotPresent
         
