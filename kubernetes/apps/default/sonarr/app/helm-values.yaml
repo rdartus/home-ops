@@ -783,7 +783,7 @@ persistence:
   loisir:
     enabled: true
     type : persistentVolumeClaim
-    existingClaim: pvc-loisir
+    existingClaim: pvc-jeantasse-loisir
     globalMounts:
       - path: /data
         readOnly: false

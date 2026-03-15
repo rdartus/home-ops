@@ -864,7 +864,7 @@ persistence:
   loisir:
     enabled: true
     type : persistentVolumeClaim
-    existingClaim: pvc-loisir
+    existingClaim: pvc-jeantasse-loisir
     globalMounts:
       - path: /books
         subPath: Books/Calibre-EN
