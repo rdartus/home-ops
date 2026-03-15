@@ -5,7 +5,16 @@
 
 set -euo pipefail
 
+VALIDATE_SCRIPT="$(git rev-parse --show-toplevel)/scripts/validate-kustomization-paths.sh"
 SCRIPT="$(git rev-parse --show-toplevel)/scripts/flux-graph.py"
+
+if [[ ! -f "$VALIDATE_SCRIPT" ]]; then
+  echo "[pre-commit] validate-kustomization-paths.sh not found, aborting commit."
+  exit 1
+fi
+
+echo "[pre-commit] Validating staged kustomization references..."
+bash "$VALIDATE_SCRIPT"
 
 if [[ ! -f "$SCRIPT" ]]; then
   echo "[pre-commit] flux-graph.py not found, skipping graph update."

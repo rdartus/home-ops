@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+# .githooks/pre-push
+# Validates Flux Kustomizations with local dry-run builds before push.
+
+set -euo pipefail
+
+SCRIPT="$(git rev-parse --show-toplevel)/scripts/flux-preflight.sh"
+
+if [[ ! -f "$SCRIPT" ]]; then
+  echo "[pre-push] flux-preflight.sh not found, aborting push."
+  exit 1
+fi
+
+echo "[pre-push] Running Flux preflight checks..."
+bash "$SCRIPT"
