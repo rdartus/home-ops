@@ -633,7 +633,7 @@ ingress:
       hajimari.io/enable: "true"
       hajimari.io/group: "Media"
       hajimari.io/icon: "cog-transfer"
-      traefik.ingress.kubernetes.io/router.middlewares: "network-authentik-forward-auth@kubernetescrd"
+      traefik.ingress.kubernetes.io/router.middlewares: "network-authentik-bypass@kubernetescrd, network-authentik-forward-auth@kubernetescrd"
       cert-manager.io/cluster-issuer: zerossl-prod
       # traefik.ingress.kubernetes.io/router.middlewares: network-crowdsec@kubernetescrd
       # acme.cert-manager.io/http01-edit-in-place: "false"
