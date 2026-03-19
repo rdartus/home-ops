@@ -23,3 +23,7 @@ spec:
           - X-authentik-meta-provider
           - X-authentik-meta-app
           - X-authentik-meta-version
+    local-bypass:
+      ipWhiteList:
+        sourceRange:
+          - 192.168.1.16/32
