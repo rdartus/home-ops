@@ -633,7 +633,7 @@ ingress:
       hajimari.io/enable: "true"
       hajimari.io/group: "Media"
       hajimari.io/icon: "cog-transfer"
-      traefik.ingress.kubernetes.io/router.middlewares: "network-authentik-bypass@kubernetescrd, network-authentik-forward-auth@kubernetescrd"
+      traefik.ingress.kubernetes.io/router.middlewares: "network-authentik-forward-auth@kubernetescrd"
       cert-manager.io/cluster-issuer: zerossl-prod
       # traefik.ingress.kubernetes.io/router.middlewares: network-crowdsec@kubernetescrd
       # acme.cert-manager.io/http01-edit-in-place: "false"
@@ -671,10 +671,6 @@ ingress:
       - hosts:
         - prowlarr.dartus.fr
         secretName: prowlarr.dartus.fr-tls
-
-    #  - secretName: chart-example-tls
-    #    hosts:
-    #      - chart-example.local
 
 # -- Configure the ServiceMonitors for the chart here.
 # Additional ServiceMonitors can be added by adding a dictionary key similar to the 'main' ServiceMonitors.
@@ -897,22 +893,22 @@ networkpolicies:
 # -- Configure any unsupported raw resources here.
 # @default -- See below
 rawResources:
-  {}
-  # example:
-  #   # -- Enables or disables the resource. Defaults to true
-  #   enabled: false
-  #   # -- Specify the apiVersion of the resource.
-  #   apiVersion: v1
-  #   # -- Specify the kind of the resource.
-  #   kind: Endpoint
-  #   # -- Override the name suffix that is used for this resource.
-  #   nameOverride: ""
-  #   # -- Provide additional annotations which may be required.
-  #   annotations: {}
-  #   # -- Provide additional labels which may be required.
-  #   labels: {}
-  #   # -- Configure the contents of the resource that is to be rendered.
-  #   spec:
+  local-bypass:
+    enabled: true
+    apiVersion: traefik.io/v1alpha1
+    kind: IngressRoute
+    spec:
+      entryPoints:
+        - websecure
+      routes:
+        - match: Host(`prowlarr.dartus.fr`) && ClientIP(`192.168.1.16`)
+          kind: Rule
+          priority: 100
+          services:
+            - name: prowlarr
+              port: 9696
+      tls:
+        secretName: prowlarr.dartus.fr-tls
 
 # -- Configure the Roles and Role Bindings for the chart here.
 rbac:

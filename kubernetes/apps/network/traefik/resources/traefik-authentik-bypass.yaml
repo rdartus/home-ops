@@ -7,7 +7,6 @@ metadata:
     argocd.argoproj.io/sync-wave: "-100"
     argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
 spec:
-  local-bypass:
-    ipWhiteList:
-      sourceRange:
-        - 192.168.1.16/32
+  ipWhiteList:
+    sourceRange:
+      - 192.168.1.16/32
