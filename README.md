@@ -5,7 +5,6 @@
 ### My _geeked_ homelab k8s cluster <img src="https://fonts.gstatic.com/s/e/notoemoji/latest/1f680/512.gif" alt="🚀" width="16" height="16">
 
 _... automated via [Flux](https://github.com/fluxcd/flux2), [Renovate](https://github.com/renovatebot/renovate)  <img src="https://fonts.gstatic.com/s/e/notoemoji/latest/1f916/512.gif" alt="🤖" width="16" height="16">
-w
 </div>
 
 <div align="center">
@@ -53,15 +52,18 @@ There is a template at [onedr0p/cluster-template](https://github.com/onedr0p/clu
 
 ### Core Components
 
-- [cert-manager](https://github.com/cert-manager/cert-manager): Creates SSL certificates for services in my cluster.
-- [longhron](https://longhorn.io/): Distributed block storage for peristent storage.
-- [flannel](https://flannel) : internal networking for my workloads.
-- [vault](https://vault): Creates SSL certificates for services in my cluster.
-- [wireguard](https://wireguard): VPN for remote access & local ip address while roaming.
-- [Postgres](https://wireguard): CNPG Operator for eazy PG Management.
-- [MetalLB](https://wireguard): LB to expose only 1 IP to router.
-- [Authentik](https://wireguard): IDM, SSO for securing the apps.
-- [Hajimari](https://wireguard): Sleek but unmaintained home page.
+- [cert-manager](https://cert-manager.io/): Creates SSL certificates for services in my cluster.
+- [longhorn](https://longhorn.io/): Distributed block storage for persistent storage.
+- [flannel](https://github.com/flannel-io/flannel): Internal networking for my workloads.
+- [Traefik](https://traefik.io/): Modern reverse proxy and Ingress controller for handling external and internal web traffic.
+- [MetalLB](https://metallb.universe.tf/): Load Balancer to expose only 1 IP to router.
+- [CrowdSec](https://www.crowdsec.net/): Collaborative Intrusion Prevention System (IPS) protecting exposed services.
+- [vault](https://www.vaultproject.io/): Manages secrets and protects sensitive data.
+- [wireguard](https://www.wireguard.com/): VPN for remote access & local IP address while roaming.
+- [Postgres](https://cloudnative-pg.io/): CNPG Operator for easy PG Management.
+- [kube-prometheus-stack](https://github.com/prometheus-community/helm-charts/tree/main/charts/kube-prometheus-stack): Comprehensive observability and monitoring via Prometheus and Grafana.
+- [Authentik](https://goauthentik.io/): IDM & SSO for securing the apps.
+- [Hajimari](https://github.com/hajimari/hajimari): Sleek but unmaintained home page.
 
 ### GitOps
 
@@ -257,12 +259,12 @@ graph TD;
 ## <img src="https://fonts.gstatic.com/s/e/notoemoji/latest/2699_fe0f/512.gif" alt="⚙" width="20" height="20"> Hardware
 
 
-| Device                        | Count | OS Disk Size   | Data Disk Size             | Ram   | Operating System | Purpose                 |
-|-------------------------------|-------|---------------|-----------------------------|-------|------------------|-------------------------|
-| Intel NUC (N150)              | 1     | 160GB M.2     | -                           | 16GB  | Talos            | Kubernetes              |
-| Intel NUC (XXXXXU)            | 1     | 64GB (SD)     | -                           | 16B   | Talos            | Kubernetes              |
-| Raspberry Pi 4                | 1     | 64GB (SD)     | -                           | 8GB   | Raspberry Pi OS  | NAS                     |
-| Raspberry Pi ZeroW            | 1     | 16GB (SD)     | -                           | 0,5GB | Raspberry Pi OS  | DNS Server              |
+| Device             | CPU                 | Count | OS Disk Size | Data Disk Size | Ram   | Operating System | Purpose    |
+|--------------------|---------------------|-------|--------------|----------------|-------|------------------|------------|
+| nucoumouk          | Intel N150          | 1     | 160GB M.2    | -              | 16GB  | Talos            | Kubernetes |
+| nucsamere          | AMD Ryzen 5 7430U   | 1     | 64GB (SD)    | -              | 16GB  | Talos            | Kubernetes |
+| Raspberry Pi 4     | Broadcom BCM2711    | 1     | 64GB (SD)    | -              | 8GB   | Raspberry Pi OS  | NAS        |
+| Raspberry Pi ZeroW | Broadcom BCM2835    | 1     | 16GB (SD)    | -              | 0,5GB | Raspberry Pi OS  | DNS Server |
 
 ---
 
@@ -288,19 +290,7 @@ graph TD;
 Many thanks to all the fantastic people who donate their time to the [Home Operations](https://discord.gg/home-operations) Discord community. Be sure to check out [kubesearch.dev](https://kubesearch.dev) for ideas on how to deploy applications or get ideas on what you may deploy.
 
 ---
-
-## <img src="https://fonts.gstatic.com/s/e/notoemoji/latest/1f6a7/512.gif" alt="🚧" width="20" height="20"> Changelog
-
-See the latest [release](https://github.com/rdartus/home-ops/releases/latest) notes.
-
----
-
-## <img src="https://fonts.gstatic.com/s/e/notoemoji/latest/2696_fe0f/512.gif" alt="⚖" width="20" height="20"> License
-
-See [LICENSE](./LICENSE).
-
----
-## <img src="https://fonts.gstatic.com/s/e/notoemoji/latest/1f308/512.gif" alt="🌈" width="20" height="20"> Usefull notes & cmd
+## <img src="https://fonts.gstatic.com/s/e/notoemoji/latest/1f308/512.gif" alt="🌈" width="20" height="20"> Useful notes & cmd
 
 Get logs
 ```zsh
