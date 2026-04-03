@@ -6,6 +6,10 @@
     "github>rdartus/home-ops//.renovate/packageRules.json"
   ],
   "dependencyDashboardTitle": "Renovate Dashboard 🤖",
+  "prHourlyLimit": 0,
+  "prConcurrentLimit": 25,
+  "branchConcurrentLimit": 25,
+  "prCreation": "immediate",
   "suppressNotifications": [
     "prEditedNotification",
     "prIgnoreNotification"
