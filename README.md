@@ -141,7 +141,6 @@ graph TD;
   default__rabbitmq_resources["rabbitmq-resources"]
   default__radarr["radarr"]
   default__sonarr["sonarr"]
-  default__tandoor["tandoor"]
   default__test_christmas["test-christmas"]
   network__traefik["traefik"]
   network__traefik_resources["traefik-resources"]
@@ -182,7 +181,6 @@ graph TD;
   default__immich --> default__flaresolverr
   default__immich --> default__kavita
   default__immich --> default__mealie
-  default__immich --> default__tandoor
   default__jellyfin --> default__books
   default__jellyfin --> default__livres
   default__prowlarr --> default__jellyfin
@@ -243,7 +241,7 @@ graph TD;
   class flux_controller cls_flux_ctrl;
   class cert_manager__cert_manager,cert_manager__cert_manager_issuers cls_cert_manager;
   class database__cnpg,database__cnpg_resources,database__pg_dump,database__pg_dump_sync,database__pg_restore,database__pgadmin cls_database;
-  class default__authentik,default__autobrr,default__automate_wx,default__books,default__christmas,default__coder,default__endlessh,default__filebrowser,default__flaresolverr,default__ghostfolio,default__hajimari,default__immich,default__jellyfin,default__kavita,default__livres,default__mealie,default__onlyoffice,default__paperless,default__prowlarr,default__rabbitmq,default__rabbitmq_resources,default__radarr,default__sonarr,default__tandoor,default__test_christmas,default__valkey cls_default;
+  class default__authentik,default__autobrr,default__automate_wx,default__books,default__christmas,default__coder,default__endlessh,default__filebrowser,default__flaresolverr,default__ghostfolio,default__hajimari,default__immich,default__jellyfin,default__kavita,default__livres,default__mealie,default__onlyoffice,default__paperless,default__prowlarr,default__rabbitmq,default__rabbitmq_resources,default__radarr,default__sonarr,default__test_christmas,default__valkey cls_default;
   class flux_system__cluster_apps,flux_system__cluster_meta,flux_system__flux_instance,flux_system__flux_operator cls_flux_system;
   class kube_system__csi_driver_smb,kube_system__csi_driver_smb_ressources,kube_system__kubernetes_replicator cls_kube_system;
   class longhorn_system__local_path_provisioner,longhorn_system__longhorn,longhorn_system__longhorn_resources,longhorn_system__longhorn_restore cls_longhorn_system;
