@@ -4189,7 +4189,7 @@ sidecar:
   image:
     registry: ghcr.io
     repository: home-operations/k8s-sidecar
-    tag: 2.6.0@sha256:a985f3f4026629cdd9ff6280ec1bcb007e3b554e156374263faba8158f7f6eb2
+    tag: 2.7.3@sha256:391ccddbc6b29b1b07fea530950eba68e941304ea9252084e07cf12f1687a81d
   dashboards:
     enabled: true
     searchNamespace: ALL
