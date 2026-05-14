@@ -113,7 +113,7 @@ controllers:
           # -- image repository
           repository: ghostfolio/ghostfolio
           # -- image tag
-          tag: 2.254.0@sha256:1ae235bf49252121fb19d44a40ff5a700a2034dda9efc6dde8a263600e63dade
+          tag: 3.3.0@sha256:3ec570e559e737324af1e2aba0201ffdadb406a70cd88cdb67537e6fdacbeaa0
           # -- image pull policy
           pullPolicy: IfNotPresent
 
