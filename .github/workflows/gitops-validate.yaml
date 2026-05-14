@@ -1,45 +1,45 @@
-# name: gitops-validate
+name: gitops-validate
 
-# on:
-#   pull_request:
-#     paths:
-#       - "kubernetes/**"
-#       - "scripts/**"
-#       - ".githooks/**"
-#       - ".github/workflows/gitops-validate.yaml"
-#   push:
-#     branches:
-#       - main
-#     paths:
-#       - "kubernetes/**"
-#       - "scripts/**"
-#       - ".githooks/**"
-#       - ".github/workflows/gitops-validate.yaml"
+on:
+  pull_request:
+    paths:
+      - "kubernetes/**"
+      - "scripts/**"
+      - ".githooks/**"
+      - ".github/workflows/gitops-validate.yaml"
+  push:
+    branches:
+      - main
+    paths:
+      - "kubernetes/**"
+      - "scripts/**"
+      - ".githooks/**"
+      - ".github/workflows/gitops-validate.yaml"
 
-# jobs:
-#   validate:
-#     runs-on: ubuntu-latest
-#     steps:
-#       - name: Checkout
-#         uses: actions/checkout@v4
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
 
-#       - name: Install jq
-#         run: sudo apt-get update && sudo apt-get install -y jq
+      - name: Install jq
+        run: sudo apt-get update && sudo apt-get install -y jq
 
-#       - name: Install yq (jq wrapper)
-#         run: python3 -m pip install --user yq
+      - name: Install yq (jq wrapper)
+        run: python3 -m pip install --user yq
 
-#       - name: Add user bin to PATH
-#         run: echo "$HOME/.local/bin" >> "$GITHUB_PATH"
+      - name: Add user bin to PATH
+        run: echo "$HOME/.local/bin" >> "$GITHUB_PATH"
 
-#       - name: Setup kubectl
-#         uses: azure/setup-kubectl@v4
+      - name: Setup kubectl
+        uses: azure/setup-kubectl@v4
 
-#       - name: Setup Flux CLI
-#         uses: fluxcd/flux2/action@main
+      - name: Setup Flux CLI
+        uses: fluxcd/flux2/action@main
 
-#       - name: Validate kustomization references and render
-#         run: bash scripts/validate-kustomization-paths.sh --all
+      - name: Validate kustomization references and render
+        run: bash scripts/validate-kustomization-paths.sh --all
 
-#       - name: Flux preflight build dry-run
-#         run: bash scripts/flux-preflight.sh
+      - name: Flux preflight build dry-run
+        run: bash scripts/flux-preflight.sh
