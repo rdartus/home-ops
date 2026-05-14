@@ -895,21 +895,22 @@ networkpolicies:
 rawResources:
   local-bypass:
     enabled: true
-    apiVersion: traefik.io/v1alpha1
-    kind: IngressRoute
-    spec:
+    manifest:
+      apiVersion: traefik.io/v1alpha1
+      kind: IngressRoute
       spec:
-        entryPoints:
-          - websecure
-        routes:
-          - match: Host(`prowlarr.dartus.fr`) && ClientIP(`192.168.1.16`)
-            kind: Rule
-            priority: 100
-            services:
-              - name: prowlarr
-                port: 9696
-        tls:
-          secretName: prowlarr.dartus.fr-tls
+        spec:
+          entryPoints:
+            - websecure
+          routes:
+            - match: Host(`prowlarr.dartus.fr`) && ClientIP(`192.168.1.16`)
+              kind: Rule
+              priority: 100
+              services:
+                - name: prowlarr
+                  port: 9696
+          tls:
+            secretName: prowlarr.dartus.fr-tls
 
 # -- Configure the Roles and Role Bindings for the chart here.
 rbac:
