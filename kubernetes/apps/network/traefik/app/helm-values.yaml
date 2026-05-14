@@ -130,8 +130,8 @@ podDisruptionBudget:  # @schema additionalProperties: false
   maxUnavailable:  # @schema type:[string, integer, null];minimum:0
   minAvailable:    # @schema type:[string, integer, null];minimum:0
 
-# -- Create a default IngressClass for Traefik
 ingressClass:  # @schema additionalProperties: false
+  # -- Create a default IngressClass for Traefik
   enabled: true
   isDefaultClass: true
   name: traefik-ingresses
@@ -191,8 +191,8 @@ gateway:
       hostname: "*.dartus.fr"
       # Specify expected protocol on this listener. See [ProtocolType](https://gateway-api.sigs.k8s.io/reference/spec/#gateway.networking.k8s.io/v1.ProtocolType)
       protocol: HTTP
-      # -- Routes are restricted to namespace of the gateway [by default](https://gateway-api.sigs.k8s.io/reference/spec/#gateway.networking.k8s.io/v1.FromNamespaces
-      namespacePolicy: # @schema type:[object, null]
+      # -- (object) Routes are restricted to namespace of the gateway [by default](https://gateway-api.sigs.k8s.io/reference/spec/#gateway.networking.k8s.io/v1.FromNamespaces
+      namespacePolicy:  # @schema type:[object, null]
         from: All 
     # websecure listener is disabled by default because certificateRefs needs to be added,
     # or you may specify TLS protocol with Passthrough mode and add "--providers.kubernetesGateway.experimentalChannel=true" in additionalArguments section.
@@ -383,6 +383,8 @@ providers:
     allowExternalNameServices: true
     # -- Allows to return 503 when there are no endpoints available
     allowEmptyServices: true
+    # -- List of namespaces from which IngressRoute, IngressRouteTCP, IngressRouteUDP, and TraefikService are allowed to declare cross-provider references. Requires traefik v3.7.1+.
+    crossProviderNamespaces: []
     # -- When the parameter is set, only resources containing an annotation with the same value are processed. Otherwise, resources missing the annotation, having an empty value, or the value traefik are processed. It will also set required annotation on Dashboard and Healthcheck IngressRoute when enabled.
     ingressClass: ""
     # -- See [upstream documentation](https://doc.traefik.io/traefik/reference/install-configuration/providers/kubernetes/kubernetes-ingress/#opt-providers-kubernetesIngress-labelselector)
@@ -398,8 +400,10 @@ providers:
     enabled: true
     # -- Allows to reference ExternalName services in Ingress
     allowExternalNameServices: true
-    # -- Allows to return 503 when there is no endpoints available
+    # -- Allows to return 503 when there are no endpoints available
     allowEmptyServices: true
+    # -- List of namespaces from which Ingresses or Services are allowed to declare Middlewares, TLSOptions, or ServersTransport references. Requires traefik v3.7.1+.
+    crossProviderNamespaces: []
     # -- Only for Traefik v3.0, Deprecated since v3.1. See [upstream documentation](https://doc.traefik.io/traefik/v3.0/providers/kubernetes-ingress/#disableingressclasslookup)
     disableIngressClassLookup: false
     # -- When ingressClass is set, only Ingresses containing an annotation with the same value are processed. Otherwise, Ingresses missing the annotation, having an empty value, or the value traefik are processed.
@@ -430,6 +434,8 @@ providers:
   kubernetesGateway:
     # -- Enable Traefik Gateway provider for Gateway API
     enabled: true
+    # -- List of namespaces from which Gateway API routes are allowed to declare TraefikService backendRef references. Requires traefik v3.7.1+.
+    crossProviderNamespaces: []
     # -- Toggles support for the Experimental Channel resources (Gateway API release channels documentation).
     # This option currently enables support for TCPRoute and TLSRoute.
     experimentalChannel: false
@@ -636,7 +642,7 @@ logs:
           # -- The path to the private key. When using this option, setting the cert option is required.
           key: ""
           # -- When set to true, the TLS connection accepts any certificate presented by the server regardless of the hostnames it covers.
-          insecureSkipVerify: false
+          insecureSkipVerify:  # @schema type:[boolean, null]
       # -- Defines additional resource attributes to be sent to the collector.
       resourceAttributes: {}
 
@@ -644,7 +650,7 @@ logs:
     # -- To enable access logs
     enabled: true
     # -- Set [access log format](https://doc.traefik.io/traefik/reference/install-configuration/observability/logs-and-accesslogs/#opt-accesslog-format)
-    format: json # @schema enum:["common", "json", null]; type:[string, null]; default: "common"
+    format: json # @schema enum:["common", "genericCLF", "json", null]; type:[string, null]; default: "common"
     # filePath: "/var/log/traefik/access.log
     # -- Set [bufferingSize](https://doc.traefik.io/traefik/reference/install-configuration/observability/logs-and-accesslogs/#opt-accesslog-bufferingSize)
     bufferingSize:  # @schema type:[integer, null]
