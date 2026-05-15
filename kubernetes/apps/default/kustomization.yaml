@@ -23,7 +23,7 @@ resources:
   - ./livres/ks.yaml
   - ./immich/ks.yaml
   # - ./test-christmas/ks.yaml
-  - ./ghostfolio/ks.yaml
+  # - ./ghostfolio/ks.yaml
   - ./paperless-ngx/ks.yaml
   # - ./zitadel/ks.yaml
   # - ./qbittorrent/ks.yaml
