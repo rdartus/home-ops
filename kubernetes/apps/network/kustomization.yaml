@@ -10,5 +10,6 @@ resources:
   - ./ddns-updater/ks.yaml
   - ./wireguard/ks.yaml
   - ./metallb/ks.yaml
+  - ./uptime-kuma/ks.yaml
 components:
   - ../../components/flux/sops

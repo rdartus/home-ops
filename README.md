@@ -143,6 +143,7 @@ graph TD;
   default__test_christmas["test-christmas"]
   network__traefik["traefik"]
   network__traefik_resources["traefik-resources"]
+  network__uptime_kuma["uptime-kuma"]
   default__valkey["valkey"]
   vault__vault["vault"]
   vault__vault_secrets_operator["vault-secrets-operator"]
@@ -210,6 +211,7 @@ graph TD;
   network__traefik --> kube_system__csi_driver_smb_ressources
   network__traefik --> network__ddns_updater
   network__traefik --> network__traefik_resources
+  network__traefik --> network__uptime_kuma
   network__traefik_resources --> longhorn_system__longhorn
   observability__grafana --> cert_manager__cert_manager
   observability__kromgo --> cert_manager__cert_manager
@@ -223,6 +225,7 @@ graph TD;
   vault__vault_secrets_operator --> kube_system__csi_driver_smb_ressources
   vault__vault_secrets_operator --> network__crowdsec
   vault__vault_secrets_operator --> network__ddns_updater
+  vault__vault_secrets_operator --> network__uptime_kuma
   vault__vault_secrets_operator --> network__wireguard
 
   classDef cls_flux_ctrl fill:#1a001a,stroke:#ff00ff,color:#ff00ff,stroke-width:3px,font-weight:bold;
@@ -243,7 +246,7 @@ graph TD;
   class flux_system__cluster_apps,flux_system__cluster_meta,flux_system__flux_instance,flux_system__flux_operator cls_flux_system;
   class kube_system__csi_driver_smb,kube_system__csi_driver_smb_ressources,kube_system__kubernetes_replicator cls_kube_system;
   class longhorn_system__local_path_provisioner,longhorn_system__longhorn,longhorn_system__longhorn_resources,longhorn_system__longhorn_restore cls_longhorn_system;
-  class network__crowdsec,network__ddns_updater,network__metallb,network__metallb_resources,network__traefik,network__traefik_resources,network__wireguard cls_network;
+  class network__crowdsec,network__ddns_updater,network__metallb,network__metallb_resources,network__traefik,network__traefik_resources,network__uptime_kuma,network__wireguard cls_network;
   class observability__grafana,observability__kromgo,observability__kube_prometeus_stack cls_observability;
   class vault__vault,vault__vault_secrets_operator cls_vault;
 ```
