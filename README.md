@@ -167,9 +167,8 @@ graph TD;
   database__cnpg --> database__pg_dump
   database__cnpg --> database__pg_dump_sync
   database__cnpg_resources --> database__pg_restore
-  database__cnpg_resources --> database__pgadmin
-  database__cnpg_resources --> default__immich
   database__cnpg_resources --> default__onlyoffice
+  database__pg_restore --> default__authentik
   default__authentik --> database__pgadmin
   default__authentik --> default__filebrowser
   default__automate_wx --> default__hajimari
@@ -205,7 +204,6 @@ graph TD;
   network__metallb --> network__traefik_resources
   network__metallb_resources --> observability__grafana
   network__metallb_resources --> observability__kromgo
-  network__traefik --> default__authentik
   network__traefik --> default__hajimari
   network__traefik --> kube_system__csi_driver_smb
   network__traefik --> kube_system__csi_driver_smb_ressources
@@ -218,7 +216,6 @@ graph TD;
   observability__kube_prometeus_stack --> observability__grafana
   observability__kube_prometeus_stack --> observability__kromgo
   vault__vault --> vault__vault_secrets_operator
-  vault__vault_secrets_operator --> default__authentik
   vault__vault_secrets_operator --> default__automate_wx
   vault__vault_secrets_operator --> default__rabbitmq
   vault__vault_secrets_operator --> kube_system__csi_driver_smb
