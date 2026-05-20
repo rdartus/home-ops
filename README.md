@@ -164,11 +164,11 @@ graph TD;
   cert_manager__cert_manager --> cert_manager__cert_manager_issuers
   cert_manager__cert_manager_issuers --> database__cnpg
   database__cnpg --> database__cnpg_resources
-  database__cnpg --> database__pg_dump
-  database__cnpg --> database__pg_dump_sync
   database__cnpg_resources --> database__pg_restore
-  database__cnpg_resources --> default__onlyoffice
+  database__pg_restore --> database__pg_dump
+  database__pg_restore --> database__pg_dump_sync
   database__pg_restore --> default__authentik
+  database__pg_restore --> default__onlyoffice
   default__authentik --> database__pgadmin
   default__authentik --> default__filebrowser
   default__automate_wx --> default__hajimari
