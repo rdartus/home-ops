@@ -130,7 +130,7 @@ spec:
       database: default
       owner: postgres
       secret:
-        name: pgsql-secret
+        name: superuser-secret
       postInitSQL:
         - ALTER SYSTEM SET search_path TO "$user", public, vectors;
         - CREATE EXTENSION IF NOT EXISTS vchord CASCADE;
