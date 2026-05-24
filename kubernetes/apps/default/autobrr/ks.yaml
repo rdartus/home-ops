@@ -20,8 +20,8 @@ spec:
       namespace: default
     - name: sonarr
       namespace: default
-    - name: pg-restore
-      namespace: database
+    # - name: pg-restore
+    #   namespace: database
   prune: true
   sourceRef:
     kind: GitRepository

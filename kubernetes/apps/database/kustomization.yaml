@@ -8,5 +8,5 @@ resources:
   - ./cnpg/ks.yaml
   - ./pg-dump/ks.yaml
   - ./pg-dump-sync/ks.yaml
-  - ./pg-restore/ks.yaml
+  # - ./pg-restore/ks.yaml
   - ./pgadmin/ks.yaml
