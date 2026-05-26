@@ -382,7 +382,7 @@ data:
         vault kv put kv-v2/paperless oidcProvider="@/config/cred/paperlessSocialProvider" gmailOidcClient="@/config/cred/paperlessGmailOIDCClient" gmailOidcSecret="@/config/cred/paperlessGmailOIDCSecret"
         vault kv put kv-v2/autobrr oidcSecret="@/config/cred/autobrrOIDCSecret" oidcClient="@/config/cred/autobrrOIDCClient"
         vault kv put kv-v2/ghostfolio oidcSecret="@/config/cred/ghostfolioOIDCSecret" oidcClient="@/config/cred/ghostfolioOIDCClient" salt="@/config/cred/ghostfolioSalt" secretKey="@/config/cred/ghostfolioSecretKey"
-        vault kv put kv-v2/coder oidcSecret="@/config/cred/coderOIDCSecret" oidcClient="@/config/cred/coderOIDCClient"
+        vault kv put kv-v2/coder oidcSecret="@/config/cred/coderOIDCSecret" oidcClient="@/config/cred/coderOIDCClient" githubOidcClient="@/config/cred/githubOIDCClient" githubOidcSecret="@/config/cred/githubOIDCSecret"
         vault kv put kv-v2/zerossl keyID="@/config/cred/zeroSSLID" HMAC="@/config/cred/zeroSSLHMAC"
         vault kv put kv-v2/mealie oidcSecret="@/config/cred/mealieOIDCSecret" oidcClient="@/config/cred/mealieOIDCClient"
         vault kv put kv-v2/pgadmin oidcSecret="@/config/cred/pgadminOIDCSecret" oidcClient="@/config/cred/pgadminOIDCClient" oidcConf="@/config/cred/pgadminOIDCConf" servers.json="@/config/cred/pgadminServerConf"
