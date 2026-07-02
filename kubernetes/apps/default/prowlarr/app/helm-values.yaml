@@ -267,7 +267,7 @@ controllers:
           # -- image repository
           repository: ghcr.io/home-operations/prowlarr
           # -- image tag
-          tag: 2.4.0@sha256:91af7cbc8e357dede960033c9ecfb3a65e145d90d4e495e13adb2fbc6a546807
+          tag: 2.4.0@sha256:b7da6e9defbe0e43a361b51a4bd7f21031d8c2c751f7cc7e1c3f80503af6456c
           # -- image pull policy
           pullPolicy: IfNotPresent
 
