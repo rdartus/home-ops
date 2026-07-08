@@ -108,7 +108,7 @@ controllers:
           # -- image repository
           repository: postgres
           # -- image tag
-          tag: 18@sha256:f7ce845ee6873dd84be93c9828fe0d1fab0f9707dc9ac569694657398b290bce
+          tag: 18@sha256:22c89fe0d0f507606260237fd55e51f6137f58b2d5bcf6152242b96d9fe8f9a4
           # -- image pull policy
           pullPolicy: IfNotPresent
         # -- Override the command(s) for the container
