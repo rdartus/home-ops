@@ -266,7 +266,7 @@ controllers:
           # -- image repository
           repository: ghcr.io/rdartus/automate-wx
           # -- image tag
-          tag: latest@sha256:733c77b4aefc2758f2c2d0de3c4a5c92de1765744788951c99805bfc6ca5a7ef
+          tag: latest@sha256:cc21b5a45734b4d1ddec2beb013d68cd5027275114e7cf28e7409eda03bd37bb
 #           # -- image digest
 #           digest:
           # -- image pull policy
@@ -735,6 +735,13 @@ route:
 # [[ref]](https://bjw-s-labs.github.io/helm-charts/docs/common-library/common-library-storage)
 # @default -- See below
 persistence:
+  # dev-dri:
+  #   type: hostPath
+  #   hostPath: /dev/dri
+  #   # Le chemin global où l'injecter par défaut dans le conteneur
+  #   globalMounts:
+  #     - path: /dev/dri
+
   config:
   #   # -- Enables or disables the persistence item. Defaults to true
     enabled: true
