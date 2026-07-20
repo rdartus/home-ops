@@ -266,7 +266,7 @@ controllers:
           # -- image repository
           repository: ghcr.io/rdartus/automate-wx
           # -- image tag
-          tag: latest@sha256:89fc9a5281cb3b41391a468fc364e9ffa3356425356598e8cd4fe1faa7337646
+          tag: latest@sha256:89621a545f71527de7a8ca5a3649712af1ffc830d677c69317774b163eeba2bd
 #           # -- image digest
 #           digest:
           # -- image pull policy
