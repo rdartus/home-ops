@@ -1,6 +1,5 @@
 # yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/refs/heads/main/charts/library/common/values.schema.json
 ---
-
   values:
     controllers:
       headplane:
@@ -12,6 +11,7 @@
               repository: ghcr.io/tale/headplane
               # ADAPT: pin to the current release, check
               # https://github.com/tale/headplane/releases
+              # test
               tag: "0.7.0"
             env:
               # Required for any HEADPLANE_<SECTION>__<KEY> override below
