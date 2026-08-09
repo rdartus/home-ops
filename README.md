@@ -117,6 +117,7 @@ graph TD;
   default__hajimari["hajimari"]
   network__headplane["headplane"]
   network__headscale["headscale"]
+  network__headscale_rotator["headscale-rotator"]
   default__immich["immich"]
   default__jellyfin["jellyfin"]
   default__kavita["kavita"]
@@ -206,6 +207,7 @@ graph TD;
   longhorn_system__longhorn_restore --> default__immich
   network__crowdsec --> network__traefik_resources
   network__headscale --> network__headplane
+  network__headscale --> network__headscale_rotator
   network__headscale --> network__tailscale
   network__metallb --> network__metallb_resources
   network__metallb --> network__traefik_resources
@@ -249,7 +251,7 @@ graph TD;
   class flux_system__cluster_apps,flux_system__cluster_meta,flux_system__flux_instance,flux_system__flux_operator cls_flux_system;
   class kube_system__csi_driver_smb,kube_system__csi_driver_smb_ressources,kube_system__kubernetes_replicator cls_kube_system;
   class longhorn_system__local_path_provisioner,longhorn_system__longhorn,longhorn_system__longhorn_resources,longhorn_system__longhorn_restore cls_longhorn_system;
-  class network__crowdsec,network__ddns_updater,network__headplane,network__headscale,network__metallb,network__metallb_resources,network__tailscale,network__traefik,network__traefik_resources,network__uptime_kuma cls_network;
+  class network__crowdsec,network__ddns_updater,network__headplane,network__headscale,network__headscale_rotator,network__metallb,network__metallb_resources,network__tailscale,network__traefik,network__traefik_resources,network__uptime_kuma cls_network;
   class observability__grafana,observability__kromgo,observability__kube_prometeus_stack cls_observability;
   class vault__vault,vault__vault_secrets_operator cls_vault;
 ```

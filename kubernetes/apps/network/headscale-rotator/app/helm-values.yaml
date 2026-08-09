@@ -1,0 +1,170 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/refs/heads/main/charts/library/common/values.schema.json
+---
+# Replaces apikey-rotation-rbac.yaml + apikey-rotation-cronjob.yaml (now
+# deleted) - same behavior, expressed as app-template v5.0.1 values instead
+# of plain Kubernetes manifests.
+#
+# Every field below was checked against the actual schema/docs rather than
+# assumed:
+#   - controllers.<id>.type: cronjob + controllers.<id>.cronjob.schedule /
+#     .concurrencyPolicy - confirmed via the common chart's own
+#     values.yaml and GitHub doc pages (checked 2026-08-09).
+#   - initContainers as a controller-level sibling of containers, same
+#     inner schema (image/command/env/...) as containers - confirmed in
+#     values.yaml.
+#   - serviceAccount.<id> (top-level) + controllers.<id>.serviceAccount.identifier
+#     to reference it - confirmed verbatim from bjw-s's own "Upgrade
+#     instructions" page:
+#       serviceAccount:
+#         myServiceAccount: {}
+#       controllers:
+#         main:
+#           serviceAccount:
+#             identifier: myServiceAccount
+#   - persistence types (emptyDir here) - confirmed against
+#     values.schema.json's persistence.item enum.
+#   - env `valueFrom.secretKeyRef` map syntax - confirmed verbatim in
+#     values.yaml's own documented syntax options for `env`.
+#   - rawResources.<id>.manifest wrapper - confirmed in the common-5.0.0
+#     changelog ("Restructured rawResources to use a manifest wrapper key")
+#     and in the top-level values.schema.json listing. Used here for the
+#     Role/RoleBinding because I could NOT verify the field names of the
+#     dedicated top-level `rbac.roles` / `rbac.bindings` shorthand with
+#     the same confidence - rawResources lets me give you plain, guaranteed
+#     -valid Kubernetes RBAC YAML instead of guessing at a shorthand's
+#     field names.
+#   - `pod.automountServiceAccountToken: true` is REQUIRED and explicit:
+#     common-5.0.0 changed the default to `false` cluster-wide (breaking
+#     change), and this Job's whole job is calling the Kubernetes API via
+#     kubectl, so it needs its token mounted.
+#
+# NOT verified with the same confidence (left out rather than guessed):
+#   `cronjob.successfulJobsHistoryLimit` / `failedJobsHistoryLimit` /
+#   `ttlSecondsAfterFinished` likely exist under `cronjob:` per the docs
+#   index, but I couldn't confirm their exact spelling against the raw
+#   schema file (GitHub blocked the direct fetch). Omitting them just
+#   means Kubernetes' own defaults apply (keep last 3 successful / 1
+#   failed Job). Add them yourself once you've confirmed the exact keys
+#   with `helm show values oci://ghcr.io/bjw-s-labs/helm/app-template --version 5.0.1`
+#   if you want tighter history retention.
+controllers:
+  headscale-apikey-rotate:
+    type: cronjob
+    cronjob:
+      schedule: "0 3 1 * *" # 03:00 on the 1st of every month
+      concurrencyPolicy: Forbid
+
+    serviceAccount:
+      identifier: headscale-apikey-rotator
+
+    pod:
+      automountServiceAccountToken: true
+
+    initContainers:
+      create-key:
+        image:
+          repository: bitnami/kubectl
+          tag: "1.31"
+        command:
+          - sh
+          - -c
+          - |
+            set -eu
+            kubectl exec -n headscale headscale-0 -c headscale -- \
+              headscale apikeys create --expiration 90d \
+              | tr -d '\n' > /shared/api-key
+
+    containers:
+      push-to-vault:
+        image:
+          repository: hashicorp/vault
+          tag: "1.18"
+        env:
+          VAULT_ADDR: "https://vault.dartus.fr"
+        command:
+          - sh
+          - -c
+          - |
+            set -eu
+            VAULT_TOKEN=$(vault write -field=token auth/kubernetes/login \
+              role=headscale-apikey-rotator \
+              jwt=@/var/run/secrets/kubernetes.io/serviceaccount/token)
+            export VAULT_TOKEN
+            vault kv patch kv-v2/scale/config \
+              headscale_api_key="$(cat /shared/api-key)"
+
+persistence:
+  shared:
+    type: emptyDir
+    globalMounts:
+      - path: /shared
+
+serviceAccount:
+  headscale-apikey-rotator: {}
+
+rbac:
+  roles:
+    headscale-apikey-rotator:
+      type: Role
+      rules:
+        - apiGroups:
+            - ""
+          resources:
+            - pods
+          verbs:
+            - get
+            - list
+        - apiGroups:
+            - ""
+          resources:
+            - pods/exec
+          verbs:
+            - create
+
+  bindings:
+    headscale-apikey-rotator:
+      type: RoleBinding
+      roleRef:
+        identifier: headscale-apikey-rotator
+        type: Role
+      subjects:
+        - identifier: headscale-apikey-rotator
+          kind: ServiceAccount
+
+
+# rawResources:
+#   role:
+#     manifest:
+#       apiVersion: rbac.authorization.k8s.io/v1
+#       kind: Role
+#       metadata:
+#         name: headscale-apikey-rotator
+#         namespace: headscale
+#       rules:
+#         - apiGroups: [""]
+#           resources: ["pods"]
+#           verbs: ["get", "list"]
+#         - apiGroups: [""]
+#           resources: ["pods/exec"]
+#           verbs: ["create"]
+#   rolebinding:
+#     manifest:
+#       apiVersion: rbac.authorization.k8s.io/v1
+#       kind: RoleBinding
+#       metadata:
+#         name: headscale-apikey-rotator
+#         namespace: headscale
+#       subjects:
+#         - kind: ServiceAccount
+#           # This name must match what app-template derives for the
+#           # `serviceAccount.headscale-apikey-rotator` entry above -
+#           # with a single serviceAccount entry named identically to
+#           # the identifier, that's just `headscale-apikey-rotator`.
+#           # Verify with `kubectl get sa -n headscale` after first
+#           # apply.
+#           name: headscale-apikey-rotator
+#           namespace: headscale
+#       roleRef:
+#         kind: Role
+#         name: headscale-apikey-rotator
+#         apiGroup: rbac.authorization.k8s.io

@@ -11,6 +11,7 @@ resources:
   - ./metallb/ks.yaml
   - ./uptime-kuma/ks.yaml
   - ./headscale/ks.yaml
+  - ./headscale-rotator/ks.yaml
   - ./headplane/ks.yaml
   - ./tailscale/ks.yaml
 components:
