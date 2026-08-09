@@ -40,7 +40,7 @@ controllers:
         dependsOn: []
         image:
           repository: alpine/git
-          tag: v2.54.0@sha256:fac7bc2c12aa52bff1c78a26359990e149954a60cdd5d6e20e7e009666c73e0a
+          tag: v2.54.0@sha256:3b44767883ac77bddae0160cc27b6b039345e23fa3504f4159efaa32264ab57f
           # -- image pull policy
           pullPolicy: IfNotPresent
         command:
