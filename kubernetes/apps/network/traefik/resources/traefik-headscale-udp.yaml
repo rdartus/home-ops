@@ -1,0 +1,19 @@
+# STUN only - this is not required for the "works from a hotel/4G/corporate
+# network that blocks UDP" requirement, since the DERP relay itself rides
+# over the HTTPS Ingress on :443. This just lets clients that CAN do UDP
+# discover their public endpoint for a chance at a direct connection.
+#
+# apiVersion confirmed current for Traefik v3.x (traefik.io/v1alpha1 has
+# replaced the old traefik.containo.us/v1alpha1 group) on 2026-08-08.
+apiVersion: traefik.io/v1alpha1
+kind: IngressRouteUDP
+metadata:
+  name: headscale-stun
+  namespace: headscale
+spec:
+  entryPoints:
+    - stun
+  routes:
+    - services:
+        - name: headscale
+          port: 3478

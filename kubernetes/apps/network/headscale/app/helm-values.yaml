@@ -1,0 +1,274 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/refs/heads/main/charts/library/common/values.schema.json
+---
+controllers:
+  headscale:
+    # StatefulSet, not Deployment: headscale is a single-writer SQLite
+    # process. A StatefulSet gives it a stable Pod identity and a
+    # 1:1 relationship with its PVC across reschedules/restarts, and
+    # avoids Deployment's "spin up new Pod before killing the old one"
+    # behaviour, which would briefly try to open the same sqlite file
+    # from two Pods (they can't both bind the RWO PVC anyway, but
+    # StatefulSet's default OrderedReady + terminate-then-create
+    # semantics are the safer match for this workload).
+    type: statefulset
+    replicas: 1
+
+    containers:
+      headscale:
+        image:
+          # Official image; ghcr.io/juanfont/headscale is also
+          # published and kept in sync if you prefer avoiding
+          # Docker Hub.
+          repository: docker.io/headscale/headscale
+          # Current stable release, checked against the GitHub
+          # releases page on 2026-08-08. Renovate will track this.
+          tag: v0.28.0
+        args:
+          - serve
+        env:
+          TZ: Europe/Paris
+        probes:
+          liveness:
+            enabled: true
+            custom: true
+            spec:
+              httpGet:
+                path: /health
+                port: 8080
+              initialDelaySeconds: 5
+              periodSeconds: 10
+          readiness:
+            enabled: true
+            custom: true
+            spec:
+              httpGet:
+                path: /health
+                port: 8080
+              initialDelaySeconds: 5
+              periodSeconds: 10
+        resources:
+          requests:
+            cpu: 50m
+            memory: 128Mi
+          limits:
+            memory: 256Mi
+        securityContext:
+          # headscale 0.28 explicitly targets read-only root
+          # filesystems (release notes: "Containers should be
+          # read-only"). Everything it writes to (db, keys, unix
+          # socket) is covered by the persistence entries below.
+          readOnlyRootFilesystem: true
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+              - ALL
+
+    pod:
+      # ADAPT: the official headscale distroless image's built-in
+      # non-root UID/GID may differ from 1000. Check with
+      # `docker run --rm --entrypoint id docker.io/headscale/headscale:v0.28.0`
+      # and adjust these three values (and the two below) to match -
+      # otherwise the container may fail to write to the PVC.
+      securityContext:
+        runAsUser: 1000
+        runAsGroup: 1000
+        runAsNonRoot: true
+        fsGroup: 1000
+        fsGroupChangePolicy: OnRootMismatch
+
+service:
+  headscale:
+    controller: headscale
+    ports:
+      http:
+        port: 8080
+      stun:
+        port: 3478
+        protocol: UDP
+
+ingress:
+  headscale:
+    className: traefik
+    hosts:
+      - host: &host headscale.dartus.fr
+        paths:
+          - path: /
+            pathType: Prefix
+            service:
+              identifier: headscale
+              port: http
+    tls:
+      - hosts:
+          - *host
+        secretName: headscale-tls
+
+
+configMaps:
+  config:
+    enabled: true
+    data:
+      config.yaml: |
+
+        server_url: https://headscale.dartus.fr
+        listen_addr: 0.0.0.0:8080
+        metrics_listen_addr: 0.0.0.0:9090
+    
+        # ADAPT: this must be the CIDR your Traefik pods' IPs come from (your
+        # cluster's Pod CIDR), NOT 0.0.0.0/0. Traefik connects to headscale over
+        # the in-cluster ClusterIP service, so the TCP peer address headscale
+        # sees is a Traefik pod IP, not the real client IP - only if this CIDR
+        # matches will headscale trust the X-Forwarded-For header Traefik sets
+        # and log/allow-list the real source IP instead of the pod IP.
+        # Find it with: kubectl cluster-info dump | grep -m1 cluster-cidr
+        # or check your CNI's config on Talos (Cilium/Flannel).
+        trusted_proxies:
+          - 10.244.0.0/16
+    
+        noise:
+          private_key_path: /var/lib/headscale/noise_private.key
+    
+        prefixes:
+          v4: 100.64.0.0/10
+          v6: fd7a:115c:a1e0::/48
+          allocation: sequential
+    
+        derp:
+          server:
+            enabled: true
+            region_id: 999
+            region_code: "dartus"
+            region_name: "dartus.fr Embedded DERP"
+            # Enabled by default since headscale 0.27: only clients registered
+            # on this headscale instance may use the embedded relay.
+            verify_clients: true
+            # STUN is a *separate* UDP concern from the DERP relay itself. It
+            # only helps clients discover their public IP/port to negotiate a
+            # direct WireGuard connection when possible. The DERP relay traffic
+            # (the part that matters for hotels/4G/corporate networks that
+            # block raw UDP) rides over the same HTTPS port as headscale
+            # itself via a WebSocket upgrade - so it works through Traefik on
+            # :443 with no extra port needed. If udp/3478 ends up blocked too,
+            # clients still fall back to full DERP-over-443 automatically, just
+            # with no shot at a direct/low-latency path.
+            stun_listen_addr: "0.0.0.0:3478"
+            private_key_path: /var/lib/headscale/derp_server_private.key
+            automatically_add_embedded_derp_region: true
+          # Keep Tailscale's public DERP map as extra fallback regions in
+          # addition to your embedded one. Remove this list if you want a
+          # fully self-contained relay with zero dependency on Tailscale Inc.
+          urls:
+            - https://controlplane.tailscale.com/derpmap/default
+          paths: []
+          auto_update_enabled: true
+          update_frequency: 3h
+    
+        disable_check_updates: false
+    
+        node:
+          expiry: 0
+          ephemeral:
+            inactivity_timeout: 30m
+          routes:
+            ha:
+              probe_interval: 10s
+              probe_timeout: 5s
+    
+        database:
+          type: sqlite
+          gorm:
+            prepare_stmt: true
+            parameterized_queries: true
+            skip_err_record_not_found: true
+            slow_threshold: 1000
+          sqlite:
+            path: /var/lib/headscale/db.sqlite
+            write_ahead_log: true
+            wal_autocheckpoint: 1000
+    
+        # TLS is terminated at Traefik; headscale talks plain HTTP inside the
+        # cluster, so all the TLS/ACME options are deliberately left empty.
+        acme_email: ""
+        tls_letsencrypt_hostname: ""
+        tls_cert_path: ""
+        tls_key_path: ""
+    
+        log:
+          level: info
+          format: text
+    
+        policy:
+          mode: file
+          path: /etc/headscale/policy.hujson
+    
+        dns:
+          magic_dns: true
+          # Must differ from the server_url domain (headscale.dartus.fr) - this
+          # is enforced by headscale at startup.
+          base_domain: ts.dartus.fr
+          override_local_dns: true
+          nameservers:
+            global:
+              - 1.1.1.1
+              - 1.0.0.1
+            split: {}
+          search_domains: []
+          extra_records: []
+    
+        unix_socket: /var/run/headscale/headscale.sock
+        unix_socket_permission: "0770"
+    
+        logtail:
+          enabled: false
+    
+        taildrop:
+          enabled: true
+    
+        auto_update:
+          enabled: false
+      # Minimal starting ACL policy: allow-all between tailnet members (the
+      # standard "*" / "*:*" pattern from Tailscale/Headscale's own docs).
+      # Tighten this with tags/groups once the mesh is working - see
+      # https://headscale.net/stable/ref/acls/
+      policy.hujson: |
+        {
+          "acls": [
+            {
+              "action": "accept",
+              "src": ["*"],
+              "dst": ["*:*"]
+            }
+          ]
+        }
+    
+
+persistence:
+  # The three things that genuinely must survive reschedules/restarts:
+  # db.sqlite(+ -wal/-shm), noise_private.key, derp_server_private.key.
+  # All three live under /var/lib/headscale, so one Longhorn-backed PVC
+  # covers them.
+  data:
+    enabled: true
+    type: persistentVolumeClaim
+    existingClaim: pvc-headscale
+    globalMounts:
+      - path: /var/lib/headscale
+
+  # Config itself holds no secrets, so a ConfigMap is enough - no need
+  # to route it through Vault.
+  config:
+    type: configMap
+    name: headscale-config
+    globalMounts:
+      - path: /etc/headscale/config.yaml
+        subPath: config.yaml
+        readOnly: true
+      - path: /etc/headscale/policy.hujson
+        subPath: policy.hujson
+        readOnly: true
+
+  # readOnlyRootFilesystem means headscale's unix_socket path
+  # (/var/run/headscale/...) needs its own writable volume.
+  run:
+    type: emptyDir
+    globalMounts:
+      - path: /var/run/headscale

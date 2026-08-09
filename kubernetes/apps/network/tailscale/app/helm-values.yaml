@@ -1,0 +1,86 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/refs/heads/main/charts/library/common/values.schema.json
+---
+
+controllers:
+  tailscale-router:
+    type: deployment
+    replicas: 1
+    containers:
+      tailscale:
+        image:
+          repository: ghcr.io/tailscale/tailscale
+          # ADAPT: pin to the current stable release, check
+          # https://github.com/tailscale/tailscale/releases
+          tag: "v1.102.2"
+        env:
+          TS_AUTHKEY:
+            valueFrom:
+              secretKeyRef:
+                # ADAPT: create this Secret yourself (SOPS/Vault, same as
+                # headplane-secret.yaml) with a reusable, non-ephemeral
+                # pre-auth key:
+                #   kubectl exec -n headscale statefulset/headscale -- \
+                #     headscale preauthkeys create --reusable --expiration 8760h
+                name: tailscale-router-authkey
+                key: authkey
+          TS_EXTRA_ARGS: >-
+            --login-server=https://headscale.dartus.fr
+            --advertise-routes=192.168.1.0/24,10.96.0.0/16,10.244.0.0/16
+            --accept-routes
+          # ADAPT: 10.96.0.0/16 and 10.244.0.0/16 are placeholders for
+          # your Service CIDR and Pod CIDR respectively - use the real
+          # ones from your Talos machine config (same values you needed
+          # for `trusted_proxies` in headscale's configmap.yaml).
+          # Note: advertising the Service CIDR works on most CNIs because
+          # kube-proxy's DNAT rules apply at the node's netfilter layer
+          # regardless of packet origin, but this depends on your specific
+          # CNI (Cilium/Flannel) and its kube-proxy replacement mode if
+          # any - test it before relying on it, and drop it from
+          # --advertise-routes if reaching ClusterIPs from the tailnet
+          # doesn't actually matter to you (the Pod CIDR alone is enough
+          # to reach individual Pods directly).
+          TS_STATE_DIR: /var/lib/tailscale
+          TS_USERSPACE: "false"
+          TS_ACCEPT_DNS: "false"
+        securityContext:
+          capabilities:
+            add:
+              - NET_ADMIN
+              - NET_RAW
+        resources:
+          requests:
+            cpu: 25m
+            memory: 64Mi
+          limits:
+            memory: 128Mi
+ 
+    pod:
+      # Required for IP forwarding to actually route traffic between the
+      # tailnet and 192.168.1.0/24 / the cluster networks, not just
+      # advertise it.
+      securityContext:
+        sysctls:
+          - name: net.ipv4.ip_forward
+            value: "1"
+          - name: net.ipv6.conf.all.forwarding
+            value: "1"
+ 
+persistence:
+  # Node identity/state must survive restarts, or the router re-registers
+  # as a brand new node (and needs re-approval) every time the Pod
+  # reschedules.
+  state:
+    enabled: true
+    type: persistentVolumeClaim
+    existingClaim: pvc-tailscale
+    globalMounts:
+      - path: /var/lib/tailscale
+ 
+  # This is the actual /dev/net/tun character device from the host - it's
+  # what lets the container create a real TUN interface instead of
+  # userspace networking. Straight from app-template's own docs example.
+  dev-tun:
+    type: hostPath
+    hostPath: /dev/net/tun
+    hostPathType: CharDevice
+ 

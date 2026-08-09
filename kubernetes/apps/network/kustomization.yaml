@@ -8,8 +8,10 @@ resources:
   - ./traefik/ks.yaml
   - ./crowdsec/ks.yaml
   - ./ddns-updater/ks.yaml
-  - ./wireguard/ks.yaml
   - ./metallb/ks.yaml
   - ./uptime-kuma/ks.yaml
+  - ./headscale/ks.yaml
+  - ./headplane/ks.yaml
+  - ./tailscale/ks.yaml
 components:
   - ../../components/flux/sops

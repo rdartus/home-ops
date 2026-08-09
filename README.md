@@ -115,6 +115,8 @@ graph TD;
   flux_system__flux_operator["flux-operator"]
   observability__grafana["grafana"]
   default__hajimari["hajimari"]
+  network__headplane["headplane"]
+  network__headscale["headscale"]
   default__immich["immich"]
   default__jellyfin["jellyfin"]
   default__kavita["kavita"]
@@ -140,6 +142,7 @@ graph TD;
   default__rabbitmq_resources["rabbitmq-resources"]
   default__radarr["radarr"]
   default__sonarr["sonarr"]
+  network__tailscale["tailscale"]
   default__test_christmas["test-christmas"]
   network__traefik["traefik"]
   network__traefik_resources["traefik-resources"]
@@ -147,7 +150,6 @@ graph TD;
   default__valkey["valkey"]
   vault__vault["vault"]
   vault__vault_secrets_operator["vault-secrets-operator"]
-  network__wireguard["wireguard"]
 
   flux_controller --> default__christmas
   flux_controller --> default__test_christmas
@@ -197,11 +199,15 @@ graph TD;
   kube_system__kubernetes_replicator --> database__cnpg_resources
   longhorn_system__longhorn --> longhorn_system__longhorn_resources
   longhorn_system__longhorn_resources --> longhorn_system__longhorn_restore
+  longhorn_system__longhorn_resources --> network__headplane
+  longhorn_system__longhorn_resources --> network__headscale
   longhorn_system__longhorn_resources --> observability__kube_prometeus_stack
   longhorn_system__longhorn_restore --> database__pg_dump
   longhorn_system__longhorn_restore --> database__pg_dump_sync
   longhorn_system__longhorn_restore --> default__immich
   network__crowdsec --> network__traefik_resources
+  network__headplane --> network__headplane
+  network__headscale --> network__tailscale
   network__metallb --> network__metallb_resources
   network__metallb --> network__traefik_resources
   network__metallb_resources --> observability__grafana
@@ -225,7 +231,6 @@ graph TD;
   vault__vault_secrets_operator --> network__crowdsec
   vault__vault_secrets_operator --> network__ddns_updater
   vault__vault_secrets_operator --> network__uptime_kuma
-  vault__vault_secrets_operator --> network__wireguard
 
   classDef cls_flux_ctrl fill:#1a001a,stroke:#ff00ff,color:#ff00ff,stroke-width:3px,font-weight:bold;
   classDef cls_cert_manager fill:#0d0d0d,stroke:#00ff9f,color:#00ff9f,stroke-width:2px;
@@ -245,7 +250,7 @@ graph TD;
   class flux_system__cluster_apps,flux_system__cluster_meta,flux_system__flux_instance,flux_system__flux_operator cls_flux_system;
   class kube_system__csi_driver_smb,kube_system__csi_driver_smb_ressources,kube_system__kubernetes_replicator cls_kube_system;
   class longhorn_system__local_path_provisioner,longhorn_system__longhorn,longhorn_system__longhorn_resources,longhorn_system__longhorn_restore cls_longhorn_system;
-  class network__crowdsec,network__ddns_updater,network__metallb,network__metallb_resources,network__traefik,network__traefik_resources,network__uptime_kuma,network__wireguard cls_network;
+  class network__crowdsec,network__ddns_updater,network__headplane,network__headscale,network__metallb,network__metallb_resources,network__tailscale,network__traefik,network__traefik_resources,network__uptime_kuma cls_network;
   class observability__grafana,observability__kromgo,observability__kube_prometeus_stack cls_observability;
   class vault__vault,vault__vault_secrets_operator cls_vault;
 ```
