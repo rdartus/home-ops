@@ -69,12 +69,13 @@ controllers:
       # `docker run --rm --entrypoint id docker.io/headscale/headscale:v0.28.0`
       # and adjust these three values (and the two below) to match -
       # otherwise the container may fail to write to the PVC.
-      securityContext:
-        runAsUser: 1000
-        runAsGroup: 1000
-        runAsNonRoot: true
-        fsGroup: 1000
-        fsGroupChangePolicy: OnRootMismatch
+      # checked user id = 0
+      securityContext: {}
+        # runAsUser: 1000
+        # runAsGroup: 1000
+        # runAsNonRoot: true
+        # fsGroup: 1000
+        # fsGroupChangePolicy: OnRootMismatch
 
 service:
   headscale:
