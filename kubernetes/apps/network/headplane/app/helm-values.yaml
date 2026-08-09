@@ -10,7 +10,6 @@ controllers:
           repository: ghcr.io/tale/headplane
           # ADAPT: pin to the current release, check
           # https://github.com/tale/headplane/releases
-          # test
           tag: "0.7.0"
         env:
           # Required for any HEADPLANE_<SECTION>__<KEY> override below
