@@ -16,7 +16,7 @@ controllers:
           # to actually be picked up.
           HEADPLANE_HEADSCALE__URL: "https://headscale.dartus.fr:443"
           HEADPLANE_OIDC__ISSUER: "https://authentik.dartus.fr/application/o/tailscale/"
-          HEADPLANE_SERVER__BASE_URL: "https://headplane.dartus.fr"
+          HEADPLANE_SERVER__BASE_URL: "https://headscale.dartus.fr"
           HEADPLANE_SERVER__COOKIE_SECRET:
             valueFrom:
               secretKeyRef:
@@ -79,9 +79,9 @@ ingress:
       acme.cert-manager.io/http01-edit-in-place: "true"
     className: traefik-ingresses
     hosts:
-      - host: &host headplane.dartus.fr
+      - host: &host headscale.dartus.fr
         paths:
-          - path: /
+          - path: /admin
             pathType: Prefix
             service:
               identifier: headplane
@@ -89,11 +89,16 @@ ingress:
     tls:
       - hosts:
           - *host
-        secretName: headplane-tls
+        secretName: headscale-tls
 
 persistence:
   # Session store / internal DB / agent cache. Small, but worth
   # persisting so logging back in isn't required after every restart.
+  tmp:
+    type: emptyDir
+    globalMounts:
+      - path: /tmp
+
   data:
     type: persistentVolumeClaim
     storageClass: longhorn
