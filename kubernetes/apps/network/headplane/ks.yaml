@@ -12,7 +12,7 @@ spec:
   interval: 7m
   path: ./kubernetes/apps/network/headplane/app
   dependsOn:
-    - name: headplane
+    - name: headscale
       namespace: network
     - name: vault-secrets-operator
       namespace: vault

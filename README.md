@@ -199,14 +199,13 @@ graph TD;
   kube_system__kubernetes_replicator --> database__cnpg_resources
   longhorn_system__longhorn --> longhorn_system__longhorn_resources
   longhorn_system__longhorn_resources --> longhorn_system__longhorn_restore
-  longhorn_system__longhorn_resources --> network__headplane
   longhorn_system__longhorn_resources --> network__headscale
   longhorn_system__longhorn_resources --> observability__kube_prometeus_stack
   longhorn_system__longhorn_restore --> database__pg_dump
   longhorn_system__longhorn_restore --> database__pg_dump_sync
   longhorn_system__longhorn_restore --> default__immich
   network__crowdsec --> network__traefik_resources
-  network__headplane --> network__headplane
+  network__headscale --> network__headplane
   network__headscale --> network__tailscale
   network__metallb --> network__metallb_resources
   network__metallb --> network__traefik_resources
