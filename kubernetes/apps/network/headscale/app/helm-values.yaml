@@ -88,7 +88,10 @@ service:
 
 ingress:
   headscale:
-    className: traefik
+    annotations:
+      cert-manager.io/cluster-issuer: zerossl-prod
+      acme.cert-manager.io/http01-edit-in-place: "true"
+    className: traefik-ingresses
     hosts:
       - host: &host headscale.dartus.fr
         paths:
