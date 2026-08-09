@@ -21,8 +21,8 @@ controllers:
                 # pre-auth key:
                 #   kubectl exec -n headscale statefulset/headscale -- \
                 #     headscale preauthkeys create --reusable --expiration 8760h
-                name: tailscale_key
-                key: scale-secret
+                name: scale-secret
+                key: tailscale_key
           TS_EXTRA_ARGS: >-
             --login-server=https://headscale.dartus.fr
             --advertise-routes=192.168.1.0/24,10.96.0.0/16,10.244.0.0/16
