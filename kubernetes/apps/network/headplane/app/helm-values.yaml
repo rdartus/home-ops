@@ -4,7 +4,7 @@
   values:
     controllers:
       headplane:
-        type: deployment
+        type: statefulset
         replicas: 1
         containers:
           headplane:

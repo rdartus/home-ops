@@ -21,8 +21,8 @@ controllers:
                 # pre-auth key:
                 #   kubectl exec -n headscale statefulset/headscale -- \
                 #     headscale preauthkeys create --reusable --expiration 8760h
-                name: tailscale-router-authkey
-                key: authkey
+                name: tailscale_key
+                key: scale-secret
           TS_EXTRA_ARGS: >-
             --login-server=https://headscale.dartus.fr
             --advertise-routes=192.168.1.0/24,10.96.0.0/16,10.244.0.0/16
@@ -54,16 +54,16 @@ controllers:
           limits:
             memory: 128Mi
  
-    pod:
-      # Required for IP forwarding to actually route traffic between the
-      # tailnet and 192.168.1.0/24 / the cluster networks, not just
-      # advertise it.
-      securityContext:
-        sysctls:
-          - name: net.ipv4.ip_forward
-            value: "1"
-          - name: net.ipv6.conf.all.forwarding
-            value: "1"
+    # pod:
+      # # Required for IP forwarding to actually route traffic between the
+      # # tailnet and 192.168.1.0/24 / the cluster networks, not just
+      # # advertise it.
+      # securityContext:
+        # sysctls:
+        #   - name: net.ipv4.ip_forward
+        #     value: "1"
+        #   - name: net.ipv6.conf.all.forwarding
+        #     value: "1"
  
 persistence:
   # Node identity/state must survive restarts, or the router re-registers
