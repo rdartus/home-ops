@@ -105,7 +105,7 @@ persistence:
   # in the UI (see headplane-configmap.yaml's headscale.config_path).
   headscale-config:
     type: configMap
-    name: headscale-config
+    name: headscale
     globalMounts:
       - path: /etc/headscale/config.yaml
         subPath: config.yaml
@@ -113,7 +113,7 @@ persistence:
 
   config:
     type: configMap
-    name: headplane-config
+    name: headscale
     globalMounts:
       - path: /etc/headplane/config.yaml
         subPath: config.yaml
