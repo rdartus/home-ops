@@ -43,6 +43,7 @@ controllers:
           TS_STATE_DIR: /var/lib/tailscale
           TS_USERSPACE: "false"
           TS_ACCEPT_DNS: "false"
+          TS_DEBUG_FIREWALL_MODE: "nftables"
         securityContext:
           capabilities:
             add:
@@ -55,16 +56,16 @@ controllers:
           limits:
             memory: 128Mi
  
-    # pod:
-      # # Required for IP forwarding to actually route traffic between the
-      # # tailnet and 192.168.1.0/24 / the cluster networks, not just
-      # # advertise it.
-      # securityContext:
-        # sysctls:
-        #   - name: net.ipv4.ip_forward
-        #     value: "1"
-        #   - name: net.ipv6.conf.all.forwarding
-        #     value: "1"
+    pod:
+      # Required for IP forwarding to actually route traffic between the
+      # tailnet and 192.168.1.0/24 / the cluster networks, not just
+      # advertise it.
+      securityContext:
+        sysctls:
+          - name: net.ipv4.ip_forward
+            value: "1"
+          - name: net.ipv6.conf.all.forwarding
+            value: "1"
  
 persistence:
   # Node identity/state must survive restarts, or the router re-registers
