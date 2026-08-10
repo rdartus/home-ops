@@ -5,6 +5,8 @@ kind: Kustomization
 resources:
   - ./helmrelease.yaml
   - ./pvc-headscale.yaml
+  - ./scale-auth.yaml
+  - ./scale-secret.yaml
 configMapGenerator:
   - name: headscale-helm-values
     files:

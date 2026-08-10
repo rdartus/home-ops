@@ -5,8 +5,6 @@ kind: Kustomization
 resources:
   - ./helmrelease.yaml
   - ./pvc-headplane.yaml
-  - ./scale-auth.yaml
-  - ./scale-secret.yaml
 configMapGenerator:
   - name: headplane-helm-values
     files:
