@@ -33,7 +33,7 @@ machine:
         #     - 169.254.2.53
         # # The `extraArgs` field is used to provide additional flags to the kubelet.
         extraArgs:
-            allowed-unsafe-sysctls: net.ipv6.conf.all.forwarding
+            allowed-unsafe-sysctls: net.ipv4.ip_forward,net.ipv6.conf.all.forwarding
         # # The `extraMounts` field is used to add additional mounts to the kubelet container.
         # extraMounts:
         extraMounts:
@@ -560,7 +560,7 @@ sops:
             RkFIVUtVTDFZZWV4UjlFSHV1enZCczgKTDCXGD0ImE1rLhLRlavROeqSKLVkvAsl
             qZSvLRV4i8/HntYEY35y1yBgPR8o9Ww7D7yoseeUM4RHdaCTlg1XRg==
             -----END AGE ENCRYPTED FILE-----
-    lastmodified: "2026-08-10T11:23:40Z"
-    mac: ENC[AES256_GCM,data:QbH9GnnCfxYGtZbn7+c4isqne3zSzIzNvNnxs5zi240D4wAYj4j7QBUxbdkd3YqXJU7tENmaU6DrZHkgACATvSQso33FCTL5bSYlBK8rEqvM1Edi/I1u+UUwF5XYKIw5yK4++v9QaZvfyhBLQlhgfHNZh3yBEAMrvvY+1iNYFg4=,iv:wSrEwoC3j8RBL97YJcSOqgXr4UI+oWU6vgoYs7OY0JQ=,tag:cdr4MCEfx2OrPYRN2DGtTQ==,type:str]
+    lastmodified: "2026-08-10T12:25:34Z"
+    mac: ENC[AES256_GCM,data:y5c0J6gbSI83bwwnU5KEN06udCuztXGNgU8WJR6/5MmGVUCzNcNq+DlMjRJEfCXWvhtlHkBAwqAJkIbIyC8h4ZBLMkEnL2OXyz5LmbB6g+R/km/1ZRWEi0pI9qEFNj1uuN17SbYvque46aR9IGqzOya/l+A8m1T18TvPZ5Gshak=,iv:IpHHG7qc5rPi5rfxoX+Rh3a4yDY8qdTPts/U3wmMQwQ=,tag:eN06PiFmH5W7/e09UN5F0w==,type:str]
     encrypted_regex: ^(certs|ca|secret|secret.*|serviceAccount|aggregatorCA|token|id|key)$
     version: 3.10.2
