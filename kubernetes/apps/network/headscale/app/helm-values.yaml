@@ -498,7 +498,7 @@ configMaps:
           # Alternatively, set `client_secret_path` to read the secret from the file.
           # It resolves environment variables, making integration to systemd's
           # `LoadCredential` straightforward:
-          client_secret_path: "${CREDENTIALS_DIRECTORY}/oidc_client_secret"
+          # client_secret_path: "${CREDENTIALS_DIRECTORY}/oidc_client_secret"
 
           # Use the expiry from the token received from OpenID when the user logged
           # in. This will typically lead to frequent need to reauthenticate and should
@@ -528,8 +528,8 @@ configMaps:
           #   - example.com
 
           # Only accept users whose email address is part of the allowed_users list.
-          allowed_users:
-            - alice@example.com
+          # allowed_users:
+          #   - alice@example.com
 
           # Only accept users which are members of at least one group in the
           # allowed_groups list.
