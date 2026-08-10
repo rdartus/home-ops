@@ -1,8 +1,10 @@
 # yaml-language-server: $schema=https://raw.githubusercontent.com/hashicorp/vault-helm/refs/heads/main/values.schema.json
-# Copyright (c) HashiCorp, Inc.
+# source: https://raw.githubusercontent.com/hashicorp/vault-helm/refs/heads/main/values.yaml
+# Copyright IBM Corp. 2018, 2026
 # SPDX-License-Identifier: MPL-2.0
 
 # Available parameters and their default values for the Vault chart.
+
 global:
   # enabled is the master enabled switch. Setting this to true or false
   # will enable or disable all the components within this chart by default.
@@ -68,7 +70,7 @@ injector:
   # image sets the repo and tag of the vault-k8s image to use for the injector.
   image:
     repository: "hashicorp/vault-k8s"
-    tag: 1.7.0@sha256:8c18ccc87fd72930fd0c3f12ea444e9e57e83f119b93c546ed047aba29a05c5f
+    tag: "1.7.5"
     pullPolicy: IfNotPresent
 
   # agentImage sets the repo and tag of the Vault image to use for the Vault Agent
@@ -76,7 +78,7 @@ injector:
   # required.
   agentImage:
     repository: "hashicorp/vault"
-    tag: 2.0.0@sha256:e40c741ed95bb271425e3e6ca6c222d620cf8682f6f7a1b1e7c9d49d0aba484b
+    tag: "2.0.3"
 
   # The default values for the injected Vault Agent containers.
   agentDefaults:
@@ -371,9 +373,53 @@ server:
     # The key within the Kubernetes secret that holds the enterprise license.
     secretKey: "license"
 
+  # OpenShift service-ca operator integration
+  # Automates TLS certificate generation via the service-ca operator
+  serviceCA:
+    # Enable service-ca operator annotations and ConfigMap creation
+    # Requires: global.openshift=true
+    enabled: false
+    
+    # Secret name where service-ca will store the generated certificate
+    # IMPORTANT: Must match the secret name in server.volumes below
+    secretName: "vault-tls"
+    
+    # ConfigMap name for service-ca CA bundle injection
+    # IMPORTANT: Must match the ConfigMap name in server.volumes below
+    configMapName: "service-ca-bundle"
+  
+  # IMPORTANT: Configure server.volumes, server.volumeMounts, AND server config to use service-ca
+  #
+  # Step 1: Mount the service-ca resources as volumes
+  # volumes:
+  #   - name: vault-tls
+  #     secret:
+  #       secretName: vault-tls  # Must match serviceCA.secretName above
+  #   - name: service-ca-bundle
+  #     configMap:
+  #       name: service-ca-bundle  # Must match serviceCA.configMapName above
+  #
+  # volumeMounts:
+  #   - name: vault-tls
+  #     mountPath: /vault/userconfig/vault-tls
+  #     readOnly: true
+  #   - name: service-ca-bundle
+  #     mountPath: /vault/userconfig/service-ca-bundle
+  #     readOnly: true
+  #
+  # Step 2: Configure Vault listener to use the certificates (in server.ha.config or server.ha.raft.config)
+  # listener "tcp" {
+  #   tls_disable = 0
+  #   address = "[::]:8200"
+  #   cluster_address = "[::]:8201"
+  #   tls_cert_file = "/vault/userconfig/vault-tls/tls.crt"
+  #   tls_key_file  = "/vault/userconfig/vault-tls/tls.key"
+  #   tls_client_ca_file = "/vault/userconfig/service-ca-bundle/service-ca.crt"
+  # }
+
   image:
     repository: "hashicorp/vault"
-    tag: 2.0.0@sha256:e40c741ed95bb271425e3e6ca6c222d620cf8682f6f7a1b1e7c9d49d0aba484b
+    tag: "2.0.3"
     # Overrides the default Image Pull Policy
     pullPolicy: IfNotPresent
 
@@ -383,7 +429,7 @@ server:
 
   # Configure the logging verbosity for the Vault server.
   # Supported log levels include: trace, debug, info, warn, error
-  logLevel: "debug"
+  logLevel: ""
 
   # Configure the logging format for the Vault server.
   # Supported log formats include: standard, json
@@ -448,6 +494,31 @@ server:
     #  - secretName: chart-example-tls
     #    hosts:
     #      - chart-example.local
+
+  httproute:
+    enabled: false
+    labels: {}
+    annotations: {}
+
+    activeService: true
+    
+    hostnames: []
+      # - host-example
+     
+    # Keep in mind parentRefs field is required
+    parentRefs: [] 
+      # - name: vault-gateway-example
+      #   namespace: example-ns
+    
+    matches:
+      - path:
+          type: PathPrefix
+          value: /
+    ## Filters define the filters that are applied to requests that match this rule.
+    filters: []
+
+    ## Additional custom rules that can be added to the route
+    additionalRules: []
 
   # hostAliases is a list of aliases to be added to /etc/hosts. Specified as a YAML list.
   hostAliases: []
@@ -519,7 +590,6 @@ server:
     enabled: true
     # If you need to use a http path instead of the default exec
     # path: /v1/sys/health?standbyok=true
-    path: "/v1/sys/health?standbyok=true&sealedcode=204&uninitcode=204"
 
     # Port number on which readinessProbe will be checked.
     port: 8200
@@ -579,8 +649,8 @@ server:
   - /bin/sh
   - -c
   - "/bin/sh /config/scripts/initScript.sh 2>&1 | awk '{ print strftime(\"[%Y-%m-%d %H:%M:%S]\"), $0 }' | tee -a /var/tmp/log.txt"
-  # - "/bin/sh /config/scripts/initScript.sh"
-  
+  # - /vault/userconfig/myscript/run.sh
+
   # extraEnvironmentVars is a list of extra environment variables to set with the stateful set. These could be
   # used to include variables required for auto-unseal.
   extraEnvironmentVars: {}
@@ -801,9 +871,7 @@ server:
     mountPath: "/vault/data"
     # Name of the storage class to use.  If null it will use the
     # configured default Storage Class.
-    # {{- if .Values.longhorn}}
-    # storageClass: longhorn
-    # {{- end}}
+    storageClass: null
     # Access Mode of the storage device being used for the PVC
     accessMode: ReadWriteOnce
     # Annotations to apply to the PVC
@@ -915,7 +983,7 @@ server:
 
     # Set the cluster_addr configuration for Vault HA
     # See https://developer.hashicorp.com/vault/docs/configuration#cluster_addr
-    # If set to null, this will be set to https://$(HOSTNAME). template "vault.fullname" . -internal:8201
+    # If set to null, this will be set to https://$(HOSTNAME).{{ template "vault.fullname" . }}-internal:8201
     clusterAddr: null
 
     # Enables Vault's integrated Raft storage.  Unlike the typical HA modes where
@@ -928,6 +996,25 @@ server:
       enabled: false
       # Set the Node Raft ID to the name of the pod
       setNodeId: false
+
+      # Vault Enterprise Redundancy Zones
+      # Enables automatic zone detection for Vault Enterprise autopilot redundancy zones.
+      # Requires:
+      #   - Kubernetes 1.35+ (PodTopologyLabelsAdmission enabled by default)
+      #   - Vault Enterprise
+      #   - server.ha.enabled=true and server.ha.raft.enabled=true
+      #   - Nodes labeled with topology.kubernetes.io/zone
+      #   - VAULT_REDUNDANCY_ZONE placeholder in server.ha.raft.config
+      #   - server.topologySpreadConstraints with topology.kubernetes.io/zone (optional but recommended for proper zone separation)
+      # When enabled:
+      #   - The zone label from the node is exposed as VAULT_REDUNDANCY_ZONE
+      #     environment variable and substituted into the raft config.
+      #   - The PDB maxUnavailable defaults to 1 (instead of ⌊(n-1)/2⌋) because
+      #     the PDB cannot distinguish voting from non-voting pods. Override with
+      #     server.ha.disruptionBudget.maxUnavailable if needed.
+      # See: https://developer.hashicorp.com/vault/docs/enterprise/redundancy-zones
+      redundancyZones:
+        enabled: false
 
       # Note: Configuration files are stored in ConfigMaps so sensitive data
       # such as passwords should be either mounted through extraSecretEnvironmentVars
@@ -949,6 +1036,8 @@ server:
 
         storage "raft" {
           path = "/vault/data"
+          # Uncomment for Vault Enterprise redundancy zones (requires server.ha.raft.redundancyZones.enabled = true)
+          # autopilot_redundancy_zone = "VAULT_REDUNDANCY_ZONE"
         }
 
         service_registration "kubernetes" {}
@@ -999,8 +1088,9 @@ server:
     disruptionBudget:
       enabled: true
 
-    # maxUnavailable will default to (n/2)-1 where n is the number of
-    # replicas. If you'd like a custom value, you can specify an override here.
+    # maxUnavailable will default to ⌊(n-1)/2⌋ (equivalently, ceil(n/2)-1) where
+    # n is the number of replicas. If you'd like a custom value, you can specify
+    # an override here.
       maxUnavailable: null
 
   # Definition of the serviceAccount used to run Vault.
@@ -1120,7 +1210,7 @@ csi:
 
   image:
     repository: "hashicorp/vault-csi-provider"
-    tag: 1.7.0@sha256:bd7999ea3f745315dc50115c06861bff1858b5ba31ac682a58615ca219f4abb8
+    tag: "1.7.3"
     pullPolicy: IfNotPresent
 
   # volumes is a list of volumes made available to all containers. These are rendered
@@ -1166,13 +1256,15 @@ csi:
     # to the daemonSet.
     annotations: {}
     # Provider host path (must match the CSI provider's path)
-    providersDir: "/etc/kubernetes/secrets-store-csi-providers"
+    providersDir: "/var/run/secrets-store-csi-providers"
     # Kubelet host path
     kubeletRootDir: "/var/lib/kubelet"
     # Extra labels to attach to the vault-csi-provider daemonSet
     # This should be a YAML map of the labels to apply to the csi provider daemonSet
     extraLabels: {}
-    # security context for the pod template and container in the csi provider daemonSet
+    # Security context for the pod template and container in the csi provider
+    # daemonSet. For OpenShift, the container securityContext defaults to
+    # `privileged: true`.
     securityContext:
       pod: {}
       container: {}
@@ -1209,7 +1301,7 @@ csi:
 
     image:
       repository: "hashicorp/vault"
-      tag: 2.0.0@sha256:e40c741ed95bb271425e3e6ca6c222d620cf8682f6f7a1b1e7c9d49d0aba484b
+      tag: "2.0.3"
       pullPolicy: IfNotPresent
 
     logFormat: standard
@@ -1223,6 +1315,18 @@ csi:
     #   limits:
     #     memory: 256Mi
     #     cpu: 250m
+
+    # Security context for the vault agent sidecar container
+    securityContext:
+      container:
+        allowPrivilegeEscalation: false
+        capabilities:
+          drop:
+            - ALL
+        readOnlyRootFilesystem: true
+        runAsNonRoot: true
+        runAsUser: 100
+        runAsGroup: 1000
 
   # Priority class for csi pods
   priorityClassName: ""
@@ -1344,6 +1448,29 @@ serverTelemetry:
     #     name: vault-metrics-client
     #     key: token
     authorization: {}
+
+    # metricRelabelings configures the relabeling rules to apply to the samples before ingestion.
+    # See API reference: https://prometheus-operator.dev/docs/api-reference/api/#monitoring.coreos.com/v1.RelabelConfig
+    # example:
+    # metricRelabelings:
+    #   - sourceLabels: [cluster]
+    #     targetLabel: vault_cluster
+    metricRelabelings: []
+
+    # matchLabels configures the service selector labels for the ServiceMonitor.
+    # By default, the ServiceMonitor targets services with:
+    #   - HA mode: vault-active: "true" (scrapes the raft leader only)
+    #   - Standalone mode: vault-internal: "true"
+    #
+    # To scrape metrics from all Vault pods including standbys (Enterprise only):
+    # 1. Enable unauthenticated_metrics_access in your Vault listener telemetry config
+    # 2. Set matchLabels to target the vault-internal headless service
+    # See: https://developer.hashicorp.com/vault/docs/configuration/telemetry#prometheus
+    #
+    # Example:
+    # matchLabels:
+    #   vault-internal: "true"
+    matchLabels: {}
 
   prometheusRules:
       # The Prometheus operator *must* be installed before enabling this feature,
