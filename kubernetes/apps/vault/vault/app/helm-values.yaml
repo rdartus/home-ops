@@ -589,7 +589,7 @@ server:
   readinessProbe:
     enabled: true
     # If you need to use a http path instead of the default exec
-    # path: /v1/sys/health?standbyok=true
+    path: /v1/sys/health?standbyok=true&sealedcode=204&uninitcode=204
 
     # Port number on which readinessProbe will be checked.
     port: 8200
