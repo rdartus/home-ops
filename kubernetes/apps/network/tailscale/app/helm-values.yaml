@@ -13,6 +13,7 @@ controllers:
           # https://github.com/tailscale/tailscale/releases
           tag: "v1.102.2"
         env:
+          TS_KUBE_SECRET: ""
           TS_AUTHKEY:
             valueFrom:
               secretKeyRef:
