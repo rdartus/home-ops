@@ -415,9 +415,7 @@ persistence:
 
   data:
     type: persistentVolumeClaim
-    storageClass: longhorn
-    accessMode: ReadWriteOnce
-    size: 256Mi
+    existingClaim: pvc-headplane
     globalMounts:
       - path: /var/lib/headplane
 
