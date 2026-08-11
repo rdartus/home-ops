@@ -634,31 +634,43 @@ configMaps:
               }
             },
 
-            "grants": [
+            "acls": [
               {
-                "src": [
-                  "group:vpn-users"
-                ],
-                "dst": [
-                  "autogroup:internet"
-                ],
-                "ip": [
-                  "*"
-                ]
+                "action": "accept",
+                "src": ["group:vpn-users"],
+                "dst": ["0.0.0.0/0:*", "::/0:*"]
               },
-
               {
-                "src": [
-                  "group:vpn-users"
-                ],
-                "dst": [
-                  "192.168.1.0/24"
-                ],
-                "ip": [
-                  "*"
-                ]
+                "action": "accept",
+                "src": ["group:vpn-users"],
+                "dst": ["192.168.1.0/24:*"]
               }
             ]
+            # "grants": [
+            #   {
+            #     "src": [
+            #       "group:vpn-users"
+            #     ],
+            #     "dst": [
+            #       "autogroup:internet"
+            #     ],
+            #     "ip": [
+            #       "*"
+            #     ]
+            #   },
+
+            #   {
+            #     "src": [
+            #       "group:vpn-users"
+            #     ],
+            #     "dst": [
+            #       "192.168.1.0/24"
+            #     ],
+            #     "ip": [
+            #       "*"
+            #     ]
+            #   }
+            # ]
           }    
 
 persistence:
