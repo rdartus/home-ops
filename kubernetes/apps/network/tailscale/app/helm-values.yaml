@@ -27,20 +27,12 @@ controllers:
           TS_EXTRA_ARGS: >-
             --login-server=https://headscale.dartus.fr
             --advertise-exit-node
-            --advertise-routes=192.168.1.0/24,10.96.0.0/16,10.244.0.0/16
+            --advertise-routes=192.168.1.0/24,10.96.0.0/12,10.244.0.0/16
             --accept-routes
-          # ADAPT: 10.96.0.0/16 and 10.244.0.0/16 are placeholders for
           # your Service CIDR and Pod CIDR respectively - use the real
-          # ones from your Talos machine config (same values you needed
-          # for `trusted_proxies` in headscale's configmap.yaml).
-          # Note: advertising the Service CIDR works on most CNIs because
-          # kube-proxy's DNAT rules apply at the node's netfilter layer
-          # regardless of packet origin, but this depends on your specific
-          # CNI (Cilium/Flannel) and its kube-proxy replacement mode if
-          # any - test it before relying on it, and drop it from
-          # --advertise-routes if reaching ClusterIPs from the tailnet
-          # doesn't actually matter to you (the Pod CIDR alone is enough
-          # to reach individual Pods directly).
+          # ones from your Talos machine config 
+          #  kubectl get nodes -o jsonpath='{range .items[*]}{.metadata.name}{"\t"}{.spec.podCIDR}{"\n"}{end}'
+          #  kubectl cluster-info dump | grep -m1 service-cluster-ip-range
           TS_STATE_DIR: /var/lib/tailscale
           TS_USERSPACE: "false"
           TS_ACCEPT_DNS: "false"
