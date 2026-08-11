@@ -14,9 +14,9 @@ controllers:
         env:
           # Required for any HEADPLANE_<SECTION>__<KEY> override below
           # to actually be picked up.
-          HEADPLANE_HEADSCALE__URL: "https://headscale.dartus.fr:443"
+          HEADPLANE_HEADSCALE__URL: "https://tailscale.dartus.fr:443"
           HEADPLANE_OIDC__ISSUER: "https://authentik.dartus.fr/application/o/tailscale/"
-          HEADPLANE_SERVER__BASE_URL: "https://headscale.dartus.fr"
+          HEADPLANE_SERVER__BASE_URL: "https://tailscale.dartus.fr"
           HEADPLANE_SERVER__COOKIE_SECRET:
             valueFrom:
               secretKeyRef:
