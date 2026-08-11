@@ -601,16 +601,61 @@ configMaps:
       # Tighten this with tags/groups once the mesh is working - see
       # https://headscale.net/stable/ref/acls/
       policy.hujson: |
+
         {
-          "acls": [
-            {
-              "action": "accept",
-              "src": ["*"],
-              "dst": ["*:*"]
-            }
-          ]
-        }
-    
+            "groups": {
+              "group:vpn-users": [
+                "richard.dartus@gmail.com",
+                "ami@example.com"
+              ]
+            },
+
+            "tagOwners": {
+              "tag:exit": [
+                "richard.dartus@gmail.com"
+              ],
+              "tag:subnet-router": [
+                "richard.dartus@gmail.com"
+              ]
+            },
+
+            "autoApprovers": {
+              "exitNode": [
+                "tag:exit"
+              ],
+              "routes": {
+                "192.168.1.0/24": [
+                  "tag:subnet-router"
+                ]
+              }
+            },
+
+            "grants": [
+              {
+                "src": [
+                  "group:vpn-users"
+                ],
+                "dst": [
+                  "autogroup:internet"
+                ],
+                "ip": [
+                  "*"
+                ]
+              },
+
+              {
+                "src": [
+                  "group:vpn-users"
+                ],
+                "dst": [
+                  "192.168.1.0/24"
+                ],
+                "ip": [
+                  "*"
+                ]
+              }
+            ]
+          }    
 
 persistence:
   # The three things that genuinely must survive reschedules/restarts:
