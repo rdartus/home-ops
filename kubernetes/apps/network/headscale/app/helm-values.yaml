@@ -646,6 +646,8 @@ configMaps:
                 "dst": ["192.168.1.0/24:*"]
               }
             ]
+        }
+
             # "grants": [
             #   {
             #     "src": [
@@ -671,7 +673,7 @@ configMaps:
             #     ]
             #   }
             # ]
-          }    
+          # }    
 
 persistence:
   # The three things that genuinely must survive reschedules/restarts:
