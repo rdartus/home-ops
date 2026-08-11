@@ -97,7 +97,7 @@ ingress:
       acme.cert-manager.io/http01-edit-in-place: "true"
     className: traefik-ingresses
     hosts:
-      - host: &host headscale.dartus.fr
+      - host: &host tailscale.dartus.fr
         paths:
           - path: /
             pathType: Prefix
@@ -107,7 +107,7 @@ ingress:
     tls:
       - hosts:
           - *host
-        secretName: headscale-tls
+        secretName: tailscale-tls
 
 
 configMaps:
@@ -128,7 +128,7 @@ configMaps:
         #
         # https://myheadscale.example.com:443
         #
-        server_url: https://headscale.dartus.fr
+        server_url: https://tailscale.dartus.fr
         # Address to listen to / bind to on the server
         #
         # For production:
@@ -206,7 +206,7 @@ configMaps:
 
             # Region code and name are displayed in the Tailscale UI to identify a DERP region
             region_code: "dartus"
-            region_name: "dartus.fr Embedded DERP"
+            region_name: "Dartus Home"
 
             # Only allow clients associated with this server access
             verify_clients: true
@@ -431,7 +431,7 @@ configMaps:
           # `base_domain` must be a FQDN, without the trailing dot.
           # The FQDN of the hosts will be
           # `hostname.base_domain` (e.g., _myhost.example.com_).
-          base_domain: example.com
+          base_domain: ts.dartus.fr
 
           # Whether to use the local DNS settings of a node or override the local DNS
           # settings (default) and force the use of Headscale's DNS configuration.

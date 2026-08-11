@@ -25,7 +25,7 @@ controllers:
                 name: scale-secret
                 key: tailscale_key
           TS_EXTRA_ARGS: >-
-            --login-server=https://headscale.dartus.fr
+            --login-server=https://tailscale.dartus.fr
             --advertise-exit-node
             --advertise-routes=192.168.1.0/24,10.96.0.0/12,10.244.0.0/16
             --accept-routes

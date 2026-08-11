@@ -79,7 +79,7 @@ ingress:
       acme.cert-manager.io/http01-edit-in-place: "true"
     className: traefik-ingresses
     hosts:
-      - host: &host headscale.dartus.fr
+      - host: &host tailscale.dartus.fr
         paths:
           - path: /admin
             pathType: Prefix
@@ -89,7 +89,7 @@ ingress:
     tls:
       - hosts:
           - *host
-        secretName: headscale-tls
+        secretName: tailscale-tls
 
 configMaps:
   config:
