@@ -26,7 +26,6 @@ controllers:
                 key: tailscale_key
           TS_EXTRA_ARGS: >-
             --login-server=https://headscale.dartus.fr
-            --advertise-tags=tag:exit,tag:subnet-router
             --advertise-exit-node
             --advertise-routes=192.168.1.0/24,10.96.0.0/16,10.244.0.0/16
             --accept-routes
