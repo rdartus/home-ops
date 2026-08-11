@@ -428,6 +428,9 @@ persistence:
       - path: /etc/headscale/config.yaml
         subPath: config.yaml
         readOnly: true
+      - path: /etc/headscale/policy.hujson
+        subPath: policy.hujson
+        readOnly: true
 
   config:
     type: configMap
