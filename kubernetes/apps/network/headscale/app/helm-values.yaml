@@ -648,32 +648,33 @@ configMaps:
             ]
         }
 
-            # "grants": [
-            #   {
-            #     "src": [
-            #       "group:vpn-users"
-            #     ],
-            #     "dst": [
-            #       "autogroup:internet"
-            #     ],
-            #     "ip": [
-            #       "*"
-            #     ]
-            #   },
 
-            #   {
-            #     "src": [
-            #       "group:vpn-users"
-            #     ],
-            #     "dst": [
-            #       "192.168.1.0/24"
-            #     ],
-            #     "ip": [
-            #       "*"
-            #     ]
-            #   }
-            # ]
-          # }    
+# "grants": [
+#   {
+#     "src": [
+#       "group:vpn-users"
+#     ],
+#     "dst": [
+#       "autogroup:internet"
+#     ],
+#     "ip": [
+#       "*"
+#     ]
+#   },
+
+#   {
+#     "src": [
+#       "group:vpn-users"
+#     ],
+#     "dst": [
+#       "192.168.1.0/24"
+#     ],
+#     "ip": [
+#       "*"
+#     ]
+#   }
+# ]
+# }    
 
 persistence:
   # The three things that genuinely must survive reschedules/restarts:
