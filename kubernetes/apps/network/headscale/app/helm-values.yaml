@@ -534,7 +534,9 @@ configMaps:
           # Only accept users which are members of at least one group in the
           # allowed_groups list.
           allowed_groups:
-            - pecor
+            - authentik Admins
+            - Pirates
+            - Pecor
 
           # Optional: PKCE (Proof Key for Code Exchange) configuration
           # PKCE adds an additional layer of security to the OAuth 2.0 authorization code flow
