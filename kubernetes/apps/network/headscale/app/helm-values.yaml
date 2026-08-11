@@ -626,9 +626,9 @@ configMaps:
                 "tag:exit"
               ],
               "routes": {
-                "192.168.1.0/24": [
-                  "tag:subnet-router"
-                ]
+                "192.168.1.0/24": ["tag:subnet-router"],
+                "10.96.0.0/12": ["tag:subnet-router"],
+                "10.244.0.0/16": ["tag:subnet-router"]
               }
             },
 
