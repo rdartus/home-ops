@@ -607,13 +607,6 @@ configMaps:
       policy.hujson: |
 
         {
-            "groups": {
-              "group:vpn-users": [
-                "richard.dartus@gmail.com",
-                "ami@example.com"
-              ]
-            },
-
             "tagOwners": {
               "tag:exit": [
                 "richard.dartus@gmail.com"
@@ -637,12 +630,12 @@ configMaps:
             "acls": [
               {
                 "action": "accept",
-                "src": ["group:vpn-users"],
+                "src": ["autogroup:member"],
                 "dst": ["0.0.0.0/0:*", "::/0:*"]
               },
               {
                 "action": "accept",
-                "src": ["group:vpn-users"],
+                "src": ["autogroup:member"],
                 "dst": ["192.168.1.0/24:*"]
               }
             ]
@@ -652,7 +645,7 @@ configMaps:
 # "grants": [
 #   {
 #     "src": [
-#       "group:vpn-users"
+#       "autogroup:member"
 #     ],
 #     "dst": [
 #       "autogroup:internet"
@@ -664,7 +657,7 @@ configMaps:
 
 #   {
 #     "src": [
-#       "group:vpn-users"
+#       "autogroup:member"
 #     ],
 #     "dst": [
 #       "192.168.1.0/24"
