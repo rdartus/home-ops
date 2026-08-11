@@ -2,8 +2,8 @@
 ---
 
 controllers:
-  tailscale-router:
-    type: deployment
+  vpn:
+    type: statefulset
     replicas: 1
     containers:
       tailscale:
@@ -36,6 +36,7 @@ controllers:
           TS_STATE_DIR: /var/lib/tailscale
           TS_USERSPACE: "false"
           TS_ACCEPT_DNS: "false"
+          TS_HOSTNAME: "vpn-home"
           TS_DEBUG_FIREWALL_MODE: "nftables"
         securityContext:
           capabilities:
