@@ -7,7 +7,7 @@ metadata:
   labels:
     grafana_dashboard: "1"
   annotations:
-    grafana_folder: "kubernetes"          # ex: Kubernetes
+    # grafana_folder: "kubernetes"          # ex: Kubernetes
 data:
   kubernetes-nodes2.json: |                      # ex: k8s-nodes.json
       {
