@@ -3967,7 +3967,7 @@ data:
         },
         "timepicker": {},
         "timezone": "",
-        "title": "Kubernetes / Views / Nodes",
-        "uid": "k8s_views_nodes",
+        "title": "Kubernetes / Views / Nodes (custom)",
+        "uid": "k8s_views_nodes-custom",
         "version": 1
       }
