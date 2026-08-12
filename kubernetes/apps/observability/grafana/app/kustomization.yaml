@@ -5,6 +5,7 @@ kind: Kustomization
 resources:
   - ./helmrelease.yaml
   - ./grafana-secret.sops.yaml
+  - ./dashboard-k8s-nodes2.yaml
 configMapGenerator:
   - name: grafana-helm-values
     files:
