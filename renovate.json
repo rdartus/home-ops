@@ -22,7 +22,8 @@
     "flux",
     "kubernetes",
     "helm-values",
-    "dockerfile"
+    "dockerfile",
+    "custom.regex"
   ],
   "flux": {
     "managerFilePatterns": [
@@ -38,5 +39,37 @@
     "managerFilePatterns": [
       "/(^|/)kubernetes/.+\\.ya?ml$/"
     ]
-  }
+  },
+  "customManagers": [
+    {
+      "customType": "regex",
+      "description": "Version Talos OS — talconfig.yaml + tag d'image dans les patches par nœud",
+      "managerFilePatterns": [
+        "/(^|/)talos/talconfig\\.yaml$/",
+        "/(^|/)talos/patches/.+\\.yaml$/"
+      ],
+      "matchStrings": [
+        "talosVersion:\\s*(?<currentValue>v\\d+\\.\\d+\\.\\d+)",
+        "image:\\s*factory\\.talos\\.dev/[^:\\s]+:(?<currentValue>v\\d+\\.\\d+\\.\\d+)"
+      ],
+      "depNameTemplate": "talos",
+      "packageNameTemplate": "siderolabs/talos",
+      "datasourceTemplate": "github-releases",
+      "versioningTemplate": "semver"
+    },
+    {
+      "customType": "regex",
+      "description": "Version Kubernetes — talconfig.yaml",
+      "managerFilePatterns": [
+        "/(^|/)talos/talconfig\\.yaml$/"
+      ],
+      "matchStrings": [
+        "kubernetesVersion:\\s*(?<currentValue>v\\d+\\.\\d+\\.\\d+)"
+      ],
+      "depNameTemplate": "kubernetes",
+      "packageNameTemplate": "kubernetes/kubernetes",
+      "datasourceTemplate": "github-releases",
+      "versioningTemplate": "semver"
+    }
+  ]
 }

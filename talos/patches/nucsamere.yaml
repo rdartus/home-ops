@@ -1,0 +1,8 @@
+machine:
+  install:
+    image: factory.talos.dev/metal-installer/892b9731dc945ff679f4a695aa2e8ae93d6f2c2a8764ae66fbbaaa5b35230669:v1.13.8
+
+# amdgpu     
+# iscsi-tools
+# schematic  
+# modules.dep

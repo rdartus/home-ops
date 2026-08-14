@@ -1,0 +1,8 @@
+machine:
+  install:
+    image: factory.talos.dev/metal-installer/faf8cda8f02221b31dc8338abdf17f91405e352f697a05b13c13a118ad8476d8:v1.13.8
+
+# i915       
+# iscsi-tools
+# schematic  
+# modules.dep

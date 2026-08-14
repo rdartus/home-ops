@@ -9,11 +9,20 @@
         "matchPackageNames": ["mysql"],
         "matchFileNames": ["**/kubotheque/**/helm-values.yaml"],
         "allowedVersions": ">=8.0 <8.1"
-
     },
     {
+        "description": "Patchs applicatifs du cluster : auto-approuvés, Flux applique au merge",
         "matchUpdateTypes": ["patch"],
-      "enabled": false
+        "enabled": true,
+        "automerge": true,
+        "automergeType": "pr"
+    },
+    {
+        "description": "Talos / Kubernetes : patchs visibles mais fusion manuelle uniquement",
+        "matchPackageNames": ["siderolabs/talos", "kubernetes/kubernetes"],
+        "matchUpdateTypes": ["patch"],
+        "enabled": true,
+        "automerge": false
     },
     {
       "matchPackageNames": ["kube-prometheus-stack"],
@@ -24,6 +33,20 @@
       "matchPackageNames": ["kube-prometheus-stack"],
       "matchUpdateTypes": ["minor", "patch", "pin", "digest"],
       "enabled": false
+    },
+    {
+      "matchPackageNames": ["siderolabs/talos"],
+      "commitMessageTopic": "Talos",
+      "prBodyNotes": [
+        "### 🔧 Procédure d'upgrade Talos (klusterfox)\n\n⚠️ **Longhorn (replica=1, même partition que l'OS) → toujours utiliser `--preserve`, sinon risque de perte de données au reboot.**\n\n```bash\ncd talos\ntalhelper genconfig\ntalosctl validate --config clusterconfig/klusterfox-nucoumouk.yaml --mode metal\ntalosctl validate --config clusterconfig/klusterfox-nucsamere.yaml --mode metal\n\ntalhelper gencommand upgrade --extra-flags \"--preserve\"\n# vérifier la commande affichée (endpoint = control-plane) puis relancer avec | bash\n\n# attendre le reboot (~5 min), puis vérifier :\ntalosctl --talosconfig ./clusterconfig/talosconfig -n 192.168.1.21 -e 192.168.1.21 version\ntalosctl --talosconfig ./clusterconfig/talosconfig -n 192.168.1.20 -e 192.168.1.21 version\nkubectl get pods -A | grep -v Running   # doit être vide\n```"
+      ]
+    },
+    {
+      "matchPackageNames": ["kubernetes/kubernetes"],
+      "commitMessageTopic": "Kubernetes",
+      "prBodyNotes": [
+        "### 🔧 Procédure d'upgrade Kubernetes (klusterfox)\n\n```bash\ncd talos\ntalhelper genconfig\ntalhelper gencommand upgrade-k8s\n# vérifier la commande affichée puis relancer avec | bash\n\nkubectl version\nkubectl get pods -n kube-system\n```"
+      ]
     }
   ]
 }

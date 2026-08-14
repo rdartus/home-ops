@@ -1,0 +1,52 @@
+machine:
+  certSANs:
+    - klusterfox.dartus.fr
+    - talos.dartus.fr
+    - 192.168.1.5
+    - 192.168.1.4
+  kubelet:
+    defaultRuntimeSeccompProfileEnabled: true
+    disableManifestsDirectory: true
+    extraConfig:
+      imageGCHighThresholdPercent: 50
+      imageGCLowThresholdPercent: 40
+    extraArgs:
+      allowed-unsafe-sysctls: net.ipv4.ip_forward,net.ipv6.conf.all.forwarding
+    extraMounts:
+      - destination: /var/mnt/extra
+        type: bind
+        source: /var/mnt/extra
+        options:
+          - bind
+          - rshared
+          - rw
+  features:
+    rbac: true
+    apidCheckExtKeyUsage: true
+    diskQuotaSupport: true
+    kubePrism:
+      enabled: true
+      port: 7445
+    hostDNS:
+      enabled: true
+      forwardKubeDNSToHost: true
+  nodeLabels:
+    node.kubernetes.io/exclude-from-external-load-balancers: ""
+
+cluster:
+  apiServer:
+    certSANs:
+      - klusterfox.dartus.fr
+      - talos.dartus.fr
+      - 192.168.1.5
+      - 192.168.1.4
+  controllerManager:
+    extraArgs:
+      bind-address: 0.0.0.0
+  scheduler:
+    extraArgs:
+      bind-address: 0.0.0.0
+  discovery:
+    registries:
+      kubernetes:
+        disabled: true

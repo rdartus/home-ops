@@ -1,0 +1,60 @@
+# talos/talconfig.yaml
+clusterName: klusterfox
+talosVersion: v1.13.8
+kubernetesVersion: v1.33.1
+endpoint: https://192.168.1.5:6443
+allowSchedulingOnControlPlanes: true
+
+clusterPodNets:
+  - 10.244.0.0/16
+clusterSvcNets:
+  - 10.96.0.0/12
+
+patches:
+  - "@./patches/global.yaml"
+
+controlPlane:
+  patches:
+    - "@./patches/controlplane.yaml"
+
+# worker:
+#   patches:
+#     - "@./patches/worker.yaml"
+
+nodes:
+  - hostname: nucoumouk
+    ipAddress: 192.168.1.21
+    controlPlane: true
+    installDisk: /dev/sda
+    installDiskSelector:
+      model: RS256GSSD310
+    networkInterfaces:
+      - interface: eth0
+        vip:
+          ip: 192.168.1.5
+    patches:
+      - "@./patches/nucoumouk.yaml"
+
+  # - hostname: nucsamere
+  #   ipAddress: 192.168.1.20
+  #   controlPlane: false
+  #   installDisk: /dev/sda
+
+
+  - hostname: nucsamere
+    ipAddress: 192.168.1.20
+    controlPlane: false
+    installDisk: /dev/sda
+    installDiskSelector:
+      model: "AirDisk 512GB SS"
+    patches:
+      - "@./patches/nucsamere.yaml"
+
+  # - hostname: pirate
+  #   ipAddress: 192.168.1.19
+  #   controlPlane: false
+  #   installDisk: /dev/mmcblk0
+  #   installDiskSelector:
+  #     serial: "0x5da9beec"
+  #   patches:
+  #     - "@./patches/pirate.yaml"
