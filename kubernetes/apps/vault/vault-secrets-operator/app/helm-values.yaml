@@ -1014,7 +1014,7 @@ csi:
       # The Docker repository of the CSI driver image.
       repository: hashicorp/vault-secrets-operator-csi
       # The version of the CSI driver image to download.
-      tag: 1.0.2@sha256:76c8b53fec8230195b8b7b9c71914ed47487d9f3fd0c1f88b01d4a1ab3d4ba8d
+      tag: 1.0.3@sha256:4217b11813eae8e8cd244188b04af8d784425d7d978b71e6ad679ae6dccb5c96
 
     # Additional environment variables for the
     # CSI driver container.
