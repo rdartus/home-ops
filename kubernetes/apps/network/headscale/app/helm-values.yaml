@@ -22,7 +22,7 @@ controllers:
           repository: docker.io/headscale/headscale
           # Current stable release, checked against the GitHub
           # releases page on 2026-08-08. Renovate will track this.
-          tag: v0.28.0
+          tag: v0.29.3
         args:
           - serve
         env:
