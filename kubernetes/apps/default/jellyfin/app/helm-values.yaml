@@ -267,7 +267,7 @@ controllers:
           repository: linuxserver/jellyfin
           # -- image tag
           # @default -- chart.appVersion
-          tag: 10.11.6@sha256:0a2f7e2c1c34e1a0e553b8521208ac1cc9ffa6a0efc2cf4acb4a45229b390e65
+          tag: 10.11.11@sha256:0dd18f8de37c7cfbe76877a8b928943b3588beb9678fb223121914ec9a3cdf7c
           # -- image pull policy
           pullPolicy: IfNotPresent
         env:
