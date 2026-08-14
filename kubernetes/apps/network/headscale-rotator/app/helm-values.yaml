@@ -78,7 +78,7 @@ controllers:
       push-to-vault:
         image:
           repository: hashicorp/vault
-          tag: "1.18"
+          tag: "1.21"
         env:
           VAULT_ADDR: "https://vault.dartus.fr"
         command:
