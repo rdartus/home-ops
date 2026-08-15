@@ -23,7 +23,7 @@ controllers:
             valueFrom:
               fieldRef:
                 fieldPath: metadata.name
-          TS_KUBE_SECRET: "$(POD_NAME)"
+          TS_KUBE_SECRET: "tailscale_state"
           TS_AUTHKEY:
             valueFrom:
               secretKeyRef:
@@ -84,7 +84,7 @@ rbac:
         - apiGroups: [""]
           resources: ["secrets"]
           verbs: ["get", "update", "patch"]
-          resourceNames: ["vpn-0"]
+          resourceNames: ["tailscale_state"]
   
   # 3. Utilisation de "bindings" (et non roleBindings)
   bindings:
