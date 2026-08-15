@@ -116,3 +116,12 @@ persistence:
 #     globalMounts:
 #       - path: /var/lib/tailscale
  
+rawResources:
+  ts-secret:
+    manifest:
+      apiVersion: v1
+      kind: Secret
+      metadata:
+        name: tailscale_state
+        namespace: network
+      type: Opaque
