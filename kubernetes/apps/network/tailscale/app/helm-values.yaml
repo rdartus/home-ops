@@ -5,6 +5,12 @@ controllers:
   vpn:
     type: statefulset
     replicas: 1
+    pod:
+      # Par défaut app-template désactive le montage du token SA :
+      # il faut le réactiver pour que containerboot puisse patcher son Secret.
+      automountServiceAccountToken: true
+      # ADAPT si le nom du ServiceAccount généré diffère — voir note de
+      # validation plus bas.
     containers:
       tailscale:
         image:
@@ -13,7 +19,11 @@ controllers:
           # https://github.com/tailscale/tailscale/releases
           tag: "v1.102.2"
         env:
-          TS_KUBE_SECRET: ""
+          POD_NAME:
+            valueFrom:
+              fieldRef:
+                fieldPath: metadata.name
+          # TS_KUBE_SECRET: "$(POD_NAME)"
           TS_AUTHKEY:
             valueFrom:
               secretKeyRef:
@@ -33,12 +43,12 @@ controllers:
           # ones from your Talos machine config 
           #  kubectl get nodes -o jsonpath='{range .items[*]}{.metadata.name}{"\t"}{.spec.podCIDR}{"\n"}{end}'
           #  kubectl cluster-info dump | grep -m1 service-cluster-ip-range
-          TS_STATE_DIR: /var/lib/tailscale
+          # TS_STATE_DIR: /var/lib/tailscale
           TS_USERSPACE: "false"
           TS_ACCEPT_DNS: "false"
           TS_HOSTNAME: "vpn-home"
           TS_DEBUG_FIREWALL_MODE: "nftables"
-          TS_AUTH_ONCE: "true"
+          # TS_AUTH_ONCE: "true"
         securityContext:
           capabilities:
             add:
@@ -50,7 +60,7 @@ controllers:
             memory: 64Mi
           limits:
             memory: 128Mi
- 
+
     # pod:
     #   # Required for IP forwarding to actually route traffic between the
     #   # tailnet and 192.168.1.0/24 / the cluster networks, not just
@@ -61,18 +71,33 @@ controllers:
     #         value: "1"
     #       - name: net.ipv6.conf.all.forwarding
     #         value: "1"
- 
+# 1. Définition du Service Account sous forme de dictionnaire
+serviceAccount:
+  vpn: {}
+
+rbac:
+  # 2. Définition du Role sous forme de dictionnaire
+  roles:
+    vpn:
+      type: Role
+      rules:
+        - apiGroups: [""]
+          resources: ["secrets"]
+          verbs: ["get", "update", "patch"]
+          resourceNames: ["vpn-0"]
+  
+  # 3. Utilisation de "bindings" (et non roleBindings)
+  bindings:
+    vpn:
+      type: RoleBinding
+      roleRef:
+        # Pointeur vers la clé "vpn" du dictionnaire rbac.roles
+        identifier: vpn
+      subjects:
+        # Pointeur vers la clé "vpn" du dictionnaire serviceAccount
+        - identifier: vpn
+
 persistence:
-  # Node identity/state must survive restarts, or the router re-registers
-  # as a brand new node (and needs re-approval) every time the Pod
-  # reschedules.
-  state:
-    enabled: true
-    type: persistentVolumeClaim
-    existingClaim: pvc-tailscale
-    globalMounts:
-      - path: /var/lib/tailscale
- 
   # This is the actual /dev/net/tun character device from the host - it's
   # what lets the container create a real TUN interface instead of
   # userspace networking. Straight from app-template's own docs example.
@@ -80,4 +105,14 @@ persistence:
     type: hostPath
     hostPath: /dev/net/tun
     hostPathType: CharDevice
+ 
+ #   # Node identity/state must survive restarts, or the router re-registers
+#   # as a brand new node (and needs re-approval) every time the Pod
+#   # reschedules.
+#   state:
+#     enabled: true
+#     type: persistentVolumeClaim
+#     existingClaim: pvc-tailscale
+#     globalMounts:
+#       - path: /var/lib/tailscale
  
