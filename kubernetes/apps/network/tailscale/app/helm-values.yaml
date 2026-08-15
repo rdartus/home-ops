@@ -48,7 +48,7 @@ controllers:
           TS_ACCEPT_DNS: "false"
           TS_HOSTNAME: "vpn-home"
           TS_DEBUG_FIREWALL_MODE: "nftables"
-          # TS_AUTH_ONCE: "true"
+          TS_AUTH_ONCE: "true"
         securityContext:
           capabilities:
             add:
