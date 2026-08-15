@@ -23,7 +23,7 @@ controllers:
             valueFrom:
               fieldRef:
                 fieldPath: metadata.name
-          TS_KUBE_SECRET: "tailscale_state"
+          TS_KUBE_SECRET: "tailscale-state"
           TS_AUTHKEY:
             valueFrom:
               secretKeyRef:
@@ -84,7 +84,7 @@ rbac:
         - apiGroups: [""]
           resources: ["secrets"]
           verbs: ["get", "update", "patch"]
-          resourceNames: ["tailscale_state"]
+          resourceNames: ["tailscale-state"]
   
   # 3. Utilisation de "bindings" (et non roleBindings)
   bindings:
@@ -122,6 +122,6 @@ rawResources:
       apiVersion: v1
       kind: Secret
       metadata:
-        name: tailscale_state
+        name: tailscale-state
         namespace: network
       type: Opaque
