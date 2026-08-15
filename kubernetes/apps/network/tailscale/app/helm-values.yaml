@@ -116,15 +116,3 @@ persistence:
 #     globalMounts:
 #       - path: /var/lib/tailscale
  
-rawResources:
-  tailscale-state:
-    manifest:
-      apiVersion: v1
-      kind: Secret
-      metadata:
-        name: tailscale-state
-        namespace: network
-      type: Opaque
-      stringData:
-        # Remplacez ceci par vos données réelles de configuration Tailscale
-        tailscale-state: "votre-cle-ou-donnee-ici"
