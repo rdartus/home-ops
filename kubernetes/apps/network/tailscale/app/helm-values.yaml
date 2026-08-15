@@ -115,4 +115,3 @@ persistence:
 #     existingClaim: pvc-tailscale
 #     globalMounts:
 #       - path: /var/lib/tailscale
- 
