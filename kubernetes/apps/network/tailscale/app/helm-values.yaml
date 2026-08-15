@@ -117,7 +117,7 @@ persistence:
 #       - path: /var/lib/tailscale
  
 rawResources:
-  ts-secret:
+  tailscale-state:
     manifest:
       apiVersion: v1
       kind: Secret
