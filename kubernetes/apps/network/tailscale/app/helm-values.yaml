@@ -23,7 +23,7 @@ controllers:
             valueFrom:
               fieldRef:
                 fieldPath: metadata.name
-          # TS_KUBE_SECRET: "$(POD_NAME)"
+          TS_KUBE_SECRET: "$(POD_NAME)"
           TS_AUTHKEY:
             valueFrom:
               secretKeyRef:
