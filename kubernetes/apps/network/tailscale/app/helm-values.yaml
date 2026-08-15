@@ -12,7 +12,7 @@ controllers:
       # ADAPT si le nom du ServiceAccount généré diffère — voir note de
       # validation plus bas.
     containers:
-      tailscale:
+      vpn:
         image:
           repository: ghcr.io/tailscale/tailscale
           # ADAPT: pin to the current stable release, check
