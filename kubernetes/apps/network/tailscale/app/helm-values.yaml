@@ -125,3 +125,6 @@ rawResources:
         name: tailscale-state
         namespace: network
       type: Opaque
+      stringData:
+        # Remplacez ceci par vos données réelles de configuration Tailscale
+        tailscale-state: "votre-cle-ou-donnee-ici"
