@@ -394,7 +394,7 @@ data:
         vault kv put kv-v2/zitadel masterkey="@/config/cred/zitadel-masterkey" _gsuite-id="@/config/cred/_gsuite-zitadel-id" _gsuite-secret="@/config/cred/_gsuite-zitadel-secret"
         vault kv put kv-v2/gitOps OIDC_CLIENT_ID="@/config/cred/gitOpsOIDCClient" OIDC_CLIENT_SECRET="@/config/cred/gitOpsOIDCSecret" OIDC_SCOPES="openid profile email" OIDC_ISSUER_URL="https://authentik.dartus.fr/application/o/gitops/"
         vault kv put kv-v2/scale/config client_id="@/config/cred/tailscaleOIDCClient" client_secret="@/config/cred/tailscaleOIDCSecret" cookie="@/config/cred/tailscaleCookie" tailscale_key="@/config/cred/tailscaleKey" headscale_api_key="@/config/cred/headscaleAPIKey"
-        vault kv put kv-v2/wireguard oidcSecret="@/config/cred/gitOpsOIDCSecret" oidcClient="@/config/cred/gitOpsOIDCClient"
+        vault kv put kv-v2/scale/state _current-profile ="@/config/cred/tailscale__current-profile" _machinekey ="@/config/cred/tailscale__machinekey" _profiles ="@/config/cred/tailscale__profiles" device_fqdn ="@/config/cred/tailscale_device_fqdn" device_id ="@/config/cred/tailscale_device_id" device_ips ="@/config/cred/tailscale_device_ips" profile-2253 ="@/config/cred/tailscale_profile-2253" tailscale_capver ="@/config/cred/tailscale_tailscale_capver"
 
         vault policy write plcall /config/scripts/all-policy.json
         vault policy write plccnpg /config/scripts/cnpg-policy.json
