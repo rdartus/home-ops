@@ -402,6 +402,7 @@ data:
         vault kv put kv-v2/gitOps OIDC_CLIENT_ID="@/config/cred/gitOpsOIDCClient" OIDC_CLIENT_SECRET="@/config/cred/gitOpsOIDCSecret" OIDC_SCOPES="openid profile email" OIDC_ISSUER_URL="https://authentik.dartus.fr/application/o/gitops/"
         vault kv put kv-v2/scale/config client_id="@/config/cred/tailscaleOIDCClient" client_secret="@/config/cred/tailscaleOIDCSecret" cookie="@/config/cred/tailscaleCookie" tailscale_key="@/config/cred/tailscaleKey" headscale_api_key="@/config/cred/headscaleAPIKey"
         vault kv put kv-v2/scale/state _current-profile ="@/config/cred/tailscale__current-profile" _machinekey ="@/config/cred/tailscale__machinekey" _profiles ="@/config/cred/tailscale__profiles" device_fqdn ="@/config/cred/tailscale_device_fqdn" device_id ="@/config/cred/tailscale_device_id" device_ips ="@/config/cred/tailscale_device_ips" profile-2253 ="@/config/cred/tailscale_profile-2253" tailscale_capver ="@/config/cred/tailscale_tailscale_capver"
+        vault kv metadata put -custom-metadata="managed-by=external-secrets" kv-v2/scale/state
 
         vault policy write plcall /config/scripts/all-policy.json
         vault policy write plccnpg /config/scripts/cnpg-policy.json
