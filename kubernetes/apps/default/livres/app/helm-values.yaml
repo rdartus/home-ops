@@ -117,7 +117,7 @@ controllers:
           # -- image repository
           repository: linuxserver/calibre-web
           # -- image tag
-          tag: 0.6.27@sha256:0895ba9b13abf3bf80131c62cefdbf7e090a363a2dff1bc2b3dff173156a88b9
+          tag: 0.6.27@sha256:c799db2463ebbab25471a1e0749d28265f96f833c0444a29dea010f1c579bec5
           # -- image pull policy
           pullPolicy: IfNotPresent
 
