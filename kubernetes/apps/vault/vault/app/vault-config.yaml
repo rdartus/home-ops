@@ -215,7 +215,7 @@ data:
       capabilities = ["create", "update", "read"]
     }
     path "kv-v2/metadata/scale/*" {
-      capabilities = ["read", "list"]
+      capabilities = ["create", "update", "read", "list", "delete"]
     }
 
   admin-policy.json: |
