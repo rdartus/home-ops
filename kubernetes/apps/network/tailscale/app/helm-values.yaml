@@ -5,6 +5,8 @@ controllers:
   vpn:
     type: statefulset
     replicas: 1
+    serviceAccount:
+      identifier: vpn
     pod:
       # Par défaut app-template désactive le montage du token SA :
       # il faut le réactiver pour que containerboot puisse patcher son Secret.
