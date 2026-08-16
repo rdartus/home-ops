@@ -12,6 +12,7 @@ resources:
   - ./crowdsec.yaml
   - ./csi-driver-smb.yaml
   - ./csi-driver-nfs.yaml
+  - ./external-secrets-operator.yaml
   - ./hashicorp.yaml
   - ./jetstack.yaml
   - ./metrics-server.yaml
