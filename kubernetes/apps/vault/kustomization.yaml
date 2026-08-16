@@ -7,6 +7,6 @@ resources:
   - ./namespace.yaml
   - ./vault/ks.yaml
   - ./vault-secrets-operator/ks.yaml
-  # - ./vault-external-secrets-operator/ks.yaml
+  - ./vault-external-secrets-operator/ks.yaml
 components:
   - ../../components/flux/sops
