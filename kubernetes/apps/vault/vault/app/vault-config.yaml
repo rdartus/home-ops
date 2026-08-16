@@ -617,9 +617,9 @@ data:
         ttl=24h
 
         vault write auth/kubernetes/role/rleso-tailscale \
-        bound_service_account_names=default \
+        bound_service_account_names=tailscale-eso \
         bound_service_account_namespaces=network \
-        policies=plcscale \
+        policies=plceso \
         audience=vault\
         ttl=24h
 
