@@ -429,6 +429,7 @@ data:
         vault policy write plczerossl /config/scripts/zerossl-policy.json        
         vault policy write plcgitops /config/scripts/gitops-policy.json        
         vault policy write plcscale /config/scripts/scale-policy.json        
+        vault policy write plceso /config/scripts/eso-push-tailscale-state.json.json        
 
         vault policy write reader /config/scripts/reader-policy.json       
         vault policy write admin /config/scripts/admin-policy.json        
