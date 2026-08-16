@@ -616,6 +616,13 @@ data:
         audience=vault\
         ttl=24h
 
+        vault write auth/kubernetes/role/rleso-tailscale \
+        bound_service_account_names=default \
+        bound_service_account_namespaces=network \
+        policies=plcscale \
+        audience=vault\
+        ttl=24h
+
         vault write auth/oidc/role/reader \
         bound_audiences="@/config/cred/vaultOIDCClient" \
         allowed_redirect_uris="https://vault.dartus.fr/ui/vault/auth/oidc/oidc/callback" \
