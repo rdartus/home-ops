@@ -74,6 +74,7 @@ controllers:
 # 1. Définition du Service Account sous forme de dictionnaire
 serviceAccount:
   vpn: {}
+  eso-push-tailscale-state: {}
 
 rbac:
   # 2. Définition du Role sous forme de dictionnaire

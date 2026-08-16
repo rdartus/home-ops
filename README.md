@@ -150,6 +150,7 @@ graph TD;
   network__uptime_kuma["uptime-kuma"]
   default__valkey["valkey"]
   vault__vault["vault"]
+  vault__vault_external_secrets_operator["vault-external-secrets-operator"]
   vault__vault_secrets_operator["vault-secrets-operator"]
 
   flux_controller --> default__christmas
@@ -224,6 +225,7 @@ graph TD;
   observability__kromgo --> cert_manager__cert_manager
   observability__kube_prometeus_stack --> observability__grafana
   observability__kube_prometeus_stack --> observability__kromgo
+  vault__vault --> vault__vault_external_secrets_operator
   vault__vault --> vault__vault_secrets_operator
   vault__vault_secrets_operator --> default__automate_wx
   vault__vault_secrets_operator --> default__rabbitmq
@@ -253,7 +255,7 @@ graph TD;
   class longhorn_system__local_path_provisioner,longhorn_system__longhorn,longhorn_system__longhorn_resources,longhorn_system__longhorn_restore cls_longhorn_system;
   class network__crowdsec,network__ddns_updater,network__headplane,network__headscale,network__headscale_rotator,network__metallb,network__metallb_resources,network__tailscale,network__traefik,network__traefik_resources,network__uptime_kuma cls_network;
   class observability__grafana,observability__kromgo,observability__kube_prometeus_stack cls_observability;
-  class vault__vault,vault__vault_secrets_operator cls_vault;
+  class vault__vault,vault__vault_external_secrets_operator,vault__vault_secrets_operator cls_vault;
 ```
 
 ### Networking

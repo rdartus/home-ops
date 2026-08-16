@@ -210,6 +210,13 @@ data:
     path "kv-v2/data/scale/*" {
       capabilities = ["read"]
     }
+  eso-push-tailscale-state.json: |
+    path "kv-v2/data/scale/state" {
+      capabilities = ["create", "update", "read"]
+    }
+    path "kv-v2/metadata/scale/*" {
+      capabilities = ["read", "list"]
+    }
 
   admin-policy.json: |
     # Accès global en lecture et écriture sur les secrets engines
