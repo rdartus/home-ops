@@ -409,7 +409,7 @@ controllers:
           #   memory: 128Mi
           requests:
             cpu: 1000m
-            memory: 500Mi
+            memory: 1000Mi
 
 #         # -- Configure the Security Context for the container
 #         securityContext: {}
