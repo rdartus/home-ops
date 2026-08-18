@@ -156,7 +156,7 @@ controllers:
       # -- Sets the CronJob timezone (only works in Kubernetes >= 1.27)
       timeZone: "Europe/Paris"
       # -- Sets the CronJob time when to execute your jobs
-      schedule: "0 9 * * *"
+      schedule: "0 13 * * *"
       # -- The deadline in seconds for starting the job if it misses its scheduled time for any reason
       startingDeadlineSeconds: 30
       # -- The number of succesful Jobs to keep
@@ -266,7 +266,7 @@ controllers:
           # -- image repository
           repository: ghcr.io/rdartus/automate-wx
           # -- image tag
-          tag: latest@sha256:c35d778b85215dd18493a61bd213d2b28108de0af40c8206d8217df5dbdbe52e
+          tag: latest@sha256:ddb8f41ef68f6925e0e68b1022806dc83a6e5cd3c3ca47afc1c025f3fc928734
 #           # -- image digest
 #           digest:
           # -- image pull policy
