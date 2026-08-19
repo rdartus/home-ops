@@ -9,7 +9,7 @@ controllers:
     cronjob:
       concurrencyPolicy: Replace
       timeZone: "Europe/Paris"
-      schedule: "20 15 * * *"
+      schedule: "40 17 * * *"
       startingDeadlineSeconds: 30
       successfulJobsHistory: 1
       failedJobsHistory: 1
@@ -19,7 +19,7 @@ controllers:
       main:
         image:
           repository: ghcr.io/rdartus/automate-wx
-          tag: latest@sha256:2836d6f944750adc46b56508d5cd079ce41b63533ca8fa883dce646cbddb7413
+          tag: latest@sha256:604bd07dcf4176a81e5e1a1937ef3cfc2bccc5804312c7fe478be3d8eed329c3
           pullPolicy: IfNotPresent
 
         env:
