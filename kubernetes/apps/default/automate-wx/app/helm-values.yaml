@@ -1,6 +1,11 @@
 ---
 defaultPodOptions:
   automountServiceAccountToken: true
+securityContext:
+  supplementalGroups:
+    - 44   # Groupe video standard
+    - 109  #
+    - 104
 
 controllers:
   main:
@@ -9,7 +14,7 @@ controllers:
     cronjob:
       concurrencyPolicy: Replace
       timeZone: "Europe/Paris"
-      schedule: "40 17 * * *"
+      schedule: "10 23 * * *"
       startingDeadlineSeconds: 30
       successfulJobsHistory: 1
       failedJobsHistory: 1
@@ -19,7 +24,7 @@ controllers:
       main:
         image:
           repository: ghcr.io/rdartus/automate-wx
-          tag: latest@sha256:604bd07dcf4176a81e5e1a1937ef3cfc2bccc5804312c7fe478be3d8eed329c3
+          tag: latest@sha256:8a065ba321388095a2b352edb661d3fa3c9ad25c4cc641f23d43af59a051d3ae
           pullPolicy: IfNotPresent
 
         env:
@@ -39,7 +44,12 @@ controllers:
             memory: 1000Mi
 
 persistence:
-
+  gpu:
+      enabled: true
+      type: hostPath
+      hostPath: /dev/dri/renderD128
+      globalMounts:
+        - path: /dev/dri/renderD128
   config:
     enabled: true
 
