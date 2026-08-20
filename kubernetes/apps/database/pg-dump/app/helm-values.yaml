@@ -274,7 +274,7 @@ controllers:
           # -- image repository
           repository: postgres
           # -- image tag
-          tag: 18@sha256:22c89fe0d0f507606260237fd55e51f6137f58b2d5bcf6152242b96d9fe8f9a4
+          tag: 18@sha256:06cad38a5d9f5d24b4d83d86def30795d5e4b757fedbf5281172b576dedcd941
           # -- image pull policy
           pullPolicy: IfNotPresent
 
