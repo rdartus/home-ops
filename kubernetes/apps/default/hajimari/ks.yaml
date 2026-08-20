@@ -16,7 +16,7 @@ spec:
       namespace: network
 #OPTIONAL
     - name: automate-wx
-      namespace: *namespace
+      namespace: gpu
   prune: true
   sourceRef:
     kind: GitRepository
