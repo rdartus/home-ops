@@ -14,7 +14,7 @@ controllers:
     cronjob:
       concurrencyPolicy: Replace
       timeZone: "Europe/Paris"
-      schedule: "10 9 * * *"
+      schedule: "0 6 * * *"
       startingDeadlineSeconds: 30
       successfulJobsHistory: 1
       failedJobsHistory: 1

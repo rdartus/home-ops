@@ -577,7 +577,7 @@ data:
 
         vault write auth/kubernetes/role/rlwx \
         bound_service_account_names=default \
-        bound_service_account_namespaces=default \
+        bound_service_account_namespaces=gpu \
         policies=plcwx \
         audience=vault\
         ttl=24h
