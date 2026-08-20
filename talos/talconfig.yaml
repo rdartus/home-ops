@@ -1,6 +1,6 @@
 # talos/talconfig.yaml
 clusterName: klusterfox
-talosVersion: v1.13.8
+talosVersion: v1.13.9
 kubernetesVersion: v1.36.3
 endpoint: https://192.168.1.5:6443
 allowSchedulingOnControlPlanes: true
