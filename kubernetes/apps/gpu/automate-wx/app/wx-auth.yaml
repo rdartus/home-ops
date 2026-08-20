@@ -2,7 +2,7 @@ apiVersion: secrets.hashicorp.com/v1beta1
 kind: VaultAuth
 metadata:
   name: wx-auth
-  namespace: default
+  namespace: gpu
   annotations:
     argocd.argoproj.io/sync-wave: "10"
     argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
@@ -11,6 +11,6 @@ spec:
   mount: kubernetes
   kubernetes:
     role: rlwx
-    serviceAccount: default
+    serviceAccount: gpu
     audiences:
       - vault

@@ -1,5 +1,5 @@
 ---
-defaultPodOptions:
+gpuPodOptions:
   automountServiceAccountToken: true
 securityContext:
   supplementalGroups:

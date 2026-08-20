@@ -94,7 +94,7 @@ graph TD;
 
   default__authentik["authentik"]
   default__autobrr["autobrr"]
-  default__automate_wx["automate-wx"]
+  gpu__automate_wx["automate-wx"]
   default__books["books"]
   cert_manager__cert_manager["cert-manager"]
   cert_manager__cert_manager_issuers["cert-manager-issuers"]
@@ -177,7 +177,6 @@ graph TD;
   database__cnpg_resources --> default__onlyoffice
   default__authentik --> database__pgadmin
   default__authentik --> default__filebrowser
-  default__automate_wx --> default__hajimari
   default__books --> default__endlessh
   default__endlessh --> default__paperless
   default__filebrowser --> default__immich
@@ -197,6 +196,7 @@ graph TD;
   default__sonarr --> default__radarr
   default__valkey --> default__authentik
   flux_system__cluster_meta --> flux_system__cluster_apps
+  gpu__automate_wx --> default__hajimari
   kube_system__csi_driver_smb_ressources --> default__filebrowser
   kube_system__kubernetes_replicator --> database__cnpg_resources
   longhorn_system__longhorn --> longhorn_system__longhorn_resources
@@ -227,8 +227,8 @@ graph TD;
   observability__kube_prometeus_stack --> observability__kromgo
   vault__vault --> vault__vault_external_secrets_operator
   vault__vault --> vault__vault_secrets_operator
-  vault__vault_secrets_operator --> default__automate_wx
   vault__vault_secrets_operator --> default__rabbitmq
+  vault__vault_secrets_operator --> gpu__automate_wx
   vault__vault_secrets_operator --> kube_system__csi_driver_smb
   vault__vault_secrets_operator --> kube_system__csi_driver_smb_ressources
   vault__vault_secrets_operator --> network__crowdsec
@@ -240,6 +240,7 @@ graph TD;
   classDef cls_database fill:#0d0d0d,stroke:#ff6b35,color:#ff6b35,stroke-width:2px;
   classDef cls_default fill:#0d0d0d,stroke:#00d4ff,color:#00d4ff,stroke-width:2px;
   classDef cls_flux_system fill:#0d0d0d,stroke:#39ff14,color:#39ff14,stroke-width:2px;
+  classDef cls_gpu fill:#0d0d0d,stroke:#555555,color:#aaaaaa,stroke-width:2px;
   classDef cls_kube_system fill:#0d0d0d,stroke:#d400ff,color:#d400ff,stroke-width:2px;
   classDef cls_longhorn_system fill:#0d0d0d,stroke:#ff003c,color:#ff003c,stroke-width:2px;
   classDef cls_network fill:#0d0d0d,stroke:#00ffe7,color:#00ffe7,stroke-width:2px;
@@ -249,8 +250,9 @@ graph TD;
   class flux_controller cls_flux_ctrl;
   class cert_manager__cert_manager,cert_manager__cert_manager_issuers cls_cert_manager;
   class database__cnpg,database__cnpg_resources,database__pg_dump,database__pg_dump_sync,database__pg_restore,database__pgadmin cls_database;
-  class default__authentik,default__autobrr,default__automate_wx,default__books,default__christmas,default__coder,default__endlessh,default__filebrowser,default__flaresolverr,default__hajimari,default__immich,default__jellyfin,default__kavita,default__livres,default__mealie,default__onlyoffice,default__paperless,default__prowlarr,default__rabbitmq,default__rabbitmq_resources,default__radarr,default__sonarr,default__test_christmas,default__valkey cls_default;
+  class default__authentik,default__autobrr,default__books,default__christmas,default__coder,default__endlessh,default__filebrowser,default__flaresolverr,default__hajimari,default__immich,default__jellyfin,default__kavita,default__livres,default__mealie,default__onlyoffice,default__paperless,default__prowlarr,default__rabbitmq,default__rabbitmq_resources,default__radarr,default__sonarr,default__test_christmas,default__valkey cls_default;
   class flux_system__cluster_apps,flux_system__cluster_meta,flux_system__flux_instance,flux_system__flux_operator cls_flux_system;
+  class gpu__automate_wx cls_gpu;
   class kube_system__csi_driver_smb,kube_system__csi_driver_smb_ressources,kube_system__kubernetes_replicator cls_kube_system;
   class longhorn_system__local_path_provisioner,longhorn_system__longhorn,longhorn_system__longhorn_resources,longhorn_system__longhorn_restore cls_longhorn_system;
   class network__crowdsec,network__ddns_updater,network__headplane,network__headscale,network__headscale_rotator,network__metallb,network__metallb_resources,network__tailscale,network__traefik,network__traefik_resources,network__uptime_kuma cls_network;
