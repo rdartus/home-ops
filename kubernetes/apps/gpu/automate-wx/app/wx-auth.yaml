@@ -11,6 +11,6 @@ spec:
   mount: kubernetes
   kubernetes:
     role: rlwx
-    serviceAccount: gpu
+    serviceAccount: default
     audiences:
       - vault
