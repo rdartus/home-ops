@@ -11,6 +11,6 @@ spec:
   mount: kubernetes
   kubernetes:
     role: rlwx
-    serviceAccount: default
+    serviceAccount: automate-wx
     audiences:
       - vault
