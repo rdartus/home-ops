@@ -19,7 +19,7 @@ controllers:
           repository: ghcr.io/tailscale/tailscale
           # ADAPT: pin to the current stable release, check
           # https://github.com/tailscale/tailscale/releases
-          tag: "v1.102.2"
+          tag: "v1.102.3"
         env:
           POD_NAME:
             valueFrom:
