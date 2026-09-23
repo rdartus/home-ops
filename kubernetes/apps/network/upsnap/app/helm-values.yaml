@@ -152,13 +152,13 @@ controllers:
           PB_ADMIN_EMAIL:
             valueFrom:
               secretKeyRef:
-                name: upsnap-config
-                key: admin_email
+                name: upsnap-admin
+                key: email
           PB_ADMIN_PASSWORD:
             valueFrom:
               secretKeyRef:
-                name: upsnap-config
-                key: admin_password
+                name: upsnap-admin
+                key: secpassword
         securityContext:
           runAsUser: 65534
           runAsGroup: 65534
