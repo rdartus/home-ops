@@ -269,7 +269,7 @@ ingress:
 persistence:
   data:
     type: persistentVolumeClaim
-    existingClaim: upsnap-data          # défini dans pvc.yaml
+    existingClaim:  pvc-upsnap         # défini dans pvc.yaml
     advancedMounts:
       upsnap:
         app:

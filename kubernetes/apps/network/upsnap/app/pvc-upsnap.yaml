@@ -2,7 +2,7 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: pvc-upsnap
-  namespace: database
+  namespace: network
 spec:
   resources:
     requests:
