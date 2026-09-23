@@ -1,0 +1,284 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/refs/heads/main/charts/library/common/values.schema.json
+---
+# =============================================================================
+# UpSnap (Wake-on-LAN) — values pour bjw-s/app-template (série 4.x)
+# Cible : cluster Talos "klusterfox", namespace "network", Ingress Traefik classique
+# Prérequis : pvc.yaml appliqué + Secrets upsnap-oidc / upsnap-admin (voir section OIDC)
+# =============================================================================
+
+defaultPodOptions:
+  # ---------------------------------------------------------------------------
+  # CRITIQUE — hostNetwork (Wake-on-LAN)
+  # Le magic packet est un broadcast UDP L2. Depuis le réseau d'un pod (CNI/overlay),
+  # il ne sort jamais sur le LAN 192.168.1.0/24. Avec hostNetwork, le pod partage la
+  # pile réseau du nœud : le broadcast part directement par l'interface physique.
+  # ---------------------------------------------------------------------------
+  hostNetwork: true
+  # Garde la résolution des Services du cluster (*.svc) malgré hostNetwork.
+  dnsPolicy: ClusterFirstWithHostNet
+  # Conséquences à connaître :
+  #  1) Le port d'écoute s'ouvre DIRECTEMENT sur le nœud. On évite donc le 8090 par
+  #     défaut et tout port déjà pris (Talos 50000/50001, kubelet 10250, etcd 2379/2380,
+  #     apiserver 6443, node-exporter 9100...). Ici : 8095. Vérifier avant déploiement :
+  #       talosctl -n 192.168.1.20 netstat -l
+  #  2) Talos applique par défaut le Pod Security Admission "baseline", qui REFUSE
+  #     hostNetwork et l'ajout de NET_RAW. Le namespace doit être "privileged" :
+  #       kubectl label ns network pod-security.kubernetes.io/enforce=privileged
+  #     (ou l'équivalent déclaratif dans ton manifeste de Namespace géré par Flux).
+  #  3) Le broadcast sort par l'interface du nœud qui héberge le pod : ce nœud doit être
+  #     dans le même segment L2 que les machines à réveiller (c'est le cas des deux).
+  # nodeSelector:            # optionnel : figer UpSnap sur un nœud précis
+  #   kubernetes.io/hostname: nucsamere
+
+controllers:
+  upsnap:
+    replicas: 1
+    # Recreate obligatoire : hostNetwork (même port sur le nœud) + PVC RWO empêchent
+    # deux pods de coexister pendant un rolling update.
+    strategy: Recreate
+
+    containers:
+      app:
+        image:
+          repository: ghcr.io/seriousm4x/upsnap
+          tag: 5.6.0
+        # L'image démarre par défaut sur 0.0.0.0:8090 : on surcharge le port ici
+        # (WORKDIR de l'image = /app, binaire = /app/upsnap).
+        command: ["/app/upsnap"]
+        args: ["serve", "--http=0.0.0.0:8095"]
+        env:
+          TZ: Europe/Paris                      # fuseau des crons de démarrage/extinction
+          UPSNAP_INTERVAL: "@every 10s"         # fréquence de ping des appareils
+          UPSNAP_SCAN_RANGE: 192.168.1.0/24     # plage pour la découverte réseau (nmap)
+          UPSNAP_SCAN_TIMEOUT: 500ms
+          UPSNAP_WEBSITE_TITLE: UpSnap
+        probes:
+          liveness: &probe
+            enabled: true
+            custom: true
+            spec:
+              httpGet:
+                path: /api/health
+                port: &port 8095
+              periodSeconds: 10
+              timeoutSeconds: 3
+              failureThreshold: 3
+          readiness: *probe
+          startup:
+            enabled: true
+            custom: true
+            spec:
+              httpGet:
+                path: /api/health
+                port: *port
+              periodSeconds: 5
+              failureThreshold: 30
+        # ---------------------------------------------------------------------
+        # securityContext (Talos / PSA)
+        # UpSnap tourne en root dans l'image, et son binaire porte la file-capability
+        # cap_net_raw (ping ICMP brut + nmap). On garde root MAIS on retire tout le reste :
+        #  - NET_RAW conservé : sans lui le binaire ne démarre plus (file-cap +ep) ;
+        #  - si la découverte réseau nmap échoue, ajouter aussi NET_ADMIN ci-dessous ;
+        #  - l'envoi du magic packet (UDP broadcast) ne demande aucune capability.
+        # ---------------------------------------------------------------------
+        securityContext:
+          runAsUser: 0
+          runAsGroup: 0
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: false
+          capabilities:
+            drop: ["ALL"]
+            add: ["NET_RAW"]                    # + "NET_ADMIN" si le scan nmap échoue
+        resources:
+          requests:
+            cpu: 10m
+            memory: 64Mi
+          limits:
+            memory: 256Mi
+
+      # -----------------------------------------------------------------------
+      # OIDC — Authentik
+      # PocketBase NE LIT AUCUNE variable d'environnement pour ses providers OAuth2/OIDC :
+      # ils sont stockés en base (collection "users" > oauth2). Il n'existe donc pas de
+      # "env vars OIDC" à préremplir. Ce sidecar est le plus proche équivalent GitOps :
+      # il injecte le Client ID / Client Secret dans PocketBase via son API, puis
+      # ré-applique la config toutes les heures (déclaratif : la base est écrasée).
+      #
+      # Ordre de mise en place :
+      #  1. Authentik : créer un Provider OAuth2/OpenID confidentiel + une Application.
+      #       Redirect URI (strict) : https://wol.dartus.fr/api/oauth2-redirect
+      #       Scopes : openid, email, profile
+      #  2. Créer les Secrets (ou les produire via Vault Secrets Operator / ExternalSecret,
+      #     avec ces mêmes noms et clés) :
+      #       kubectl -n network create secret generic upsnap-oidc \
+      #         --from-literal=client_id='<CLIENT_ID_AUTHENTIK>' \
+      #         --from-literal=client_secret='<CLIENT_SECRET_AUTHENTIK>'
+      #       kubectl -n network create secret generic upsnap-admin \
+      #         --from-literal=email='toi@example.com' \
+      #         --from-literal=password='<MOT_DE_PASSE_SUPERUSER>'
+      #  3. Premier démarrage (UpSnap >= 5.4) : le superuser se crée via un lien à usage
+      #     unique affiché dans les logs du conteneur "app" :
+      #       kubectl -n network logs deploy/upsnap -c app | grep -i setup
+      #     (remplacer l'hôte du lien par wol.dartus.fr). Utiliser email/mot de passe
+      #     identiques à ceux du Secret upsnap-admin. Tant que le superuser n'existe pas,
+      #     le sidecar réessaie toutes les 30 s sans rien casser.
+      #  4. Les nouveaux utilisateurs OIDC n'ont accès à aucun appareil tant qu'un
+      #     superuser ne leur attribue pas de permissions dans UpSnap.
+      #
+      # Alternative 100 % manuelle : supprimer ce sidecar (+ configMaps.oidc-script et
+      # persistence.oidc-script) et configurer à la main dans https://wol.dartus.fr/_/
+      # > Collections > users > Options > OAuth2 > "OpenID Connect (oidc)".
+      # -----------------------------------------------------------------------
+      oidc-bootstrap:
+        image:
+          repository: python
+          tag: 3.13-alpine
+        command: ["python3", "-u", "/scripts/oidc_bootstrap.py"]
+        env:
+          PYTHONDONTWRITEBYTECODE: "1"
+          OIDC_ISSUER: https://authentik.dartus.fr
+          # >>> ICI : Client ID / Client Secret Authentik (Secret K8s "upsnap-oidc") <<<
+          OIDC_CLIENT_ID:
+            valueFrom:
+              secretKeyRef:
+                name: upsnap-config
+                key: client_id
+          OIDC_CLIENT_SECRET:
+            valueFrom:
+              secretKeyRef:
+                name: upsnap-config
+                key: client_secret
+          # Identifiants du superuser PocketBase (nécessaires pour patcher la config)
+          PB_ADMIN_EMAIL:
+            valueFrom:
+              secretKeyRef:
+                name: upsnap-config
+                key: admin_email
+          PB_ADMIN_PASSWORD:
+            valueFrom:
+              secretKeyRef:
+                name: upsnap-config
+                key: admin_password
+        securityContext:
+          runAsUser: 65534
+          runAsGroup: 65534
+          runAsNonRoot: true
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: true
+          capabilities:
+            drop: ["ALL"]
+        resources:
+          requests:
+            cpu: 5m
+            memory: 24Mi
+          limits:
+            memory: 64Mi
+
+# Script du sidecar (généré en ConfigMap par le chart)
+configMaps:
+  oidc-script:
+    data:
+      oidc_bootstrap.py: |
+        import json
+        import os
+        import time
+        import urllib.request
+
+        # hostNetwork => pod et sidecar partagent la pile réseau : localhost suffit.
+        PB = "http://127.0.0.1:8095"
+
+
+        def call(method, path, body=None, token=None):
+            headers = {"Content-Type": "application/json"}
+            if token:
+                headers["Authorization"] = token
+            data = json.dumps(body).encode() if body is not None else None
+            req = urllib.request.Request(PB + path, data=data, headers=headers, method=method)
+            with urllib.request.urlopen(req, timeout=10) as resp:
+                return json.load(resp)
+
+
+        def configure():
+            auth = call(
+                "POST",
+                "/api/collections/_superusers/auth-with-password",
+                {
+                    "identity": os.environ["PB_ADMIN_EMAIL"],
+                    "password": os.environ["PB_ADMIN_PASSWORD"],
+                },
+            )
+            base = os.environ["OIDC_ISSUER"].rstrip("/")
+            call(
+                "PATCH",
+                "/api/collections/users",
+                {
+                    "oauth2": {
+                        "enabled": True,
+                        "providers": [
+                            {
+                                "name": "oidc",
+                                "displayName": "Authentik",
+                                "clientId": os.environ["OIDC_CLIENT_ID"],
+                                "clientSecret": os.environ["OIDC_CLIENT_SECRET"],
+                                "authURL": base + "/application/o/authorize/",
+                                "tokenURL": base + "/application/o/token/",
+                                "userInfoURL": base + "/application/o/userinfo/",
+                            }
+                        ],
+                    }
+                },
+                token=auth["token"],
+            )
+
+
+        while True:
+            try:
+                configure()
+                print("OIDC Authentik appliqué dans PocketBase", flush=True)
+                time.sleep(3600)
+            except Exception as exc:  # UpSnap pas prêt, superuser absent, etc.
+                print("En attente / échec : %s" % exc, flush=True)
+                time.sleep(30)
+
+service:
+  app:
+    controller: upsnap
+    ports:
+      http:
+        port: 8095          # = port réel sur le nœud (hostNetwork) : pas de mapping possible
+
+ingress:
+  app:
+    className: traefik      # Ingress Controller Traefik classique (pas Gateway API)
+    annotations:
+      traefik.ingress.kubernetes.io/router.entrypoints: websecure
+      cert-manager.io/cluster-issuer: zerossl   # <- nom de ton ClusterIssuer ZeroSSL
+    hosts:
+      - host: wol.dartus.fr
+        paths:
+          - path: /
+            pathType: Prefix
+            service:
+              identifier: app
+              port: http
+    tls:
+      - secretName: upsnap-tls
+        hosts:
+          - wol.dartus.fr
+
+persistence:
+  data:
+    type: persistentVolumeClaim
+    existingClaim: upsnap-data          # défini dans pvc.yaml
+    advancedMounts:
+      upsnap:
+        app:
+          - path: /app/pb_data          # base SQLite + données PocketBase
+  oidc-script:
+    type: configMap
+    identifier: oidc-script             # = configMaps.oidc-script ci-dessus
+    advancedMounts:
+      upsnap:
+        oidc-bootstrap:
+          - path: /scripts
+            readOnly: true

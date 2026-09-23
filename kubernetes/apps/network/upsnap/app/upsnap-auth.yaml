@@ -1,0 +1,17 @@
+apiVersion: secrets.hashicorp.com/v1beta1
+kind: VaultAuth
+metadata:
+  name: upsnap-auth
+  namespace: network
+  annotations:
+    argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
+    argocd.argoproj.io/sync-wave: "50"
+
+spec:
+  method: kubernetes
+  mount: kubernetes
+  kubernetes:
+    role: rlupsnap
+    serviceAccount: default
+    audiences:
+      - vault

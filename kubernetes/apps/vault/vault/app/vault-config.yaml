@@ -210,6 +210,13 @@ data:
     path "kv-v2/data/scale/*" {
       capabilities = ["read"]
     }
+  upsnap-policy.json: |
+    path "kv-v2/data/upsnap/*" {
+      capabilities = ["read"]
+    }
+    path "kv-v2/data/default/*" {
+      capabilities = ["read"]
+    }
   eso-push-tailscale-state.json: |
     path "kv-v2/data/scale/state" {
       capabilities = ["create", "update", "read"]
@@ -375,7 +382,7 @@ data:
         vault kv put kv-v2/postgresql/office username="@/config/cred/DB-office-user" password="@/config/cred/DB-office-password" token="@/config/cred/office-token" amqp="@/config/cred/office-amqp" 
         vault kv put kv-v2/ssh key="@/config/cred/key"
         vault kv put kv-v2/arr/config sonarrKey="@/config/cred/sonarrKey" prowlarrKey="@/config/cred/prowlarrKey" radarrKey="@/config/cred/radarrKey" yggUsername="@/config/cred/yggUsername" yggPassword="@/config/cred/yggPassword"
-        vault kv put kv-v2/default/config username="admin" password="@/config/cred/default-password" passwordPBKDF2="@/config/cred/default-passwordPBKDF2" secpassword="@/config/cred/default-sec-password"
+        vault kv put kv-v2/default/config username="admin" password="@/config/cred/default-password" passwordPBKDF2="@/config/cred/default-passwordPBKDF2" secpassword="@/config/cred/default-sec-password" email="@/config/cred/gmail-user"
         vault kv put kv-v2/default/smb username="jeank" password="@/config/cred/jeank-smb"
         vault kv put kv-v2/default/smb-longhorn CIFS_USERNAME="jeank" CIFS_PASSWORD="@/config/cred/jeank-smb"
         vault kv put kv-v2/crowdsec/config enroll_key="@/config/cred/crowdsec_enroll_key" bouncer_traefik="@/config/cred/crowdsec_bouncer_traefik"
@@ -403,6 +410,7 @@ data:
         vault kv put kv-v2/scale/config client_id="@/config/cred/tailscaleOIDCClient" client_secret="@/config/cred/tailscaleOIDCSecret" cookie="@/config/cred/tailscaleCookie" tailscale_key="@/config/cred/tailscaleKey" headscale_api_key="@/config/cred/headscaleAPIKey"
         vault kv put kv-v2/scale/state _current-profile ="@/config/cred/tailscale__current-profile" _machinekey ="@/config/cred/tailscale__machinekey" _profiles ="@/config/cred/tailscale__profiles" device_fqdn ="@/config/cred/tailscale_device_fqdn" device_id ="@/config/cred/tailscale_device_id" device_ips ="@/config/cred/tailscale_device_ips" profile-2253 ="@/config/cred/tailscale_profile-2253" tailscale_capver ="@/config/cred/tailscale_tailscale_capver"
         vault kv metadata put -custom-metadata="managed-by=external-secrets" kv-v2/scale/state
+        vault kv put kv-v2/upsnap/config client_id="@/config/cred/upsnapOIDCClient" client_secret="@/config/cred/upsnapOIDCSecret"
 
         vault policy write plcall /config/scripts/all-policy.json
         vault policy write plccnpg /config/scripts/cnpg-policy.json
@@ -430,6 +438,7 @@ data:
         vault policy write plczerossl /config/scripts/zerossl-policy.json        
         vault policy write plcgitops /config/scripts/gitops-policy.json        
         vault policy write plcscale /config/scripts/scale-policy.json        
+        vault policy write plcupsnap /config/scripts/upsnap-policy.json        
         vault policy write plceso /config/scripts/eso-push-tailscale-state.json.json        
 
         vault policy write reader /config/scripts/reader-policy.json       
@@ -621,6 +630,13 @@ data:
         bound_service_account_names=tailscale-eso \
         bound_service_account_namespaces=network \
         policies=plceso \
+        audience=vault\
+        ttl=24h
+
+        vault write auth/kubernetes/role/rlupsnap \
+        bound_service_account_names=default \
+        bound_service_account_namespaces=network \
+        policies=plcupsnap \
         audience=vault\
         ttl=24h
 
