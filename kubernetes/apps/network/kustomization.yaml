@@ -14,5 +14,6 @@ resources:
   - ./headscale-rotator/ks.yaml
   - ./headplane/ks.yaml
   - ./tailscale/ks.yaml
+  - ./upsnap/ks.yaml
 components:
   - ../../components/flux/sops
