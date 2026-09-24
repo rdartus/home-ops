@@ -154,7 +154,7 @@ controllers:
             valueFrom:
               secretKeyRef:
                 name: upsnap-admin
-                key: password
+                key: secpassword
         securityContext:
           runAsUser: 65534
           runAsGroup: 65534
