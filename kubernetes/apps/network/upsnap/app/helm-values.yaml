@@ -34,7 +34,7 @@ controllers:
   upsnap:
     replicas: 1
     # Recreate obligatoire : hostNetwork (même port sur le nœud) + PVC RWO empêchent
-    # deux pods de coexister pendant un rolling update.
+    # deux pods de coexister pendant un rolling update
     strategy: Recreate
     type: statefulset
     containers:
