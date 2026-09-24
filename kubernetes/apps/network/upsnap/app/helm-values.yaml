@@ -249,10 +249,10 @@ service:
 
 ingress:
   app:
-    className: traefik      # Ingress Controller Traefik classique (pas Gateway API)
+    className: traefik-ingresses      # Ingress Controller Traefik classique (pas Gateway API)
     annotations:
       traefik.ingress.kubernetes.io/router.entrypoints: websecure
-      cert-manager.io/cluster-issuer: zerossl   # <- nom de ton ClusterIssuer ZeroSSL
+      cert-manager.io/cluster-issuer: zerossl-prod   # <- nom de ton ClusterIssuer ZeroSSL
     hosts:
       - host: wol.dartus.fr
         paths:
