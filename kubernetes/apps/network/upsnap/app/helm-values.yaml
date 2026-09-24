@@ -42,16 +42,13 @@ controllers:
         image:
           repository: ghcr.io/seriousm4x/upsnap
           tag: 5.6.0
-        # L'image démarre par défaut sur 0.0.0.0:8090 : on surcharge le port ici
-        # (WORKDIR de l'image = /app, binaire = /app/upsnap).
-        command: ["/app/upsnap"]
-        args: ["serve", "--http=0.0.0.0:8095"]
         env:
           TZ: Europe/Paris                      # fuseau des crons de démarrage/extinction
-          UPSNAP_INTERVAL: "@every 10s"         # fréquence de ping des appareils
+          UPSNAP_INTERVAL: "*/10 * * * * *"       # fréquence de ping des appareils
           UPSNAP_SCAN_RANGE: 192.168.1.0/24     # plage pour la découverte réseau (nmap)
           UPSNAP_SCAN_TIMEOUT: 500ms
           UPSNAP_WEBSITE_TITLE: UpSnap
+          UPSNAP_HTTP_LISTEN: 0.0.0.0:8095
         probes:
           liveness: &probe
             enabled: true
