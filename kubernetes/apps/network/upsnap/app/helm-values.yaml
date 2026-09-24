@@ -36,7 +36,7 @@ controllers:
     # Recreate obligatoire : hostNetwork (même port sur le nœud) + PVC RWO empêchent
     # deux pods de coexister pendant un rolling update.
     strategy: Recreate
-
+    type: statefulset
     containers:
       app:
         image:
