@@ -34,7 +34,7 @@ controllers:
   upsnap:
     replicas: 1
     type: statefulset
-    # Ne PAS mettre 'strategy: Recreate' si type est 'statefulset'
+    # Ne PAS mettre 'strategy: Recreate' si type est 'statefulset'.
     strategy: RollingUpdate
     containers:
       app:
