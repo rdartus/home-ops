@@ -179,32 +179,43 @@ configMaps:
         import json
         import os
         import time
+        import urllib.error
         import urllib.request
-
+ 
         # hostNetwork => pod et sidecar partagent la pile réseau : localhost suffit.
         PB = "http://127.0.0.1:8095"
-
-
+ 
+ 
+        def env(name):
+            # strip() : les valeurs Vault chargées via `key=@fichier` gardent souvent un
+            # retour à la ligne final, qui fait échouer l'authentification PocketBase.
+            return os.environ[name].strip()
+ 
+ 
         def call(method, path, body=None, token=None):
             headers = {"Content-Type": "application/json"}
             if token:
                 headers["Authorization"] = token
             data = json.dumps(body).encode() if body is not None else None
             req = urllib.request.Request(PB + path, data=data, headers=headers, method=method)
-            with urllib.request.urlopen(req, timeout=10) as resp:
-                return json.load(resp)
-
-
+            try:
+                with urllib.request.urlopen(req, timeout=10) as resp:
+                    return json.load(resp)
+            except urllib.error.HTTPError as exc:
+                detail = exc.read().decode(errors="replace")
+                raise RuntimeError("%s %s -> HTTP %s : %s" % (method, path, exc.code, detail)) from None
+ 
+ 
         def configure():
             auth = call(
                 "POST",
                 "/api/collections/_superusers/auth-with-password",
                 {
-                    "identity": os.environ["PB_ADMIN_EMAIL"],
-                    "password": os.environ["PB_ADMIN_PASSWORD"],
+                    "identity": env("PB_ADMIN_EMAIL"),
+                    "password": env("PB_ADMIN_PASSWORD"),
                 },
             )
-            base = os.environ["OIDC_ISSUER"].rstrip("/")
+            base = env("OIDC_ISSUER").rstrip("/")
             call(
                 "PATCH",
                 "/api/collections/users",
@@ -215,8 +226,8 @@ configMaps:
                             {
                                 "name": "oidc",
                                 "displayName": "Authentik",
-                                "clientId": os.environ["OIDC_CLIENT_ID"],
-                                "clientSecret": os.environ["OIDC_CLIENT_SECRET"],
+                                "clientId": env("OIDC_CLIENT_ID"),
+                                "clientSecret": env("OIDC_CLIENT_SECRET"),
                                 "authURL": base + "/application/o/authorize/",
                                 "tokenURL": base + "/application/o/token/",
                                 "userInfoURL": base + "/application/o/userinfo/",
@@ -226,8 +237,8 @@ configMaps:
                 },
                 token=auth["token"],
             )
-
-
+ 
+ 
         while True:
             try:
                 configure()
@@ -236,7 +247,7 @@ configMaps:
             except Exception as exc:  # UpSnap pas prêt, superuser absent, etc.
                 print("En attente / échec : %s" % exc, flush=True)
                 time.sleep(30)
-
+ 
 service:
   app:
     controller: upsnap
