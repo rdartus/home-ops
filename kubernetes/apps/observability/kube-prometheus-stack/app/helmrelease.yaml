@@ -3,7 +3,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: kube-prometeus-stack
+  name: kube-prometheus-stack
 spec:
   interval: 45m
   timeout: 30m

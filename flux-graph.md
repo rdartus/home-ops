@@ -25,7 +25,7 @@ flowchart TD
   end
 
   subgraph observability_sg["Observability"]
-    observability__kube_prometeus_stack["kube-prometeus-stack"]
+    observability__kube_prometeus_stack["kube-prometheus-stack"]
     observability__grafana["grafana"]
     observability__kromgo["kromgo"]
   end

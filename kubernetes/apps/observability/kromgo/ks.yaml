@@ -15,7 +15,7 @@ spec:
   dependsOn:
     - name: vault-secrets-operator
       namespace: vault
-    - name: kube-prometeus-stack
+    - name: kube-prometheus-stack
       namespace: observability
     - name: traefik
       namespace: network

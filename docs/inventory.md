@@ -104,7 +104,7 @@ La prochaine revue de sécurité doit comparer les labels live avec les manifest
 | `network` | `tailscale` | Connecte le cluster au réseau privé Tailscale. |
 | `network` | `upsnap` | Supervise ou pilote l'alimentation des équipements selon sa configuration. |
 | `network` | `uptime-kuma` | Surveille la disponibilité des services et endpoints. |
-| `observability` | `kube-prometeus-stack` | Déploie Prometheus, Alertmanager, exporters et règles de monitoring Kubernetes. |
+| `observability` | `kube-prometheus-stack` | Déploie Prometheus, Alertmanager, exporters et règles de monitoring Kubernetes. |
 | `observability` | `grafana` | Fournit les dashboards et la visualisation des métriques. |
 | `observability` | `kromgo` | Expose des métriques synthétiques du cluster pour les badges et tableaux de statut. |
 | `vault` | `vault` | Stocke et sert les secrets runtime ainsi que certaines identités/certificats. |

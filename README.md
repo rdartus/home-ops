@@ -122,7 +122,7 @@ graph TD;
   default__jellyfin["jellyfin"]
   default__kavita["kavita"]
   observability__kromgo["kromgo"]
-  observability__kube_prometeus_stack["kube-prometeus-stack"]
+  observability__kube_prometeus_stack["kube-prometheus-stack"]
   kube_system__kubernetes_replicator["kubernetes-replicator"]
   default__livres["livres"]
   longhorn_system__local_path_provisioner["local-path-provisioner"]

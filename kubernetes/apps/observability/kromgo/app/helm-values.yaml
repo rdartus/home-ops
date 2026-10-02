@@ -11,7 +11,7 @@ controllers:
           repository: ghcr.io/kashalls/kromgo
           tag: v0.10.0@sha256:965ecc92d68dc1a4a969397855367bbc70da03227a941ea607b73bb7e0b78fd6
         env:
-          PROMETHEUS_URL: http://kube-prometeus-stack-kube-prometheus.observability.svc.cluster.local:9090
+          PROMETHEUS_URL: http://kube-prometheus-stack-kube-prometheus.observability.svc.cluster.local:9090
           SERVER_PORT: &port 80
           HEALTH_PORT: &healthPort 8080
         probes:
