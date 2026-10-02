@@ -61,7 +61,7 @@ datasources:
         type: prometheus
         uid: prometheus
         access: proxy
-        url: http://kube-prometheus-stack-kube-prometheus.observability.svc.cluster.local:9090
+        url: http://kube-prometheus-stack-prometheus.observability.svc.cluster.local:9090
         isDefault: true
       - name: Alertmanager
         type: alertmanager
