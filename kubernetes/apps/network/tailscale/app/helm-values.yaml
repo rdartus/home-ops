@@ -23,6 +23,7 @@ controllers:
                 fieldPath: metadata.name
           # Définition du répertoire d'état local (sur le PVC) au lieu de TS_KUBE_SECRET
           TS_STATE_DIR: "/var/lib/tailscale"
+          TS_KUBE_SECRET: ""
           TS_AUTHKEY:
             valueFrom:
               secretKeyRef:
