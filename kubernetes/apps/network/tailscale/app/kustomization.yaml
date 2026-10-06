@@ -5,9 +5,6 @@ kind: Kustomization
 resources:
   - ./helmrelease.yaml
   - ./pvc-tailscale.yaml
-  - ./tailscale-secret.yaml
-  - ./push-tailscale-secret.yaml
-  - ./secret-store.yaml
 configMapGenerator:
   - name: tailscale-helm-values
     files:
