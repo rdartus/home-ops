@@ -119,7 +119,7 @@ controllers:
           # -- image repository
           repository: linuxserver/kavita
           # -- image tag
-          tag: 0.9.1@sha256:f6377475ea8e0189257222fdf72ebe3351128c2fa09951300f9cbecdfe6baa29
+          tag: 0.9.1@sha256:1a74624c346fc00b6bbc5ea7fc4017dad7e4a0ba7e509e562a7387d5141379f1
           # -- image pull policy
           pullPolicy: IfNotPresent
 
