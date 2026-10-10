@@ -1,0 +1,19 @@
+---
+# yaml-language-server: $schema=https://json.schemastore.org/kustomization
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - ./helmrelease.yaml
+  - ./dawarich-auth.yaml
+  - ./dawarich-secret.yaml
+  - ./pvc-dawarich-db.yaml
+  - ./pvc-dawarich-shared.yaml
+  - ./pvc-dawarich-public.yaml
+  - ./pvc-dawarich-watched-import.yaml
+  - ./pvc-dawarich-storage.yaml
+configMapGenerator:
+  - name: dawarich-helm-values
+    files:
+      - values.yaml=./helm-values.yaml
+configurations:
+  - kustomizeconfig.yaml

@@ -1,0 +1,297 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/refs/heads/main/charts/library/common/values.schema.json
+---
+defaultPodOptions:
+  enableServiceLinks: false
+
+controllers:
+  database:
+    type: statefulset
+    containers:
+      main:
+        image:
+          repository: postgis/postgis
+          tag: "17-3.5"
+        env:
+          POSTGRES_DB: dawarich
+          POSTGRES_USER:
+            valueFrom:
+              secretKeyRef:
+                name: dawarich-config
+                key: DATABASE_USERNAME
+          POSTGRES_PASSWORD:
+            valueFrom:
+              secretKeyRef:
+                name: dawarich-config
+                key: DATABASE_PASSWORD
+        probes:
+          readiness:
+            enabled: true
+            custom: true
+            spec:
+              tcpSocket:
+                port: 5432
+              periodSeconds: 10
+          liveness:
+            enabled: true
+            custom: true
+            spec:
+              tcpSocket:
+                port: 5432
+              periodSeconds: 30
+        resources:
+          requests:
+            cpu: 50m
+            memory: 256Mi
+          limits:
+            memory: 1Gi
+
+  redis:
+    type: statefulset
+    containers:
+      main:
+        image:
+          repository: redis
+          tag: 7.4-alpine
+        command:
+          - /bin/sh
+          - -c
+        args:
+          - exec redis-server --appendonly yes --requirepass "$REDIS_PASSWORD"
+        env:
+          REDIS_PASSWORD:
+            valueFrom:
+              secretKeyRef:
+                name: dawarich-config
+                key: REDIS_PASSWORD
+        probes:
+          readiness:
+            enabled: true
+            custom: true
+            spec:
+              tcpSocket:
+                port: 6379
+              periodSeconds: 10
+          liveness:
+            enabled: true
+            custom: true
+            spec:
+              tcpSocket:
+                port: 6379
+              periodSeconds: 30
+        resources:
+          requests:
+            cpu: 10m
+            memory: 32Mi
+          limits:
+            memory: 256Mi
+
+  web:
+    replicas: 1
+    containers:
+      main:
+        image:
+          repository: freikin/dawarich
+          tag: latest
+        command:
+          - /bin/sh
+          - -c
+        args:
+          - bundle exec rails db:prepare && bundle exec rails server -b 0.0.0.0 -p 3000
+        env:
+          RAILS_ENV: production
+          DATABASE_HOST: dawarich-database
+          DATABASE_PORT: 5432
+          DATABASE_NAME: dawarich
+          DATABASE_USERNAME:
+            valueFrom:
+              secretKeyRef:
+                name: dawarich-config
+                key: DATABASE_USERNAME
+          DATABASE_PASSWORD:
+            valueFrom:
+              secretKeyRef:
+                name: dawarich-config
+                key: DATABASE_PASSWORD
+          REDIS_URL:
+            valueFrom:
+              secretKeyRef:
+                name: dawarich-config
+                key: REDIS_URL
+          SECRET_KEY_BASE:
+            valueFrom:
+              secretKeyRef:
+                name: dawarich-config
+                key: SECRET_KEY_BASE
+          APPLICATION_HOSTS:
+            valueFrom:
+              secretKeyRef:
+                name: dawarich-config
+                key: APPLICATION_HOSTS
+          TIME_ZONE: Europe/Paris
+        probes:
+          startup:
+            enabled: true
+            custom: true
+            spec:
+              httpGet:
+                path: /
+                port: 3000
+              periodSeconds: 10
+              failureThreshold: 30
+          readiness:
+            enabled: true
+            custom: true
+            spec:
+              httpGet:
+                path: /
+                port: 3000
+              periodSeconds: 10
+          liveness:
+            enabled: true
+            custom: true
+            spec:
+              httpGet:
+                path: /
+                port: 3000
+              periodSeconds: 30
+        resources:
+          requests:
+            cpu: 100m
+            memory: 512Mi
+          limits:
+            memory: 1Gi
+
+  sidekiq:
+    replicas: 1
+    containers:
+      main:
+        image:
+          repository: freikin/dawarich
+          tag: latest
+        command:
+          - bundle
+          - exec
+          - sidekiq
+        env:
+          RAILS_ENV: production
+          DATABASE_HOST: dawarich-database
+          DATABASE_PORT: 5432
+          DATABASE_NAME: dawarich
+          DATABASE_USERNAME:
+            valueFrom:
+              secretKeyRef:
+                name: dawarich-config
+                key: DATABASE_USERNAME
+          DATABASE_PASSWORD:
+            valueFrom:
+              secretKeyRef:
+                name: dawarich-config
+                key: DATABASE_PASSWORD
+          REDIS_URL:
+            valueFrom:
+              secretKeyRef:
+                name: dawarich-config
+                key: REDIS_URL
+          SECRET_KEY_BASE:
+            valueFrom:
+              secretKeyRef:
+                name: dawarich-config
+                key: SECRET_KEY_BASE
+          APPLICATION_HOSTS:
+            valueFrom:
+              secretKeyRef:
+                name: dawarich-config
+                key: APPLICATION_HOSTS
+          TIME_ZONE: Europe/Paris
+        probes:
+          readiness:
+            enabled: true
+            custom: true
+            spec:
+              exec:
+                command:
+                  - /bin/sh
+                  - -c
+                  - pgrep -f sidekiq
+              periodSeconds: 10
+        resources:
+          requests:
+            cpu: 50m
+            memory: 256Mi
+          limits:
+            memory: 768Mi
+
+service:
+  web:
+    controller: web
+    ports:
+      http:
+        port: 3000
+
+ingress:
+  web:
+    className: traefik-ingresses
+    annotations:
+      traefik.ingress.kubernetes.io/router.entrypoints: websecure
+      cert-manager.io/cluster-issuer: zerossl-prod
+    hosts:
+      - host: dawarich.dartus.fr
+        paths:
+          - path: /
+            pathType: Prefix
+            service:
+              identifier: web
+              port: http
+    tls:
+      - secretName: dawarich-tls
+        hosts:
+          - dawarich.dartus.fr
+
+persistence:
+  db:
+    type: persistentVolumeClaim
+    existingClaim: pvc-dawarich-db
+    advancedMounts:
+      database:
+        main:
+          - path: /var/lib/postgresql/data
+  shared:
+    type: persistentVolumeClaim
+    existingClaim: pvc-dawarich-shared
+    advancedMounts:
+      web:
+        main:
+          - path: /usr/local/bundle
+      sidekiq:
+        main:
+          - path: /usr/local/bundle
+  public:
+    type: persistentVolumeClaim
+    existingClaim: pvc-dawarich-public
+    advancedMounts:
+      web:
+        main:
+          - path: /var/app/public
+      sidekiq:
+        main:
+          - path: /var/app/public
+  watched:
+    type: persistentVolumeClaim
+    existingClaim: pvc-dawarich-watched-import
+    advancedMounts:
+      web:
+        main:
+          - path: /var/app/tmp/imports/watched
+      sidekiq:
+        main:
+          - path: /var/app/tmp/imports/watched
+  storage:
+    type: persistentVolumeClaim
+    existingClaim: pvc-dawarich-storage
+    advancedMounts:
+      web:
+        main:
+          - path: /var/app/storage
+      sidekiq:
+        main:
+          - path: /var/app/storage
