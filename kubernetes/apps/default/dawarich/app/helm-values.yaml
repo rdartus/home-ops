@@ -92,9 +92,8 @@ controllers:
         image:
           repository: freikin/dawarich
           tag: latest
-        entrypoint:
-          - web-entrypoint.sh
         command:
+          - web-entrypoint.sh
           - bin/rails
           - server
           - -p
@@ -172,9 +171,8 @@ controllers:
         image:
           repository: freikin/dawarich
           tag: latest
-        entrypoint:
-          - sidekiq-entrypoint.sh
         command:
+          - sidekiq-entrypoint.sh
           - sidekiq
         env:
           RAILS_ENV: production
