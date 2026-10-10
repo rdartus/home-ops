@@ -10,7 +10,7 @@ controllers:
       main:
         image:
           repository: postgis/postgis
-          tag: "17-3.5"
+          tag: "17-3.5-alpine"
         env:
           POSTGRES_DB: dawarich
           POSTGRES_USER:
@@ -56,7 +56,7 @@ controllers:
           - /bin/sh
           - -c
         args:
-          - exec redis-server --appendonly yes --requirepass "$REDIS_PASSWORD"
+          - exec redis-server --save 900 1 --save 300 10 --appendonly no --requirepass "$REDIS_PASSWORD"
         env:
           REDIS_PASSWORD:
             valueFrom:
@@ -92,11 +92,15 @@ controllers:
         image:
           repository: freikin/dawarich
           tag: latest
+        entrypoint:
+          - web-entrypoint.sh
         command:
-          - /bin/sh
-          - -c
-        args:
-          - bundle exec rails db:prepare && bundle exec rails server -b 0.0.0.0 -p 3000
+          - bin/rails
+          - server
+          - -p
+          - "3000"
+          - -b
+          - "::"
         env:
           RAILS_ENV: production
           DATABASE_HOST: dawarich-database
@@ -168,9 +172,9 @@ controllers:
         image:
           repository: freikin/dawarich
           tag: latest
+        entrypoint:
+          - sidekiq-entrypoint.sh
         command:
-          - bundle
-          - exec
           - sidekiq
         env:
           RAILS_ENV: production
@@ -222,6 +226,16 @@ controllers:
             memory: 768Mi
 
 service:
+  database:
+    controller: database
+    ports:
+      postgres:
+        port: 5432
+  redis:
+    controller: redis
+    ports:
+      redis:
+        port: 6379
   web:
     controller: web
     ports:
@@ -259,12 +273,12 @@ persistence:
     type: persistentVolumeClaim
     existingClaim: pvc-dawarich-shared
     advancedMounts:
-      web:
+      database:
         main:
-          - path: /usr/local/bundle
-      sidekiq:
+          - path: /var/shared
+      redis:
         main:
-          - path: /usr/local/bundle
+          - path: /data
   public:
     type: persistentVolumeClaim
     existingClaim: pvc-dawarich-public

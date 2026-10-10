@@ -68,6 +68,17 @@ are stateful app-template controllers, while the web and Sidekiq controllers sha
 application PVCs. Vault supplies all credentials and host-specific secret material through
 `dawarich-config`; no secret values are stored in Git.
 
+## Review Triage Log
+
+- duplicate values entry — false: the duplicate was introduced by temporary review-diff assembly, not by the repository tree; the final tree contains one `helm-values.yaml`.
+- missing database and Redis Services — high/patch: confirmed; explicit app-template Services were added for both controllers so the configured DNS names resolve.
+- unpinned Dawarich image — false: the supplied Compose source specifies `freikin/dawarich:latest`, and no stable upstream version or digest is established in the repository; changing it would invent a deployment version.
+- PostgreSQL 17 data mount path — false: the path is the one specified by the supplied Compose configuration for `postgis/postgis:17-3.5-alpine`.
+- Redis PVC missing — false: the final configuration mounts the shared PVC at `/data` and preserves the requested RDB snapshot behavior.
+- ReadWriteOnce shared volume across controllers — high/patch: confirmed as a scheduling risk; the shared Longhorn PVC was changed to `ReadWriteMany`.
+- application startup ordering — false: readiness probes and the image entrypoints allow startup retries; controller ordering is not required for eventual readiness.
+- Helm chart behavior is not rendered by repository checks — defer/unverified: current repository validation does not render remote Helm charts; live Helm reconciliation or a chart-rendering CI enhancement would be needed to settle this independently.
+
 ## Verification
 
 **Commands:**
