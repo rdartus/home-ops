@@ -217,6 +217,10 @@ data:
     path "kv-v2/data/default/*" {
       capabilities = ["read"]
     }
+  trek.json: |
+    path "kv-v2/data/trek/*" {
+      capabilities = ["read"]
+    }
   eso-push-tailscale-state.json: |
     path "kv-v2/data/scale/state" {
       capabilities = ["create", "update", "read"]
@@ -411,6 +415,7 @@ data:
         vault kv put kv-v2/scale/state _current-profile ="@/config/cred/tailscale__current-profile" _machinekey ="@/config/cred/tailscale__machinekey" _profiles ="@/config/cred/tailscale__profiles" device_fqdn ="@/config/cred/tailscale_device_fqdn" device_id ="@/config/cred/tailscale_device_id" device_ips ="@/config/cred/tailscale_device_ips" profile-2253 ="@/config/cred/tailscale_profile-2253" tailscale_capver ="@/config/cred/tailscale_tailscale_capver"
         vault kv metadata put -custom-metadata="managed-by=external-secrets" kv-v2/scale/state
         vault kv put kv-v2/upsnap/config client_id="@/config/cred/upsnapOIDCClient" client_secret="@/config/cred/upsnapOIDCSecret"
+        vault kv put kv-v2/trek/config client_id="@/config/cred/trekOIDCClient" client_secret="@/config/cred/trekOIDCSecret" encryption_key="@/config/cred/trekEncryptionKey"
 
         vault policy write plcall /config/scripts/all-policy.json
         vault policy write plccnpg /config/scripts/cnpg-policy.json
@@ -439,6 +444,7 @@ data:
         vault policy write plcgitops /config/scripts/gitops-policy.json        
         vault policy write plcscale /config/scripts/scale-policy.json        
         vault policy write plcupsnap /config/scripts/upsnap-policy.json        
+        vault policy write plctrek /config/scripts/trek-policy.json
         vault policy write plceso /config/scripts/eso-push-tailscale-state.json.json        
 
         vault policy write reader /config/scripts/reader-policy.json       
@@ -637,6 +643,13 @@ data:
         bound_service_account_names=default \
         bound_service_account_namespaces=network \
         policies=plcupsnap \
+        audience=vault\
+        ttl=24h
+
+        vault write auth/kubernetes/role/rltrek \
+        bound_service_account_names=default \
+        bound_service_account_namespaces=default \
+        policies=plctrek \
         audience=vault\
         ttl=24h
 
