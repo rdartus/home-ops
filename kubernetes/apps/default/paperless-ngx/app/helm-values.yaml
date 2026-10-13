@@ -134,7 +134,7 @@ controllers:
             valueFrom:
               secretKeyRef:
                 name: paperless-redis-secret
-                key: url
+                key: REDIS_URL
 
           PAPERLESS_DBHOST: cnpg-cluster-rw.database.svc.cluster.local
           PAPERLESS_DBENGINE: postgresql

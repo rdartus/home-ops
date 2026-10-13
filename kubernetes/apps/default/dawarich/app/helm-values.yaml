@@ -1,0 +1,327 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/refs/heads/main/charts/library/common/values.schema.json
+---
+defaultPodOptions:
+  enableServiceLinks: false
+
+controllers:
+  database:
+    type: statefulset
+    containers:
+      main:
+        image:
+          repository: postgis/postgis
+          tag: "17-3.5-alpine"
+        env:
+          POSTGRES_DB: dawarich
+          # Longhorn formate en ext4 : la racine du volume contient lost+found et initdb refuse un dossier non vide
+          PGDATA: /var/lib/postgresql/data/pgdata
+          POSTGRES_USER:
+            valueFrom:
+              secretKeyRef:
+                name: dawarich-config
+                key: db_username
+          POSTGRES_PASSWORD:
+            valueFrom:
+              secretKeyRef:
+                name: dawarich-config
+                key: db_password
+        probes:
+          readiness:
+            enabled: true
+            custom: true
+            spec:
+              exec:
+                command:
+                  - /bin/sh
+                  - -c
+                  - pg_isready -U "$POSTGRES_USER" -d "$POSTGRES_DB"
+              periodSeconds: 10
+          liveness:
+            enabled: true
+            custom: true
+            spec:
+              exec:
+                command:
+                  - /bin/sh
+                  - -c
+                  - pg_isready -U "$POSTGRES_USER" -d "$POSTGRES_DB"
+              periodSeconds: 30
+        resources:
+          requests:
+            cpu: 50m
+            memory: 256Mi
+          limits:
+            memory: 1Gi
+
+  web:
+    replicas: 1
+    type: statefulset
+    containers:
+      main:
+        image:
+          repository: freikin/dawarich
+          tag: 1.15.3
+        # ENTRYPOINT de l'image = ["bundle","exec"] ; `command` le remplace, `args` remplace CMD.
+        # web-entrypoint.sh : createdb + migrate + seed + sync des assets, puis `exec bundle exec "$@"`.
+        command:
+          - /usr/local/bin/web-entrypoint.sh
+        args:
+          - bin/rails
+          - server
+          - -p
+          - "3000"
+          - -b
+          - "::"
+        env:
+          RAILS_ENV: production
+          SELF_HOSTED: "true"
+          TIME_ZONE: Europe/Paris
+          APPLICATION_HOSTS: dawarich.dartus.fr
+          APPLICATION_PROTOCOL: https
+          DOMAIN: dawarich.dartus.fr
+          DATABASE_HOST: dawarich-database
+          DATABASE_PORT: "5432"
+          DATABASE_NAME: dawarich
+          DATABASE_USERNAME:
+            valueFrom:
+              secretKeyRef:
+                name: dawarich-config
+                key: db_username
+          DATABASE_PASSWORD:
+            valueFrom:
+              secretKeyRef:
+                name: dawarich-config
+                key: db_password
+          REDIS_URL:
+            valueFrom:
+              secretKeyRef:
+                name: dawarich-redis
+                key: REDIS_URL
+          # Valkey partagé : Dawarich utilise par défaut les DB 0/1/2/3, la 0 est celle d'Immich
+          RAILS_CACHE_DB: "3"
+          RAILS_JOB_QUEUE_DB: "4"
+          RAILS_WS_DB: "5"
+          RACK_ATTACK_REDIS_DB: "6"
+          SECRET_KEY_BASE:
+            valueFrom:
+              secretKeyRef:
+                name: dawarich-config
+                key: encryption_key
+          OIDC_CLIENT_ID:
+            valueFrom:
+              secretKeyRef:
+                name: dawarich-config
+                key: client_id
+          OIDC_CLIENT_SECRET:
+            valueFrom:
+              secretKeyRef:
+                name: dawarich-config
+                key: client_secret
+          OIDC_ISSUER: https://authentik.dartus.fr/application/o/dawarich/
+          OIDC_REDIRECT_URI: https://dawarich.dartus.fr/users/auth/openid_connect/callback
+          OIDC_PROVIDER_NAME: Authentik
+          ALLOW_EMAIL_PASSWORD_LOGIN: "false"
+          RAILS_LOG_TO_STDOUT: "true"
+          STORE_GEODATA: "true"
+        # /api/v1/health est exclu du contrôle des hosts Rails ; /api/v1/ready ne l'est pas -> header Host.
+        # X-Forwarded-Proto évite la redirection force_ssl (APPLICATION_PROTOCOL=https).
+        probes:
+          startup:
+            enabled: true
+            custom: true
+            spec:
+              httpGet:
+                path: /api/v1/health
+                port: 3000
+                httpHeaders:
+                  - name: X-Forwarded-Proto
+                    value: https
+              periodSeconds: 10
+              failureThreshold: 60
+          readiness:
+            enabled: true
+            custom: true
+            spec:
+              httpGet:
+                path: /api/v1/ready
+                port: 3000
+                httpHeaders:
+                  - name: Host
+                    value: dawarich.dartus.fr
+                  - name: X-Forwarded-Proto
+                    value: https
+              periodSeconds: 10
+          liveness:
+            enabled: true
+            custom: true
+            spec:
+              httpGet:
+                path: /api/v1/health
+                port: 3000
+                httpHeaders:
+                  - name: X-Forwarded-Proto
+                    value: https
+              periodSeconds: 30
+        resources:
+          requests:
+            cpu: 100m
+            memory: 512Mi
+          limits:
+            memory: 1536Mi
+
+  sidekiq:
+    replicas: 1
+    type: statefulset
+    # public / storage / watched sont des PVC Longhorn RWO partagés avec web :
+    # sidekiq doit tourner sur le même nœud que web (sinon Multi-Attach error).
+    pod:
+      affinity:
+        podAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            - labelSelector:
+                matchLabels:
+                  app.kubernetes.io/instance: dawarich
+                  app.kubernetes.io/controller: web
+              topologyKey: kubernetes.io/hostname
+    containers:
+      main:
+        image:
+          repository: freikin/dawarich
+          tag: 1.15.3
+        # sidekiq-entrypoint.sh attend Postgres puis fait `exec bundle exec sidekiq` (les args sont ignorés)
+        command:
+          - /usr/local/bin/sidekiq-entrypoint.sh
+        args:
+          - sidekiq
+        env:
+          RAILS_ENV: production
+          SELF_HOSTED: "true"
+          TIME_ZONE: Europe/Paris
+          APPLICATION_HOSTS: dawarich.dartus.fr
+          APPLICATION_PROTOCOL: https
+          DOMAIN: dawarich.dartus.fr
+          DATABASE_HOST: dawarich-database
+          DATABASE_PORT: "5432"
+          DATABASE_NAME: dawarich
+          DATABASE_USERNAME:
+            valueFrom:
+              secretKeyRef:
+                name: dawarich-config
+                key: db_username
+          DATABASE_PASSWORD:
+            valueFrom:
+              secretKeyRef:
+                name: dawarich-config
+                key: db_password
+          REDIS_URL:
+            valueFrom:
+              secretKeyRef:
+                name: dawarich-redis
+                key: REDIS_URL
+          RAILS_CACHE_DB: "3"
+          RAILS_JOB_QUEUE_DB: "4"
+          RAILS_WS_DB: "5"
+          RACK_ATTACK_REDIS_DB: "6"
+          # doit être identique à celui de web
+          SECRET_KEY_BASE:
+            valueFrom:
+              secretKeyRef:
+                name: dawarich-config
+                key: encryption_key
+          RAILS_LOG_TO_STDOUT: "true"
+          STORE_GEODATA: "true"
+        probes:
+          liveness:
+            enabled: true
+            custom: true
+            spec:
+              exec:
+                command:
+                  - /bin/sh
+                  - -c
+                  - pgrep -f sidekiq
+              periodSeconds: 30
+        resources:
+          requests:
+            cpu: 50m
+            memory: 256Mi
+          limits:
+            memory: 1536Mi
+
+service:
+  database:
+    controller: database
+    ports:
+      postgres:
+        port: 5432
+  web:
+    controller: web
+    ports:
+      http:
+        port: 3000
+
+ingress:
+  web:
+    className: traefik-ingresses
+    annotations:
+      traefik.ingress.kubernetes.io/router.entrypoints: websecure
+      cert-manager.io/cluster-issuer: zerossl-prod
+    hosts:
+      - host: dawarich.dartus.fr
+        paths:
+          - path: /
+            pathType: Prefix
+            service:
+              identifier: web
+              port: http
+    tls:
+      - secretName: dawarich-tls
+        hosts:
+          - dawarich.dartus.fr
+
+persistence:
+  db:
+    type: persistentVolumeClaim
+    existingClaim: pvc-dawarich-db
+    advancedMounts:
+      database:
+        main:
+          - path: /var/lib/postgresql/data
+  shm:
+    type: emptyDir
+    medium: Memory
+    sizeLimit: 256Mi
+    advancedMounts:
+      database:
+        main:
+          - path: /dev/shm
+  public:
+    type: persistentVolumeClaim
+    existingClaim: pvc-dawarich-public
+    advancedMounts:
+      web:
+        main:
+          - path: /var/app/public
+      sidekiq:
+        main:
+          - path: /var/app/public
+  watched:
+    type: persistentVolumeClaim
+    existingClaim: pvc-dawarich-watched-import
+    advancedMounts:
+      web:
+        main:
+          - path: /var/app/tmp/imports/watched
+      sidekiq:
+        main:
+          - path: /var/app/tmp/imports/watched
+  storage:
+    type: persistentVolumeClaim
+    existingClaim: pvc-dawarich-storage
+    advancedMounts:
+      web:
+        main:
+          - path: /var/app/storage
+      sidekiq:
+        main:
+          - path: /var/app/storage
