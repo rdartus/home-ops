@@ -39,13 +39,11 @@ controllers:
                 secretKeyRef:
                   name: immich-db-secret
                   key: password
-          REDIS_HOSTNAME: 'valkey.default.svc.cluster.local'
-          REDIS_PORT: "6379"
-          REDIS_PASSWORD:
+          REDIS_URL:
               valueFrom:
                 secretKeyRef:
                   name: immich-redis-secret
-                  key: password
+                  key: REDIS_URL
 
   machine-learning:
     strategy: RollingUpdate

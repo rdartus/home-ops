@@ -217,14 +217,18 @@ data:
     path "kv-v2/data/default/*" {
       capabilities = ["read"]
     }
-  eso-push-tailscale-state.json: |
-    path "kv-v2/data/scale/state" {
-      capabilities = ["create", "update", "read"]
+  trek-policy.json: |
+    path "kv-v2/data/trek/*" {
+      capabilities = ["read"]
     }
-    path "kv-v2/metadata/scale/*" {
-      capabilities = ["create", "update", "read", "list", "delete"]
+  dawarich-policy.json: |
+    path "kv-v2/data/dawarich/*" {
+      capabilities = ["read"]
     }
-
+    path "kv-v2/data/redis/config" {
+      capabilities = ["read"]
+    }
+  #TODO: Adjust and add redis config
   admin-policy.json: |
     # Accès global en lecture et écriture sur les secrets engines
     path "secret/*" {
@@ -305,7 +309,7 @@ data:
   reader-policy.json: |
     path "/secret/*" {
       capabilities = ["read", "list"]
-    } 
+    }
   gitops-policy.json: |
 
     path "kv-v2/data/gitOps" {
@@ -379,14 +383,14 @@ data:
         vault kv put kv-v2/postgresql/paper username="@/config/cred/DB-paper-user" password="@/config/cred/DB-paper-password"
         vault kv put kv-v2/postgresql/ghost username="@/config/cred/DB-ghost-user" password="@/config/cred/DB-ghost-password" url="@/config/cred/ghostfolioURL"
         vault kv put kv-v2/postgresql/coder username="@/config/cred/DB-coder-user" password="@/config/cred/DB-coder-password"
-        vault kv put kv-v2/postgresql/office username="@/config/cred/DB-office-user" password="@/config/cred/DB-office-password" token="@/config/cred/office-token" amqp="@/config/cred/office-amqp" 
+        vault kv put kv-v2/postgresql/office username="@/config/cred/DB-office-user" password="@/config/cred/DB-office-password" token="@/config/cred/office-token" amqp="@/config/cred/office-amqp"
         vault kv put kv-v2/ssh key="@/config/cred/key"
         vault kv put kv-v2/arr/config sonarrKey="@/config/cred/sonarrKey" prowlarrKey="@/config/cred/prowlarrKey" radarrKey="@/config/cred/radarrKey" yggUsername="@/config/cred/yggUsername" yggPassword="@/config/cred/yggPassword"
         vault kv put kv-v2/default/config username="admin" password="@/config/cred/default-password" passwordPBKDF2="@/config/cred/default-passwordPBKDF2" secpassword="@/config/cred/default-sec-password" email="@/config/cred/gmail-user"
         vault kv put kv-v2/default/smb username="jeank" password="@/config/cred/jeank-smb"
         vault kv put kv-v2/default/smb-longhorn CIFS_USERNAME="jeank" CIFS_PASSWORD="@/config/cred/jeank-smb"
         vault kv put kv-v2/crowdsec/config enroll_key="@/config/cred/crowdsec_enroll_key" bouncer_traefik="@/config/cred/crowdsec_bouncer_traefik"
-        vault kv put kv-v2/redis/config password="@/config/cred/redis-password" url="@/config/cred/redis-url"
+        vault kv put kv-v2/redis/config password="@/config/cred/redis-password"
         vault kv put kv-v2/authentik/config key="@/config/cred/authentik-key" _gsuite-id="@/config/cred/_gsuite-authentik-id" _gsuite-secret="@/config/cred/_gsuite-authentik-secret"
         vault kv put kv-v2/kubeprom/config username="@/config/cred/grafanaUser" password="@/config/cred/grafanaPassword"
         vault kv put kv-v2/smtp/config gmail_username="@/config/cred/gmail-user" gmail_password="@/config/cred/gmail-password" username="@/config/cred/gmail-username"
@@ -411,38 +415,42 @@ data:
         vault kv put kv-v2/scale/state _current-profile ="@/config/cred/tailscale__current-profile" _machinekey ="@/config/cred/tailscale__machinekey" _profiles ="@/config/cred/tailscale__profiles" device_fqdn ="@/config/cred/tailscale_device_fqdn" device_id ="@/config/cred/tailscale_device_id" device_ips ="@/config/cred/tailscale_device_ips" profile-2253 ="@/config/cred/tailscale_profile-2253" tailscale_capver ="@/config/cred/tailscale_tailscale_capver"
         vault kv metadata put -custom-metadata="managed-by=external-secrets" kv-v2/scale/state
         vault kv put kv-v2/upsnap/config client_id="@/config/cred/upsnapOIDCClient" client_secret="@/config/cred/upsnapOIDCSecret"
+        vault kv put kv-v2/trek/config client_id="@/config/cred/trekOIDCClient" client_secret="@/config/cred/trekOIDCSecret" encryption_key="@/config/cred/trekEncryptionKey"
+        vault kv put kv-v2/dawarich/config client_id="@/config/cred/dawarichOIDCClient" client_secret="@/config/cred/dawarichOIDCSecret" encryption_key="@/config/cred/dawarichEncryptionKey"
+        #TODO Adjust dawarich secrets with client id/secrets generated from authentik
 
         vault policy write plcall /config/scripts/all-policy.json
         vault policy write plccnpg /config/scripts/cnpg-policy.json
         vault policy write plcpgsql /config/scripts/pgsql-policy.json
-        vault policy write plcssh /config/scripts/ssh-policy.json        
-        vault policy write plcpgadmin /config/scripts/pgadmin-policy.json        
-        vault policy write plcimmich /config/scripts/immich-policy.json        
-        vault policy write plcpaperless /config/scripts/paperless-policy.json        
-        vault policy write plcghostfolio /config/scripts/ghostfolio-policy.json        
-        vault policy write plccoder /config/scripts/coder-policy.json        
+        vault policy write plcssh /config/scripts/ssh-policy.json
+        vault policy write plcpgadmin /config/scripts/pgadmin-policy.json
+        vault policy write plcimmich /config/scripts/immich-policy.json
+        vault policy write plcpaperless /config/scripts/paperless-policy.json
+        vault policy write plcghostfolio /config/scripts/ghostfolio-policy.json
+        vault policy write plccoder /config/scripts/coder-policy.json
         vault policy write plcfilebrowser /config/scripts/filebrowser-policy.json
         vault policy write plcchristmas /config/scripts/christmas-policy.json
         vault policy write plcrabbitmq /config/scripts/rabbitmq-policy.json
         vault policy write plconlyoffice /config/scripts/onlyoffice-policy.json
-        vault policy write plccrowdsec /config/scripts/crowdsec-policy.json        
-        vault policy write plcredis /config/scripts/redis-policy.json        
-        vault policy write plcddns-updater /config/scripts/ddns-updater-policy.json        
-        vault policy write plcarr /config/scripts/arr-policy.json        
-        vault policy write plcdefault /config/scripts/default-policy.json     
-        vault policy write plcidm /config/scripts/idm-policy.json     
-        vault policy write plckubeprom /config/scripts/kubeprom-policy.json     
-        vault policy write plcwx /config/scripts/wx-policy.json        
-        vault policy write plctandoor /config/scripts/tandoor-policy.json        
-        vault policy write plcmealie /config/scripts/mealie-policy.json        
-        vault policy write plczerossl /config/scripts/zerossl-policy.json        
-        vault policy write plcgitops /config/scripts/gitops-policy.json        
-        vault policy write plcscale /config/scripts/scale-policy.json        
-        vault policy write plcupsnap /config/scripts/upsnap-policy.json        
-        vault policy write plceso /config/scripts/eso-push-tailscale-state.json.json        
+        vault policy write plccrowdsec /config/scripts/crowdsec-policy.json
+        vault policy write plcredis /config/scripts/redis-policy.json
+        vault policy write plcddns-updater /config/scripts/ddns-updater-policy.json
+        vault policy write plcarr /config/scripts/arr-policy.json
+        vault policy write plcdefault /config/scripts/default-policy.json
+        vault policy write plcidm /config/scripts/idm-policy.json
+        vault policy write plckubeprom /config/scripts/kubeprom-policy.json
+        vault policy write plcwx /config/scripts/wx-policy.json
+        vault policy write plctandoor /config/scripts/tandoor-policy.json
+        vault policy write plcmealie /config/scripts/mealie-policy.json
+        vault policy write plczerossl /config/scripts/zerossl-policy.json
+        vault policy write plcgitops /config/scripts/gitops-policy.json
+        vault policy write plcscale /config/scripts/scale-policy.json
+        vault policy write plcupsnap /config/scripts/upsnap-policy.json
+        vault policy write plctrek /config/scripts/trek-policy.json
+        vault policy write plcdawarich /config/scripts/dawarich-policy.json
 
-        vault policy write reader /config/scripts/reader-policy.json       
-        vault policy write admin /config/scripts/admin-policy.json        
+        vault policy write reader /config/scripts/reader-policy.json
+        vault policy write admin /config/scripts/admin-policy.json
 
         vault write auth/kubernetes/role/rlall \
         bound_service_account_names=* \
@@ -492,7 +500,7 @@ data:
         policies=plcpgadmin \
         audience=vault\
         ttl=24h
-        
+
         vault write auth/kubernetes/role/rlimmich \
         bound_service_account_names=default \
         bound_service_account_namespaces=default \
@@ -562,7 +570,7 @@ data:
         policies=plcarr \
         audience=vault\
         ttl=24h
-        
+
         vault write auth/kubernetes/role/rldefault \
         bound_service_account_names=default \
         bound_service_account_namespaces=default,kube-system,longhorn-system\
@@ -626,17 +634,24 @@ data:
         audience=vault\
         ttl=24h
 
-        vault write auth/kubernetes/role/rleso-tailscale \
-        bound_service_account_names=tailscale-eso \
-        bound_service_account_namespaces=network \
-        policies=plceso \
-        audience=vault\
-        ttl=24h
-
         vault write auth/kubernetes/role/rlupsnap \
         bound_service_account_names=default \
         bound_service_account_namespaces=network \
         policies=plcupsnap \
+        audience=vault\
+        ttl=24h
+
+        vault write auth/kubernetes/role/rltrek \
+        bound_service_account_names=default \
+        bound_service_account_namespaces=default \
+        policies=plctrek \
+        audience=vault\
+        ttl=24h
+
+        vault write auth/kubernetes/role/rldawarich \
+        bound_service_account_names=default \
+        bound_service_account_namespaces=default \
+        policies=plcdawarich \
         audience=vault\
         ttl=24h
 
@@ -664,7 +679,7 @@ data:
         ALIAS_ADMIN_GROUP_NAME="authentik Admins"
 
         vault write identity/group name="admin" policies="admin" type="external"
-        # Exemple de ligne attendue: "id  8ccda2b8-181f-8569-8099-033e813e2a87" possibilité d'utiliser vault read -field=id. 
+        # Exemple de ligne attendue: "id  8ccda2b8-181f-8569-8099-033e813e2a87" possibilité d'utiliser vault read -field=id.
         GROUP_ID=$(vault read identity/group/name/admin | awk '$1=="id" {print $2; exit}')
         # possibilité d'utiliser vault read -field=id: vault read -field=id  identity/group/name/admin
         MOUNT_ACCESSOR=$(vault auth list 2>/dev/null | awk '$2=="oidc" {print $3; exit}')

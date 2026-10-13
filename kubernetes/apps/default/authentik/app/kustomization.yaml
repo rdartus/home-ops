@@ -10,7 +10,6 @@ resources:
   - ./authentik-secret-db.yaml
   - ./authentik-secret-default.yaml
   - ./authentik-secret-key.yaml
-  - ./authentik-secret-redis.yaml
   - ./authentik-secret-smtp.yaml
   - ./helmrelease.yaml
 configMapGenerator:
