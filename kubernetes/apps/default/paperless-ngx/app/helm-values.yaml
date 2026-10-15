@@ -121,7 +121,7 @@ controllers:
           # -- image repository
           repository: ghcr.io/paperless-ngx/paperless-ngx
           # -- image tag
-          tag: 3.0.5@sha256:65a4cabf0169ea7fbd90ab7bb28ba3f8b5909613635acda1a03ad606f34b456b
+          tag: 3.3.1@sha256:cb91bfb468e63025a9d10c01b54c33665113668eee61b490db96de19b860b9c4
           # -- image pull policy
           pullPolicy: IfNotPresent
         dependsOn: [tika, gotenberg]
