@@ -128,7 +128,7 @@ controllers:
       oidc-bootstrap:
         image:
           repository: python
-          tag: 3.13-alpine
+          tag: 3.15-alpine
         command: ["python3", "-u", "/scripts/oidc_bootstrap.py"]
         env:
           PYTHONDONTWRITEBYTECODE: "1"
