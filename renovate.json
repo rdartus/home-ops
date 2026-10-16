@@ -9,6 +9,7 @@
   "prHourlyLimit": 0,
   "prConcurrentLimit": 25,
   "branchConcurrentLimit": 25,
+  "commitBodyTable": true,
   "prCreation": "immediate",
   "suppressNotifications": [
     "prEditedNotification",
