@@ -104,10 +104,10 @@ extraInitContainers: []
 # Persistent storage configuration (standalone deployment only)
 dataStorage:
   # Enable persistent volume claim creation
-  enabled: false
+  enabled: true
 
   # Use existing PVC by name (skip dynamic provisioning if set)
-  persistentVolumeClaimName: ""
+  persistentVolumeClaimName: "pvc-valkey"
 
   # Subpath inside PVC to mount
   subPath: ""
@@ -164,20 +164,19 @@ auth:
   # IMPORTANT: When authentication is enabled, the 'default' user MUST be defined in either
   # aclUsers or aclConfig. Without a default user, anyone can access the database without
   # credentials, creating a security risk.
-  enabled: false
+  enabled: true
 
   # Use an existing secret for user passwords. Key defaults to username.
-  usersExistingSecret: ""
+  usersExistingSecret: "valkey-secret"
 
   # Map of users to create with ACL permissions.
   # If usersExistingSecret is set, passwords from the secret take priority over inline passwords.
   # NOTE: If using aclUsers, the 'default' user must be included here.
   aclUsers: {}
   # Example:
-  # default:
-  #   permissions: "~* &* +@all"
-  #   password: "secretpass"        # Inline password (fallback if usersExistingSecret not set)
-  #   passwordKey: "admin-pwd"      # Key in usersExistingSecret (defaults to username)
+  default:
+    permissions: "~* &* +@all"
+    passwordKey: "password"      # Key in usersExistingSecret (defaults to username)
   # read-user:
   #   permissions: "~* -@all +@read +ping +info"
 
