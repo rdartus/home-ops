@@ -172,11 +172,10 @@ auth:
   # Map of users to create with ACL permissions.
   # If usersExistingSecret is set, passwords from the secret take priority over inline passwords.
   # NOTE: If using aclUsers, the 'default' user must be included here.
-  aclUsers: {}
-  # Example:
-  default:
-    permissions: "~* &* +@all"
-    passwordKey: "password"      # Key in usersExistingSecret (defaults to username)
+  aclUsers:
+    default:
+      permissions: "~* &* +@all"
+      passwordKey: "password"      # Key in usersExistingSecret (defaults to username)
   # read-user:
   #   permissions: "~* -@all +@read +ping +info"
 
