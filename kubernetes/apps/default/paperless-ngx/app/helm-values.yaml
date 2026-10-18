@@ -73,6 +73,11 @@ controllers:
               secretKeyRef:
                 name: paperless-app-secret
                 key: gmailOidcSecret
+          PAPERLESS_SECRET_KEY:
+            valueFrom:
+              secretKeyRef:
+                name: paperless-app-secret
+                key: encryption_key
       gotenberg:
         image: 
           repository: docker.io/gotenberg/gotenberg
