@@ -20,8 +20,6 @@ spec:
     #   namespace: database
     - name: cnpg
       namespace: database
-    - name: valkey
-      namespace: *namespace
   prune: true
   sourceRef:
     kind: GitRepository
