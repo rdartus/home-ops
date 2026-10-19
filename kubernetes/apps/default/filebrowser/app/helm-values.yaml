@@ -524,6 +524,7 @@ configMaps:
           baseURL: "/"
           externalUrl: "https://cloud.dartus.fr:443/"
           internalUrl: "http://filebrowser.default.svc.cluster.local/"
+          trustProxyHeaders: true
         auth:
           methods:
             proxy:
