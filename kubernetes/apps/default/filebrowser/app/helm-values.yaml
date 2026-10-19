@@ -274,7 +274,7 @@ controllers:
           # -- image repository
           repository: ghcr.io/gtsteffaniak/filebrowser
           # -- image tag
-          tag: 1.5-stable@sha256:68455d4953bad8e984e1bc5d112ed1e9c918a0a04f104c13c9ece50790308894
+          tag: 2.0-stable@sha256:2e3936caf7b12908f7d3ebb68ddfcea075cda5f732e4bd95beae6cfa529cbec7
           # -- image pull policy
           pullPolicy: IfNotPresent
 
@@ -500,6 +500,9 @@ configMaps:
     data: 
       config.yaml: |
         server:
+          database:
+            path: "filebrowser.sqlite" # or use FILEBROWSER_DATABASE_PATH env var
+            migrateFrom: "database.db.old"
           port: 80
           baseURL:  "/"
           logging:
