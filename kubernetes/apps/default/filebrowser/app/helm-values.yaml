@@ -504,7 +504,6 @@ configMaps:
         server:
           database:
             path: "filebrowser.sqlite"
-            migrateFrom: "database.db.old"
           logging:
             - levels: "debug|info|warning|error"
             - apiLevels: "debug|info|warning|error"
