@@ -570,7 +570,7 @@ configMaps:
             disableViewingExt: ""
             disableOnlyOfficeExt: ".md .txt .pdf"
             autoplayMedia: false
-            defaultMediaPlayer: true
+            # defaultMediaPlayer: true
           ui:
             darkMode: true
             themeColor: "var(--blue)"
