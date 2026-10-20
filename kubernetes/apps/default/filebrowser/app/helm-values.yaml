@@ -149,6 +149,7 @@ configMaps:
         integrations:
           office:
             url: "https://onlyoffice.dartus.fr:443"
+            internalUrl: "http://onlyoffice.default.svc.cluster.local/"
 
 service:
   main:

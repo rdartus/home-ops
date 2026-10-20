@@ -25,8 +25,8 @@ controllers:
           pullPolicy: IfNotPresent
         dependsOn: [tika, gotenberg]
         env:
-          PAPERLESS_TIKA_GOTENBERG_ENDPOINT: http://gotenberg:3000
-          PAPERLESS_TIKA_ENDPOINT: http://tika:9998
+          PAPERLESS_TIKA_GOTENBERG_ENDPOINT: http://localhost:3000
+          PAPERLESS_TIKA_ENDPOINT: http://localhost:9998
           PAPERLESS_URL : https://scan.dartus.fr
           PAPERLESS_APPS: "allauth.socialaccount.providers.openid_connect"
           PAPERLESS_REDIS:
@@ -78,6 +78,7 @@ controllers:
               secretKeyRef:
                 name: paperless-app-secret
                 key: encryption_key
+          PAPERLESS_PROXY_SSL_HEADER: '["HTTP_X_FORWARDED_PROTO", "https"]'
       gotenberg:
         image: 
           repository: docker.io/gotenberg/gotenberg

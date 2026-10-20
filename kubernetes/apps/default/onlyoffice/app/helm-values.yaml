@@ -296,6 +296,7 @@ controllers:
           # REDIS_SERVER_HOST: valkey.default.svc.cluster.local
           # REDIS_SERVER_PORT: 6379
           JWT_ENABLED: true
+          ONLYOFFICE_HTTPS_HSTS_ENABLED: false
           JWT_SECRET:
             valueFrom:
               secretKeyRef:
