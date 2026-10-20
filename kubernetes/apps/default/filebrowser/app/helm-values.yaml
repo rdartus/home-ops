@@ -3,8 +3,10 @@
 # -- Set default options for all controllers / pods here
 # Each of these options can be overridden on a Controller level
 defaultPodOptions:
-  # -- Defines affinity constraint rules.
-  # [[ref]](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#affinity-and-anti-affinity)
+  securityContext:
+      fsGroup: 1000
+      runAsUser: 1000
+      runAsGroup: 1000
   affinity: 
     nodeAffinity:
       requiredDuringSchedulingIgnoredDuringExecution:
