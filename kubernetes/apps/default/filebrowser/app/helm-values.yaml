@@ -29,7 +29,7 @@ controllers:
           pullPolicy: IfNotPresent
         env:
           FILEBROWSER_CONFIG: "/config/config.yaml"
-          # FILEBROWSER_DATABASE: /config/database
+          # FILEBROWSER_DATABASE: "/database/filebrowser.sqlite"
           FILEBROWSER_DEVMODE: true 
           FILEBROWSER_ADMIN_PASSWORD: 
             valueFrom:
@@ -67,7 +67,7 @@ configMaps:
         # Database values are placeholders, ensure file names match what you expect.
         server:
           database:
-            path: "/database/filebrowser.sqlite"
+            path: "filebrowser.sqlite"
           logging:
             - levels: "debug|info|warning|error"
             - apiLevels: "debug|info|warning|error"
