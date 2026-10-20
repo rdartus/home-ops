@@ -20,7 +20,7 @@ defaultPodOptions:
 controllers:
   main:
     enabled: true
-    type: statefulset
+    type: deployment
     containers:
       main:
         image:
