@@ -16,7 +16,6 @@ defaultPodOptions:
             operator: In
             values:
             - nucoumouk
-
 controllers:
   main:
     enabled: true
