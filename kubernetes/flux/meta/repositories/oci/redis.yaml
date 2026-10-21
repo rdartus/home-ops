@@ -6,7 +6,7 @@ metadata:
   name: redis
   namespace: flux-system
 spec:
-  interval: 12h
+  interval: 1h
   url: oci://registry-1.docker.io/bitnamicharts/redis
   ref:
     tag: 28.3.1

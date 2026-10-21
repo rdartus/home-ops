@@ -5,4 +5,4 @@ metadata:
   namespace: flux-system
 spec:
   url: https://charts.zitadel.com
-  interval: 12h
+  interval: 1h
