@@ -7,7 +7,6 @@ resources:
   - ./dawarich-auth.yaml
   - ./dawarich-secret.yaml
   - ./dawarich-secret-redis.yaml
-  - ./pvc-dawarich-db.yaml
   - ./pvc-dawarich-public.yaml
   - ./pvc-dawarich-watched-import.yaml
   - ./pvc-dawarich-storage.yaml
