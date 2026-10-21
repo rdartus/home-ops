@@ -30,19 +30,19 @@ controllers:
           APPLICATION_HOSTS: dawarich.dartus.fr
           APPLICATION_PROTOCOL: https
           DOMAIN: dawarich.dartus.fr
-          DATABASE_HOST: dawarich-database
+          DATABASE_HOST: postgis-cluster-rw..svc.cluster.local
           DATABASE_PORT: "5432"
           DATABASE_NAME: dawarich
           DATABASE_USERNAME:
             valueFrom:
               secretKeyRef:
-                name: dawarich-config
-                key: db_username
+                name: dawarich-db
+                key: username
           DATABASE_PASSWORD:
             valueFrom:
               secretKeyRef:
-                name: dawarich-config
-                key: db_password
+                name: dawarich-db
+                key: password
           REDIS_URL:
             valueFrom:
               secretKeyRef:
@@ -150,19 +150,19 @@ controllers:
           APPLICATION_HOSTS: dawarich.dartus.fr
           APPLICATION_PROTOCOL: https
           DOMAIN: dawarich.dartus.fr
-          DATABASE_HOST: dawarich-database
+          DATABASE_HOST: postgis-cluster-rw..svc.cluster.local
           DATABASE_PORT: "5432"
           DATABASE_NAME: dawarich
           DATABASE_USERNAME:
             valueFrom:
               secretKeyRef:
-                name: dawarich-config
-                key: db_username
+                name: dawarich-db
+                key: username
           DATABASE_PASSWORD:
             valueFrom:
               secretKeyRef:
-                name: dawarich-config
-                key: db_password
+                name: dawarich-db
+                key: password
           REDIS_URL:
             valueFrom:
               secretKeyRef:
@@ -199,11 +199,6 @@ controllers:
             memory: 1536Mi
 
 service:
-  database:
-    controller: database
-    ports:
-      postgres:
-        port: 5432
   web:
     controller: web
     ports:
@@ -230,14 +225,6 @@ ingress:
           - dawarich.dartus.fr
 
 persistence:
-  shm:
-    type: emptyDir
-    medium: Memory
-    sizeLimit: 256Mi
-    advancedMounts:
-      database:
-        main:
-          - path: /dev/shm
   public:
     type: persistentVolumeClaim
     existingClaim: pvc-dawarich-public
