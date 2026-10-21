@@ -11,6 +11,7 @@ resources:
   - ./cnpg-tand-secret.yaml
   - ./cnpg-vauban-secret.yaml
   - ./cnpg-mich-secret.yaml
+  - ./cnpg-dawa-secret.yaml
   - ./cnpg-ghost-secret.yaml
   - ./cnpg-paper-secret.yaml
   - ./cnpg-office-secret.yaml

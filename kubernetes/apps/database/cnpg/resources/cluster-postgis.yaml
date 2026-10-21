@@ -1,0 +1,56 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/datreeio/CRDs-catalog/refs/heads/main/postgresql.cnpg.io/cluster_v1.json
+---
+# Cluster CNPG dédié à Dawarich (PostGIS)
+# Secret attendu (namespace database, type kubernetes.io/basic-auth) :
+#   name: dawarich-db-secret  -> username: dawarich / password: <vault>
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: postgis-cluster
+  namespace: database
+spec:
+  instances: 1 # passe à 2 si tu veux de la HA (CNPG réplique lui-même, Longhorn peut rester à 1 replica)
+
+  # PG17 + PostGIS 3.5 = combinaison recommandée par l'upstream Dawarich
+  # À épingler avec un digest (Renovate saura le mettre à jour)
+  imageName: ghcr.io/cloudnative-pg/postgis:17-3.5-standard-trixie
+
+  primaryUpdateStrategy: unsupervised
+  enableSuperuserAccess: false
+
+  postgresql:
+    parameters:
+      max_connections: "100"
+      shared_buffers: "128MB"
+
+  bootstrap:
+    initdb:
+      database: default
+      owner: postgres
+      secret:
+        name: superuser-secret
+      # PostGIS n'est pas une extension "trusted" : le propriétaire ne peut pas
+      # la créer lui-même, donc on la crée ici en superuser, dans la base applicative
+      postInitApplicationSQL:
+        - CREATE EXTENSION IF NOT EXISTS postgis;
+  managed:
+    roles:
+    - name: dawa
+      connectionLimit: -1
+      inherit: true
+      ensure: present
+      comment: "dawarich user"
+      login: true
+      passwordSecret:
+        name: dawarich-secret
+
+  storage:
+    storageClass: longhorn
+    size: 5Gi
+
+  resources:
+    requests:
+      cpu: 100m
+      memory: 256Mi
+    limits:
+      memory: 512Mi
