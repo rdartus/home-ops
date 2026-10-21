@@ -1,6 +1,10 @@
 # yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/refs/heads/main/charts/library/common/values.schema.json
 ---
 
+defaultPodOptions:
+  securityContext:
+    fsGroup: 1000
+
 controllers:
   trek:
     replicas: 1
