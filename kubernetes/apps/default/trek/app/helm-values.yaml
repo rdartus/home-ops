@@ -70,6 +70,9 @@ controllers:
           capabilities:
             drop:
               - ALL
+            add:
+              - SETUID
+              - SETGID
 
         resources:
           requests:
