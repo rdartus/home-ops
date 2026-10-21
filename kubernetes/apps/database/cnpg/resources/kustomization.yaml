@@ -23,6 +23,7 @@ resources:
   - ./db-autobrr.yaml
   - ./db-prowlarr-log.yaml
   - ./db-prowlarr-main.yaml
+  - ./db-dawarich.yaml
   - ./db-radarr-log.yaml
   - ./db-radarr-main.yaml
   - ./db-sonarr-log.yaml
