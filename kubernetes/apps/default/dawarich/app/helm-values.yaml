@@ -4,55 +4,6 @@ defaultPodOptions:
   enableServiceLinks: false
 
 controllers:
-  database:
-    type: statefulset
-    containers:
-      main:
-        image:
-          repository: postgis/postgis
-          tag: "17-3.5-alpine"
-        env:
-          POSTGRES_DB: dawarich
-          # Longhorn formate en ext4 : la racine du volume contient lost+found et initdb refuse un dossier non vide
-          PGDATA: /var/lib/postgresql/data/pgdata
-          POSTGRES_USER:
-            valueFrom:
-              secretKeyRef:
-                name: dawarich-config
-                key: db_username
-          POSTGRES_PASSWORD:
-            valueFrom:
-              secretKeyRef:
-                name: dawarich-config
-                key: db_password
-        probes:
-          readiness:
-            enabled: true
-            custom: true
-            spec:
-              exec:
-                command:
-                  - /bin/sh
-                  - -c
-                  - pg_isready -U "$POSTGRES_USER" -d "$POSTGRES_DB"
-              periodSeconds: 10
-          liveness:
-            enabled: true
-            custom: true
-            spec:
-              exec:
-                command:
-                  - /bin/sh
-                  - -c
-                  - pg_isready -U "$POSTGRES_USER" -d "$POSTGRES_DB"
-              periodSeconds: 30
-        resources:
-          requests:
-            cpu: 50m
-            memory: 256Mi
-          limits:
-            memory: 1Gi
-
   web:
     replicas: 1
     type: statefulset
@@ -279,13 +230,6 @@ ingress:
           - dawarich.dartus.fr
 
 persistence:
-  db:
-    type: persistentVolumeClaim
-    existingClaim: pvc-dawarich-db
-    advancedMounts:
-      database:
-        main:
-          - path: /var/lib/postgresql/data
   shm:
     type: emptyDir
     medium: Memory

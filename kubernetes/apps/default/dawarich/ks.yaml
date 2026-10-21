@@ -18,6 +18,8 @@ spec:
       namespace: default
     - name: traefik
       namespace: network
+    - name: authentik
+      namespace: default
     - name: longhorn-restore
       namespace: longhorn-system
   prune: true

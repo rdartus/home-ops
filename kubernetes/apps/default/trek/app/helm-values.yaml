@@ -4,7 +4,7 @@
 controllers:
   trek:
     replicas: 1
-    type: statefulset
+    type: deployment
     strategy: RollingUpdate
     containers:
       app:

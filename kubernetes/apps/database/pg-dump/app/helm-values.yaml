@@ -300,6 +300,7 @@ controllers:
           pg_dump  postgres://$SUPERUSER:$PASSWORD@cnpg-cluster-rw.database.svc.cluster.local/ghostfolio -Fc -f /db/dump_ghostfolio
           pg_dump  postgres://$SUPERUSER:$PASSWORD@cnpg-cluster-rw.database.svc.cluster.local/paperless -Fc -f /db/dump_paperless
           pg_dump  postgres://$SUPERUSER:$PASSWORD@cnpg-cluster-rw.database.svc.cluster.local/code -Fc -f /db/dump_code
+          pg_dump  postgres://$SUPERUSER:$PASSWORD@postgis-cluster-rw.database.svc.cluster.local/dawarich -Fc -f /db/dump_dawarich
           echo "done"
 
         # pg_dumpall --clean --if-exists -d postgres://$SUPERUSER:$PASSWORD@cnpg-cluster-rw.database.svc.cluster.local  -f /db/dumpall_clean.sql 
