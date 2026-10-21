@@ -45,12 +45,8 @@ spec:
         name: dawarich-secret
 
   storage:
-    storageClass: longhorn
     size: 5Gi
 
   resources:
-    requests:
-      cpu: 100m
-      memory: 256Mi
     limits:
       memory: 512Mi
