@@ -16,7 +16,9 @@ spec:
   imageName: ghcr.io/cloudnative-pg/postgis:17.11-3.6.4-202610191015-standard-trixie@sha256:665efa17ad6c57ba7b0b3ff94b51ee24b3d204e0528d16c14d9dff470b54aaa9
 
   primaryUpdateStrategy: unsupervised
-  enableSuperuserAccess: false
+  enableSuperuserAccess: true
+  superuserSecret:
+    name: superuser-secret
 
   postgresql:
     parameters:
