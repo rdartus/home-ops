@@ -121,7 +121,7 @@ controllers:
 
   sidekiq:
     replicas: 1
-    type: statefulset
+    type: deployment
     # public / storage / watched sont des PVC Longhorn RWO partagés avec web :
     # sidekiq doit tourner sur le même nœud que web (sinon Multi-Attach error).
     pod:
