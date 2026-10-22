@@ -44,7 +44,7 @@ spec:
       comment: "dawarich user"
       login: true
       passwordSecret:
-        name: dawarich-secret
+        name: dawa-secret
 
   storage:
     size: 5Gi
