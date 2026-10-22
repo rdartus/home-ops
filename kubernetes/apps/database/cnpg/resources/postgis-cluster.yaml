@@ -31,10 +31,7 @@ spec:
       owner: postgres
       secret:
         name: superuser-secret
-      # PostGIS n'est pas une extension "trusted" : le propriétaire ne peut pas
-      # la créer lui-même, donc on la crée ici en superuser, dans la base applicative
-      postInitApplicationSQL:
-        - CREATE EXTENSION IF NOT EXISTS postgis;
+
   managed:
     roles:
     - name: dawa

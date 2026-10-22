@@ -10,3 +10,6 @@ spec:
   owner: dawa
   cluster:
     name: postgis-cluster
+  extensions:
+    - name: postgis
+      version: "3.6.4"
