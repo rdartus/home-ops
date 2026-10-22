@@ -6,7 +6,7 @@ defaultPodOptions:
 controllers:
   web:
     replicas: 1
-    type: statefulset
+    type: deployment
     containers:
       main:
         image:
@@ -30,7 +30,7 @@ controllers:
           APPLICATION_HOSTS: dawarich.dartus.fr
           APPLICATION_PROTOCOL: https
           DOMAIN: dawarich.dartus.fr
-          DATABASE_HOST: postgis-cluster-rw..svc.cluster.local
+          DATABASE_HOST: postgis-cluster-rw.database.svc.cluster.local
           DATABASE_PORT: "5432"
           DATABASE_NAME: dawarich
           DATABASE_USERNAME:
