@@ -9,4 +9,4 @@ spec:
   name: dawarich
   owner: dawa
   cluster:
-    name: cluster-postgis
+    name: postgis-cluster
