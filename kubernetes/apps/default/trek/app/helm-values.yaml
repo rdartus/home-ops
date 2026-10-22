@@ -14,7 +14,7 @@ controllers:
       app:
         image:
           repository: mauriceboe/trek
-          tag: 4.3.3
+          tag: 4.3.4
 
         env:
           NODE_ENV: production
