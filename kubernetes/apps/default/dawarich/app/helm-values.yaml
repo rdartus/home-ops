@@ -24,7 +24,6 @@ controllers:
           - -b
           - "::"
         env:
-          RAILS_ENV: production
           DATABASE_USERNAME:
             valueFrom:
               secretKeyRef:
@@ -35,20 +34,7 @@ controllers:
               secretKeyRef:
                 name: dawarich-db
                 key: password
-          REDIS_URL:
-            valueFrom:
-              secretKeyRef:
-                name: dawarich-redis
-                key: REDIS_URL
           # Valkey partagé : Dawarich utilise par défaut les DB 0/1/2/3, la 0 est celle d'Immich
-          RAILS_CACHE_DB: "1"
-          RAILS_JOB_QUEUE_DB: "2"
-          RAILS_WS_DB: "3"
-          SECRET_KEY_BASE:
-            valueFrom:
-              secretKeyRef:
-                name: dawarich-config
-                key: encryption_key
           OIDC_CLIENT_ID:
             valueFrom:
               secretKeyRef:
@@ -63,8 +49,6 @@ controllers:
           OIDC_REDIRECT_URI: https://dawarich.dartus.fr/users/auth/openid_connect/callback
           OIDC_PROVIDER_NAME: Authentik
           ALLOW_EMAIL_PASSWORD_LOGIN: "false"
-          RAILS_LOG_TO_STDOUT: "true"
-          STORE_GEODATA: "true"
           <<: &env-common
             DOMAIN: dawarich.dartus.fr
             DATABASE_HOST: postgis-cluster-rw.database.svc.cluster.local
@@ -74,6 +58,24 @@ controllers:
             TIME_ZONE: Europe/Paris
             APPLICATION_HOSTS: dawarich.dartus.fr
             APPLICATION_PROTOCOL: https
+            RAILS_CACHE_DB: "3"
+            RAILS_JOB_QUEUE_DB: "4"
+            RAILS_WS_DB: "5"
+            RACK_ATTACK_REDIS_DB: "6"
+            SECRET_KEY_BASE:
+              valueFrom:
+                secretKeyRef:
+                  name: dawarich-config
+                  key: encryption_key
+            REDIS_URL:
+              valueFrom:
+                secretKeyRef:
+                  name: dawarich-redis
+                  key: REDIS_URL
+            RAILS_LOG_TO_STDOUT: "true"
+            STORE_GEODATA: "true"
+            RAILS_ENV: production
+
         # /api/v1/health est exclu du contrôle des hosts Rails ; /api/v1/ready ne l'est pas -> header Host.
         # X-Forwarded-Proto évite la redirection force_ssl (APPLICATION_PROTOCOL=https).
         probes:
@@ -145,7 +147,6 @@ controllers:
         args:
           - sidekiq
         env:
-          RAILS_ENV: production
           DATABASE_USERNAME:
             valueFrom:
               secretKeyRef:
@@ -156,23 +157,6 @@ controllers:
               secretKeyRef:
                 name: dawarich-db
                 key: password
-          REDIS_URL:
-            valueFrom:
-              secretKeyRef:
-                name: dawarich-redis
-                key: REDIS_URL
-          RAILS_CACHE_DB: "3"
-          RAILS_JOB_QUEUE_DB: "4"
-          RAILS_WS_DB: "5"
-          RACK_ATTACK_REDIS_DB: "6"
-          # doit être identique à celui de web
-          SECRET_KEY_BASE:
-            valueFrom:
-              secretKeyRef:
-                name: dawarich-config
-                key: encryption_key
-          RAILS_LOG_TO_STDOUT: "true"
-          STORE_GEODATA: "true"
           <<: *env-common
         probes:
           liveness:
