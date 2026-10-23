@@ -25,14 +25,6 @@ controllers:
           - "::"
         env:
           RAILS_ENV: production
-          SELF_HOSTED: "true"
-          TIME_ZONE: Europe/Paris
-          APPLICATION_HOSTS: dawarich.dartus.fr
-          APPLICATION_PROTOCOL: https
-          DOMAIN: dawarich.dartus.fr
-          DATABASE_HOST: postgis-cluster-rw.database.svc.cluster.local
-          DATABASE_PORT: "5432"
-          DATABASE_NAME: dawarich
           DATABASE_USERNAME:
             valueFrom:
               secretKeyRef:
@@ -73,6 +65,15 @@ controllers:
           ALLOW_EMAIL_PASSWORD_LOGIN: "false"
           RAILS_LOG_TO_STDOUT: "true"
           STORE_GEODATA: "true"
+          <<: &env-common
+            DOMAIN: dawarich.dartus.fr
+            DATABASE_HOST: postgis-cluster-rw.database.svc.cluster.local
+            DATABASE_PORT: "5432"
+            DATABASE_NAME: dawarich
+            SELF_HOSTED: "true"
+            TIME_ZONE: Europe/Paris
+            APPLICATION_HOSTS: dawarich.dartus.fr
+            APPLICATION_PROTOCOL: https
         # /api/v1/health est exclu du contrôle des hosts Rails ; /api/v1/ready ne l'est pas -> header Host.
         # X-Forwarded-Proto évite la redirection force_ssl (APPLICATION_PROTOCOL=https).
         probes:
@@ -145,14 +146,6 @@ controllers:
           - sidekiq
         env:
           RAILS_ENV: production
-          SELF_HOSTED: "true"
-          TIME_ZONE: Europe/Paris
-          APPLICATION_HOSTS: dawarich.dartus.fr
-          APPLICATION_PROTOCOL: https
-          DOMAIN: dawarich.dartus.fr
-          DATABASE_HOST: postgis-cluster-rw..svc.cluster.local
-          DATABASE_PORT: "5432"
-          DATABASE_NAME: dawarich
           DATABASE_USERNAME:
             valueFrom:
               secretKeyRef:
@@ -180,6 +173,7 @@ controllers:
                 key: encryption_key
           RAILS_LOG_TO_STDOUT: "true"
           STORE_GEODATA: "true"
+          <<: *env-common
         probes:
           liveness:
             enabled: true
