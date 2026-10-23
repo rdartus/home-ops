@@ -10,8 +10,8 @@ controllers:
     containers:
       main:
         image:
-          repository: freikin/dawarich
-          tag: 1.15.3
+          repository: &image freikin/dawarich
+          tag: &tag 1.16.0@sha256:b533e6eac4464d55479d030229cf9487f338972cdb88924e8060ca759d0e28b8
         # ENTRYPOINT de l'image = ["bundle","exec"] ; `command` le remplace, `args` remplace CMD.
         # web-entrypoint.sh : createdb + migrate + seed + sync des assets, puis `exec bundle exec "$@"`.
         command:
@@ -136,8 +136,8 @@ controllers:
     containers:
       main:
         image:
-          repository: freikin/dawarich
-          tag: 1.15.3
+          repository: *image
+          tag: *tag
         # sidekiq-entrypoint.sh attend Postgres puis fait `exec bundle exec sidekiq` (les args sont ignorés)
         command:
           - /usr/local/bin/sidekiq-entrypoint.sh
