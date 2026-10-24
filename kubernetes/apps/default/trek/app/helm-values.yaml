@@ -15,7 +15,6 @@ controllers:
         image:
           repository: mauriceboe/trek
           tag: 4.3.4
-
         env:
           NODE_ENV: production
           PORT: 3000
