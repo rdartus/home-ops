@@ -9,7 +9,7 @@ controllers:
   trek:
     replicas: 1
     type: deployment
-    strategy: RollingUpdate
+    strategy: Recreate
     containers:
       app:
         image:
