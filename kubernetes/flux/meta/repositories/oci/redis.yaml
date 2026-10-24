@@ -9,4 +9,4 @@ spec:
   interval: 1h
   url: oci://registry-1.docker.io/bitnamicharts/redis
   ref:
-    tag: 28.3.1
+    tag: 28.3.9
