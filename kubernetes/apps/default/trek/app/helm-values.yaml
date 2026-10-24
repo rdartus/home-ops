@@ -28,6 +28,7 @@ controllers:
           LOG_LEVEL: info
           APP_URL: https://trek.dartus.fr
           OIDC_ISSUER: https://authentik.dartus.fr/application/o/trek/
+          ALLOW_INTERNAL_NETWORK: true
           OIDC_CLIENT_ID:
             valueFrom:
               secretKeyRef:
