@@ -799,7 +799,7 @@ metrics:
       # Image pull policy (Always, IfNotPresent, Never)
       pullPolicy: IfNotPresent
       # Image tag (required when metrics.enabled is true)
-      tag: "v1.88.0"
+      tag: "v1.96.0"
     resources: {}
       # Example:
       # limits:
