@@ -43,7 +43,6 @@ controllers:
           OIDC_ADMIN_CLAIM: groups
           OIDC_ADMIN_VALUE: authentik Admins
           OIDC_SCOPE: openid email profile groups
-
         probes:
           liveness: &probe
             enabled: true
