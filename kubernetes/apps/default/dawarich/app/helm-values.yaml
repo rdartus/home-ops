@@ -11,7 +11,7 @@ controllers:
       main:
         image:
           repository: &image freikin/dawarich
-          tag: &tag 1.18.1@sha256:a2b93286a973b2e4b55d6a1ebd8009a65b8624639687ca95e909d0aac27324f5
+          tag: &tag 1.20.1@sha256:0640f5adafd7acfcd8a3c79bb3bd0162d5df9108ebcde8734785f8925d2a01a4
         # ENTRYPOINT de l'image = ["bundle","exec"] ; `command` le remplace, `args` remplace CMD.
         # web-entrypoint.sh : createdb + migrate + seed + sync des assets, puis `exec bundle exec "$@"`.
         command:
