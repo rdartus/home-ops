@@ -76,7 +76,7 @@ controllers:
           - --link=dump-k3s
           - --ref=main
           - --root=/data
-          - --ssh-known-hosts=true
+          - --ssh-known-hosts=false
           - --ssh-key-file=/config/key
           - --git-LFS=true
           - --verbose=9
