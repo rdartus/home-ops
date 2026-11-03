@@ -71,6 +71,36 @@ Les ressources CNPG, pg-dump, pg-dump-sync, pg-loader et pg-restore sont regroup
 
 `pg-dump` produit les dumps horaires sur `pvc-db-tmp` à la minute 10, en publiant chaque fichier par renommage après la fin de `pg_dump`. `pg-dump-sync` les copie à la minute 20 vers le PVC SMB `pvc-db-backups`, monté depuis `//nascobar.dartus.fr/jeantasse/db-backups` avec le secret `smb-secret` fourni par Vault. Chaque fichier est copié sous un nom temporaire puis renommé atomiquement ; un échec laisse donc le dump local disponible et fait échouer le Job/CronJob pour permettre la reprise. Les fichiers NAS de plus de 30 jours sont supprimés après une copie réussie.
 
+### Publication Git LFS et reconstruction
+
+Le CronJob `pg-dump-sync-publisher` s'exécute chaque jour à 00:30, après le
+dump de 00:10. Il clone `main` du dépôt GitLab
+`git@gitlab.com:k3s-pi1/dump-k3s.git` avec la clé SSH matérialisée par
+`ssh-secret`, remplace les fichiers `dump_*` uniquement après leur copie
+complète, puis publie les objets avec Git LFS. Le Job échoue sur toute erreur
+Git, SSH ou LFS ; la copie NAS et les dumps locaux ne sont alors pas supprimés.
+Un changement est contrôlé explicitement avec `git status`, donc aucun commit
+vide n'est créé.
+
+Le premier passage du mois force la branche `previous` à pointer vers le
+dernier commit publié de `main`, avant de pousser le nouveau commit sur `main`.
+La branche `previous` n'est jamais modifiée si cette rotation échoue. Vérifier
+les deux branches et les objets LFS avant de considérer la sauvegarde valide :
+
+```bash
+git ls-remote git@gitlab.com:k3s-pi1/dump-k3s.git refs/heads/main refs/heads/previous
+git -C /chemin/vers/dump-k3s lfs fsck
+kubectl -n database get cronjob pg-dump-sync pg-dump-sync-publisher
+kubectl -n database get jobs --sort-by=.status.startTime
+```
+
+Lors d'une reconstruction, `pg-restore` utilise le même `ssh-secret` et
+`ghcr.io/rdartus/git-sync` épinglé, avec `--ref=main`, `--git-LFS=true` et
+`--one-time`. Le conteneur de restauration dépend de ce synchroniseur et ne
+lit `/data/dump-k3s` qu'après le téléchargement Git LFS. Vérifier les logs
+`git-sync` avant de lancer une restauration ; une clé, une branche ou un objet
+LFS manquant doit faire échouer le Job plutôt que restaurer un jeu incomplet.
+
 Vérifier régulièrement le résultat avec :
 
 ```bash
