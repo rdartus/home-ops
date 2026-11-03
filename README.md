@@ -107,6 +107,7 @@ graph TD;
   network__crowdsec["crowdsec"]
   kube_system__csi_driver_smb["csi-driver-smb"]
   kube_system__csi_driver_smb_ressources["csi-driver-smb-ressources"]
+  default__dawarich["dawarich"]
   network__ddns_updater["ddns-updater"]
   default__endlessh["endlessh"]
   default__filebrowser["filebrowser"]
@@ -117,12 +118,11 @@ graph TD;
   default__hajimari["hajimari"]
   network__headplane["headplane"]
   network__headscale["headscale"]
-  network__headscale_rotator["headscale-rotator"]
   default__immich["immich"]
   default__jellyfin["jellyfin"]
   default__kavita["kavita"]
   observability__kromgo["kromgo"]
-  observability__kube_prometeus_stack["kube-prometheus-stack"]
+  observability__kube_prometheus_stack["kube-prometheus-stack"]
   kube_system__kubernetes_replicator["kubernetes-replicator"]
   default__livres["livres"]
   longhorn_system__local_path_provisioner["local-path-provisioner"]
@@ -147,6 +147,8 @@ graph TD;
   default__test_christmas["test-christmas"]
   network__traefik["traefik"]
   network__traefik_resources["traefik-resources"]
+  default__trek["trek"]
+  network__upsnap["upsnap"]
   network__uptime_kuma["uptime-kuma"]
   default__valkey["valkey"]
   vault__vault["vault"]
@@ -155,7 +157,6 @@ graph TD;
 
   flux_controller --> default__christmas
   flux_controller --> default__test_christmas
-  flux_controller --> default__valkey
   flux_controller --> flux_system__cluster_meta
   flux_controller --> flux_system__flux_instance
   flux_controller --> flux_system__flux_operator
@@ -176,7 +177,9 @@ graph TD;
   database__cnpg_resources --> default__immich
   database__cnpg_resources --> default__onlyoffice
   default__authentik --> database__pgadmin
+  default__authentik --> default__dawarich
   default__authentik --> default__filebrowser
+  default__authentik --> default__trek
   default__books --> default__endlessh
   default__endlessh --> default__paperless
   default__filebrowser --> default__immich
@@ -194,21 +197,24 @@ graph TD;
   default__sonarr --> default__autobrr
   default__sonarr --> default__prowlarr
   default__sonarr --> default__radarr
-  default__valkey --> default__authentik
+  default__valkey --> default__dawarich
+  default__valkey --> default__immich
   flux_system__cluster_meta --> flux_system__cluster_apps
   gpu__automate_wx --> default__hajimari
+  kube_system__csi_driver_smb_ressources --> database__pg_dump_sync
   kube_system__csi_driver_smb_ressources --> default__filebrowser
   kube_system__kubernetes_replicator --> database__cnpg_resources
   longhorn_system__longhorn --> longhorn_system__longhorn_resources
   longhorn_system__longhorn_resources --> longhorn_system__longhorn_restore
   longhorn_system__longhorn_resources --> network__headscale
-  longhorn_system__longhorn_resources --> observability__kube_prometeus_stack
+  longhorn_system__longhorn_resources --> observability__kube_prometheus_stack
   longhorn_system__longhorn_restore --> database__pg_dump
   longhorn_system__longhorn_restore --> database__pg_dump_sync
+  longhorn_system__longhorn_restore --> default__dawarich
   longhorn_system__longhorn_restore --> default__immich
+  longhorn_system__longhorn_restore --> default__trek
   network__crowdsec --> network__traefik_resources
   network__headscale --> network__headplane
-  network__headscale --> network__headscale_rotator
   network__headscale --> network__tailscale
   network__metallb --> network__metallb_resources
   network__metallb --> network__traefik_resources
@@ -219,20 +225,23 @@ graph TD;
   network__traefik --> kube_system__csi_driver_smb_ressources
   network__traefik --> network__ddns_updater
   network__traefik --> network__traefik_resources
+  network__traefik --> network__upsnap
   network__traefik --> network__uptime_kuma
   network__traefik_resources --> longhorn_system__longhorn
   observability__grafana --> cert_manager__cert_manager
   observability__kromgo --> cert_manager__cert_manager
-  observability__kube_prometeus_stack --> observability__grafana
-  observability__kube_prometeus_stack --> observability__kromgo
+  observability__kube_prometheus_stack --> observability__grafana
+  observability__kube_prometheus_stack --> observability__kromgo
   vault__vault --> vault__vault_external_secrets_operator
   vault__vault --> vault__vault_secrets_operator
   vault__vault_secrets_operator --> default__rabbitmq
+  vault__vault_secrets_operator --> default__valkey
   vault__vault_secrets_operator --> gpu__automate_wx
   vault__vault_secrets_operator --> kube_system__csi_driver_smb
   vault__vault_secrets_operator --> kube_system__csi_driver_smb_ressources
   vault__vault_secrets_operator --> network__crowdsec
   vault__vault_secrets_operator --> network__ddns_updater
+  vault__vault_secrets_operator --> network__upsnap
   vault__vault_secrets_operator --> network__uptime_kuma
 
   classDef cls_flux_ctrl fill:#1a001a,stroke:#ff00ff,color:#ff00ff,stroke-width:3px,font-weight:bold;
@@ -250,13 +259,13 @@ graph TD;
   class flux_controller cls_flux_ctrl;
   class cert_manager__cert_manager,cert_manager__cert_manager_issuers cls_cert_manager;
   class database__cnpg,database__cnpg_resources,database__pg_dump,database__pg_dump_sync,database__pg_restore,database__pgadmin cls_database;
-  class default__authentik,default__autobrr,default__books,default__christmas,default__coder,default__endlessh,default__filebrowser,default__flaresolverr,default__hajimari,default__immich,default__jellyfin,default__kavita,default__livres,default__mealie,default__onlyoffice,default__paperless,default__prowlarr,default__rabbitmq,default__rabbitmq_resources,default__radarr,default__sonarr,default__test_christmas,default__valkey cls_default;
+  class default__authentik,default__autobrr,default__books,default__christmas,default__coder,default__dawarich,default__endlessh,default__filebrowser,default__flaresolverr,default__hajimari,default__immich,default__jellyfin,default__kavita,default__livres,default__mealie,default__onlyoffice,default__paperless,default__prowlarr,default__rabbitmq,default__rabbitmq_resources,default__radarr,default__sonarr,default__test_christmas,default__trek,default__valkey cls_default;
   class flux_system__cluster_apps,flux_system__cluster_meta,flux_system__flux_instance,flux_system__flux_operator cls_flux_system;
   class gpu__automate_wx cls_gpu;
   class kube_system__csi_driver_smb,kube_system__csi_driver_smb_ressources,kube_system__kubernetes_replicator cls_kube_system;
   class longhorn_system__local_path_provisioner,longhorn_system__longhorn,longhorn_system__longhorn_resources,longhorn_system__longhorn_restore cls_longhorn_system;
-  class network__crowdsec,network__ddns_updater,network__headplane,network__headscale,network__headscale_rotator,network__metallb,network__metallb_resources,network__tailscale,network__traefik,network__traefik_resources,network__uptime_kuma cls_network;
-  class observability__grafana,observability__kromgo,observability__kube_prometeus_stack cls_observability;
+  class network__crowdsec,network__ddns_updater,network__headplane,network__headscale,network__metallb,network__metallb_resources,network__tailscale,network__traefik,network__traefik_resources,network__upsnap,network__uptime_kuma cls_network;
+  class observability__grafana,observability__kromgo,observability__kube_prometheus_stack cls_observability;
   class vault__vault,vault__vault_external_secrets_operator,vault__vault_secrets_operator cls_vault;
 ```
 

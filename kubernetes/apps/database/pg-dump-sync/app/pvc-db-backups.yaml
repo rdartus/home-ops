@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: pvc-db-backups
+  namespace: database
+spec:
+  resources:
+    requests:
+      storage: 100Gi
+  accessModes:
+    - ReadWriteMany
+  storageClassName: db-backups

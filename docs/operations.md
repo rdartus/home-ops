@@ -67,7 +67,21 @@ Ne pas lancer `talhelper gensecret` sur le cluster existant ; cette opération e
 
 Les ressources CNPG, pg-dump, pg-dump-sync, pg-loader et pg-restore sont regroupées sous `kubernetes/apps/database/`. `scripts/immich-audit.sh` peut comparer les fichiers NAS avec la base Immich et utilise soit l'IP MetalLB PostgreSQL, soit un fallback `kubectl exec` vers le pod primaire.
 
-Ce homelab ne définit pas de RPO/RTO formels et accepte de l'indisponibilité. La priorité déclarée est de préserver les données lors d'un teardown complet ; la cible de sauvegarde, la rétention et la validation périodique des restaurations restent des détails à préciser lorsqu'une procédure concrète l'exige. Toute procédure de restauration doit documenter la classe de données, la source choisie entre Longhorn et PostgreSQL, l'impact sur les applications et la vérification post-restore.
+### Sauvegardes PostgreSQL sur le NAS
+
+`pg-dump` produit les dumps horaires sur `pvc-db-tmp` à la minute 10, en publiant chaque fichier par renommage après la fin de `pg_dump`. `pg-dump-sync` les copie à la minute 20 vers le PVC SMB `pvc-db-backups`, monté depuis `//nascobar.dartus.fr/jeantasse/db-backups` avec le secret `smb-secret` fourni par Vault. Chaque fichier est copié sous un nom temporaire puis renommé atomiquement ; un échec laisse donc le dump local disponible et fait échouer le Job/CronJob pour permettre la reprise. Les fichiers NAS de plus de 30 jours sont supprimés après une copie réussie.
+
+Vérifier régulièrement le résultat avec :
+
+```bash
+kubectl -n database get cronjob pg-dump pg-dump-sync
+kubectl -n database get jobs --sort-by=.status.startTime
+kubectl -n database get pvc pvc-db-tmp pvc-db-backups
+```
+
+Pour restaurer un dump NAS, copier le fichier choisi depuis le partage vers `pvc-db-tmp` (ou un PVC temporaire dans `database`) sans supprimer les autres dumps, puis suivre la procédure `pg-restore` existante. Vérifier le fichier avec `pg_restore --list`, lancer la restauration selon la base cible, puis contrôler les logs du Job et l'état de l'application. Les identifiants NAS restent fournis par Vault ; ils ne doivent pas être extraits du dépôt.
+
+Ce homelab ne définit pas de RPO/RTO formels et accepte de l'indisponibilité. La priorité déclarée est de préserver les données lors d'un teardown complet ; la rétention PostgreSQL est ici limitée à 30 jours sur le NAS. Toute procédure de restauration doit documenter la classe de données, la source choisie entre Longhorn et PostgreSQL, l'impact sur les applications et la vérification post-restore.
 
 ## CI
 

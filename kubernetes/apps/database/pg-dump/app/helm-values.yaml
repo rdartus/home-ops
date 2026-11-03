@@ -283,24 +283,37 @@ controllers:
         - /bin/sh
         - -c
         - |
+          set -eu
           cd /
           echo cnpg-cluster-rw.database.svc.cluster.local:5432:*:$SUPERUSER:$PASSWORD > .pgpass
           chmod 0600 .pgpass
           cat .pgpass
 
 
-          pg_dump  postgres://$SUPERUSER:$PASSWORD@cnpg-cluster-rw.database.svc.cluster.local/prowlarr-main -Fc -f /db/dump_prowlarr
-          pg_dump  postgres://$SUPERUSER:$PASSWORD@cnpg-cluster-rw.database.svc.cluster.local/sonarr-main -Fc -f /db/dump_sonarr
-          pg_dump  postgres://$SUPERUSER:$PASSWORD@cnpg-cluster-rw.database.svc.cluster.local/radarr-main -Fc -f /db/dump_radarr
-          pg_dump  postgres://$SUPERUSER:$PASSWORD@cnpg-cluster-rw.database.svc.cluster.local/authentik -Fc -f /db/dump_authentik
-          pg_dump  postgres://$SUPERUSER:$PASSWORD@cnpg-cluster-rw.database.svc.cluster.local/mealie -Fc -f /db/dump_mealie
-          pg_dump  postgres://$SUPERUSER:$PASSWORD@cnpg-cluster-rw.database.svc.cluster.local/zitadel -Fc -f /db/dump_zitadel
-          pg_dump  postgres://$SUPERUSER:$PASSWORD@cnpg-cluster-rw.database.svc.cluster.local/onlyoffice -Fc -f /db/dump_onlyoffice
-          pg_dump  postgres://$SUPERUSER:$PASSWORD@cnpg-cluster-rw.database.svc.cluster.local/immich -Fc -f /db/dump_immich
-          pg_dump  postgres://$SUPERUSER:$PASSWORD@cnpg-cluster-rw.database.svc.cluster.local/ghostfolio -Fc -f /db/dump_ghostfolio
-          pg_dump  postgres://$SUPERUSER:$PASSWORD@cnpg-cluster-rw.database.svc.cluster.local/paperless -Fc -f /db/dump_paperless
-          pg_dump  postgres://$SUPERUSER:$PASSWORD@cnpg-cluster-rw.database.svc.cluster.local/code -Fc -f /db/dump_code
-          pg_dump  postgres://$SUPERUSER:$PASSWORD@postgis-cluster-rw.database.svc.cluster.local/dawarich -Fc -f /db/dump_dawarich
+          pg_dump  postgres://$SUPERUSER:$PASSWORD@cnpg-cluster-rw.database.svc.cluster.local/prowlarr-main -Fc -f /db/.dump_prowlarr.tmp
+          mv -f /db/.dump_prowlarr.tmp /db/dump_prowlarr
+          pg_dump  postgres://$SUPERUSER:$PASSWORD@cnpg-cluster-rw.database.svc.cluster.local/sonarr-main -Fc -f /db/.dump_sonarr.tmp
+          mv -f /db/.dump_sonarr.tmp /db/dump_sonarr
+          pg_dump  postgres://$SUPERUSER:$PASSWORD@cnpg-cluster-rw.database.svc.cluster.local/radarr-main -Fc -f /db/.dump_radarr.tmp
+          mv -f /db/.dump_radarr.tmp /db/dump_radarr
+          pg_dump  postgres://$SUPERUSER:$PASSWORD@cnpg-cluster-rw.database.svc.cluster.local/authentik -Fc -f /db/.dump_authentik.tmp
+          mv -f /db/.dump_authentik.tmp /db/dump_authentik
+          pg_dump  postgres://$SUPERUSER:$PASSWORD@cnpg-cluster-rw.database.svc.cluster.local/mealie -Fc -f /db/.dump_mealie.tmp
+          mv -f /db/.dump_mealie.tmp /db/dump_mealie
+          pg_dump  postgres://$SUPERUSER:$PASSWORD@cnpg-cluster-rw.database.svc.cluster.local/zitadel -Fc -f /db/.dump_zitadel.tmp
+          mv -f /db/.dump_zitadel.tmp /db/dump_zitadel
+          pg_dump  postgres://$SUPERUSER:$PASSWORD@cnpg-cluster-rw.database.svc.cluster.local/onlyoffice -Fc -f /db/.dump_onlyoffice.tmp
+          mv -f /db/.dump_onlyoffice.tmp /db/dump_onlyoffice
+          pg_dump  postgres://$SUPERUSER:$PASSWORD@cnpg-cluster-rw.database.svc.cluster.local/immich -Fc -f /db/.dump_immich.tmp
+          mv -f /db/.dump_immich.tmp /db/dump_immich
+          pg_dump  postgres://$SUPERUSER:$PASSWORD@cnpg-cluster-rw.database.svc.cluster.local/ghostfolio -Fc -f /db/.dump_ghostfolio.tmp
+          mv -f /db/.dump_ghostfolio.tmp /db/dump_ghostfolio
+          pg_dump  postgres://$SUPERUSER:$PASSWORD@cnpg-cluster-rw.database.svc.cluster.local/paperless -Fc -f /db/.dump_paperless.tmp
+          mv -f /db/.dump_paperless.tmp /db/dump_paperless
+          pg_dump  postgres://$SUPERUSER:$PASSWORD@cnpg-cluster-rw.database.svc.cluster.local/code -Fc -f /db/.dump_code.tmp
+          mv -f /db/.dump_code.tmp /db/dump_code
+          pg_dump  postgres://$SUPERUSER:$PASSWORD@postgis-cluster-rw.database.svc.cluster.local/dawarich -Fc -f /db/.dump_dawarich.tmp
+          mv -f /db/.dump_dawarich.tmp /db/dump_dawarich
           echo "done"
 
         # pg_dumpall --clean --if-exists -d postgres://$SUPERUSER:$PASSWORD@cnpg-cluster-rw.database.svc.cluster.local  -f /db/dumpall_clean.sql 

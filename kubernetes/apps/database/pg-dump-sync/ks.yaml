@@ -18,6 +18,8 @@ spec:
       namespace: network
     - name: cnpg
       namespace: database
+    - name: csi-driver-smb-ressources
+      namespace: kube-system
     # - name: pg-restore
     #   namespace: database
     - name: longhorn-restore
