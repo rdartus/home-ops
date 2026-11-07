@@ -5,9 +5,31 @@ controllers:
     # -- enable the controller.
     enabled: true
     type: job
+    initContainers:
+      gitsync:
+        image:
+          repository: ghcr.io/rdartus/git-sync
+          tag: latest
+          digest: sha256:4d002b01767e44a2e8727b1680f983cafe2e886f24b2c006844f8ba8cae10c9a
+          pullPolicy: IfNotPresent
+
+        args:
+          - --repo=git@gitlab.com:k3s-pi1/dump-k3s.git
+          - --depth=1
+          - --period=1500s
+          - --link=dump-k3s
+          - --ref=main
+          - --root=/data
+          - --ssh-known-hosts=false
+          - --ssh-key-file=/config/key
+          - --git-config-add=safe.directory:/data
+          - --git-lfs=true
+          - --verbose=9
+          - --exechook-timeout=300s
+          - --sync-timeout=300s
+          - --one-time
     containers:
       main:
-        dependsOn: ["gitsync"]
         image:
           # -- image repository
           repository: postgres
@@ -61,29 +83,6 @@ controllers:
               secretKeyRef:
                 name: superuser-secret
                 key: password
-
-      gitsync:
-        dependsOn: []
-        image:
-          repository: ghcr.io/rdartus/git-sync
-          tag: latest@sha256:4d002b01767e44a2e8727b1680f983cafe2e886f24b2c006844f8ba8cae10c9a
-          # -- image pull policy
-          pullPolicy: IfNotPresent
-        args: 
-          - --repo=git@gitlab.com:k3s-pi1/dump-k3s.git
-          - --depth=1
-          - --period=1500s
-          - --link=dump-k3s
-          - --ref=main
-          - --root=/data
-          - --ssh-known-hosts=false
-          - --ssh-key-file=/config/key
-          - --git-config-add=safe.directory:/data
-          - --git-lfs=true
-          - --verbose=9
-          - --exechook-timeout=300s
-          - --sync-timeout=300s
-          - --one-time
 
 persistence:
   config:

@@ -1,15 +1,17 @@
-# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/refs/heads/main/charts/library/common/values.schema.json
----
 controllers:
   main:
     enabled: true
     type: job
-    containers:
+
+    # Exécuté en premier, avant les conteneurs applicatifs
+    initContainers:
       gitsync:
         image:
           repository: ghcr.io/rdartus/git-sync
-          tag: latest@sha256:4d002b01767e44a2e8727b1680f983cafe2e886f24b2c006844f8ba8cae10c9a
+          tag: latest
+          digest: sha256:4d002b01767e44a2e8727b1680f983cafe2e886f24b2c006844f8ba8cae10c9a
           pullPolicy: IfNotPresent
+
         args:
           - --repo=git@gitlab.com:k3s-pi1/dump-k3s.git
           - --depth=1
@@ -25,15 +27,15 @@ controllers:
           - --exechook-timeout=300s
           - --sync-timeout=300s
           - --one-time
-        dependsOn: []
 
+    # Démarre uniquement après la réussite de gitsync
+    containers:
       restore:
         image:
           repository: postgres
           tag: 18@sha256:22c89fe0d0f507606260237fd55e51f6137f58b2d5bcf6152242b96d9fe8f9a4
           pullPolicy: IfNotPresent
-        dependsOn:
-          - gitsync
+
         command:
           - /bin/sh
           - -c
@@ -78,10 +80,11 @@ controllers:
               --no-owner --no-acl \
               -h 127.0.0.1 -U postgres -d postgres "$dump_path"
             echo "restore completed successfully"
+
         env:
           DUMP_NAME: dump_immich
           POSTGRES_HOST_AUTH_METHOD: trust
-
+          
 persistence:
   db:
     enabled: true
