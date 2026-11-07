@@ -82,7 +82,7 @@ controllers:
             echo "restore completed successfully"
 
         env:
-          DUMP_NAME: dump_immich
+          DUMP_NAME: dump_code
           POSTGRES_HOST_AUTH_METHOD: trust
           
 persistence:
