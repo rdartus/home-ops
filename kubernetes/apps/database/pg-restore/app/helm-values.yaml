@@ -78,7 +78,7 @@ controllers:
           - --root=/data
           - --ssh-known-hosts=false
           - --ssh-key-file=/config/key
-          - --git-config-add=safe.directory=/data
+          - --git-config-add=safe.directory:/data
           - --git-lfs=true
           - --verbose=9
           - --exechook-timeout=300s

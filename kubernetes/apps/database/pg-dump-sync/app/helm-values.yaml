@@ -135,7 +135,7 @@ controllers:
           - --ref=main
           - --root=/data
           - --ssh-known-hosts=false
-          - --git-config-add=safe.directory=/data
+          - --git-config-add=safe.directory:/data
           - --ssh-key-file=/config/key
           - --git-lfs=true
           - --verbose=9
