@@ -1,0 +1,107 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/refs/heads/main/charts/library/common/values.schema.json
+---
+controllers:
+  main:
+    enabled: true
+    type: job
+    containers:
+      gitsync:
+        image:
+          repository: ghcr.io/rdartus/git-sync
+          tag: latest@sha256:4d002b01767e44a2e8727b1680f983cafe2e886f24b2c006844f8ba8cae10c9a
+          pullPolicy: IfNotPresent
+        args:
+          - --repo=git@gitlab.com:k3s-pi1/dump-k3s.git
+          - --depth=1
+          - --period=1500s
+          - --link=dump-k3s
+          - --ref=main
+          - --root=/data
+          - --ssh-known-hosts=false
+          - --ssh-key-file=/config/key
+          - --git-lfs=true
+          - --verbose=9
+          - --exechook-timeout=300s
+          - --sync-timeout=300s
+          - --one-time
+        dependsOn: []
+
+      restore:
+        image:
+          repository: postgres
+          tag: 18@sha256:22c89fe0d0f507606260237fd55e51f6137f58b2d5bcf6152242b96d9fe8f9a4
+          pullPolicy: IfNotPresent
+        dependsOn:
+          - gitsync
+        command:
+          - /bin/sh
+          - -c
+          - |
+            set -eu
+            dump_name="${DUMP_NAME}"
+            case "$dump_name" in
+              dump_* ) ;;
+              * )
+                echo "DUMP_NAME must name a dump_* file: ${dump_name}" >&2
+                exit 1
+                ;;
+            esac
+            if [ "$dump_name" != "${dump_name##*/}" ]; then
+              echo "DUMP_NAME must be a file name, not a path: ${dump_name}" >&2
+              exit 1
+            fi
+            dump_path="/data/dump-k3s/${dump_name}"
+            if [ ! -f "$dump_path" ]; then
+              echo "selected dump is missing: ${dump_path}" >&2
+              exit 1
+            fi
+            export PGDATA=/var/lib/postgresql/data
+            docker-entrypoint.sh postgres &
+            server=$!
+            trap 'kill "$server" 2>/dev/null || true; wait "$server" 2>/dev/null || true' EXIT
+            attempts=0
+            until pg_isready -h 127.0.0.1 -U postgres; do
+              if ! kill -0 "$server" 2>/dev/null; then
+                echo "temporary PostgreSQL exited before restore started" >&2
+                exit 1
+              fi
+              attempts=$((attempts + 1))
+              if [ "$attempts" -ge 900 ]; then
+                echo "temporary PostgreSQL did not become ready within 15 minutes" >&2
+                exit 1
+              fi
+              sleep 1
+            done
+            echo "restoring ${dump_name} into temporary PostgreSQL"
+            pg_restore --clean --create --if-exists \
+              --no-owner --no-acl \
+              -h 127.0.0.1 -U postgres -d postgres "$dump_path"
+            echo "restore completed successfully"
+        env:
+          DUMP_NAME: dump_immich
+          POSTGRES_HOST_AUTH_METHOD: trust
+
+persistence:
+  db:
+    enabled: true
+    type: persistentVolumeClaim
+    existingClaim: pvc-db-tmp
+    globalMounts:
+      - path: /db
+        readOnly: true
+  config:
+    enabled: true
+    type: secret
+    name: ssh-secret
+    globalMounts:
+      - path: /config
+  data:
+    enabled: true
+    type: emptyDir
+    globalMounts:
+      - path: /data
+  postgres-data:
+    enabled: true
+    type: emptyDir
+    globalMounts:
+      - path: /var/lib/postgresql/data

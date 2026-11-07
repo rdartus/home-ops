@@ -109,6 +109,39 @@ kubectl -n database get jobs --sort-by=.status.startTime
 kubectl -n database get pvc pvc-db-tmp pvc-db-backups
 ```
 
+### Tester une restauration PostgreSQL isolée
+
+`pg-restore-test` est désactivé par défaut. Pour l'activer, décommenter
+temporairement `./pg-restore-test/ks.yaml` dans
+`kubernetes/apps/database/kustomization.yaml`, puis valider et pousser le
+changement. Le Job utilise le même dépôt Git LFS, `ssh-secret` et
+`pvc-db-tmp` que les sauvegardes, mais démarre PostgreSQL sur un `emptyDir` et
+ne contacte jamais `cnpg-cluster`.
+
+Le dump sélectionné est la valeur `DUMP_NAME` dans
+`kubernetes/apps/database/pg-restore-test/app/helm-values.yaml` (par défaut
+`dump_immich`). Modifier cette valeur avant la réconciliation pour tester un
+autre fichier `dump_*`. La restauration temporaire ignore les propriétaires et
+les ACL afin de rester indépendante des rôles du cluster de production.
+Vérifier le Job et ses journaux :
+
+```bash
+kubectl -n database get jobs
+kubectl -n database logs job/pg-restore-test -c gitsync
+kubectl -n database logs job/pg-restore-test -c restore
+```
+
+Un dump absent ou un échec de synchronisation doit laisser un Job en échec
+avec un message explicite. Après un test terminé, supprimer uniquement le Job
+pour permettre une nouvelle exécution :
+
+```bash
+kubectl -n database delete job pg-restore-test
+```
+
+Après les essais, commenter de nouveau la Kustomization et la réconcilier afin
+que ce test reste hors de l'activation normale de la base de données.
+
 Pour restaurer un dump NAS, copier le fichier choisi depuis le partage vers `pvc-db-tmp` (ou un PVC temporaire dans `database`) sans supprimer les autres dumps, puis suivre la procédure `pg-restore` existante. Vérifier le fichier avec `pg_restore --list`, lancer la restauration selon la base cible, puis contrôler les logs du Job et l'état de l'application. Les identifiants NAS restent fournis par Vault ; ils ne doivent pas être extraits du dépôt.
 
 Ce homelab ne définit pas de RPO/RTO formels et accepte de l'indisponibilité. La priorité déclarée est de préserver les données lors d'un teardown complet ; la rétention PostgreSQL est ici limitée à 30 jours sur le NAS. Toute procédure de restauration doit documenter la classe de données, la source choisie entre Longhorn et PostgreSQL, l'impact sur les applications et la vérification post-restore.
