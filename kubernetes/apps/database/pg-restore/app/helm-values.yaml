@@ -9,8 +9,7 @@ controllers:
       gitsync:
         image:
           repository: ghcr.io/rdartus/git-sync
-          tag: latest
-          digest: sha256:4d002b01767e44a2e8727b1680f983cafe2e886f24b2c006844f8ba8cae10c9a
+          tag: latest@sha256:4d002b01767e44a2e8727b1680f983cafe2e886f24b2c006844f8ba8cae10c9a
           pullPolicy: IfNotPresent
 
         args:

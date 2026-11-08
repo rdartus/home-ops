@@ -40,7 +40,7 @@ controllers:
             [ "$found" -eq 1 ]
 
   publisher:
-    # Publish the completed hourly dump set once per day, after the midnight dump.
+    # Publie une fois par jour l'ensemble des dumps horaires, après le dump de minuit.
     enabled: true
     type: cronjob
     cronjob:
@@ -52,29 +52,38 @@ controllers:
     containers:
       main:
         image:
-          repository: ghcr.io/rdartus/git-sync@sha256
-          tag: 1e73176654edc824de658a270582edd815ac7cb4bae06de96d8aadaebc900ac9
+          # Image générique : git + git-lfs + openssh installés au démarrage (voir ligne apk).
+          # Recommandé : une image préconstruite avec ces 3 paquets, et supprimer la ligne apk.
+          repository: docker.io/library/alpine
+          tag: 3.22
           pullPolicy: IfNotPresent
         command:
           - /bin/sh
           - -c
           - |
             set -eu
+            apk add --no-cache git git-lfs openssh-client >/dev/null
+
             export HOME=/work/home
             repository="git@gitlab.com:k3s-pi1/dump-k3s.git"
             worktree=/work/repo
             rm -rf "$worktree"
             mkdir -p "$HOME"
-            export GIT_SSH_COMMAND='ssh -o StrictHostKeyChecking=yes -o UserKnownHostsFile=/config/known_hosts -i /config/key'
+            export GIT_SSH_COMMAND='ssh -o StrictHostKeyChecking=yes -o UserKnownHostsFile=/config/known_hosts -o IdentitiesOnly=yes -i /config/key'
 
             git config --global user.name "home-ops backup"
             git config --global user.email "home-ops-backup@noreply.invalid"
-            git clone --branch main --single-branch "$repository" "$worktree"
+            # Sans ça, `git add` n'applique pas le filtre clean et commit les dumps bruts au lieu de pointeurs LFS
+            git lfs install --skip-repo
+
+            # Pas besoin de télécharger les anciens dumps : on les remplace tous
+            GIT_LFS_SKIP_SMUDGE=1 git clone --branch main --single-branch "$repository" "$worktree"
             cd "$worktree"
-            git lfs pull
+
             main_sha=$(git rev-parse HEAD)
             git fetch origin refs/heads/previous:refs/remotes/origin/previous 2>/dev/null || true
-            previous_sha=$(git rev-parse refs/remotes/origin/previous 2>/dev/null || true)
+            previous_sha=$(git rev-parse --verify -q refs/remotes/origin/previous || true)
+
             git lfs track 'dump_*'
 
             find . -maxdepth 1 -type f -name 'dump_*' -delete
@@ -86,19 +95,20 @@ controllers:
               cp "$source" "./.${name}.tmp"
               mv "./.${name}.tmp" "./${name}"
             done
-            [ "$found" -eq 1 ]
+            if [ "$found" -ne 1 ]; then
+              echo "Aucun dump trouvé dans /db" >&2
+              exit 1
+            fi
 
             git add -A -- .
             changed=0
             if [ -n "$(git status --porcelain)" ]; then
               changed=1
               git commit -m "Publish PostgreSQL dumps"
-            fi
-
-            if [ "$changed" -eq 1 ]; then
               git lfs push origin HEAD
             fi
 
+            # Le 1er du mois : on fige l'état précédent de main dans la branche "previous"
             if [ "$(date +%d)" = "01" ]; then
               git push origin "$main_sha:refs/heads/previous" \
                 --force-with-lease="refs/heads/previous:${previous_sha}"
@@ -107,7 +117,6 @@ controllers:
             if [ "$changed" -eq 1 ]; then
               git push origin HEAD:refs/heads/main
             fi
-
 
   sync:
     # Publish the completed hourly dump set once per day, after the midnight dump.
