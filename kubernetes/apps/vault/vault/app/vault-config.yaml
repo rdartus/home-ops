@@ -231,6 +231,15 @@ data:
     path "kv-v2/data/redis/config" {
       capabilities = ["read"]
     }
+  books-policy.json: |
+    path "kv-v2/data/books/*" {
+      capabilities = ["read"]
+    }
+  livres-policy.json: |
+    path "kv-v2/data/livres/*" {
+      capabilities = ["read"]
+    }
+
   #TODO: Adjust and add redis config
   admin-policy.json: |
     # Accès global en lecture et écriture sur les secrets engines
@@ -421,7 +430,8 @@ data:
         vault kv put kv-v2/upsnap/config client_id="@/config/cred/upsnapOIDCClient" client_secret="@/config/cred/upsnapOIDCSecret"
         vault kv put kv-v2/trek/config client_id="@/config/cred/trekOIDCClient" client_secret="@/config/cred/trekOIDCSecret" encryption_key="@/config/cred/trekEncryptionKey"
         vault kv put kv-v2/dawarich/config client_id="@/config/cred/dawarichOIDCClient" client_secret="@/config/cred/dawarichOIDCSecret" encryption_key="@/config/cred/dawarichEncryptionKey"
-        #TODO Adjust dawarich secrets with client id/secrets generated from authentik
+        vault kv put kv-v2/livres/config client_id="@/config/cred/livresOIDCClient" client_secret="@/config/cred/livresOIDCSecret"
+        vault kv put kv-v2/books/config client_id="@/config/cred/booksOIDCClient" client_secret="@/config/cred/booksOIDCSecret" 
 
         vault policy write plcall /config/scripts/all-policy.json
         vault policy write plccnpg /config/scripts/cnpg-policy.json
@@ -452,6 +462,8 @@ data:
         vault policy write plcupsnap /config/scripts/upsnap-policy.json
         vault policy write plctrek /config/scripts/trek-policy.json
         vault policy write plcdawarich /config/scripts/dawarich-policy.json
+        vault policy write plcbooks /config/scripts/books-policy.json
+        vault policy write plclivres /config/scripts/livres-policy.json
 
         vault policy write reader /config/scripts/reader-policy.json
         vault policy write admin /config/scripts/admin-policy.json
@@ -656,6 +668,20 @@ data:
         bound_service_account_names=default \
         bound_service_account_namespaces=default \
         policies=plcdawarich \
+        audience=vault\
+        ttl=24h
+
+        vault write auth/kubernetes/role/rllivres \
+        bound_service_account_names=default \
+        bound_service_account_namespaces=default \
+        policies=plclivres \
+        audience=vault\
+        ttl=24h
+
+        vault write auth/kubernetes/role/rlbooks \
+        bound_service_account_names=default \
+        bound_service_account_namespaces=default \
+        policies=plcbooks \
         audience=vault\
         ttl=24h
 
