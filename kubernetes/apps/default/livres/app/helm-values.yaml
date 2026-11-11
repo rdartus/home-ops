@@ -3,36 +3,20 @@
 
 controllers:
   main:
-    # -- enable the controller.
     enabled: true
-
-    # -- Set the controller type.
-    # Valid options are deployment, daemonset, statefulset, cronjob or job
     type: statefulset
     containers:
       main:
-        # -- Override the container name
-        # nameOverride:
-
-        # -- Specify if this container depends on any other containers
-        # This is used to determine the order in which the containers are rendered.
-        dependsOn: []
-
         image:
-          # -- image repository
-          repository: linuxserver/calibre-web
-          # -- image tag
-          tag: 0.6.27@sha256:470b4ed9a7d6ea1475fef17dbcf957cb60880910296d226bd0dca652c05f68ca
-          # -- image pull policy
+          repository: crocodilestick/calibre-web-automated
+          tag: v4.0.8@sha256:5e00373854247750cc3e4479b492ae09293ff5e06ed10177f226634d97888679
           pullPolicy: IfNotPresent
 
         env:
-          # -- Set the container timezone
           TZ: UTC
-          # -- Specify the user ID the application will run as
           PUID: "1001"
-          # -- Specify the group ID the application will run as
           PGID: "1001"
+          NETWORK_SHARE_MODE: "true"
 
 
 
@@ -85,7 +69,7 @@ persistence:
     type : persistentVolumeClaim
     existingClaim: pvc-jeantasse-loisir
     globalMounts:
-      - path: /books
+      - path: /calibre-library
         subPath: Books/Calibre-FR
         readOnly: false  
   config:

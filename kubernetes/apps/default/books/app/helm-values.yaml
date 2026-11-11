@@ -9,13 +9,14 @@ controllers:
       main:
         dependsOn: []
         image:
-          repository: linuxserver/calibre-web
-          tag: 0.6.27@sha256:470b4ed9a7d6ea1475fef17dbcf957cb60880910296d226bd0dca652c05f68ca
+          repository: crocodilestick/calibre-web-automated
+          tag: v4.0.8@sha256:5e00373854247750cc3e4479b492ae09293ff5e06ed10177f226634d97888679
           pullPolicy: IfNotPresent
         env:
           TZ: UTC
           PUID: "1001"
           PGID: "1001"
+          NETWORK_SHARE_MODE: "true"
 
 service:
   main:
@@ -65,7 +66,7 @@ persistence:
     type : persistentVolumeClaim
     existingClaim: pvc-jeantasse-loisir
     globalMounts:
-      - path: /books
+      - path: /calibre-library
         subPath: Books/Calibre-EN
         readOnly: false
 
