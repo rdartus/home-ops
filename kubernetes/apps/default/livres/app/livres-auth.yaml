@@ -1,0 +1,16 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/datreeio/CRDs-catalog/main/secrets.hashicorp.com/vaultauth_v1beta1.json
+---
+apiVersion: secrets.hashicorp.com/v1beta1
+kind: VaultAuth
+metadata:
+  name: livres-auth
+  namespace: default
+
+spec:
+  method: kubernetes
+  mount: kubernetes
+  kubernetes:
+    role: rllivres
+    serviceAccount: default
+    audiences:
+      - vault

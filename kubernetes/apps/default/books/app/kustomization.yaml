@@ -5,6 +5,8 @@ kind: Kustomization
 resources:
   - ./helmrelease.yaml
   - ./pvc-books-conf.yaml
+  - ./books-auth.yaml
+  - ./books-secret.yaml
 configMapGenerator:
   - name: books-helm-values
     files:
