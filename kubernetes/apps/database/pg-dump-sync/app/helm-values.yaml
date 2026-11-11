@@ -55,7 +55,7 @@ controllers:
           # Image générique : git + git-lfs + openssh installés au démarrage (voir ligne apk).
           # Recommandé : une image préconstruite avec ces 3 paquets, et supprimer la ligne apk.
           repository: docker.io/library/alpine
-          tag: 3.22
+          tag: 3.24
           pullPolicy: IfNotPresent
         command:
           - /bin/sh
