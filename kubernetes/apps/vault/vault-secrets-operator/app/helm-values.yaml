@@ -197,7 +197,7 @@ controller:
     image:
       pullPolicy: IfNotPresent
       repository: hashicorp/vault-secrets-operator
-      tag: 1.6.2@sha256:8f77bc42ac47a4a1b2d1bb8b3a398fc53c19b3ce626002824a87ceb6cf91e5ad
+      tag: 2.0.0@sha256:cf2556e4f85569210e80a04538f21697a43f28b9320ce5b30e3c959f8eadf2e2
 
     # logging
     logging:
