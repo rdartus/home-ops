@@ -61,7 +61,7 @@ coder:
           key: githubOidcSecret
 
     - name: CODER_EXTERNAL_AUTH_0_SCOPES
-      value: repo read:user
+      value: repo read:user workflow
 
     # - name: CODER_EXTERNAL_AUTH_1_ID
     #   value: gitlab
