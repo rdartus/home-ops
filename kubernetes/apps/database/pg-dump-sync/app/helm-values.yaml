@@ -15,7 +15,7 @@ controllers:
         dependsOn: []
         image:
           repository: postgres
-          tag: 18@sha256:22c89fe0d0f507606260237fd55e51f6137f58b2d5bcf6152242b96d9fe8f9a4
+          tag: 18@sha256:b9f6b8ff03b62f3cfd9d9ba3fe56226a9991c79d3fb46fd46536263bf02be553
           # -- image pull policy
           pullPolicy: IfNotPresent
         command:
