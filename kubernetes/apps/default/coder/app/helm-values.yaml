@@ -42,26 +42,29 @@ coder:
     # - name: CODER_EXTERNAL_AUTH_GITHUB_DEFAULT_PROVIDER_ENABLE 
     #   value: "false"
 
-    - name: CODER_EXTERNAL_AUTH_0_ID
-      value: github
+    # - name: CODER_EXTERNAL_AUTH_0_ID
+    #   value: github
 
-    - name: CODER_EXTERNAL_AUTH_0_TYPE
-      value: github
+    # - name: CODER_EXTERNAL_AUTH_0_TYPE
+    #   value: github
 
-    - name: CODER_EXTERNAL_AUTH_0_CLIENT_ID
-      valueFrom:
-        secretKeyRef:
-          name: coder-app-secret
-          key: githubOidcClient
+    # - name: CODER_EXTERNAL_AUTH_0_CLIENT_ID
+    #   valueFrom:
+    #     secretKeyRef:
+    #       name: coder-app-secret
+    #       key: githubOidcClient
 
-    - name: CODER_EXTERNAL_AUTH_0_CLIENT_SECRET
-      valueFrom:
-        secretKeyRef:
-          name: coder-app-secret
-          key: githubOidcSecret
+    # - name: CODER_EXTERNAL_AUTH_0_CLIENT_SECRET
+    #   valueFrom:
+    #     secretKeyRef:
+    #       name: coder-app-secret
+    #       key: githubOidcSecret
 
-    - name: CODER_EXTERNAL_AUTH_0_SCOPES
-      value: repo read:user workflow
+    # - name: CODER_EXTERNAL_AUTH_0_SCOPES
+    #   value: repo read:user workflow
+
+
+
 
     # - name: CODER_EXTERNAL_AUTH_1_ID
     #   value: gitlab
