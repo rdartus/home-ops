@@ -267,7 +267,7 @@ controllers:
           repository: louislam/uptime-kuma
           # -- image tag
           # tag: 2@sha256:98d97ce1da2ba3ddbd9051df83fd67344cec6953c3fa972458da14354005dca0
-          tag: 2@sha256:7554dba313c84e44fee921ef3b5626ba1c711e412e82815e8c957517026112a9
+          tag: 2@sha256:8e4b6bef96417ec98a35dc103c99cc64fc229a01e584e56d95d9004d2003c02a
           # -- image pull policy
           pullPolicy: IfNotPresent
 
